@@ -5,6 +5,15 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>iais-ms</module>
+		<module>meta</module>
+		<module>meta/referential</module>
+		<module>meta/structural</module>
+		<module>meta/referential/referential-api</module>
+		<module>meta/referential/referential-db</module>
+		<module>meta/referential/referential-common</module>
+		<module>meta/structural/structural-api</module>
+		<module>meta/structural/structural-db</module>
+		<module>meta/structural/structural-common</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
