@@ -13,4 +13,12 @@
     <artifactId>referential-db</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.nbs.iais.ms.common.db</groupId>
+            <artifactId>iais-ms-common-db</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>
