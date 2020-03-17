@@ -4,6 +4,7 @@ import com.nbs.iais.ms.common.db.domains.interfaces.group.base.AdministrativeDet
 import com.nbs.iais.ms.common.db.domains.interfaces.group.base.IdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,12 +14,16 @@ public abstract class AbstractIdentifiableArtefact extends AbstractDomainObject 
 
     private MultilingualText name;
 
+    @Column(name = "local_id")
     private String localId;
 
+    @Column(name = "version")
     private String version;
 
+    @Column(name = "version_date")
     private LocalDateTime versionDate;
 
+    @Column(name = "version_rationale")
     private String versionRationale;
 
     private AdministrativeDetails administrativeDetails;
