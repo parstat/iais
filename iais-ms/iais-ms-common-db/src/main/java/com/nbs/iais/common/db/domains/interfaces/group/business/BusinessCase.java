@@ -20,9 +20,9 @@ public interface BusinessCase extends IdentifiableArtefact {
 
     void setObjectives(List<String> objectives);
 
-    List<String> getDeliverables();
+    List<String> getDeliveries();
     
-    void setDeliverables(List<String> deliverables);
+    void setDeliveries(List<String> deliveries);
 
     List<BusinessCaseType> getBusinessCaseTypes();
 
