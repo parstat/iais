@@ -18,34 +18,46 @@ import java.util.List;
 @Table(name = "statistical_program")
 public class StatisticalProgramEntity extends AbstractIdentifiableArtefact implements StatisticalProgram  {
 
+    @Column(name = "date_initiated")
+    private LocalDateTime dateInitiated;
+
+    @Column(name = "date_ended")
+    private LocalDateTime dateEnded;
+
+    @Column(name = "program_status")
+    private ProgramStatus programStatus;
+
+    @Column(name = "budged")
+    private double budget;
+
     @Override
     public double getBudget() {
-        return 0;
+        return budget;
     }
 
     @Override
-    public void setBudget(double budget) {
-
+    public void setBudget(final double budget) {
+        this.budget = budget;
     }
 
     @Override
     public LocalDateTime getDateInitiated() {
-        return null;
+        return dateInitiated;
     }
 
     @Override
-    public void setDateInitiated(LocalDateTime dateInitiated) {
-
+    public void setDateInitiated(final LocalDateTime dateInitiated) {
+        this.dateInitiated = dateInitiated;
     }
 
     @Override
     public LocalDateTime getDateEnded() {
-        return null;
+        return dateEnded;
     }
 
     @Override
-    public void setDateEnded(LocalDateTime dateEnded) {
-
+    public void setDateEnded(final LocalDateTime dateEnded) {
+        this.dateEnded = dateEnded;
     }
 
     @Override
@@ -80,12 +92,12 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
 
     @Override
     public ProgramStatus getProgramStatus() {
-        return null;
+        return programStatus;
     }
 
     @Override
-    public void setProgramStatus(ProgramStatus programStatus) {
-
+    public void setProgramStatus(final ProgramStatus programStatus) {
+        this.programStatus = programStatus;
     }
 
     @Override

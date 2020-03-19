@@ -5,6 +5,7 @@ import com.nbs.iais.ms.common.db.domains.interfaces.group.base.IdentifiableArtef
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 
 import javax.persistence.Column;
+import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ public abstract class AbstractIdentifiableArtefact extends AbstractDomainObject 
     @Column(name = "version_rationale")
     private String versionRationale;
 
+    @OneToOne(optional = true, orphanRemoval = true)
     private AdministrativeDetails administrativeDetails;
 
     public AbstractIdentifiableArtefact() {
