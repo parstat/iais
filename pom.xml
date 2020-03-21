@@ -8,6 +8,8 @@
 		<module>iais-ms-meta</module>
         <module>iais-ms-security</module>
 		<module>iais-cloud</module>
+		<module>iais-ms-meta/iais-ms-meta-processing/processing-common</module>
+		<module>iais-ms-meta/iais-ms-meta-processing/processing-db</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>

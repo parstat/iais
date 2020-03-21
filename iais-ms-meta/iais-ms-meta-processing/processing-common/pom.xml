@@ -3,22 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>iais</artifactId>
-        <groupId>com.nbs.iais</groupId>
+        <artifactId>iais-ms-meta-processing</artifactId>
+        <groupId>com.nbs.iais.ms.meta.processing</groupId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>iais-ms-security</artifactId>
-    <groupId>com.nbs.iais.ms.security</groupId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>security-api</module>
-        <module>security-common</module>
-        <module>security-db</module>
-    </modules>
-
+    <artifactId>processing-common</artifactId>
+    <groupId>com.nbs.iais.ms.meta.processing.common</groupId>
 
 
 </project>
