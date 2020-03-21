@@ -10,8 +10,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>processing-db</artifactId>
-    <groupId>com.nbs.iais.ms.meta.processing.db</groupId>
+    <artifactId>meta-processing-api</artifactId>
+    <groupId>com.nbs.iais.ms.meta.processing.api</groupId>
 
 
 </project>
