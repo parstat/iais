@@ -14,5 +14,10 @@
     <artifactId>iais-ms-meta-referential</artifactId>
     <groupId>com.nbs.iais.ms.meta.referential</groupId>
 
+    <modules>
+        <module>referential-db</module>
+        <module>referential-common</module>
+        <module>referential-api</module>
+    </modules>
 
 </project>

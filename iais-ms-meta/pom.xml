@@ -13,4 +13,10 @@
     <groupId>com.nbs.iais.ms.meta</groupId>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>iais-ms-meta-referential</module>
+        <module>iais-ms-meta-structural</module>
+        <module>iais-ms-meta-processing</module>
+    </modules>
+
 </project>

@@ -6,20 +6,8 @@
 	<modules>
 		<module>iais-ms</module>
 		<module>iais-ms-meta</module>
-		<module>iais-ms-meta/iais-ms-meta-referential</module>
-		<module>iais-ms-meta/iais-ms-meta-referential/referential-api</module>
-		<module>iais-ms-meta/iais-ms-meta-referential/referential-common</module>
-		<module>iais-ms-meta/iais-ms-meta-referential/referential-db</module>
-		<module>iais-ms-meta/iais-ms-meta-structural</module>
-		<module>iais-ms-meta/iais-ms-meta-structural/structural-api</module>
-		<module>iais-ms-meta/iais-ms-meta-structural/structural-db</module>
-		<module>iais-ms-meta/iais-ms-meta-structural/structural-common</module>
         <module>iais-ms-security</module>
-		<module>iais-ms-security/security-api</module>
-		<module>iais-ms-security/security-common</module>
-		<module>iais-ms-security/security-db</module>
 		<module>iais-cloud</module>
-		<module>iais-cloud/iais-zuul</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
