@@ -13,5 +13,12 @@
     <artifactId>referential-api</artifactId>
     <groupId>com.nbs.iais.ms.meta.referential.api</groupId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+
 
 </project>

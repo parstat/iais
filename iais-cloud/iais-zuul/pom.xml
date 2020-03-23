@@ -13,5 +13,8 @@
     <artifactId>iais-zuul</artifactId>
     <groupId>com.nbs.iais.cloud.zuul</groupId>
 
+    <dependencies>
+
+    </dependencies>
 
 </project>
