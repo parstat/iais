@@ -14,4 +14,11 @@
     <groupId>com.nbs.iais.ms.security.common</groupId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.nbs.iais.ms.common</groupId>
+            <artifactId>iais-ms-common</artifactId>
+            <version>${iais.version}</version>
+        </dependency>
+    </dependencies>
 </project>

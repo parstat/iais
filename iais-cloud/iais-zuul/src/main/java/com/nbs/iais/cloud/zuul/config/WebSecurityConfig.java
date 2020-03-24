@@ -1,6 +1,6 @@
 package com.nbs.iais.cloud.zuul.config;
 
-import com.nbs.iais.ms.security.db.services.JwtService;
+import com.nbs.iais.cloud.zuul.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private JwtService jwtService;
+    private JwtUtils jwtService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
