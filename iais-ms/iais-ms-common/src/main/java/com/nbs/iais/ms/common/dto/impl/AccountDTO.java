@@ -15,7 +15,15 @@ public class AccountDTO extends BaseEntityDTO {
 
     @JsonProperty
     @JsonView(Views.Basic.class)
+    private String name;
+
+    @JsonProperty
+    @JsonView(Views.Basic.class)
     private String username;
+
+    @JsonProperty
+    @JsonView(Views.Secure.class)
+    private String email;
 
     @JsonProperty
     @JsonView(Views.Extended.class)
@@ -54,5 +62,21 @@ public class AccountDTO extends BaseEntityDTO {
 
     public void setStatus(final AccountStatus status) {
         this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
     }
 }

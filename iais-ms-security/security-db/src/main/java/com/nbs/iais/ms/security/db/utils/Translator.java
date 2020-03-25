@@ -11,7 +11,8 @@ public class Translator {
 
         accountDTO.setUsername(account.getUsername());
         accountDTO.setRole(account.getRole());
-        account.setStatus(account.getStatus());
+        accountDTO.setStatus(account.getStatus());
+        accountDTO.setName(account.getName());
 
         return accountDTO;
 

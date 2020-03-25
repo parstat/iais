@@ -20,11 +20,21 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-zuul -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+            <version>1.4.7.RELEASE</version>
+        </dependency>
+
+
         <dependency>
             <groupId>com.nbs.iais.ms.security.db</groupId>
             <artifactId>security-db</artifactId>
             <version>${iais.version}</version>
         </dependency>
+
+
     </dependencies>
 
 </project>

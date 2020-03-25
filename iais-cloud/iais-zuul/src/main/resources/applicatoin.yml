@@ -1,0 +1,30 @@
+info:
+  app:
+    name: iais-cloud-zuul
+    description: Http gateway of iais
+    version: 1.0.0
+
+server:
+  port: 8080
+iais:
+  jwt:
+    header:
+      name: jwt-auth
+
+zuul:
+  prefix: /api
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+  strip-prefix: false
+  routes:
+    security:
+      path: /v1/**/security/**
+      serviceId: security
+      stripPrefix: false
+
+ribbon:
+  eureka:
+    enabled: false
+
+security:
+  ribbon:
+    listOfServers: iais-ms-security-api:8080

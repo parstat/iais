@@ -1,0 +1,70 @@
+package com.nbs.iais.cloud.zuul.filters.post;
+
+import com.nbs.iais.cloud.zuul.jwt.service.SecurityService;
+import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
+import org.springframework.util.StreamUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SEND_RESPONSE_FILTER_ORDER;
+import static org.springframework.util.ReflectionUtils.rethrowRuntimeException;
+
+public class SignupJwtFilter extends ZuulFilter {
+
+    private final static Logger LOG = LogManager.getLogger(SignupJwtFilter.class);
+
+    @Value("${iais.jwt.header.name}")
+    private final String jwtHeaderName = "jwt-auth";
+
+    @Autowired
+    private SecurityService securityService;
+
+
+    @Override
+    public String filterType() {
+        return "post";
+    }
+
+    @Override
+    public int filterOrder() {
+        return SEND_RESPONSE_FILTER_ORDER - 1;
+    }
+
+    @Override
+    public boolean shouldFilter() {
+        final RequestContext ctx = RequestContext.getCurrentContext();
+        final HttpServletRequest request = ctx.getRequest();
+        final String requestUri = request.getRequestURI();
+        final String method = request.getMethod();
+        // this filter should run only when singin or authenticate
+        return !method.equals(HttpMethod.OPTIONS.toString())
+                && requestUri.matches(".*/api/v[12]/{0,1}\\w*/{0,1}\\w*/{0,1}\\w*/(signup).*");
+    }
+
+    @Override
+    public Object run() {
+        try {
+            final RequestContext ctx = RequestContext.getCurrentContext();
+            final HttpServletRequest request = ctx.getRequest();
+            final InputStream responseBody = ctx.getResponseDataStream();
+            final String responseBodyString = StreamUtils.copyToString(responseBody, Charset.forName("UTF-8"));
+            securityService.getSignupJwt(responseBodyString).ifPresent(jwt -> {
+                ctx.addZuulResponseHeader(jwtHeaderName, jwt);
+            });
+            ctx.setResponseBody(responseBodyString);
+        } catch (IOException ex) {
+            rethrowRuntimeException(ex);
+        }
+        return null;
+    }
+
+}
