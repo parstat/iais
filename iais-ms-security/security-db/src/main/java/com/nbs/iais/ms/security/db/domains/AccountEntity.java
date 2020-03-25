@@ -17,6 +17,9 @@ public class AccountEntity extends AbstractDomainObject implements Account {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "email")
     private String email;
 
@@ -49,6 +52,16 @@ public class AccountEntity extends AbstractDomainObject implements Account {
     @Override
     public void setPassword(final String password) {
         this.password = password;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(final String name) {
+        this.name = name;
     }
 
     @Override

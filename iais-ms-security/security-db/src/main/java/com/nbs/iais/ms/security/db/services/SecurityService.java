@@ -11,7 +11,6 @@ import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import com.nbs.iais.ms.security.db.utils.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +30,14 @@ public class SecurityService {
      * @param id uuid of the user
      * @param username username
      * @param password password
+     * @param name name
      * @param email email
      * @param role role
      * @return AccountDTO
      * @throws SignupException
      */
     public AccountDTO signup(final UUID id, final String username, final String password,
-                             final String email, final AccountRole role) throws SignupException {
+                             final String name, final String email, final AccountRole role) throws SignupException {
 
         if(accountRepository.findByUsername(username).isPresent()) {
             throw new SignupException(ExceptionCodes.USERNAME_TAKEN);
@@ -50,6 +50,7 @@ public class SecurityService {
         account.setId(id);
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
+        account.setName(name);
         account.setSigninFails(0);
         account.setEmail(email);
         account.setRole(role);
@@ -66,8 +67,8 @@ public class SecurityService {
 
     /**
      * Methot to do signin
-     * @param username
-     * @param password
+     * @param username username
+     * @param password password
      * @return AccountDTO
      * @throws SigninException
      */

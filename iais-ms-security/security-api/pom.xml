@@ -18,6 +18,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.nbs.iais.ms.security.db</groupId>
+            <artifactId>security-db</artifactId>
+            <version>${iais.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nbs.iais.ms.common.api</groupId>
+            <artifactId>iais-ms-common-api</artifactId>
+            <version>${iais.version}</version>
+        </dependency>
     </dependencies>
 
 

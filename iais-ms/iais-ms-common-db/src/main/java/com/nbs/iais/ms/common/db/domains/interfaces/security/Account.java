@@ -14,6 +14,10 @@ public interface Account extends DomainObject {
 
     void setPassword(String password);
 
+    String getName();
+
+    void setName(String name);
+
     AccountStatus getStatus();
 
     void setStatus(AccountStatus status);
