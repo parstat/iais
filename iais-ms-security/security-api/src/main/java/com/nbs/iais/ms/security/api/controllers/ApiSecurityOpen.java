@@ -22,19 +22,20 @@ public class ApiSecurityOpen {
 
     @PostMapping(value = "/signin")
     public AccountDTO signin(
-            @RequestParam(name = "username", required = true) final String username,
-            @RequestParam(name = "password", required = true) final String password) {
-
-        //TODO some security checks for sql injections here or at gateway level
+            @RequestParam(name = "username") final String username,
+            @RequestParam(name = "password") final String password) {
+        //TODO decide if the communication with db will be with messages or direct
+        //currently is direct
+        //using internal messages can help dividing it later into micro services
         return securityService.signin(username, password);
     }
 
     @PostMapping
     public AccountDTO signup(
-            @RequestParam(name = "username", required = true) final String username,
-            @RequestParam(name = "password", required = true) final String password,
-            @RequestParam(name = "email", required = true) final String email,
-            @RequestParam(name = "name", required = true) final String name,
+            @RequestParam(name = "username") final String username,
+            @RequestParam(name = "password") final String password,
+            @RequestParam(name = "email") final String email,
+            @RequestParam(name = "name") final String name,
             @RequestParam(name = "role", required = false) final AccountRole role) {
 
         return securityService.signup(UUID.randomUUID(), username, password, name, email, role);
