@@ -27,6 +27,7 @@ public class ApiSecurityOpen {
         //TODO decide if the communication with db will be with messages or direct
         //currently is direct
         //using internal messages can help dividing it later into micro services
+
         return securityService.signin(username, password);
     }
 

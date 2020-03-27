@@ -1,10 +1,10 @@
 package com.nbs.iais.ms.meta.referential.db.domains;
 
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
-import com.nbs.iais.ms.common.db.domains.interfaces.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.group.base.ChangeEvent;
-import com.nbs.iais.ms.common.db.domains.interfaces.group.business.StatisticalProgram;
-import com.nbs.iais.ms.common.db.domains.interfaces.group.business.StatisticalProgramCycle;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
 import javax.persistence.Column;

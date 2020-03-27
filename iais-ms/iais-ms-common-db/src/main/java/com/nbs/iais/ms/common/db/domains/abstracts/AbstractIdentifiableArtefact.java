@@ -1,7 +1,7 @@
 package com.nbs.iais.ms.common.db.domains.abstracts;
 
-import com.nbs.iais.ms.common.db.domains.interfaces.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.group.base.IdentifiableArtefact;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 
 import javax.persistence.Column;
