@@ -1,9 +1,10 @@
 package com.nbs.iais.ms.security.api.controllers;
 
+import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.enums.AccountRole;
-import com.nbs.iais.ms.security.db.services.SecurityService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
+import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,13 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
-
 @RestController
 @RequestMapping(value = "/api/v1/security", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ApiSecurityOpen {
-
-    @Autowired
-    private SecurityService securityService;
+public class ApiSecurityOpen extends AbstractController {
 
     @PostMapping(value = "/signin")
     public AccountDTO signin(
@@ -28,7 +25,11 @@ public class ApiSecurityOpen {
         //currently is direct
         //using internal messages can help dividing it later into micro services
 
-        return securityService.signin(username, password);
+        final SigninCommand signinCommand = new SigninCommand();
+        signinCommand.setUsername(username);
+        signinCommand.setPassword(password);
+
+        return send(signinCommand, "security").getEvent().getData();
     }
 
     @PostMapping
@@ -39,6 +40,14 @@ public class ApiSecurityOpen {
             @RequestParam(name = "name") final String name,
             @RequestParam(name = "role", required = false) final AccountRole role) {
 
-        return securityService.signup(UUID.randomUUID(), username, password, name, email, role);
+        final SignupCommand signupCommand = new SignupCommand();
+        signupCommand.setAccountId(UUID.randomUUID());
+        signupCommand.setUsername(username);
+        signupCommand.setPassword(password);
+        signupCommand.setEmail(email);
+        signupCommand.setName(name);
+        signupCommand.setRole(role);
+
+        return send(signupCommand, "security").getEvent().getData();
     }
 }

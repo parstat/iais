@@ -50,6 +50,11 @@
             <artifactId>iais-ms-common-db</artifactId>
             <version>${iais.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.nbs.iais.ms.security.common</groupId>
+            <artifactId>security-common</artifactId>
+            <version>${iais.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -30,6 +30,12 @@
             <artifactId>iais-ms-common-api</artifactId>
             <version>${iais.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.nbs.iais.ms.security.common</groupId>
+            <artifactId>security-common</artifactId>
+            <version>${iais.version}</version>
+        </dependency>
     </dependencies>
 
 
