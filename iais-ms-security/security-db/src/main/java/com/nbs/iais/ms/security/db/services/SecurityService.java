@@ -48,7 +48,7 @@ public class SecurityService {
             throw new SignupException(ExceptionCodes.EMAIL_TAKEN);
         }
 
-        final Account account = new AccountEntity();
+        final AccountEntity account = new AccountEntity();
         account.setId(id);
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
@@ -76,7 +76,7 @@ public class SecurityService {
      */
     public AccountDTO signin(final String username, final String password) throws SigninException {
         //check if username or email exists
-        final Account account =  accountRepository.findByUsername(username).orElseGet(() ->
+        final AccountEntity account =  accountRepository.findByUsername(username).orElseGet(() ->
                 accountRepository.findByEmail(username).orElseThrow(() ->
                         new SigninException(ExceptionCodes.USERNAME_OR_PASSWORD_WRONG)));
 
@@ -95,7 +95,7 @@ public class SecurityService {
      * @throws SignupException known problems with signin (username or password wrong)
      */
     public SigninCommand signin(final SigninCommand signinCommand) throws SigninException {
-        final Account account =  accountRepository.findByUsername(signinCommand.getUsername()).orElseGet(() ->
+        final AccountEntity account =  accountRepository.findByUsername(signinCommand.getUsername()).orElseGet(() ->
                 accountRepository.findByEmail(signinCommand.getUsername()).orElseThrow(() ->
                         new SigninException(ExceptionCodes.USERNAME_OR_PASSWORD_WRONG)));
 
@@ -121,7 +121,7 @@ public class SecurityService {
             throw new SignupException(ExceptionCodes.EMAIL_TAKEN);
         }
 
-        final Account account = new AccountEntity();
+        final AccountEntity account = new AccountEntity();
         account.setId(signupCommand.getAccountId());
         account.setUsername(signupCommand.getUsername());
         account.setPassword(passwordEncoder.encode(signupCommand.getPassword()));

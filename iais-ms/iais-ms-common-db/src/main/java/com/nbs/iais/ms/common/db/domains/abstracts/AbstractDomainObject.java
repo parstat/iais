@@ -3,8 +3,10 @@ package com.nbs.iais.ms.common.db.domains.abstracts;
 import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.util.UUID;
 
+@MappedSuperclass
 public class AbstractDomainObject implements DomainObject {
 
     @Id

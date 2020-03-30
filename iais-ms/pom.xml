@@ -21,6 +21,7 @@
         <module>iais-ms-common</module>
         <module>iais-ms-common-db</module>
         <module>iais-ms-common-api</module>
+        <module>iais-ms-common-testsupport</module>
     </modules>
 
 
