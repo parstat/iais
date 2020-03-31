@@ -49,6 +49,4 @@ public class ApplicationConfig {
         return new DirectChannel();
     }
 
-
-
 }

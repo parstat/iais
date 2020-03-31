@@ -44,6 +44,12 @@
             <version>${jwt.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.64</version>
+        </dependency>
+
         <!-- IAIS -->
         <dependency>
             <groupId>com.nbs.iais.ms.common.db</groupId>

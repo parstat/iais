@@ -8,8 +8,18 @@ public class SigninCommand extends AbstractCommand<SigninEvent> {
     private String username;
     private String password;
 
-    public SigninCommand() {
+    private SigninCommand() {
         super(new SigninEvent());
+    }
+
+    private SigninCommand(final String username, final String password) {
+        super(new SigninEvent());
+        this.username = username;
+        this.password = password;
+    }
+
+    public static SigninCommand create(final String username, final String password) {
+        return new SigninCommand(username, password);
     }
 
     public String getUsername() {

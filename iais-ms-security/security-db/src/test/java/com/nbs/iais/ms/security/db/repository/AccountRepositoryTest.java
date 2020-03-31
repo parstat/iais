@@ -1,4 +1,4 @@
-package com.nbs.iais.ms.security.db;
+package com.nbs.iais.ms.security.db.repository;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.security.Account;
 import com.nbs.iais.ms.common.db.repository.tests.RepositoryTest;

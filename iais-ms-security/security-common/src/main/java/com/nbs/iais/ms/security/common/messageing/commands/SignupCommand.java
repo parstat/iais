@@ -4,6 +4,8 @@ import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
 import com.nbs.iais.ms.security.common.messageing.events.SignupEvent;
 
+import java.util.UUID;
+
 public class SignupCommand extends AbstractCommand<SignupEvent> {
 
     private String username;
@@ -12,8 +14,24 @@ public class SignupCommand extends AbstractCommand<SignupEvent> {
     private String name;
     private AccountRole role;
 
-    public SignupCommand() {
+    private SignupCommand() {
         super(new SignupEvent());
+    }
+
+    private SignupCommand(final String username, final String password, final String email, final String name,
+                          final AccountRole role) {
+        super(new SignupEvent());
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.role = role;
+        setAccountId(UUID.randomUUID());
+    }
+
+    public static SignupCommand create(final String username, final String password, final String email,
+                                       final String name, final AccountRole role) {
+        return new SignupCommand(username, password, email, name, role);
     }
 
     public String getUsername() {

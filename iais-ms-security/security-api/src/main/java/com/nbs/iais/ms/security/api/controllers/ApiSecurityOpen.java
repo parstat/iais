@@ -25,10 +25,7 @@ public class ApiSecurityOpen extends AbstractController {
         //currently is direct
         //using internal messages can help dividing it later into micro services
 
-        final SigninCommand signinCommand = new SigninCommand();
-        signinCommand.setUsername(username);
-        signinCommand.setPassword(password);
-
+        final SigninCommand signinCommand = SigninCommand.create(username, password);
         return send(signinCommand, "security").getEvent().getData();
     }
 
@@ -40,14 +37,7 @@ public class ApiSecurityOpen extends AbstractController {
             @RequestParam(name = "name") final String name,
             @RequestParam(name = "role", required = false) final AccountRole role) {
 
-        final SignupCommand signupCommand = new SignupCommand();
-        signupCommand.setAccountId(UUID.randomUUID());
-        signupCommand.setUsername(username);
-        signupCommand.setPassword(password);
-        signupCommand.setEmail(email);
-        signupCommand.setName(name);
-        signupCommand.setRole(role);
-
+        final SignupCommand signupCommand = SignupCommand.create(username, password, email, name, role);
         return send(signupCommand, "security").getEvent().getData();
     }
 }

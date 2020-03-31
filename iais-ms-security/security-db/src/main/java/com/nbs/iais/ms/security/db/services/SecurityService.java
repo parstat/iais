@@ -1,6 +1,5 @@
 package com.nbs.iais.ms.security.db.services;
 
-import com.nbs.iais.ms.common.db.domains.interfaces.security.Account;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
