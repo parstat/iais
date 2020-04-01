@@ -1,6 +1,8 @@
 package com.nbs.iais.ms.security.api.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
+import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.AccountStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/closed/security", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiSecurityClosed extends AbstractController {
 
+    @JsonView(value = Views.Secure.class)
     @GetMapping(value = "/accounts")
     public DTOList<AccountDTO> getAccounts(
             @PathVariable(name = "status") final AccountStatus status) {
