@@ -1,12 +1,13 @@
 package com.nbs.iais.ms.common.messaging.queries.abstracts;
 
+import com.nbs.iais.ms.common.dto.DTO;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.queries.Query;
 import com.nbs.iais.ms.common.messaging.reads.abstracts.AbstractRead;
 
 import java.util.UUID;
 
-public abstract class AbstractQuery<R extends AbstractRead<?>> implements Query<R> {
+public abstract class AbstractQuery<R extends AbstractRead<? extends DTO>> implements Query<R> {
 
     private R read;
     private Language language;

@@ -5,6 +5,8 @@ import com.nbs.iais.ms.security.common.messageing.events.SigninEvent;
 
 public class SigninCommand extends AbstractCommand<SigninEvent> {
 
+    private static final long serialVersionUID = 200L;
+
     private String username;
     private String password;
 

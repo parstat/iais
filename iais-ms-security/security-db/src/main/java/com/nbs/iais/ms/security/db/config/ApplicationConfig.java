@@ -2,6 +2,7 @@ package com.nbs.iais.ms.security.db.config;
 
 import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
 import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
+import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import com.nbs.iais.ms.security.db.services.SecurityService;
@@ -40,9 +41,12 @@ public class ApplicationConfig {
                         .subFlowMapping(SignupCommand.class, sf ->
                                 sf.<SignupCommand>handle((p, h) -> securityService.signup(p)))
                         .subFlowMapping(SigninCommand.class, sf ->
-                                sf.<SigninCommand>handle((p, h) -> securityService.signin(p))))
+                                sf.<SigninCommand>handle((p, h) -> securityService.signin(p)))
+                        .subFlowMapping(GetAccountsQuery.class, sf ->
+                                sf.<GetAccountsQuery> handle((p, h) -> securityService.getAccounts(p))))
                 .get();
     }
+
 
     @Bean
     public DirectChannel serviceInput() {

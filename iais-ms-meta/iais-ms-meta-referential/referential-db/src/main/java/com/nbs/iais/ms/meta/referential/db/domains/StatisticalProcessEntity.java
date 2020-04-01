@@ -19,7 +19,6 @@ import com.nbs.iais.ms.common.db.domains.interfaces.meta.SysUser;
 @Table(name="statistical_process")
 public class StatisticalProcessEntity implements StatisticalProcess {
 
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_stat_proc")

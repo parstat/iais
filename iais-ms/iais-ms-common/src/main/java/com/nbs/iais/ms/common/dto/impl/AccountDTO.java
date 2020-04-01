@@ -13,6 +13,8 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountDTO extends BaseEntityDTO {
 
+    private static final long serialVersionUID = 200L;
+
     @JsonProperty
     @JsonView(Views.Basic.class)
     private String name;

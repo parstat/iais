@@ -8,6 +8,7 @@ import com.nbs.iais.ms.common.exceptions.SigninException;
 import com.nbs.iais.ms.common.exceptions.SignupException;
 import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
 import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
+import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import com.nbs.iais.ms.security.db.utils.Translator;
@@ -137,5 +138,11 @@ public class SecurityService {
         } catch (Exception ex) {
             throw new SignupException("Internal Server Error", ExceptionCodes.SYSTEM_ERROR);
         }
+    }
+
+    public GetAccountsQuery getAccounts(final GetAccountsQuery query) {
+        final Iterable<AccountEntity> accountEntities = accountRepository.findAllByStatus(query.getStatus());
+        query.getRead().setData(Translator.translate(accountEntities));
+        return query;
     }
 }

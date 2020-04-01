@@ -2,21 +2,29 @@ package com.nbs.iais.ms.security.api.controllers;
 
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
+import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
 import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
+import com.nbs.iais.ms.security.db.services.SecurityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/security", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiSecurityOpen extends AbstractController {
 
+    @Autowired
+    private SecurityService securityService;
+
+    /**
+     * Post method to do signin
+     * @param username of the user
+     * @param password of the user
+     * @return AccountDTO
+     */
     @PostMapping(value = "/signin")
     public AccountDTO signin(
             @RequestParam(name = "username") final String username,
@@ -29,7 +37,16 @@ public class ApiSecurityOpen extends AbstractController {
         return send(signinCommand, "security").getEvent().getData();
     }
 
-    @PostMapping
+    /**
+     * Post method to do a signup
+     * @param username of the user
+     * @param password chosen by the user
+     * @param email chosen by the user
+     * @param name full name of the user
+     * @param role the role of the user (to be assigned by an admin)
+     * @return AccountDTO
+     */
+    @PostMapping(value = "/signup")
     public AccountDTO signup(
             @RequestParam(name = "username") final String username,
             @RequestParam(name = "password") final String password,
@@ -40,4 +57,5 @@ public class ApiSecurityOpen extends AbstractController {
         final SignupCommand signupCommand = SignupCommand.create(username, password, email, name, role);
         return send(signupCommand, "security").getEvent().getData();
     }
+
 }

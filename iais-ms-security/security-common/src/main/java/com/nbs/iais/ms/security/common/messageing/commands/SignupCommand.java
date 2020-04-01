@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public class SignupCommand extends AbstractCommand<SignupEvent> {
 
+    private static final long serialVersionUID = 200L;
+
     private String username;
     private String password;
     private String email;

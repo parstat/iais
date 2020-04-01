@@ -1,12 +1,13 @@
 package com.nbs.iais.ms.common.messaging.commands.abstracts;
 
+import com.nbs.iais.ms.common.dto.DTO;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.Command;
 import com.nbs.iais.ms.common.messaging.events.abstracts.AbstractEvent;
 
 import java.util.UUID;
 
-public abstract class AbstractCommand<E extends AbstractEvent<?>> implements Command<E> {
+public abstract class AbstractCommand<E extends AbstractEvent<? extends DTO>> implements Command<E> {
 
     private E event;
     private Language language;

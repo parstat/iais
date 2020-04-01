@@ -18,6 +18,7 @@ import lombok.Setter;
 public class StatisticalProcessDTO extends BaseEntityDTO implements Serializable {
 
 	private static final long serialVersionUID = 2864464354903875090L;
+
 	@JsonProperty
 	@JsonView(Views.Basic.class)
 	private Long idStatProc;

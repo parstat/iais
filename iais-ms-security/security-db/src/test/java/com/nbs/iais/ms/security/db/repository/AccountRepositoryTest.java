@@ -19,27 +19,42 @@ public class AccountRepositoryTest extends RepositoryTest {
 
     @Test
     public void save() {
-        final Account account = saveAccount();
+        final Account account = saveAccount("username", "username@email.com");
         Assert.assertNotNull(account);
         Assert.assertNotNull(account.getId());
     }
 
     @Test
-    public void get()  {
-        final Account save = saveAccount();
+    public void getById()  {
+        final Account save = saveAccount("username2", "username2@email.com");
         Assert.assertTrue(accountRepository.findById(save.getId()).isPresent());
     }
 
-    private AccountEntity saveAccount() {
+    @Test
+    public void getByUsername() {
+        final Account save = saveAccount("username3", "username3@email.com");
+        Assert.assertTrue(accountRepository.findByUsername(save.getUsername()).isPresent());
+    }
+
+    private AccountEntity saveAccount(final String username, final String email) {
         final AccountEntity account = new AccountEntity();
         account.setId(UUID.randomUUID());
         account.setName("Name Surname");
-        account.setUsername("username");
+        account.setUsername(username);
         account.setStatus(AccountStatus.ACTIVE);
         account.setRole(AccountRole.USER);
-        account.setEmail("name.surname@email.com");
+        account.setEmail(email);
         account.setSigninFails(0);
         account.setPassword("password");
         return accountRepository.save(account);
+    }
+
+    @Test
+    public void getAccounts() {
+        final Account save = saveAccount("username4", "username4@email.com");
+
+        Iterable<AccountEntity> accountEntities = accountRepository.findAllByStatus(AccountStatus.ACTIVE);
+        Assert.assertTrue(accountEntities.iterator().hasNext());
+
     }
 }
