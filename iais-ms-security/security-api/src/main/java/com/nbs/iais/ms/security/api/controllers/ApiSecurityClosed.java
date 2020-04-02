@@ -32,6 +32,6 @@ public class ApiSecurityClosed extends AbstractController {
         getAccountsQuery.setLanguage(language);
         getAccountsQuery.setAccountRole(accountRole);
 
-        return send(getAccountsQuery, "security").getRead().getData();
+        return sendQuery(getAccountsQuery, "security").getRead().getData();
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
@@ -24,10 +23,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableAutoConfiguration
 @EntityScan(basePackageClasses = AccountEntity.class)
-@ComponentScan(basePackageClasses = CommandSecurityService.class)
+@ComponentScan(basePackageClasses = {CommandSecurityService.class, QuerySecurityService.class})
 @EnableJpaRepositories(basePackageClasses = AccountRepository.class)
 @EnableIntegration
-@IntegrationComponentScan
 public class ApplicationConfig {
 
     @Bean
@@ -37,7 +35,7 @@ public class ApplicationConfig {
 
     @Bean
     public IntegrationFlow commandIntegrationFlow(final CommandSecurityService commandSecurityService) {
-        return IntegrationFlows.from(this::commandInput)
+        return IntegrationFlows.from(commandInput())
                 .<Object, Class<?>>route(Object::getClass, rs -> rs
                         .subFlowMapping(SignupCommand.class, sf ->
                                 sf.<SignupCommand>handle((p, h) -> commandSecurityService.signup(p)))
@@ -48,7 +46,7 @@ public class ApplicationConfig {
 
     @Bean
     public IntegrationFlow queryIntegrationFlow(final QuerySecurityService querySecurityService) {
-        return IntegrationFlows.from(this::queryInput)
+        return IntegrationFlows.from(queryInput())
                 .<Object, Class<?>>route(Object::getClass, rs -> rs
                         .subFlowMapping(GetAccountsQuery.class, sf ->
                                 sf.<GetAccountsQuery>handle((p, h) -> querySecurityService.getAccounts(p))))

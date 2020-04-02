@@ -58,7 +58,6 @@ public class AccountRepositoryTest extends RepositoryTest {
 
     }
 
-
     @Test
     public void getAccountsByName() {
         final Account save = saveAccount("username5", "username5@email.com");

@@ -33,7 +33,7 @@ public class ApiSecurityOpen extends AbstractController {
         //using internal messages can help dividing it later into micro services
 
         final SigninCommand signinCommand = SigninCommand.create(username, password);
-        return send(signinCommand, "security").getEvent().getData();
+        return sendCommand(signinCommand, "security").getEvent().getData();
     }
 
     /**
@@ -54,7 +54,7 @@ public class ApiSecurityOpen extends AbstractController {
             @RequestParam(name = "role", required = false) final AccountRole role) {
 
         final SignupCommand signupCommand = SignupCommand.create(username, password, email, name, role);
-        return send(signupCommand, "security").getEvent().getData();
+        return sendCommand(signupCommand, "security").getEvent().getData();
     }
 
 }
