@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SEND_RESPONSE_FILTER_ORDER;
 import static org.springframework.util.ReflectionUtils.rethrowRuntimeException;
@@ -56,10 +57,9 @@ public class SignupJwtFilter extends ZuulFilter {
             final RequestContext ctx = RequestContext.getCurrentContext();
             final HttpServletRequest request = ctx.getRequest();
             final InputStream responseBody = ctx.getResponseDataStream();
-            final String responseBodyString = StreamUtils.copyToString(responseBody, Charset.forName("UTF-8"));
-            securityService.getSignupJwt(responseBodyString).ifPresent(jwt -> {
-                ctx.addZuulResponseHeader(jwtHeaderName, jwt);
-            });
+            final String responseBodyString = StreamUtils.copyToString(responseBody, StandardCharsets.UTF_8);
+            securityService.getToken(responseBodyString).ifPresent(jwt ->
+                    ctx.addZuulResponseHeader(jwtHeaderName, jwt));
             ctx.setResponseBody(responseBodyString);
         } catch (IOException ex) {
             rethrowRuntimeException(ex);

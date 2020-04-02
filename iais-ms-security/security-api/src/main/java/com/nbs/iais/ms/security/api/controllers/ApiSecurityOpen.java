@@ -3,6 +3,7 @@ package com.nbs.iais.ms.security.api.controllers;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.enums.AccountRole;
+import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
 import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
 import com.nbs.iais.ms.security.db.services.CommandSecurityService;
@@ -51,9 +52,11 @@ public class ApiSecurityOpen extends AbstractController {
             @RequestParam(name = "password") final String password,
             @RequestParam(name = "email") final String email,
             @RequestParam(name = "name") final String name,
-            @RequestParam(name = "role", required = false) final AccountRole role) {
+            @RequestParam(name = "role", required = false) final AccountRole role,
+            @RequestParam(name = "language") final Language language) {
 
         final SignupCommand signupCommand = SignupCommand.create(username, password, email, name, role);
+        signupCommand.setLanguage(language);
         return sendCommand(signupCommand, "security").getEvent().getData();
     }
 

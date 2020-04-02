@@ -86,12 +86,12 @@ public class SecurityService {
     }
 
     /**
-     * Create a JWT after signin
+     * Create a JWT after signin or signup
      *
-     * @param jsonResponse
-     * @return
+     * @param jsonResponse response from security server
+     * @return optional token
      */
-    public Optional<String> createSigninJwt(final String jsonResponse) {
+    public Optional<String> getToken(final String jsonResponse) {
 
         final Optional<AccountDTO> optionalAccountDTO = jsonToAccount(jsonResponse);
 
@@ -104,34 +104,6 @@ public class SecurityService {
                         accountDTO.getRole());
                 return Optional.of(jwt);
             }
-        }
-
-        return Optional.empty();
-    }
-
-    /**
-     * Get a JWT after signup.
-     *
-     * @param jsonResponse
-     * @return
-     */
-    public Optional<String> getSignupJwt(final String jsonResponse) {
-
-        final Optional<AccountDTO> optionalAccountDTO = jsonToAccount(jsonResponse);
-
-        if (optionalAccountDTO.isPresent()) {
-
-            final AccountDTO accountDTO = optionalAccountDTO.get();
-
-            if (accountDTO.getId() != null) {
-
-                final String jwt = getSignedJwt(accountDTO.getId(), accountDTO.getName(), accountDTO.getEmail(),
-                        accountDTO.getRole());
-
-                return Optional.of(jwt);
-            }
-
-            LOG.error("Got an errormessage from the mailing to the user");
         }
 
         return Optional.empty();
