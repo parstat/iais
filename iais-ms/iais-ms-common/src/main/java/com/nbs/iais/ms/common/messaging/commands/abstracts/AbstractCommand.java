@@ -1,6 +1,7 @@
 package com.nbs.iais.ms.common.messaging.commands.abstracts;
 
 import com.nbs.iais.ms.common.dto.DTO;
+import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.Command;
 import com.nbs.iais.ms.common.messaging.events.abstracts.AbstractEvent;
@@ -12,6 +13,7 @@ public abstract class AbstractCommand<E extends AbstractEvent<? extends DTO>> im
     private E event;
     private Language language;
     private UUID accountId;
+    private AccountRole accountRole;
 
     protected AbstractCommand() {
     }
@@ -48,5 +50,15 @@ public abstract class AbstractCommand<E extends AbstractEvent<? extends DTO>> im
     @Override
     public E getReply() {
         return getEvent();
+    }
+
+    @Override
+    public AccountRole getAccountRole() {
+        return accountRole;
+    }
+
+    @Override
+    public void setAccountRole(final AccountRole accountRole) {
+        this.accountRole = accountRole;
     }
 }

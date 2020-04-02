@@ -4,12 +4,17 @@ import com.nbs.iais.ms.common.RequestMessage;
 import com.nbs.iais.ms.common.ResponseMessage;
 import com.nbs.iais.ms.common.dto.DTO;
 import com.nbs.iais.ms.common.messaging.channels.Channels;
+import com.nbs.iais.ms.common.messaging.commands.Command;
+import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
+import com.nbs.iais.ms.common.messaging.events.Event;
+import com.nbs.iais.ms.common.messaging.queries.Query;
+import com.nbs.iais.ms.common.messaging.reads.Read;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 
-@MessagingGateway()
+@MessagingGateway
 public interface IAISGateway {
     /**
      * A gateway to send the message in the service using serviceInput channel
@@ -19,7 +24,7 @@ public interface IAISGateway {
      * @return request message (query or command) that's includes the response (read or event)
      */
     @Gateway(requestChannel = Channels.SERVICE_INPUT)
-    <D extends DTO, RES extends ResponseMessage<D>, REQ extends RequestMessage<RES>> REQ send(@Payload REQ requestMessage,
+    <REQ extends RequestMessage<? extends ResponseMessage<? extends DTO>>> REQ send(@Payload REQ requestMessage,
                                                                                               @Header(value = "source") String source);
 
     /**
@@ -29,7 +34,14 @@ public interface IAISGateway {
      * @param source this puts a header into the message with the name source (can be used later for gateway)
      */
     @Gateway(requestChannel = Channels.SERVICE_INPUT)
-    <D extends DTO, RES extends ResponseMessage<D>, REQ extends RequestMessage<RES>> void asyncSend(@Payload REQ request,
+    <REQ extends RequestMessage<? extends ResponseMessage<? extends DTO>>> void asyncSend(@Payload REQ request,
                                                                                                     @Header(value = "source") String source);
 
+    @Gateway(requestChannel = Channels.COMMAND_INPUT)
+    <C extends Command<? extends Event<? extends DTO>>> C sendCommand(@Payload C command,
+                                                                      @Header(value = "source") String source);
+
+    @Gateway(requestChannel = Channels.QUERY_INPUT)
+    <Q extends Query<? extends Read<? extends DTO>>> Q sendQuery(@Payload Q query,
+                                                                 @Header(value = "source") String source);
 }

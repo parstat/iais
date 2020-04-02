@@ -75,4 +75,5 @@ public class SignupCommand extends AbstractCommand<SignupEvent> {
     public void setRole(final AccountRole role) {
         this.role = role;
     }
+
 }

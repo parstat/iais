@@ -2,11 +2,10 @@ package com.nbs.iais.ms.security.api.controllers;
 
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
-import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
 import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
-import com.nbs.iais.ms.security.db.services.SecurityService;
+import com.nbs.iais.ms.security.db.services.CommandSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class ApiSecurityOpen extends AbstractController {
 
     @Autowired
-    private SecurityService securityService;
+    private CommandSecurityService commandSecurityService;
 
     /**
      * Post method to do signin

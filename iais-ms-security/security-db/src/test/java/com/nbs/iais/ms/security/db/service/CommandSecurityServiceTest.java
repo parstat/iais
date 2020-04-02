@@ -7,7 +7,7 @@ import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
 import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
-import com.nbs.iais.ms.security.db.services.SecurityService;
+import com.nbs.iais.ms.security.db.services.CommandSecurityService;
 import org.junit.Test;
 import org.mockito.*;
 import org.mockito.stubbing.Answer;
@@ -23,13 +23,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class SecurityServiceTest extends ServiceTest {
+public class CommandSecurityServiceTest extends ServiceTest {
 
     @Mock
     private AccountRepository accountRepository;
 
     @InjectMocks
-    private SecurityService securityService;
+    private CommandSecurityService commandSecurityService;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -55,7 +55,7 @@ public class SecurityServiceTest extends ServiceTest {
         when(passwordEncoder.matches(any(), any())).thenReturn(true);
 
         //call
-        securityService.signin(signinCommand);
+        commandSecurityService.signin(signinCommand);
 
         //verify
         verify(accountRepository).findByUsername(eq(signinCommand.getUsername()));
@@ -77,7 +77,7 @@ public class SecurityServiceTest extends ServiceTest {
                 });
 
         //Call
-        securityService.signup(command);
+        commandSecurityService.signup(command);
 
         //Verify
         ArgumentCaptor<AccountEntity> captor = ArgumentCaptor.forClass(AccountEntity.class);

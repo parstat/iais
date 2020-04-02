@@ -8,5 +8,9 @@ public interface Channels {
 
     String SERVICE_OUTPUT = "serviceOutput";
 
+    String QUERY_INPUT = "queryInput";
+
+    String COMMAND_INPUT = "commandInput";
+
 
 }

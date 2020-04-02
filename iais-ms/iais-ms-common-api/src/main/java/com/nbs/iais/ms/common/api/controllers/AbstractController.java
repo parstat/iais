@@ -4,6 +4,10 @@ import com.nbs.iais.ms.common.RequestMessage;
 import com.nbs.iais.ms.common.ResponseMessage;
 import com.nbs.iais.ms.common.api.messaging.gateway.IAISGateway;
 import com.nbs.iais.ms.common.dto.DTO;
+import com.nbs.iais.ms.common.messaging.commands.Command;
+import com.nbs.iais.ms.common.messaging.events.Event;
+import com.nbs.iais.ms.common.messaging.queries.Query;
+import com.nbs.iais.ms.common.messaging.reads.Read;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractController implements IAISController {
@@ -12,7 +16,17 @@ public abstract class AbstractController implements IAISController {
     private IAISGateway iaisGateway;
 
     @Override
-    public <RES extends ResponseMessage<D>, REQ extends RequestMessage<RES>, D extends DTO> REQ send(REQ request, String source) {
+    public <REQ extends RequestMessage<? extends ResponseMessage<? extends DTO>>> REQ send(REQ request, String source) {
         return iaisGateway.send(request, source);
+    }
+
+    @Override
+    public <CMD extends Command<? extends Event<? extends DTO>>> CMD sendCommand(CMD command, String source) {
+        return iaisGateway.sendCommand(command, source);
+    }
+
+    @Override
+    public <QRY extends Query<? extends Read<? extends DTO>>> QRY sendQuery(QRY query, String source) {
+        return iaisGateway.sendQuery(query, source);
     }
 }

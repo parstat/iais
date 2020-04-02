@@ -57,4 +57,12 @@ public class AccountRepositoryTest extends RepositoryTest {
         Assert.assertTrue(accountEntities.iterator().hasNext());
 
     }
+
+
+    @Test
+    public void getAccountsByName() {
+        final Account save = saveAccount("username5", "username5@email.com");
+        Iterable<AccountEntity> accountEntities = accountRepository.findAllByNameContaining("name");
+        Assert.assertTrue(accountEntities.iterator().hasNext());
+    }
 }

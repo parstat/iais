@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class SecurityService {
+public class CommandSecurityService {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -140,9 +140,4 @@ public class SecurityService {
         }
     }
 
-    public GetAccountsQuery getAccounts(final GetAccountsQuery query) {
-        final Iterable<AccountEntity> accountEntities = accountRepository.findAllByStatus(query.getStatus());
-        query.getRead().setData(Translator.translate(accountEntities));
-        return query;
-    }
 }
