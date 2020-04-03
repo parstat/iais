@@ -70,7 +70,7 @@ public class SecurityService {
     }
 
     @JsonView(Views.Secure.class)
-    public Optional<AccountDTO> jsonToAccount(final String jsonResponse) {
+    private Optional<AccountDTO> jsonToAccount(final String jsonResponse) {
 
         if (StringTools.isNotEmpty(jsonResponse)) {
             try {

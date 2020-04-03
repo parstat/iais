@@ -31,7 +31,7 @@ public class SecurityServiceTest {
     }
 
     @Test
-    public void createSigninJwt() {
+    public void createJwt() {
 
         final PrivateJwt privateJwt = new PrivateJwt();
         privateJwt.setSecret("secret");
@@ -52,8 +52,4 @@ public class SecurityServiceTest {
         Assert.assertEquals("Florian Nika",name);
     }
 
-    @Test
-    public void getSignupJwt() {
-
-    }
 }

@@ -1,7 +1,6 @@
 package com.nbs.iais.cloud.zuul.filters.pre;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.nbs.iais.cloud.zuul.config.FilterConfig;
 import com.nbs.iais.cloud.zuul.filters.post.SigninJwtFilter;
@@ -76,6 +75,8 @@ public class FilterTests {
     public void setUp() {
         initMocks(this);
         zuulProperties = new ZuulProperties();
+        zuulProperties.setPrefix("/api");
+        zuulProperties.setStripPrefix(false);
         final RibbonCommandFactory factory = mock(RibbonCommandFactory.class);
         ribbonRoutingFilter = new RibbonRoutingFilter(new ProxyRequestHelper(), factory,
                 Collections.emptyList());
@@ -96,8 +97,7 @@ public class FilterTests {
 
     @Test
     public void testShouldRunLanguageFilter() {
-        zuulProperties.setPrefix("/api");
-        request.setRequestURI("/api/foo/1");
+        request.setRequestURI("/foo/1");
         request.setRemoteAddr("5.6.7.8");
         request.setServerPort(8080);
         request.addHeader("jwt-auth", "12345678");
@@ -112,19 +112,18 @@ public class FilterTests {
 
     @Test
     public void testShouldRunSecurityFilter() {
-        zuulProperties.setPrefix("/api");
         request.setRequestURI("/api/v1/closed/1");
         request.setRemoteAddr("5.6.7.8");
         request.setServerPort(8080);
         request.addHeader("jwt-auth",
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRoZW50aWNhdGVkIjp0cnVlLCJyb2xlIjoiUk9PVCIsInZpc2l0SUQiOiJlM2VjNjJkOC1kZTljLTRkN2MtOTJmMi0yNzRhODllNTVlMjMiLCJwcm9maWxlSUQiOiIxYTk0YTc4NC0yM2M1LTQwMWYtYTA3Mi1iZGIyNTZmODk3YWMiLCJuYW1lIjoiRG9Ub2RheUFkbWluIiwiaXNzIjoiZG90b2RheSIsImV4cCI6MTUwMjM2NzkzOSwidXNlciI6IjIxIiwiaWF0IjoxNTAyMzY0MzM5LCJqdGkiOiJlY2M0YmY3My1mOGMyLTRiMDUtOTc5ZS0zYTAwYzFhNTc4MDIifQ.8A6CHyJ3SH7mmAfCTquKFBVRAQ3tWQ7xnY5EO9E5SZo");
+        preDecorationFilter.run();
         assertTrue(authenticatedFilter.shouldFilter());
     }
 
 
     @Test
     public void testSecurityFilterShouldFilter() {
-        zuulProperties.setPrefix("/api");
         request.setRequestURI("/api/v1/closed/1");
         request.setRemoteAddr("5.6.7.8");
         request.setServerPort(8080);
@@ -134,32 +133,9 @@ public class FilterTests {
     }
 
     @Test
-    public void jwtSigninShouldFilter() {
-        zuulProperties.setPrefix("/api");
-        request.setRequestURI("/api/v1/security/signin");
-        request.setRemoteAddr("5.6.7.8");
-        request.setServerPort(8080);
-        request.setMethod("POST");
-        RequestContext.getCurrentContext();
-        assertTrue(signinJwtFilter.shouldFilter());
-    }
-
-    @Test
-    public void jwtSignupShouldFilter() {
-        zuulProperties.setPrefix("/api");
-        request.setRequestURI("/api/v1/security/signup");
-        request.setRemoteAddr("5.6.7.8");
-        request.setServerPort(8080);
-        request.setMethod("POST");
-        RequestContext.getCurrentContext();
-        assertTrue(signupJwtFilter.shouldFilter());
-    }
-
-    @Test
-    public void authenticatedFilterToenProblem() {
+    public void authenticatedFilterProblem() {
 
         //Setup
-        zuulProperties.setPrefix("/api");
         request.setRequestURI("/api/v2.3.4/closed/1");
         request.setRemoteAddr("5.6.7.8");
         request.setServerPort(8080);
@@ -185,7 +161,6 @@ public class FilterTests {
     public void authenticatedFilterTokenOK() {
 
         //Setup
-        zuulProperties.setPrefix("/api");
         request.setRequestURI("/api/v2.3.4/closed/1");
         request.setRemoteAddr("5.6.7.8");
         request.setServerPort(8080);
