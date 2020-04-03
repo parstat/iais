@@ -1,21 +1,21 @@
 package com.nbs.iais.ms.referential.common.messageing.queries;
 
 import com.nbs.iais.ms.common.messaging.queries.abstracts.AbstractQuery;
-import com.nbs.iais.ms.referential.common.messageing.reads.GetStatisticalProcessesRead;
+import com.nbs.iais.ms.referential.common.messageing.reads.GetStatisticalProcessRead;
 
-public class GetStatisticalProcessQuery extends AbstractQuery<GetStatisticalProcessesRead> {
+public class GetStatisticalProcessQuery extends AbstractQuery<GetStatisticalProcessRead> {
 
 	private static final long serialVersionUID = 2343430L;
 
 	private Long id;
 
 	private GetStatisticalProcessQuery(Long id) {
-		super(new GetStatisticalProcessesRead());
+		super(new GetStatisticalProcessRead());
 		this.id = id;
 	}
 
 	private GetStatisticalProcessQuery() {
-		super(new GetStatisticalProcessesRead());
+		super(new GetStatisticalProcessRead());
 	}
 
 	

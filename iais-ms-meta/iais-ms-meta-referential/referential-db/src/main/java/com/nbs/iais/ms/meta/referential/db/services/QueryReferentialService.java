@@ -1,17 +1,16 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nbs.iais.ms.common.enums.ExceptionCodes;
-import com.nbs.iais.ms.common.exceptions.RefentialServiceException;
 import com.nbs.iais.ms.meta.referential.db.domains.StatisticalProcessEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProcessRepository;
 import com.nbs.iais.ms.meta.referential.db.utils.Translator;
 
 import com.nbs.iais.ms.referential.common.messageing.queries.GetStatisticalProcessQuery;
 import com.nbs.iais.ms.referential.common.messageing.queries.GetStatisticalProcessesQuery;
-
 
 @Service
 public class QueryReferentialService {
@@ -26,10 +25,15 @@ public class QueryReferentialService {
 		return query;
 	}
 
-/*	public GetStatisticalProcessQuery getStatisticalProcess(final GetStatisticalProcessQuery query) {
-     query.getRead().setData(Translator.translate(statisticalProcessRepository.findById(query.getId()).orElseThrow(() ->
-      new RefentialServiceException(ExceptionCodes.NOT_FOUND))));
-  	return query;
-  }
-  */
+	public GetStatisticalProcessQuery getStatisticalProcess(final GetStatisticalProcessQuery query) {
+
+		final Optional<StatisticalProcessEntity> statisticalProcessEntity = statisticalProcessRepository
+				.findById(query.getId());
+		if (statisticalProcessEntity.isPresent()) {
+			query.getRead().setData(Translator.translate(statisticalProcessEntity.get()));
+		} else
+			query.getRead().setData(null);
+		return query;
+	}
+
 }

@@ -1,6 +1,5 @@
 package com.nbs.iais.ms.common.dto.impl;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StatisticalProcessDTO extends BaseEntityDTO implements Serializable {
+public class StatisticalProcessDTO extends BaseEntityDTO {
 
 	private static final long serialVersionUID = 2864464354903875090L;
 

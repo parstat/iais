@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
@@ -20,6 +19,7 @@ import com.nbs.iais.ms.common.messaging.channels.Channels;
 import com.nbs.iais.ms.meta.referential.db.domains.StatisticalProcessEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProcessRepository;
 import com.nbs.iais.ms.meta.referential.db.services.QueryReferentialService;
+import com.nbs.iais.ms.referential.common.messageing.queries.GetStatisticalProcessQuery;
 import com.nbs.iais.ms.referential.common.messageing.queries.GetStatisticalProcessesQuery;
 
 @Configuration
@@ -36,10 +36,12 @@ public class ApplicationConfig {
 				.<Object, Class<?>>route(Object::getClass,
 						rs -> rs.subFlowMapping(GetStatisticalProcessesQuery.class,
 								sf -> sf.<GetStatisticalProcessesQuery>handle(
-										(p, h) -> queryReferentialService.getStatisticalProcesses(p))))
+										(p, h) -> queryReferentialService.getStatisticalProcesses(p)))
+				.subFlowMapping(GetStatisticalProcessQuery.class,
+						sf -> sf.<GetStatisticalProcessQuery>handle(
+								(p, h) -> queryReferentialService.getStatisticalProcess(p))))
 				.get();
 	}
-
 
 	@Bean(name = Channels.QUERY_INPUT)
 	public MessageChannel queryInput() {
@@ -56,8 +58,9 @@ public class ApplicationConfig {
 	public MessageChannel serviceInput() {
 		return new DirectChannel();
 	}
+
 	@Bean(name = PollerMetadata.DEFAULT_POLLER)
 	public PollerMetadata poller() {
-	    return Pollers.fixedRate(500).get();
+		return Pollers.fixedRate(500).get();
 	}
 }
