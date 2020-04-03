@@ -56,6 +56,11 @@
 			<groupId>com.nbs.iais.ms.meta.referential.common</groupId>
 			<version>${iais.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.nbs.iais.ms.common.api</groupId>
+			<artifactId>iais-ms-common-api</artifactId>
+			<version>${iais.version}</version>
+		</dependency>
 
 
 		<dependency>

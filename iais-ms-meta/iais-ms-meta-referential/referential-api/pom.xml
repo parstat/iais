@@ -19,11 +19,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<!-- IAIS -->
-		<dependency>
-			<artifactId>referential-db</artifactId>
-			<groupId>com.nbs.iais.ms.meta.referential.db</groupId>
-			<version>${iais.version}</version>
-		</dependency>
+
 		<dependency>
 			<artifactId>referential-common</artifactId>
 			<groupId>com.nbs.iais.ms.meta.referential.common</groupId>
@@ -40,6 +36,14 @@
 			<artifactId>security-common</artifactId>
 			<version>${iais.version}</version>
 		</dependency>
+
+		<dependency>
+			<artifactId>referential-db</artifactId>
+			<groupId>com.nbs.iais.ms.meta.referential.db</groupId>
+			<version>${iais.version}</version>
+		</dependency>
+
+
 	</dependencies>
 
 
