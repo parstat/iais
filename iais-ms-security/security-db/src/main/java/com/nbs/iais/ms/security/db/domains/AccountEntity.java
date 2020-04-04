@@ -6,6 +6,7 @@ import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity(name = "account")
 @Table(name = "account")
@@ -33,6 +34,12 @@ public class AccountEntity extends AbstractDomainObject implements Account {
 
     @Column(name = "signin_fails")
     private int signinFails;
+
+    @Column(name = "lock_expiration")
+    private Instant lockExpiration;
+
+    @Column(name = "confirmation")
+    private String confirmation;
 
     @Override
     public String getUsername() {
@@ -102,5 +109,25 @@ public class AccountEntity extends AbstractDomainObject implements Account {
     @Override
     public void setSigninFails(final int signinFails) {
         this.signinFails = signinFails;
+    }
+
+    @Override
+    public Instant getLockExpiration() {
+        return lockExpiration;
+    }
+
+    @Override
+    public void setLockExpiration(final Instant expiration) {
+        this.lockExpiration = expiration;
+    }
+
+    @Override
+    public String getConfirmation() {
+        return confirmation;
+    }
+
+    @Override
+    public void setConfirmation(final String confirmation) {
+        this.confirmation = confirmation;
     }
 }

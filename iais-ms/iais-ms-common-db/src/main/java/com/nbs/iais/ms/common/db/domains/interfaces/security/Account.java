@@ -4,6 +4,8 @@ import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 
+import java.time.Instant;
+
 public interface Account extends DomainObject {
 
     String getUsername();
@@ -33,5 +35,14 @@ public interface Account extends DomainObject {
     int getSigninFails();
 
     void setSigninFails(int signinFails);
+
+    Instant getLockExpiration();
+
+    void setLockExpiration(Instant expiration);
+
+    String getConfirmation();
+
+    void setConfirmation(String confirmation);
+
 
 }
