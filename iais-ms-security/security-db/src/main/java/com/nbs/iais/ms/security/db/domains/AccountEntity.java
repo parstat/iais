@@ -41,6 +41,9 @@ public class AccountEntity extends AbstractDomainObject implements Account {
     @Column(name = "confirmation")
     private String confirmation;
 
+    @Column(name = "confirmation_expiration")
+    private Instant confirmationExpiration;
+
     @Override
     public String getUsername() {
         return username;
@@ -129,5 +132,15 @@ public class AccountEntity extends AbstractDomainObject implements Account {
     @Override
     public void setConfirmation(final String confirmation) {
         this.confirmation = confirmation;
+    }
+
+    @Override
+    public Instant getConfirmationExpiration() {
+        return confirmationExpiration;
+    }
+
+    @Override
+    public void setConfirmationExpiration(final Instant confirmationExpiration) {
+        this.confirmationExpiration = confirmationExpiration;
     }
 }

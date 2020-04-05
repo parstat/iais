@@ -4,6 +4,8 @@ import com.nbs.iais.ms.common.enums.ExceptionCodes;
 
 public class SigninException extends AbstractIaisException {
 
+    private static final long serialVersionUID = 200L;
+
     public SigninException() {
         super();
     }

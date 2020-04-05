@@ -1,12 +1,15 @@
 package com.nbs.iais.ms.security.db.services;
 
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
+import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 import com.nbs.iais.ms.common.enums.ExceptionCodes;
+import com.nbs.iais.ms.common.exceptions.ChangePasswordException;
+import com.nbs.iais.ms.common.exceptions.ConfirmationException;
 import com.nbs.iais.ms.common.exceptions.SigninException;
 import com.nbs.iais.ms.common.exceptions.SignupException;
-import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
-import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
+import com.nbs.iais.ms.security.common.messageing.commands.*;
+import com.nbs.iais.ms.security.common.messageing.queries.IsAuthenticatedQuery;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import com.nbs.iais.ms.security.db.utils.CommandTranslator;
@@ -101,6 +104,80 @@ public class CommandSecurityService {
         } catch (Exception ex) {
             throw new SignupException("Internal Server Error", ExceptionCodes.SYSTEM_ERROR);
         }
+    }
+
+    /**
+     * Method to change password (the user remembers the old password)
+     * @param command to execute
+     * @return command including true DTOBoolean if succeed
+     * @throws ChangePasswordException when old password doesn't match or the requested user was not found
+     */
+    public ChangePasswordCommand changePassword(final ChangePasswordCommand command) throws ChangePasswordException {
+
+        final AccountEntity account = accountRepository.findById(command.getAccountId()).orElseThrow(() ->
+                new ChangePasswordException(ExceptionCodes.NOT_FOUND));
+        if (passwordEncoder.matches(command.getOldPassword(), account.getPassword())) {
+            resetFailedSignins(account);
+            account.setPassword(passwordEncoder.encode(command.getNewPassword()));
+            accountRepository.save(account);
+            command.getEvent().setData(DTOBoolean.TRUE);
+            return command;
+        } else {
+            throw new ChangePasswordException(ExceptionCodes.PASSWORD_NO_MACH);
+        }
+    }
+
+    /**
+     * Method to reset password when the user has the reset link that included the confirmation string
+     * @param command to reset the password
+     * @return the command including DTOBoolen true if succeed or false when not
+     * @throws ChangePasswordException when the user is not found in db
+     */
+    public ResetPasswordCommand resetPassword(final ResetPasswordCommand command) throws ChangePasswordException {
+
+        final AccountEntity accountEntity = accountRepository.findByConfirmation(command.getConfirmation())
+                .orElseThrow(() -> new ChangePasswordException(ExceptionCodes.NOT_FOUND));
+
+        if(accountEntity.getStatus() != AccountStatus.ACTIVE) {
+            throw new ChangePasswordException(ExceptionCodes.SYSTEM_ERROR);
+        }
+
+        if(accountEntity.getConfirmationExpiration().isBefore(Instant.now())) {
+            throw new ChangePasswordException(ExceptionCodes.CONFIRMATION_EXPIRED);
+        }
+        resetFailedSignins(accountEntity);
+        accountEntity.setPassword(passwordEncoder.encode(command.getNewPassword()));
+        accountEntity.setConfirmation(null);
+        accountEntity.setConfirmationExpiration(Instant.EPOCH);
+        accountRepository.save(accountEntity);
+        command.getEvent().setData(DTOBoolean.TRUE);
+        return command;
+    }
+
+    /**
+     * Method to confirm email when creating new user
+     * @param command command to confirm email
+     * @return command including the AccountDTO
+     * @throws ConfirmationException when confirmation is expire or not found
+     */
+    public ConfirmEmailCommand confirmEmail(final ConfirmEmailCommand command) throws ConfirmationException {
+
+        final AccountEntity account = accountRepository.findByConfirmation(command.getConfirmation())
+                .orElseThrow(() -> new ConfirmationException(ExceptionCodes.NOT_FOUND));
+        if(account.getConfirmationExpiration().isBefore(Instant.now())) {
+            throw new ConfirmationException(ExceptionCodes.CONFIRMATION_EXPIRED);
+        }
+
+        if(account.getStatus() != AccountStatus.UNCONFIRMED) {
+            //this should not happen
+            throw new ConfirmationException(ExceptionCodes.SYSTEM_ERROR);
+        }
+        resetFailedSignins(account);
+        account.setConfirmation(null);
+        account.setConfirmationExpiration(Instant.EPOCH);
+        account.setStatus(AccountStatus.ACTIVE);
+        Translator.translate(accountRepository.save(account)).ifPresent(command.getEvent()::setData);
+        return command;
     }
 
 }

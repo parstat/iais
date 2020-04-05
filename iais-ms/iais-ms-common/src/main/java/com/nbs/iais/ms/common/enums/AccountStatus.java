@@ -9,5 +9,10 @@ public enum AccountStatus {
     LOCKED,
 
     //user is deleted
-    TERMINATED
+    TERMINATED,
+
+    //email of the user is unconfirmed
+    UNCONFIRMED,
+
+
 }

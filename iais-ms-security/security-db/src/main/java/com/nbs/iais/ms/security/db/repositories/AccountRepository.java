@@ -18,4 +18,6 @@ public interface AccountRepository extends CrudRepository<AccountEntity, UUID> {
    Iterable<AccountEntity> findAllByStatus(AccountStatus status);
 
    Iterable<AccountEntity> findAllByNameContaining(String name);
+
+   Optional<AccountEntity> findByConfirmation(String confirmation);
 }

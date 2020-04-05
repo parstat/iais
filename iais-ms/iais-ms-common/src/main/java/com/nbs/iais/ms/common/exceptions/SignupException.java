@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class SignupException extends AbstractIaisException {
 
+    private static final long serialVersionUID = 200L;
 
     public SignupException(final ExceptionCodes type) {
         super(type);

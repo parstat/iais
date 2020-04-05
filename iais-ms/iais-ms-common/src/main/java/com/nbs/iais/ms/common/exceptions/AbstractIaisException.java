@@ -4,6 +4,8 @@ import com.nbs.iais.ms.common.enums.ExceptionCodes;
 
 public abstract class AbstractIaisException extends RuntimeException implements IaisException {
 
+    private static final long serialVersionUID = 200L;
+
     private ExceptionCodes type = ExceptionCodes.SYSTEM_ERROR;
 
     protected AbstractIaisException() {

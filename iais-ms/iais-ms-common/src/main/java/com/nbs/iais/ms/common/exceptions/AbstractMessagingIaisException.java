@@ -6,6 +6,8 @@ import java.util.UUID;
 
 public abstract class AbstractMessagingIaisException extends RuntimeException implements IaisMessagingException {
 
+    private static final long serialVersionUID = 200L;
+
     private ExceptionCodes type = ExceptionCodes.SYSTEM_ERROR;
 
     private UUID correlationId;

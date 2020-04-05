@@ -44,5 +44,9 @@ public interface Account extends DomainObject {
 
     void setConfirmation(String confirmation);
 
+    Instant getConfirmationExpiration();
+
+    void setConfirmationExpiration(Instant confirmationExpiration);
+
 
 }

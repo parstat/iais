@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class SigninMessagingException extends AbstractMessagingIaisException {
 
+    private static final long serialVersionUID = 200L;
 
     public SigninMessagingException(final UUID correlationId) {
         super(correlationId);

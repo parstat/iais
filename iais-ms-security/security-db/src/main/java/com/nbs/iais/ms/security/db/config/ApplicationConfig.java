@@ -1,8 +1,9 @@
 package com.nbs.iais.ms.security.db.config;
 
-import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
-import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
+import com.nbs.iais.ms.common.exceptions.ChangePasswordException;
+import com.nbs.iais.ms.security.common.messageing.commands.*;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
+import com.nbs.iais.ms.security.common.messageing.queries.IsAuthenticatedQuery;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import com.nbs.iais.ms.security.db.services.CommandSecurityService;
@@ -40,7 +41,13 @@ public class ApplicationConfig {
                         .subFlowMapping(SignupCommand.class, sf ->
                                 sf.<SignupCommand>handle((p, h) -> commandSecurityService.signup(p)))
                         .subFlowMapping(SigninCommand.class, sf ->
-                                sf.<SigninCommand>handle((p, h) -> commandSecurityService.signin(p))))
+                                sf.<SigninCommand>handle((p, h) -> commandSecurityService.signin(p)))
+                        .subFlowMapping(ChangePasswordCommand.class, sf ->
+                                sf.<ChangePasswordCommand>handle((p, h) -> commandSecurityService.changePassword(p)))
+                        .subFlowMapping(ResetPasswordCommand.class, sf ->
+                                sf.<ResetPasswordCommand>handle((p, h) -> commandSecurityService.resetPassword(p)))
+                        .subFlowMapping(ConfirmEmailCommand.class, sf ->
+                                sf.<ConfirmEmailCommand>handle((p, h) -> commandSecurityService.confirmEmail(p))))
                 .get();
     }
 
@@ -49,7 +56,9 @@ public class ApplicationConfig {
         return IntegrationFlows.from(queryInput())
                 .<Object, Class<?>>route(Object::getClass, rs -> rs
                         .subFlowMapping(GetAccountsQuery.class, sf ->
-                                sf.<GetAccountsQuery>handle((p, h) -> querySecurityService.getAccounts(p))))
+                                sf.<GetAccountsQuery>handle((p, h) -> querySecurityService.getAccounts(p)))
+                        .subFlowMapping(IsAuthenticatedQuery.class, sf ->
+                                sf.<IsAuthenticatedQuery>handle((p, h) -> querySecurityService.authenticate(p))))
                         .get();
     }
 
