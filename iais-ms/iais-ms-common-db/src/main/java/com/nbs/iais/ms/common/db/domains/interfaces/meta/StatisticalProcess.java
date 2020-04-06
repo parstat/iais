@@ -6,10 +6,6 @@ import java.util.List;
 
 
 public interface StatisticalProcess {
-	
-	public Long getIdStatProc();
-
-	public void setIdStatProc(Long idStatProc);
 
 	public String getAcronymEn();
 

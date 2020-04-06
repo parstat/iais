@@ -3,19 +3,18 @@ package com.nbs.iais.ms.meta.referential.db.domains;
 
 import javax.persistence.*;
 
+import com.nbs.iais.ms.common.db.domains.abstracts.AbstractDomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.meta.CompileGuid;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Entity(name="CompileGuid")
 @Table(name="compile_guid")
-public class CompileGuidEntity implements CompileGuid {
+public class CompileGuidEntity extends AbstractDomainObject implements CompileGuid {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_compile_guide")
-	private Long idCompileGuide;
 
 	@Column(name="example_en")
 	private String exampleEn;

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
-
 import com.nbs.iais.ms.common.dto.impl.StatisticalProcessDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.referential.common.messageing.queries.GetStatisticalProcessQuery;

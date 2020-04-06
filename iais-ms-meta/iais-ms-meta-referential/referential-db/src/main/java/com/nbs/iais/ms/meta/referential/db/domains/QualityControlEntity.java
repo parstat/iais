@@ -5,18 +5,17 @@ import java.util.List;
 import javax.persistence.*;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import com.nbs.iais.ms.common.db.domains.abstracts.AbstractDomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.meta.QualityControl;
 
 @Data
 @Entity(name="QualityControl")
+@EqualsAndHashCode(callSuper=true)
 @Table(name="quality_control",schema = "iais_meta") 
-public class QualityControlEntity implements QualityControl {
+public class QualityControlEntity extends AbstractDomainObject implements QualityControl {
 
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_qual_contr")
-	private Long idQualContr;
 
 	@Column(name="name_en")
 	private String nameEn;

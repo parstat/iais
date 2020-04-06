@@ -3,19 +3,19 @@ package com.nbs.iais.ms.meta.referential.db.domains;
 import javax.persistence.*;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import com.nbs.iais.ms.common.db.domains.abstracts.AbstractDomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.meta.GsbpmStatProc;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Entity(name = "GsbpmStatProc")
 @Table(name = "gsbpm_stat_proc",schema = "iais_meta")
-public class GsbpmStatProcEntity implements GsbpmStatProc {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class GsbpmStatProcEntity extends AbstractDomainObject implements GsbpmStatProc {
 
 	@Column(name = "description_en")
 	private String descriptionEn;

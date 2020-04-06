@@ -2,22 +2,20 @@ package com.nbs.iais.ms.meta.referential.db.domains;
 
 import javax.persistence.*;
 
+import com.nbs.iais.ms.common.db.domains.abstracts.AbstractDomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.meta.Division;
 
 import lombok.Data;
-
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
-@Entity(name="Division")
+@EqualsAndHashCode(callSuper = true)
+@Entity(name = "Division")
 @Table(name = "division", schema = "iais_meta")
-public class DivisionEntity implements Division {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "division_id")
-	private Long divisionId;
+public class DivisionEntity extends AbstractDomainObject implements Division {
 
 	@Column(name = "acronym_en")
 	private String acronymEn;
@@ -57,7 +55,7 @@ public class DivisionEntity implements Division {
 
 	// bi-directional one-to-one association to DivisionStatus
 	@OneToOne
-	@JoinColumn(name = "division_id")
+	@JoinColumn(name = "id")
 	private DivisionStatusEntity divisionStatus;
 
 	// bi-directional many-to-one association to StatisticalProcess
