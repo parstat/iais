@@ -7,14 +7,17 @@ import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 import com.nbs.iais.ms.common.enums.ExceptionCodes;
+import com.nbs.iais.ms.common.exceptions.AccountNotFoundException;
 import com.nbs.iais.ms.common.exceptions.SigninException;
 import com.nbs.iais.ms.common.utils.StringTools;
+import com.nbs.iais.ms.security.common.messageing.queries.GetAccountQuery;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
 import com.nbs.iais.ms.security.common.messageing.queries.IsAuthenticatedQuery;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class QuerySecurityService {
@@ -64,6 +67,31 @@ public class QuerySecurityService {
 
         query.getRead().setData(DTOBoolean.FALSE);
         return query;
+    }
+
+    /**
+     * Method to get the account from username or id (username can be also the email)
+     * @param query to request the user
+     * @return the query including accountDTO in read
+     * @throws AccountNotFoundException when user can not be fund or username, email or id was not provided
+     */
+    public GetAccountQuery getAccount(final GetAccountQuery query) throws AccountNotFoundException {
+        final AccountEntity account;
+        if(query.getId() != null) {
+            account = accountRepository.findById(query.getId())
+                    .orElseThrow(() -> new AccountNotFoundException(ExceptionCodes.NOT_FOUND));
+            Translator.translate(account).ifPresent(query.getRead()::setData);
+            return query;
+        }
+
+        if(StringTools.isNotEmpty(query.getUsername())) {
+            account = accountRepository.findByUsername(query.getUsername()).orElse(
+                    accountRepository.findByEmail(query.getUsername())
+                            .orElseThrow(() -> new AccountNotFoundException(ExceptionCodes.NOT_FOUND)));
+            Translator.translate(account).ifPresent(query.getRead()::setData);
+            return query;
+        }
+        throw  new AccountNotFoundException(ExceptionCodes.USERNAME_OR_ID_REQUIRED);
     }
 
 

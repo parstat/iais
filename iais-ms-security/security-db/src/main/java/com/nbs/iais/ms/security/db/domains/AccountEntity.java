@@ -24,6 +24,9 @@ public class AccountEntity extends AbstractDomainObject implements Account {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "phone")
+    private String phone;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "account_status")
     private AccountStatus status;
@@ -92,6 +95,16 @@ public class AccountEntity extends AbstractDomainObject implements Account {
     @Override
     public void setEmail(final String email) {
         this.email = email;
+    }
+
+    @Override
+    public String getPhone() {
+        return phone;
+    }
+
+    @Override
+    public void setPhone(final String phone) {
+        this.phone = phone;
     }
 
     @Override

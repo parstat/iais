@@ -2,6 +2,7 @@ package com.nbs.iais.ms.security.db.config;
 
 import com.nbs.iais.ms.common.exceptions.ChangePasswordException;
 import com.nbs.iais.ms.security.common.messageing.commands.*;
+import com.nbs.iais.ms.security.common.messageing.queries.GetAccountQuery;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
 import com.nbs.iais.ms.security.common.messageing.queries.IsAuthenticatedQuery;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
@@ -58,7 +59,9 @@ public class ApplicationConfig {
                         .subFlowMapping(GetAccountsQuery.class, sf ->
                                 sf.<GetAccountsQuery>handle((p, h) -> querySecurityService.getAccounts(p)))
                         .subFlowMapping(IsAuthenticatedQuery.class, sf ->
-                                sf.<IsAuthenticatedQuery>handle((p, h) -> querySecurityService.authenticate(p))))
+                                sf.<IsAuthenticatedQuery>handle((p, h) -> querySecurityService.authenticate(p)))
+                        .subFlowMapping(GetAccountQuery.class, sf ->
+                                sf.<GetAccountQuery>handle((p, h) -> querySecurityService.getAccount(p))))
                         .get();
     }
 

@@ -28,6 +28,10 @@ public interface Account extends DomainObject {
 
     void setEmail(String email);
 
+    String getPhone();
+
+    void setPhone(String phone);
+
     AccountRole getRole();
 
     void setRole(AccountRole role);

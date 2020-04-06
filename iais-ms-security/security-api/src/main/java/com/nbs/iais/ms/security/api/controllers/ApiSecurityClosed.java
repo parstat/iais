@@ -11,6 +11,7 @@ import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.security.common.messageing.commands.ChangePasswordCommand;
+import com.nbs.iais.ms.security.common.messageing.queries.GetAccountQuery;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -19,37 +20,81 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/v1/closed/security", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiSecurityClosed extends AbstractController {
 
+    /**
+     * Method to get account by their status
+     * @param jwt on the header of the request
+     * @param status get users by status
+     * @param name or users by name
+     * @param language to use
+     * @return List of AccountDTO
+     */
     @JsonView(value = Views.Secure.class)
-    @GetMapping(value = "/accounts/status/{status}")
+    @GetMapping(value = "/accounts")
     public DTOList<AccountDTO> getAccounts(
             @RequestHeader(name = "jwt-auth") final String jwt,
-            @PathVariable(name = "status") final AccountStatus status,
+            @RequestParam(name = "status", required = false) final AccountStatus status,
+            @RequestParam(name = "name", required = false) final String name,
             @RequestParam(name = "language") final Language language) {
 
         final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
         final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
-        final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(accountId, status);
+
+        final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(accountId, status, name);
         getAccountsQuery.setLanguage(language);
         getAccountsQuery.setAccountRole(accountRole);
 
         return sendQuery(getAccountsQuery, "security").getRead().getData();
     }
 
+    /**
+     * API method to get account by Id
+     * @param jwt should be in the header of the request
+     * @param id of the requested user
+     * @param language to use
+     * @return requested accountDTO
+     */
     @JsonView(value = Views.Secure.class)
-    @GetMapping(value = "/accounts/name/{name}")
-    public DTOList<AccountDTO> getAccountsByName(
+    @GetMapping(value = "/accounts/{id}")
+    public AccountDTO getAccountById(
             @RequestHeader(name = "jwt-auth") final String jwt,
-            @PathVariable(name = "name") final String name,
+            @PathVariable(name = "id") final Long id,
             @RequestParam(name = "language") final Language language) {
 
         final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
         final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
-        final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(accountId, AccountStatus.ACTIVE, name);
-        getAccountsQuery.setLanguage(language);
-        getAccountsQuery.setAccountRole(accountRole);
+        final GetAccountQuery getAccountQuery = GetAccountQuery.create(id);
+        getAccountQuery.setLanguage(language);
+        getAccountQuery.setAccountRole(accountRole);
+        getAccountQuery.setAccountId(accountId);
 
-        return sendQuery(getAccountsQuery, "security").getRead().getData();
+        return sendQuery(getAccountQuery, "security").getRead().getData();
     }
+
+    /**
+     * API method to get account by username or email
+     * @param jwt should be in the header of the request
+     * @param username of the requested user
+     * @param language to use
+     * @return requested accountDTO
+     */
+    @JsonView(value = Views.Secure.class)
+    @GetMapping(value = "/accounts/username/{username}")
+    public AccountDTO getAccountByUsername(
+            @RequestHeader(name = "jwt-auth") final String jwt,
+            @PathVariable(name = "username") final String username,
+            @RequestParam(name = "language") final Language language) {
+
+        final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
+        final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
+        final GetAccountQuery getAccountQuery = GetAccountQuery.create(username);
+        getAccountQuery.setLanguage(language);
+        getAccountQuery.setAccountRole(accountRole);
+        getAccountQuery.setAccountId(accountId);
+
+        return sendQuery(getAccountQuery, "security").getRead().getData();
+    }
+
+
 
     /**
      * API method to change the password when the user has not lost it yet
