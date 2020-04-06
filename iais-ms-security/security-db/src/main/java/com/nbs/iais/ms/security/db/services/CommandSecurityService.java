@@ -180,4 +180,17 @@ public class CommandSecurityService {
         return command;
     }
 
+    public SendResetLinkCommand sendResetLink(final SendResetLinkCommand command) throws ChangePasswordException {
+
+        final AccountEntity account = accountRepository.findByEmail(command.getEmail())
+                .orElseThrow(() -> new ChangePasswordException(ExceptionCodes.NOT_FOUND));
+
+        return null;
+
+
+        //TODO add an email client to send email with a link
+
+
+    }
+
 }

@@ -8,8 +8,6 @@ import com.nbs.iais.ms.common.dto.abstracts.BaseEntityDTO;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 
-import java.util.UUID;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountDTO extends BaseEntityDTO {
 
@@ -38,7 +36,7 @@ public class AccountDTO extends BaseEntityDTO {
         super();
     }
 
-    public AccountDTO(final UUID id) {
+    public AccountDTO(final Long id) {
         super(id);
     }
 

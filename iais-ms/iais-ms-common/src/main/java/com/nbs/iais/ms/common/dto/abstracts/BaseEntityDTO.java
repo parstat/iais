@@ -5,28 +5,25 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.DTO;
 import com.nbs.iais.ms.common.dto.Views;
 
-import java.util.UUID;
-
-
 public abstract class BaseEntityDTO implements DTO {
 
     @JsonProperty
     @JsonView(Views.Basic.class)
-    private UUID id;
+    private Long id;
 
     public BaseEntityDTO() {
         super();
     }
 
-    public BaseEntityDTO(final UUID id) {
+    public BaseEntityDTO(final Long id) {
         this.id = id;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(final UUID id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 }

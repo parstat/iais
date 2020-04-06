@@ -4,12 +4,10 @@ import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 
-import java.util.UUID;
-
 public class DTOMocks {
 
     public static AccountDTO account() {
-        AccountDTO accountDTO = new AccountDTO(UUID.randomUUID());
+        AccountDTO accountDTO = new AccountDTO(1L);
         accountDTO.setName("Name Surname");
         accountDTO.setRole(AccountRole.USER);
         accountDTO.setUsername("username");

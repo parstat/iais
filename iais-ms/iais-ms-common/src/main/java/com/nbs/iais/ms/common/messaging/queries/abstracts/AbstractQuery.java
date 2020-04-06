@@ -6,13 +6,11 @@ import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.queries.Query;
 import com.nbs.iais.ms.common.messaging.reads.abstracts.AbstractRead;
 
-import java.util.UUID;
-
 public abstract class AbstractQuery<R extends AbstractRead<? extends DTO>> implements Query<R> {
 
     private R read;
     private Language language;
-    private UUID accountId;
+    private Long accountId;
     private AccountRole accountRole;
 
     protected AbstractQuery() {
@@ -34,12 +32,12 @@ public abstract class AbstractQuery<R extends AbstractRead<? extends DTO>> imple
     }
 
     @Override
-    public UUID getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
     @Override
-    public void setAccountId(final UUID accountId) {
+    public void setAccountId(final Long accountId) {
         this.accountId = accountId;
     }
 

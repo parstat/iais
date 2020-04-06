@@ -14,7 +14,6 @@ import org.mockito.stubbing.Answer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,7 +38,7 @@ public class CommandSecurityServiceTest extends ServiceTest {
 
         //Setup
         AccountEntity accountEntity = new AccountEntity();
-        accountEntity.setId(UUID.randomUUID());
+        accountEntity.setId(1L);
         accountEntity.setName("Name Surname");
         accountEntity.setUsername("username");
         accountEntity.setPassword(passwordEncoder.encode("password"));

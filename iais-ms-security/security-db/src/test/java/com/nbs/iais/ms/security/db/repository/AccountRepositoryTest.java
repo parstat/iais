@@ -10,8 +10,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.UUID;
-
 public class AccountRepositoryTest extends RepositoryTest {
 
     @Autowired
@@ -38,7 +36,6 @@ public class AccountRepositoryTest extends RepositoryTest {
 
     private AccountEntity saveAccount(final String username, final String email) {
         final AccountEntity account = new AccountEntity();
-        account.setId(UUID.randomUUID());
         account.setName("Name Surname");
         account.setUsername(username);
         account.setStatus(AccountStatus.ACTIVE);

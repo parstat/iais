@@ -15,8 +15,6 @@ import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping(value = "/api/v1/closed/security", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiSecurityClosed extends AbstractController {
@@ -28,7 +26,7 @@ public class ApiSecurityClosed extends AbstractController {
             @PathVariable(name = "status") final AccountStatus status,
             @PathVariable(name = "language") final Language language) {
 
-        final UUID accountId = UUID.fromString(JWT.decode(jwt).getClaim("user").asString());
+        final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
         final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
         final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(accountId, status);
         getAccountsQuery.setLanguage(language);
@@ -44,7 +42,7 @@ public class ApiSecurityClosed extends AbstractController {
             @PathVariable(name = "name") final String name,
             @PathVariable(name = "language") final Language language) {
 
-        final UUID accountId = UUID.fromString(JWT.decode(jwt).getClaim("user").asString());
+        final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
         final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
         final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(accountId, AccountStatus.ACTIVE, name);
         getAccountsQuery.setLanguage(language);
@@ -69,7 +67,7 @@ public class ApiSecurityClosed extends AbstractController {
             @RequestParam(name = "newPassword") final String newPassword,
             @RequestParam(name = "language") final Language language) {
 
-        final UUID accountId = UUID.fromString(JWT.decode(jwt).getClaim("user").asString());
+        final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
         final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
         final ChangePasswordCommand command = ChangePasswordCommand.create(oldPassword, newPassword);
 

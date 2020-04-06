@@ -6,13 +6,11 @@ import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.Command;
 import com.nbs.iais.ms.common.messaging.events.abstracts.AbstractEvent;
 
-import java.util.UUID;
-
 public abstract class AbstractCommand<E extends AbstractEvent<? extends DTO>> implements Command<E> {
 
     private E event;
     private Language language;
-    private UUID accountId;
+    private Long accountId;
     private AccountRole accountRole;
 
     protected AbstractCommand() {
@@ -38,12 +36,12 @@ public abstract class AbstractCommand<E extends AbstractEvent<? extends DTO>> im
     }
 
     @Override
-    public UUID getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
     @Override
-    public void setAccountId(UUID accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 

@@ -1,11 +1,9 @@
 package com.nbs.iais.ms.common.db.domains.interfaces;
 
-import java.util.UUID;
-
 public interface DomainObject {
 
-    UUID getId();
+    Long getId();
 
-    void setId(UUID id);
+    void setId(Long id);
 
 }

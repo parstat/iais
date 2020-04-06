@@ -28,7 +28,7 @@ public class SecurityService {
     @Autowired
     private TokenRepository tokenRepository;
 
-    private String getSignedJwt(final UUID user, final String name, final String email, final AccountRole role) {
+    private String getSignedJwt(final Long user, final String name, final String email, final AccountRole role) {
 
         final PrivateJwt privateJwt = createPrivateJwt(user.toString());
         return JwtUtils.createJwt(user, name, email, role.toString(), privateJwt.getSecret());
@@ -56,17 +56,17 @@ public class SecurityService {
     }
 
     public String refreshToken(final String oldJwt) {
-        final String user = JWT.decode(oldJwt).getClaim("user").asString();
+        final Long user = JWT.decode(oldJwt).getClaim("user").asLong();
         final String name = JWT.decode(oldJwt).getClaim("name").asString();
         final String email = JWT.decode(oldJwt).getClaim("email").asString();
         final String role = JWT.decode(oldJwt).getClaim("role").asString();
 
         //delete old private token from cache
-        tokenRepository.deleteToken(JwtUtils.getJwtPrivateKey(user));
+        tokenRepository.deleteToken(JwtUtils.getJwtPrivateKey(user.toString()));
         //create the new private in cache
-        final PrivateJwt privateJwt = createPrivateJwt(user);
+        final PrivateJwt privateJwt = createPrivateJwt(user.toString());
 
-        return JwtUtils.createJwt(UUID.fromString(user), name, email, role, privateJwt.getSecret());
+        return JwtUtils.createJwt(user, name, email, role, privateJwt.getSecret());
     }
 
     @JsonView(Views.Secure.class)

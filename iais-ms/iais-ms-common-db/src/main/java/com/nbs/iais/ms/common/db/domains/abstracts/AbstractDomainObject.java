@@ -2,31 +2,33 @@ package com.nbs.iais.ms.common.db.domains.abstracts;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import java.util.UUID;
 
 @MappedSuperclass
 public class AbstractDomainObject implements DomainObject {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     public AbstractDomainObject() {
 
     }
 
-    public AbstractDomainObject(UUID id) {
+    public AbstractDomainObject(Long id) {
         this.id = id;
     }
 
     @Override
-    public UUID getId() {
+    public Long getId() {
         return this.id;
     }
 
     @Override
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

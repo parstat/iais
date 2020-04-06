@@ -4,8 +4,6 @@ import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
 import com.nbs.iais.ms.security.common.messageing.events.SignupEvent;
 
-import java.util.UUID;
-
 public class SignupCommand extends AbstractCommand<SignupEvent> {
 
     private static final long serialVersionUID = 200L;
@@ -28,7 +26,6 @@ public class SignupCommand extends AbstractCommand<SignupEvent> {
         this.email = email;
         this.name = name;
         this.role = role;
-        setAccountId(UUID.randomUUID());
     }
 
     public static SignupCommand create(final String username, final String password, final String email,
