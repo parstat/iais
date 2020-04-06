@@ -39,7 +39,7 @@ public class SecurityServiceTest {
 
         Mockito.when(tokenRepository.savePrivateToken(Mockito.anyString(), Mockito.any())).thenReturn(privateJwt);
         final Optional<String> jwtOptional = securityService.getToken("{\n" +
-                "    \"id\": \"60fa3ee5-c886-4f44-89ec-495b27ef9876\",\n" +
+                "    \"id\": \"1\",\n" +
                 "    \"name\": \"Florian Nika\",\n" +
                 "    \"username\": \"florian\",\n" +
                 "    \"role\": \"USER\",\n" +

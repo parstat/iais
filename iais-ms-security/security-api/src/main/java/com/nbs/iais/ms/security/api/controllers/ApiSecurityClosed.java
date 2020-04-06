@@ -24,7 +24,7 @@ public class ApiSecurityClosed extends AbstractController {
     public DTOList<AccountDTO> getAccounts(
             @RequestHeader(name = "jwt-auth") final String jwt,
             @PathVariable(name = "status") final AccountStatus status,
-            @PathVariable(name = "language") final Language language) {
+            @RequestParam(name = "language") final Language language) {
 
         final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
         final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
@@ -40,7 +40,7 @@ public class ApiSecurityClosed extends AbstractController {
     public DTOList<AccountDTO> getAccountsByName(
             @RequestHeader(name = "jwt-auth") final String jwt,
             @PathVariable(name = "name") final String name,
-            @PathVariable(name = "language") final Language language) {
+            @RequestParam(name = "language") final Language language) {
 
         final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
         final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
