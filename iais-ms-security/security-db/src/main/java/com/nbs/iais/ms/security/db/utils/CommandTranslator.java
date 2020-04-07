@@ -4,6 +4,7 @@ import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Instant;
 

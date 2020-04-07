@@ -94,6 +94,7 @@ public class CommandSecurityService {
             throw new SignupException(ExceptionCodes.EMAIL_TAKEN);
         }
 
+        signupCommand.setPassword(passwordEncoder.encode(signupCommand.getPassword()));
         final AccountEntity account = CommandTranslator.translate(signupCommand);
 
         try {
