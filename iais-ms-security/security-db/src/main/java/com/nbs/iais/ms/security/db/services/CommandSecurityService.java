@@ -9,7 +9,6 @@ import com.nbs.iais.ms.common.exceptions.ConfirmationException;
 import com.nbs.iais.ms.common.exceptions.SigninException;
 import com.nbs.iais.ms.common.exceptions.SignupException;
 import com.nbs.iais.ms.security.common.messageing.commands.*;
-import com.nbs.iais.ms.security.common.messageing.queries.IsAuthenticatedQuery;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import com.nbs.iais.ms.security.db.utils.CommandTranslator;

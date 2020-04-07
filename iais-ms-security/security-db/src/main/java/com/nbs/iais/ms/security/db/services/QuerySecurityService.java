@@ -1,9 +1,7 @@
 package com.nbs.iais.ms.security.db.services;
 
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
-import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
-import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 import com.nbs.iais.ms.common.enums.ExceptionCodes;
@@ -17,6 +15,9 @@ import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 @Service
@@ -33,20 +34,32 @@ public class QuerySecurityService {
      */
     public GetAccountsQuery getAccounts(final GetAccountsQuery query) {
 
+        final List<AccountStatus> statuses = getStatuses(query);
         if(StringTools.isNotEmpty(query.getName())) {
-            final Iterable<AccountEntity> accountEntities = accountRepository.findAllByNameContaining(query.getName());
-            Translator.translate(accountEntities).ifPresent(query.getRead()::setData);
-            return query;
-        }
-        if(query.getStatus() != AccountStatus.ACTIVE && query.getAccountRole() == AccountRole.USER) {
-            //normal user can not query for non active accounts
-            query.getRead().setData(DTOList.empty(AccountDTO.class));
+            Translator.translate(accountRepository.findAllByNameContainingAndStatusIn(query.getName(), statuses))
+                    .ifPresent(query.getRead()::setData);
             return query;
         }
 
-        final Iterable<AccountEntity> accountEntities = accountRepository.findAllByStatus(query.getStatus());
-        Translator.translate(accountEntities).ifPresent(query.getRead()::setData);
+        Translator.translate(accountRepository.findAllByStatus(statuses.get(0)))
+                .ifPresent(query.getRead()::setData);
+
         return query;
+    }
+
+    private List<AccountStatus> getStatuses(final GetAccountsQuery query) {
+        if(query.isClosed()) {
+            if(query.getAccountRole() == AccountRole.ROOT || query.getAccountRole() == AccountRole.ADMIN) {
+                if(StringTools.isNotEmpty(query.getName())) {
+                    return Arrays.asList(AccountStatus.ACTIVE, AccountStatus.UNCONFIRMED, AccountStatus.TERMINATED,
+                            AccountStatus.LOCKED);
+                }
+                if(query.getStatus() != null) {
+                    return Arrays.asList(query.getStatus());
+                }
+            }
+        }
+        return Arrays.asList(AccountStatus.ACTIVE);
     }
 
     /**
@@ -80,10 +93,9 @@ public class QuerySecurityService {
         if(query.getId() != null) {
             account = accountRepository.findById(query.getId())
                     .orElseThrow(() -> new AccountNotFoundException(ExceptionCodes.NOT_FOUND));
-            Translator.translate(account).ifPresent(query.getRead()::setData);
-            return query;
+                Translator.translate(account).ifPresent(query.getRead()::setData);
+                return query;
         }
-
         if(StringTools.isNotEmpty(query.getUsername())) {
             account = accountRepository.findByUsername(query.getUsername()).orElse(
                     accountRepository.findByEmail(query.getUsername())
@@ -93,6 +105,7 @@ public class QuerySecurityService {
         }
         throw  new AccountNotFoundException(ExceptionCodes.USERNAME_OR_ID_REQUIRED);
     }
+
 
 
 }

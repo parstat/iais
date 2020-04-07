@@ -1,10 +1,11 @@
 package com.nbs.iais.ms.common;
 
+import com.nbs.iais.ms.common.dto.DTO;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.Language;
 
 
-public interface RequestMessage<R extends ResponseMessage<?>> extends Message {
+public interface RequestMessage<R extends ResponseMessage<? extends DTO>> extends Message {
 
     Language getLanguage();
 
@@ -17,6 +18,10 @@ public interface RequestMessage<R extends ResponseMessage<?>> extends Message {
     AccountRole getAccountRole();
 
     void setAccountRole(final AccountRole accountRole);
+
+    boolean isClosed();
+
+    void setClosed(boolean closed);
 
     R getReply();
 }

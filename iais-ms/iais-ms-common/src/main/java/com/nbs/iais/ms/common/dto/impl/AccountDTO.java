@@ -5,11 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.abstracts.BaseEntityDTO;
+import com.nbs.iais.ms.common.dto.abstracts.LinkableEntityDTO;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountDTO extends BaseEntityDTO {
+public class AccountDTO extends LinkableEntityDTO {
 
     private static final long serialVersionUID = 200L;
 

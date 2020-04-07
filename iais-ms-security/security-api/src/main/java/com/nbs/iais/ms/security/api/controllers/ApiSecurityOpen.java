@@ -1,13 +1,20 @@
 package com.nbs.iais.ms.security.api.controllers;
 
+import com.auth0.jwt.JWT;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
+import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
+import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.AccountRole;
+import com.nbs.iais.ms.common.enums.AccountStatus;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.security.common.messageing.commands.ResetPasswordCommand;
 import com.nbs.iais.ms.security.common.messageing.commands.SigninCommand;
 import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
+import com.nbs.iais.ms.security.common.messageing.queries.GetAccountQuery;
+import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
 import com.nbs.iais.ms.security.db.services.CommandSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -36,6 +43,8 @@ public class ApiSecurityOpen extends AbstractController {
         //using internal messages can help dividing it later into micro services
 
         final SigninCommand signinCommand = SigninCommand.create(username, password);
+        signinCommand.setClosed(false);
+
         return sendCommand(signinCommand, "security").getEvent().getData();
     }
 
@@ -59,6 +68,8 @@ public class ApiSecurityOpen extends AbstractController {
 
         final SignupCommand signupCommand = SignupCommand.create(username, password, email, name, role);
         signupCommand.setLanguage(language);
+        signupCommand.setClosed(false);
+
         return sendCommand(signupCommand, "security").getEvent().getData();
     }
 
@@ -77,7 +88,65 @@ public class ApiSecurityOpen extends AbstractController {
 
         final ResetPasswordCommand command = ResetPasswordCommand.create(confirmation, newPassword);
         command.setLanguage(language);
+        command.setClosed(false);
+
         return sendCommand(command, "security").getEvent().getData();
+    }
+
+    /**
+     * Method to get account by their name
+     * @param name or users by name
+     * @param language to use
+     * @return List of AccountDTO
+     */
+    @JsonView(value = Views.Basic.class)
+    @GetMapping(value = "/accounts")
+    public DTOList<AccountDTO> getAccounts(
+            @RequestParam(name = "name", required = false) final String name,
+            @RequestParam(name = "language") final Language language) {
+
+        final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(AccountStatus.ACTIVE, name);
+        getAccountsQuery.setLanguage(language);
+        getAccountsQuery.setClosed(false);
+
+        return sendQuery(getAccountsQuery, "security").getRead().getData();
+    }
+
+    /**
+     * API method to get account by Id
+     * @param id of the requested user
+     * @param language to use
+     * @return requested accountDTO
+     */
+    @JsonView(value = Views.Basic.class)
+    @GetMapping(value = "/accounts/{id}")
+    public AccountDTO getAccountById(
+            @PathVariable(name = "id") final Long id,
+            @RequestParam(name = "language") final Language language) {
+
+        final GetAccountQuery getAccountQuery = GetAccountQuery.create(id);
+        getAccountQuery.setLanguage(language);
+        getAccountQuery.setClosed(false);
+        return sendQuery(getAccountQuery, "security").getRead().getData();
+    }
+
+    /**
+     * API method to get account by username or email
+     * @param username of the requested user
+     * @param language to use
+     * @return requested accountDTO
+     */
+    @JsonView(value = Views.Basic.class)
+    @GetMapping(value = "/accounts/username/{username}")
+    public AccountDTO getAccountByUsername(
+            @PathVariable(name = "username") final String username,
+            @RequestParam(name = "language") final Language language) {
+
+        final GetAccountQuery getAccountQuery = GetAccountQuery.create(username);
+        getAccountQuery.setLanguage(language);
+        getAccountQuery.setClosed(false);
+
+        return sendQuery(getAccountQuery, "security").getRead().getData();
     }
 
 }

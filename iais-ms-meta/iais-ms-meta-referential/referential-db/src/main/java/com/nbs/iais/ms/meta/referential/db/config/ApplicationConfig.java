@@ -33,13 +33,11 @@ public class ApplicationConfig {
 	@Bean
 	public IntegrationFlow queryIntegrationFlow(final QueryReferentialService queryReferentialService) {
 		return IntegrationFlows.from(queryInput())
-				.<Object, Class<?>>route(Object::getClass,
-						rs -> rs.subFlowMapping(GetStatisticalProcessesQuery.class,
-								sf -> sf.<GetStatisticalProcessesQuery>handle(
-										(p, h) -> queryReferentialService.getStatisticalProcesses(p)))
-				.subFlowMapping(GetStatisticalProcessQuery.class,
-						sf -> sf.<GetStatisticalProcessQuery>handle(
-								(p, h) -> queryReferentialService.getStatisticalProcess(p))))
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+						.subFlowMapping(GetStatisticalProcessesQuery.class,
+								sf -> sf.<GetStatisticalProcessesQuery>handle((p, h) -> queryReferentialService.getStatisticalProcesses(p)))
+						.subFlowMapping(GetStatisticalProcessQuery.class,
+								sf -> sf.<GetStatisticalProcessQuery>handle((p, h) -> queryReferentialService.getStatisticalProcess(p))))
 				.get();
 	}
 

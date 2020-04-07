@@ -42,6 +42,7 @@ public class ApiSecurityClosed extends AbstractController {
         final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(accountId, status, name);
         getAccountsQuery.setLanguage(language);
         getAccountsQuery.setAccountRole(accountRole);
+        getAccountsQuery.setClosed(true);
 
         return sendQuery(getAccountsQuery, "security").getRead().getData();
     }
@@ -66,6 +67,7 @@ public class ApiSecurityClosed extends AbstractController {
         getAccountQuery.setLanguage(language);
         getAccountQuery.setAccountRole(accountRole);
         getAccountQuery.setAccountId(accountId);
+        getAccountQuery.setClosed(true);
 
         return sendQuery(getAccountQuery, "security").getRead().getData();
     }
@@ -90,6 +92,7 @@ public class ApiSecurityClosed extends AbstractController {
         getAccountQuery.setLanguage(language);
         getAccountQuery.setAccountRole(accountRole);
         getAccountQuery.setAccountId(accountId);
+        getAccountQuery.setClosed(true);
 
         return sendQuery(getAccountQuery, "security").getRead().getData();
     }
@@ -119,6 +122,7 @@ public class ApiSecurityClosed extends AbstractController {
         command.setLanguage(language);
         command.setAccountId(accountId);
         command.setAccountRole(accountRole);
+        command.setClosed(true);
 
         return sendCommand(command, "security").getEvent().getData();
     }

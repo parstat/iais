@@ -22,6 +22,12 @@ public class GetAccountsQuery extends AbstractQuery<GetAccountsRead> {
         this.status = status;
     }
 
+    private GetAccountsQuery(final AccountStatus status, final String name) {
+        super(new GetAccountsRead());
+        this.status = status;
+        this.name = name;
+    }
+
     private GetAccountsQuery(final Long requester, final AccountStatus status) {
         super(new GetAccountsRead());
         this.status = status;
@@ -44,6 +50,10 @@ public class GetAccountsQuery extends AbstractQuery<GetAccountsRead> {
 
     public static GetAccountsQuery create(final AccountStatus status) {
         return new GetAccountsQuery(status);
+    }
+
+    public static GetAccountsQuery create(final AccountStatus status, final String name) {
+        return new GetAccountsQuery(status, name);
     }
 
     public static GetAccountsQuery create(final Long requester, final AccountStatus status) {
