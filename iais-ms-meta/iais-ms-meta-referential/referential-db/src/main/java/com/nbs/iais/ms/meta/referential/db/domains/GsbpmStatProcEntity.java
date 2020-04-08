@@ -44,8 +44,8 @@ public class GsbpmStatProcEntity extends AbstractDomainObject implements GsbpmSt
 	@Column(name = "start_date")
 	private Date startDate;
 
-	@Column(name = "sys_date")
-	private Date sysDate;
+	@Column(name = "creation_date")
+	private Date creationDate;
 
 	// bi-directional many-to-one association to Gsbpm
 	@ManyToOne
@@ -57,10 +57,9 @@ public class GsbpmStatProcEntity extends AbstractDomainObject implements GsbpmSt
 	@JoinColumn(name = "id_stat_proc")
 	private StatisticalProcessEntity statisticalProcess;
 
-	// bi-directional many-to-one association to SysUser
-	@ManyToOne
-	@JoinColumn(name = "sys_user")
-	private SysUserEntity sysUserBean;
+	@JoinColumn(name = "contact_user")
+	private Long contactUser;
+ 
 
 	// bi-directional many-to-one association to StatProcInput
 	@OneToMany(mappedBy = "gsbpmStatProc")

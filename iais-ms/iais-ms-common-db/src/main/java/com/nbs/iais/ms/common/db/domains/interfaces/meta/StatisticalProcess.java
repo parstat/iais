@@ -31,21 +31,9 @@ public interface StatisticalProcess {
 
 	public void setNameRu(String nameRu);
 
-	public String getRespFullName();
+	public Date getCreationDate();
 
-	public void setRespFullName(String respFullName);
-
-	public String getRespMail();
-
-	public void setRespMail(String respMail);
-
-	public String getRespPhone();
-
-	public void setRespPhone(String respPhone);
-
-	public Date getSysDate();
-
-	public void setSysDate(Date sysDate);
+	public void setCreationDate(Date sysDate);
 
 	public List<GsbpmStatProc> getGsbpmStatProcs();
 
@@ -59,9 +47,15 @@ public interface StatisticalProcess {
 
 	public void setDivision(Division division);
 
-	public SysUser getSysUserBean();
+	public Long getCreatorUser();
 
-	public void setSysUserBean(SysUser sysUserBean);
+	public void setCreatorUser(Long creatorUser);
+	
+	public Long getContactUser();
+	
+	public void setContactUser(Long contactUser);
+
+	
 
  
 }

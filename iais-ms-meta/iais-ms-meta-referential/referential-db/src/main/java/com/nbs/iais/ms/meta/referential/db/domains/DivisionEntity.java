@@ -47,11 +47,11 @@ public class DivisionEntity extends AbstractDomainObject implements Division {
 	@Column(name = "status_id")
 	private Integer statusId;
 
-	@Column(name = "sys_date")
-	private Date sysDate;
+	@Column(name = "creation_date")
+	private Date creationDate;
 
-	@Column(name = "sys_user")
-	private String sysUser;
+	@Column(name = "contact_user")
+	private Long contactUser;
 
 	// bi-directional one-to-one association to DivisionStatus
 	@OneToOne
