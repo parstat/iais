@@ -5,6 +5,7 @@ import com.nbs.iais.ms.common.enums.AdministrativeStatus;
 import com.nbs.iais.ms.common.enums.LifeCycleStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AdministrativeDetails extends DomainObject {
@@ -21,28 +22,28 @@ public interface AdministrativeDetails extends DomainObject {
 
     void setDocumentations(List<String> documentations);
 
-    LocalDate getLastUpdatedDate();
+    LocalDateTime getLastUpdatedDate();
 
-    void setLastUpdatedDate(LocalDate lastUpdatedDate);
+    void setLastUpdatedDate(LocalDateTime lastUpdatedDate);
 
     LifeCycleStatus getLifeCycleStatus();
 
     void setLifeCycleStatus(LifeCycleStatus lifeCycleStatus);
 
-    LocalDate getReleaseDate();
+    LocalDateTime getReleaseDate();
 
-    void setReleaseDate(LocalDate releaseDate);
+    void setReleaseDate(LocalDateTime releaseDate);
 
     List<String> getUrls();
 
     void setUrls(List<String> urls);
 
-    LocalDate getValidFrom();
+    LocalDateTime getValidFrom();
 
-    void setValidFrom(LocalDate validFrom);
+    void setValidFrom(LocalDateTime validFrom);
 
-    LocalDate getValidTo();
+    LocalDateTime getValidTo();
 
-    void setValidTo(LocalDate validTo);
+    void setValidTo(LocalDateTime validTo);
 
 }
