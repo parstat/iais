@@ -63,4 +63,12 @@ public interface BusinessProcessDocumentation extends DomainObject {
     List<Document> getAdditionalDocuments();
 
     void setAdditionalDocuments(List<Document> additionalDocuments);
+
+    List<InputDocumentation> getInputs();
+
+    void setInputs(List<InputDocumentation> inputs);
+
+    List<OutputDocumentation> getOutputs();
+
+    void setOutputs(List<OutputDocumentation> outputs);
 }

@@ -81,8 +81,17 @@ public class BusinessProcessDocumentationEntity extends AbstractDomainObject imp
             inverseJoinColumns = @JoinColumn(name = "document_id", referencedColumnName = "id"))
     private List<Document> additionalDocuments;
 
+    @ManyToMany(targetEntity = InputDocumentationEntity.class)
+    @JoinTable(name = "inputs_used",
+            joinColumns = @JoinColumn(name = "documentation_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "input_id", referencedColumnName = "id"))
+    private List<InputDocumentation> inputs;
 
-
+    @ManyToMany(targetEntity = OutputDocumentationEntity.class)
+    @JoinTable(name = "output_produced",
+            joinColumns = @JoinColumn(name = "documentation_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "output_id", referencedColumnName = "id"))
+    private List<OutputDocumentation> outputs;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -257,6 +266,26 @@ public class BusinessProcessDocumentationEntity extends AbstractDomainObject imp
     @Override
     public void setAdditionalDocuments(final List<Document> additionalDocuments) {
         this.additionalDocuments = additionalDocuments;
+    }
+
+    @Override
+    public List<InputDocumentation> getInputs() {
+        return inputs;
+    }
+
+    @Override
+    public void setInputs(final List<InputDocumentation> inputs) {
+        this.inputs = inputs;
+    }
+
+    @Override
+    public List<OutputDocumentation> getOutputs() {
+        return outputs;
+    }
+
+    @Override
+    public void setOutputs(final List<OutputDocumentation> outputs) {
+        this.outputs = outputs;
     }
 
 }
