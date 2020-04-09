@@ -2,21 +2,13 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEventTuple;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessProcess;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.*;
 import com.nbs.iais.ms.common.enums.Language;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity(name = "StatisticalProgramCycle")
-@Table(name = "statistical_program_cycle")
-public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact implements StatisticalProgramCycle {
+public class ChangeEventTupleEntity extends AbstractIdentifiableArtefact implements ChangeEventTuple {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
@@ -28,17 +20,18 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
+    @ManyToOne(targetEntity = ChangeEventEntity.class)
+    @JoinColumn(name = "change_event_id" )
+    private ChangeEvent changeEvent;
+
     @ManyToMany(targetEntity = AgentInRoleEntity.class)
-    @JoinTable(name = "spc_agent_in_role",
-            joinColumns = @JoinColumn(name = "spc_id", referencedColumnName = "id"),
+    @JoinTable(name = "change_tuple_agent_in_role",
+            joinColumns = @JoinColumn(name = "change_tuple_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
     private List<AgentInRole> administrators;
 
-    @Column(name = "reference_period_start")
-    private LocalDateTime referencePeriodStart;
-
-    @Column(name = "reference_period_end")
-    private LocalDateTime referencePeriodEnd;
+    @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
+    private AdministrativeDetails administrativeDetails;
 
     @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
     @JoinColumn(name = "source_change_event_tuple_id", referencedColumnName = "id")
@@ -47,6 +40,7 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
     @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
     @JoinColumn(name = "target_change_event_tuple_id", referencedColumnName = "id")
     private ChangeEventTuple targetChangeEventTuple;
+
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -79,63 +73,23 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
     }
 
     @Override
-    public LocalDateTime getReferencePeriodStart() {
-        return referencePeriodStart;
-    }
-
-    @Override
-    public void setReferencePeriodStart(final LocalDateTime referencePeriodStart) {
-        this.referencePeriodStart = referencePeriodStart;
-    }
-
-    @Override
-    public LocalDateTime getReferencePeriodEnd() {
-        return referencePeriodEnd;
-    }
-
-    @Override
-    public void setReferencePeriodEnd(final LocalDateTime referencePeriodEnd) {
-        this.referencePeriodEnd = referencePeriodEnd;
-    }
-
-    @Override
-    public List<BusinessProcess> getBusinessProcesses() {
-        return null;
-    }
-
-    @Override
-    public void setBusinessProcesses(List<BusinessProcess> businessProcesses) {
-
-    }
-
-    @Override
-    public StatisticalProgram getStatisticalProgram() {
-        return null;
-    }
-
-    @Override
-    public void setStatisticalProgram(StatisticalProgram statisticalProgram) {
-
-    }
-
-    @Override
     public MultilingualText getName() {
-        return null;
+        return name;
     }
 
     @Override
-    public void setName(MultilingualText name) {
-
+    public void setName(final MultilingualText name) {
+        this.name = name;
     }
 
     @Override
     public MultilingualText getDescription() {
-        return null;
+        return description;
     }
 
     @Override
-    public void setDescription(MultilingualText description) {
-
+    public void setDescription(final MultilingualText description) {
+        this.description = description;
     }
 
     @Override
@@ -159,22 +113,32 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
     }
 
     @Override
-    public List<AgentInRole> getAdministrators() {
-        return null;
+    public ChangeEvent getChangeEvent() {
+        return changeEvent;
     }
 
     @Override
-    public void setAdministrators(List<AgentInRole> administrators) {
+    public void setChangeEvent(final ChangeEvent changeEvent) {
+        this.changeEvent = changeEvent;
+    }
 
+    @Override
+    public List<AgentInRole> getAdministrators() {
+        return administrators;
+    }
+
+    @Override
+    public void setAdministrators(final List<AgentInRole> administrators) {
+        this.administrators = administrators;
     }
 
     @Override
     public AdministrativeDetails getAdministrativeDetails() {
-        return null;
+        return administrativeDetails;
     }
 
     @Override
-    public void setAdministrativeDetails(AdministrativeDetails administrativeDetails) {
-
+    public void setAdministrativeDetails(final AdministrativeDetails administrativeDetails) {
+        this.administrativeDetails = administrativeDetails;
     }
 }

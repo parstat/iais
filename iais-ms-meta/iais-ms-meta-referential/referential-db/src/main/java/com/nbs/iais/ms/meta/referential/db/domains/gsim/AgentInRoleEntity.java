@@ -4,6 +4,7 @@ import com.nbs.iais.ms.common.db.domains.abstracts.AbstractDomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Role;
 import com.nbs.iais.ms.common.enums.Language;
 
@@ -31,6 +32,10 @@ public class AgentInRoleEntity extends AbstractDomainObject implements AgentInRo
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @ManyToOne(targetEntity = ChangeEventEntity.class)
+    @JoinColumn(name = "change_event_id")
+    private ChangeEvent changeEvent;
+
 
     @Override
     public MultilingualText getName() {
@@ -50,6 +55,16 @@ public class AgentInRoleEntity extends AbstractDomainObject implements AgentInRo
     @Override
     public void setDescription(final MultilingualText description) {
         this.description = description;
+    }
+
+    @Override
+    public ChangeEvent getChangeEvent() {
+        return changeEvent;
+    }
+
+    @Override
+    public void setChangeEvent(final ChangeEvent changeEvent) {
+        this.changeEvent = changeEvent;
     }
 
     public void setName(final String name, final Language language) {

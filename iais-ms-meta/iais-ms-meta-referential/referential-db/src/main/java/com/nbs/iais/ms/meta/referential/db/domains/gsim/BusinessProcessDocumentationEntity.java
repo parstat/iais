@@ -2,7 +2,7 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractDomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessProcess;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.*;
@@ -39,9 +39,9 @@ public class BusinessProcessDocumentationEntity extends AbstractDomainObject imp
     @JoinColumn(name = "business_process_id", referencedColumnName = "id")
     private BusinessProcess businessProcess;
 
-    @ManyToOne(targetEntity = AgentEntity.class)
-    @JoinColumn(name = "division_id", referencedColumnName = "id")
-    private Agent division;
+    @ManyToOne(targetEntity = AgentInRoleEntity.class)
+    @JoinColumn(name = "owner_division_id", referencedColumnName = "id")
+    private AgentInRole ownerDivision;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "frequency")
@@ -189,13 +189,13 @@ public class BusinessProcessDocumentationEntity extends AbstractDomainObject imp
     }
 
     @Override
-    public Agent getDivision() {
-        return division;
+    public AgentInRole getOwnerDivision() {
+        return ownerDivision;
     }
 
     @Override
-    public void setDivision(final Agent division) {
-        this.division = division;
+    public void setOwnerDivision(final AgentInRole ownerDivision) {
+        this.ownerDivision = ownerDivision;
     }
 
     @Override

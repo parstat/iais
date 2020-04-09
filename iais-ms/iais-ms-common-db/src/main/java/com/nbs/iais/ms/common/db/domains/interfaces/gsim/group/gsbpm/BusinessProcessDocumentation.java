@@ -3,6 +3,7 @@ package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm;
 import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessProcess;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
 import com.nbs.iais.ms.common.enums.Frequency;
@@ -32,9 +33,9 @@ public interface BusinessProcessDocumentation extends DomainObject {
 
     void setBusinessProcesses(BusinessProcess businessProcess);
 
-    Agent getDivision();
+    AgentInRole getOwnerDivision();
 
-    void setDivision(Agent division);
+    void setOwnerDivision(AgentInRole division);
 
     Frequency getFrequency();
 

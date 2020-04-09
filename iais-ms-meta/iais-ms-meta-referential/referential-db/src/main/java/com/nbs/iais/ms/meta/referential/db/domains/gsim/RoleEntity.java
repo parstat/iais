@@ -2,10 +2,7 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Role;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.*;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.RoleType;
 
@@ -40,6 +37,14 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
 
     @OneToOne(targetEntity = AdministrativeDetailsEntity.class)
     private AdministrativeDetails administrativeDetails;
+
+    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
+    @JoinColumn(name = "source_change_event_tuple_id", referencedColumnName = "id")
+    private ChangeEventTuple sourceChangeEventTuple;
+
+    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
+    @JoinColumn(name = "target_change_event_tuple_id", referencedColumnName = "id")
+    private ChangeEventTuple targetChangeEventTuple;
 
 
     public void setName(final String name, final Language language) {
@@ -83,13 +88,23 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
     }
 
     @Override
-    public ChangeEvent getChangeEvent() {
-        return null;
+    public ChangeEventTuple getSourceChangeEventTuple() {
+        return sourceChangeEventTuple;
     }
 
     @Override
-    public void setChangeEvent(ChangeEvent changeEvent) {
+    public void setSourceChangeEventTuple(final ChangeEventTuple sourceChangeEventTuple) {
+        this.sourceChangeEventTuple = sourceChangeEventTuple;
+    }
 
+    @Override
+    public ChangeEventTuple getTargetChangeEventTuple() {
+        return targetChangeEventTuple;
+    }
+
+    @Override
+    public void setTargetChangeEventTuple(final ChangeEventTuple targetChangeEventTuple) {
+        this.targetChangeEventTuple = targetChangeEventTuple;
     }
 
     @Override

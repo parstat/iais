@@ -14,6 +14,10 @@ public interface AgentInRole extends DomainObject {
 
     void setDescription(MultilingualText description);
 
+    ChangeEvent getChangeEvent();
+
+    void setChangeEvent(ChangeEvent changeEvent);
+
     Agent getAgent();
 
     void setAgent(Agent agent);
