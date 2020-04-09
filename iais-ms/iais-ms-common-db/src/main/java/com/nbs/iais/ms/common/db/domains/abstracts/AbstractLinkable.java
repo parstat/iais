@@ -16,9 +16,6 @@ public abstract class AbstractLinkable extends AbstractDomainObject implements L
         super();
     }
 
-    protected AbstractLinkable(final Long id) {
-        super(id);
-    }
 
     @Override
     public String getLink() {
