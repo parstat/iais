@@ -1,0 +1,26 @@
+package com.nbs.iais.ms.common.enums;
+
+public enum MediaType {
+
+    APPLICATION_PDF,
+    APPLICATION_ZIP,
+    APPLICATION_JSON,
+    APPLICATION_DOC,
+    APPLICATION_DOCX,
+    APPLICATION_PPT,
+    APPLICATION_PPTX,
+    APPLICATION_ODT,
+    APPLICATION_ODP,
+    APPLICATION_ODS,
+    AUDIO_MP3,
+    AUDIO_MPEG,
+    IMAGE_PNG,
+    IMAGE_JPEG,
+    IMAGE_SVG,
+    TEXT_PLAIN,
+    TEXT_HTML,
+    TEXT_CSV,
+    VIDEO_MP4
+
+
+}

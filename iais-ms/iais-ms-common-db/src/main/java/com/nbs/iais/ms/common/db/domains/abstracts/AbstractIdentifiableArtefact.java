@@ -1,18 +1,12 @@
 package com.nbs.iais.ms.common.db.domains.abstracts;
 
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
-import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 
-import javax.persistence.Column;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@MappedSuperclass
 public abstract class AbstractIdentifiableArtefact extends AbstractDomainObject implements IdentifiableArtefact {
-
-    private MultilingualText description;
-
-    private MultilingualText name;
 
     @Column(name = "local_id")
     private String localId;
@@ -26,35 +20,8 @@ public abstract class AbstractIdentifiableArtefact extends AbstractDomainObject 
     @Column(name = "version_rationale")
     private String versionRationale;
 
-    @OneToOne(optional = true, orphanRemoval = true)
-    private AdministrativeDetails administrativeDetails;
-
     public AbstractIdentifiableArtefact() {
         super();
-    }
-
-    public AbstractIdentifiableArtefact(final Long id) {
-        super(id);
-    }
-
-    @Override
-    public MultilingualText getDescription() {
-        return description;
-    }
-
-    @Override
-    public void setDescription(final MultilingualText description) {
-        this.description = description;
-    }
-
-    @Override
-    public MultilingualText getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(final MultilingualText name) {
-        this.name = name;
     }
 
     @Override
@@ -95,15 +62,5 @@ public abstract class AbstractIdentifiableArtefact extends AbstractDomainObject 
     @Override
     public void setVersionRationale(final String versionRationale) {
         this.versionRationale = versionRationale;
-    }
-
-    @Override
-    public AdministrativeDetails getAdministrativeDetails() {
-        return administrativeDetails;
-    }
-
-    @Override
-    public void setAdministrativeDetails(final AdministrativeDetails administrativeDetails) {
-        this.administrativeDetails = administrativeDetails;
     }
 }

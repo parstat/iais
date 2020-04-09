@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface IdentifiableArtefact extends DomainObject {
 
-    MultilingualText getDescription();
-
-    void setDescription(MultilingualText description);
-
     MultilingualText getName();
 
     void setName(MultilingualText name);
+
+    MultilingualText getDescription();
+
+    void setDescription(MultilingualText description);
 
     String getLocalId();
 
