@@ -26,16 +26,13 @@ public abstract class AbstractIdentifiableArtefact extends AbstractDomainObject 
     @Column(name = "version_rationale")
     private String versionRationale;
 
-    @OneToOne(optional = true, orphanRemoval = true)
+    @OneToOne(orphanRemoval = true)
     private AdministrativeDetails administrativeDetails;
 
     public AbstractIdentifiableArtefact() {
         super();
     }
 
-    public AbstractIdentifiableArtefact(final Long id) {
-        super(id);
-    }
 
     @Override
     public MultilingualText getDescription() {
