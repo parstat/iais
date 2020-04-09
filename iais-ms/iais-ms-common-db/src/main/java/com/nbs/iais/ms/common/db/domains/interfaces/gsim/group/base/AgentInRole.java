@@ -3,7 +3,6 @@ package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base;
 import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 
-import java.util.List;
 
 public interface AgentInRole extends DomainObject {
 
@@ -15,6 +14,12 @@ public interface AgentInRole extends DomainObject {
 
     void setDescription(MultilingualText description);
 
-    List<Agent> getAgents();
+    Agent getAgent();
+
+    void setAgent(Agent agent);
+
+    Role getRole();
+
+    void setRole(Role role);
 
 }
