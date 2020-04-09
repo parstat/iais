@@ -18,10 +18,6 @@ public class AbstractDomainObject implements DomainObject {
 
     }
 
-    public AbstractDomainObject(Long id) {
-        this.id = id;
-    }
-
     @Override
     public Long getId() {
         return this.id;
