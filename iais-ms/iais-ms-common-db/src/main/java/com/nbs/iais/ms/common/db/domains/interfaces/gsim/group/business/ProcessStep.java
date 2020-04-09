@@ -6,17 +6,17 @@ import java.util.List;
 
 public interface ProcessStep extends IdentifiableArtefact {
 
-    Boolean isComprehensive();
+    boolean isComprehensive();
 
-    void setComprehensive();
+    void setComprehensive(boolean comprehensive);
 
-    List<ProcessStep> getProcessSteps();
+    List<ProcessStep> getSubProcessSteps();
 
-    void setProcessSteps(List<ProcessStep> processSteps);
+    void setSubProcessSteps(List<ProcessStep> processSteps);
 
     List<BusinessService> getUses();
 
-    void setUses(List<BusinessProcess> uses);
+    void setUses(List<BusinessService> uses);
 
     List<BusinessService> getPerforms();
 
