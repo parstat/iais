@@ -45,4 +45,8 @@ public interface StatisticalProgram extends IdentifiableArtefact {
 
     void setRelates(List<StatisticalProgram> statisticalProgram);
 
+    StatisticalProgramDesign getStatisticalProgramDesign();
+
+    void setStatisticalProgramDesign(StatisticalProgramDesign statisticalProgramDesign);
+
 }

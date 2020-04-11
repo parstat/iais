@@ -11,4 +11,8 @@ public interface ProcessOutputSpecification extends IdentifiableArtefact {
 
     void setProcessOutputTypes(List<ProcessOutputType> processOutputTypes);
 
+    List<ProcessDesign> getProcessDesigns();
+
+    void setProcessDesigns(List<ProcessDesign> processDesigns);
+
 }

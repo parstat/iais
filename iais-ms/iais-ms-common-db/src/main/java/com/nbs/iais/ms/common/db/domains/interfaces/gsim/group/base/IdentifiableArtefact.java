@@ -32,13 +32,17 @@ public interface IdentifiableArtefact extends DomainObject {
 
     void setVersionRationale(String versionRationale);
 
-    ChangeEventTuple getSourceChangeEventTuple();
+    ChangeEvent getChangeEvent();
 
-    void setSourceChangeEventTuple(ChangeEventTuple sourceChangeEventTuple);
+    void setChangeEvent(ChangeEvent changeEvent);
 
-    ChangeEventTuple getTargetChangeEventTuple();
+    //ChangeEventTuple getSourceChangeEventTuple();
 
-    void setTargetChangeEventTuple(ChangeEventTuple targetChangeEventTuple);
+    //void setSourceChangeEventTuple(ChangeEventTuple sourceChangeEventTuple);
+
+    //ChangeEventTuple getTargetChangeEventTuple();
+
+    //void setTargetChangeEventTuple(ChangeEventTuple targetChangeEventTuple);
 
     List<AgentInRole> getAdministrators();
 

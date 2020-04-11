@@ -41,13 +41,9 @@ public class AgentEntity extends AbstractIdentifiableArtefact implements Agent {
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
 
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "source_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple sourceChangeEventTuple;
-
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "target_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple targetChangeEventTuple;
+    @ManyToOne(targetEntity = ChangeEventEntity.class)
+    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
+    private ChangeEvent changeEvent;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -130,23 +126,13 @@ public class AgentEntity extends AbstractIdentifiableArtefact implements Agent {
     }
 
     @Override
-    public ChangeEventTuple getSourceChangeEventTuple() {
-        return sourceChangeEventTuple;
+    public ChangeEvent getChangeEvent() {
+        return changeEvent;
     }
 
     @Override
-    public void setSourceChangeEventTuple(final ChangeEventTuple sourceChangeEventTuple) {
-        this.sourceChangeEventTuple = sourceChangeEventTuple;
-    }
-
-    @Override
-    public ChangeEventTuple getTargetChangeEventTuple() {
-        return targetChangeEventTuple;
-    }
-
-    @Override
-    public void setTargetChangeEventTuple(final ChangeEventTuple targetChangeEventTuple) {
-        this.targetChangeEventTuple = targetChangeEventTuple;
+    public void setChangeEvent(final ChangeEvent changeEvent) {
+        this.changeEvent = changeEvent;
     }
 
     @Override

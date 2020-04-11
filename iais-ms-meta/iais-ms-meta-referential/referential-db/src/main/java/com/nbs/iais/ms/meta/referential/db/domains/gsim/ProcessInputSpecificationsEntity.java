@@ -2,13 +2,20 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.*;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessDesign;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessInputSpecifications;
 import com.nbs.iais.ms.common.enums.Language;
+import com.nbs.iais.ms.common.enums.ProcessInputType;
 
 import javax.persistence.*;
 import java.util.List;
 
-public class ChangeEventTupleEntity extends AbstractIdentifiableArtefact implements ChangeEventTuple {
+@Entity(name = "ProcessInputSpecifications")
+@Table(name = "process_input_specifications")
+public class ProcessInputSpecificationsEntity extends AbstractIdentifiableArtefact implements ProcessInputSpecifications {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
@@ -20,27 +27,27 @@ public class ChangeEventTupleEntity extends AbstractIdentifiableArtefact impleme
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
-    @ManyToOne(targetEntity = ChangeEventEntity.class)
-    @JoinColumn(name = "change_event_id" )
-    private ChangeEvent changeEvent;
-
     @ManyToMany(targetEntity = AgentInRoleEntity.class)
-    @JoinTable(name = "change_tuple_agent_in_role",
-            joinColumns = @JoinColumn(name = "change_tuple_id", referencedColumnName = "id"),
+    @JoinTable(name = "pis_agent_in_role",
+            joinColumns = @JoinColumn(name = "pis_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
     private List<AgentInRole> administrators;
 
     @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
     private AdministrativeDetails administrativeDetails;
 
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "source_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple sourceChangeEventTuple;
+    @ManyToOne(targetEntity = ChangeEventEntity.class)
+    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
+    private ChangeEvent changeEvent;
 
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "target_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple targetChangeEventTuple;
+    @ElementCollection(targetClass=ProcessInputType.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name="input_types")
+    @Column(name="type")
+    private List<ProcessInputType> processInputTypes;
 
+    @ManyToMany(targetEntity = ProcessDesignEntity.class)
+    private List<ProcessDesign> processDesigns;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -73,6 +80,26 @@ public class ChangeEventTupleEntity extends AbstractIdentifiableArtefact impleme
     }
 
     @Override
+    public List<ProcessInputType> getProcessInputTypes() {
+        return processInputTypes;
+    }
+
+    @Override
+    public void setProcessInputTypes(final List<ProcessInputType> processInputTypes) {
+        this.processInputTypes = processInputTypes;
+    }
+
+    @Override
+    public List<ProcessDesign> getProcessDesigns() {
+        return processDesigns;
+    }
+
+    @Override
+    public void setProcessDesigns(final List<ProcessDesign> processDesigns) {
+        this.processDesigns = processDesigns;
+    }
+
+    @Override
     public MultilingualText getName() {
         return name;
     }
@@ -90,26 +117,6 @@ public class ChangeEventTupleEntity extends AbstractIdentifiableArtefact impleme
     @Override
     public void setDescription(final MultilingualText description) {
         this.description = description;
-    }
-
-    @Override
-    public ChangeEventTuple getSourceChangeEventTuple() {
-        return sourceChangeEventTuple;
-    }
-
-    @Override
-    public void setSourceChangeEventTuple(final ChangeEventTuple sourceChangeEventTuple) {
-        this.sourceChangeEventTuple = sourceChangeEventTuple;
-    }
-
-    @Override
-    public ChangeEventTuple getTargetChangeEventTuple() {
-        return targetChangeEventTuple;
-    }
-
-    @Override
-    public void setTargetChangeEventTuple(final ChangeEventTuple targetChangeEventTuple) {
-        this.targetChangeEventTuple = targetChangeEventTuple;
     }
 
     @Override

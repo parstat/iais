@@ -4,6 +4,7 @@ import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEventTuple;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessProcess;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
@@ -40,13 +41,9 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
     @Column(name = "reference_period_end")
     private LocalDateTime referencePeriodEnd;
 
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "source_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple sourceChangeEventTuple;
-
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "target_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple targetChangeEventTuple;
+    @ManyToOne(targetEntity = ChangeEventEntity.class)
+    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
+    private ChangeEvent changeEvent;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -139,23 +136,13 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
     }
 
     @Override
-    public ChangeEventTuple getSourceChangeEventTuple() {
-        return sourceChangeEventTuple;
+    public ChangeEvent getChangeEvent() {
+        return changeEvent;
     }
 
     @Override
-    public void setSourceChangeEventTuple(final ChangeEventTuple sourceChangeEventTuple) {
-        this.sourceChangeEventTuple = sourceChangeEventTuple;
-    }
-
-    @Override
-    public ChangeEventTuple getTargetChangeEventTuple() {
-        return targetChangeEventTuple;
-    }
-
-    @Override
-    public void setTargetChangeEventTuple(final ChangeEventTuple targetChangeEventTuple) {
-        this.targetChangeEventTuple = targetChangeEventTuple;
+    public void setChangeEvent(final ChangeEvent changeEvent) {
+        this.changeEvent = changeEvent;
     }
 
     @Override

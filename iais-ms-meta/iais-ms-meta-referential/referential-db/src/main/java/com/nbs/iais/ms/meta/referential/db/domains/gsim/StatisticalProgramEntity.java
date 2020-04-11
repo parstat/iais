@@ -4,9 +4,10 @@ import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEventTuple;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramDesign;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
@@ -74,13 +75,13 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @OneToMany(targetEntity = StatisticalProgramCycleEntity.class, mappedBy = "statisticalProgram")
     private List<StatisticalProgramCycle> statisticalProgramCycles;
 
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "source_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple sourceChangeEventTuple;
+    @ManyToOne(targetEntity = ChangeEventEntity.class)
+    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
+    private ChangeEvent changeEvent;
 
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "target_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple targetChangeEventTuple;
+    @ManyToOne(targetEntity = StatisticalProgramDesignEntity.class)
+    @JoinColumn(name = "statistical_program_design_id", referencedColumnName = "id")
+    private StatisticalProgramDesign statisticalProgramDesign;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -203,23 +204,13 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     }
 
     @Override
-    public ChangeEventTuple getSourceChangeEventTuple() {
-        return sourceChangeEventTuple;
+    public StatisticalProgramDesign getStatisticalProgramDesign() {
+        return statisticalProgramDesign;
     }
 
     @Override
-    public void setSourceChangeEventTuple(final ChangeEventTuple sourceChangeEventTuple) {
-        this.sourceChangeEventTuple = sourceChangeEventTuple;
-    }
-
-    @Override
-    public ChangeEventTuple getTargetChangeEventTuple() {
-        return targetChangeEventTuple;
-    }
-
-    @Override
-    public void setTargetChangeEventTuple(final ChangeEventTuple targetChangeEventTuple) {
-        this.targetChangeEventTuple = targetChangeEventTuple;
+    public void setStatisticalProgramDesign(final StatisticalProgramDesign statisticalProgramDesign) {
+        this.statisticalProgramDesign = statisticalProgramDesign;
     }
 
     @Override
@@ -250,6 +241,16 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @Override
     public void setDescription(final MultilingualText description) {
         this.description = description;
+    }
+
+    @Override
+    public ChangeEvent getChangeEvent() {
+        return changeEvent;
+    }
+
+    @Override
+    public void setChangeEvent(final ChangeEvent changeEvent) {
+        this.changeEvent = changeEvent;
     }
 
     @Override

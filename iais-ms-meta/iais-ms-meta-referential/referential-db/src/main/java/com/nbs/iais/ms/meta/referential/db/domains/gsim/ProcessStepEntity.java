@@ -4,6 +4,7 @@ import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEventTuple;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
 
@@ -46,13 +47,9 @@ public class ProcessStepEntity extends AbstractIdentifiableArtefact implements P
     @Column(name = "business_process_id")
     private BusinessProcess businessProcess;
 
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "source_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple sourceChangeEventTuple;
-
-    @ManyToOne(targetEntity = ChangeEventTupleEntity.class)
-    @JoinColumn(name = "target_change_event_tuple_id", referencedColumnName = "id")
-    private ChangeEventTuple targetChangeEventTuple;
+    @ManyToOne(targetEntity = ChangeEventEntity.class)
+    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
+    private ChangeEvent changeEvent;
 
     @Override
     public boolean isComprehensive() {
@@ -165,25 +162,14 @@ public class ProcessStepEntity extends AbstractIdentifiableArtefact implements P
     }
 
     @Override
-    public ChangeEventTuple getSourceChangeEventTuple() {
-        return sourceChangeEventTuple;
+    public ChangeEvent getChangeEvent() {
+        return changeEvent;
     }
 
     @Override
-    public void setSourceChangeEventTuple(final ChangeEventTuple sourceChangeEventTuple) {
-        this.sourceChangeEventTuple = sourceChangeEventTuple;
+    public void setChangeEvent(final ChangeEvent changeEvent) {
+        this.changeEvent = changeEvent;
     }
-
-    @Override
-    public ChangeEventTuple getTargetChangeEventTuple() {
-        return targetChangeEventTuple;
-    }
-
-    @Override
-    public void setTargetChangeEventTuple(final ChangeEventTuple targetChangeEventTuple) {
-        this.targetChangeEventTuple = targetChangeEventTuple;
-    }
-
 
     @Override
     public List<AgentInRole> getAdministrators() {

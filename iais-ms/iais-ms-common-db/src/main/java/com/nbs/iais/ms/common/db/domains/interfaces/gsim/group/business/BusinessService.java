@@ -10,27 +10,27 @@ public interface BusinessService extends IdentifiableArtefact {
 
     void setServiceInterfaces(List<String> serviceInterfaces);
 
-    List<BusinessFunction> getDelivers();
+    //List<BusinessFunction> getDelivers();
 
-    void setDelivers(List<BusinessFunction> delivers);
+    //void setDelivers(List<BusinessFunction> delivers);
 
-    List<StatisticalProgramDesign> getStatisticalProgramDesigns();
+    //List<StatisticalProgramDesign> getStatisticalProgramDesigns();
 
-    void setStatisticalProgramDesigns(List<StatisticalProgramDesign> statisticalProgramDesigns);
+    //void setStatisticalProgramDesigns(List<StatisticalProgramDesign> statisticalProgramDesigns);
 
-    List<BusinessProcess> getBusinessProcesses();
+    //List<BusinessProcess> getBusinessProcesses();
 
-    void setBusinessProcesses(List<BusinessProcess> businessProcesses);
+    //void setBusinessProcesses(List<BusinessProcess> businessProcesses);
 
-    List<ProcessDesign> getProcessDesignImplements();
+    //List<ProcessDesign> getProcessDesignImplements();
 
-    void setProcessDesignImplements(List<ProcessDesign> processDesignImplements);
+    //void setProcessDesignImplements(List<ProcessDesign> processDesignImplements);
 
     List<ProcessDesign> getProcessDesignUses();
 
     void setProcessDesignUses(List<ProcessDesign> processDesignUses);
 
-    List<ProcessStep> getProcessStepsPerforms();
+    //List<ProcessStep> getProcessStepsPerforms();
 
-    void setProcessStepsPerforms(List<ProcessStep> processStepsPerforms);
+    //void setProcessStepsPerforms(List<ProcessStep> processStepsPerforms);
 }

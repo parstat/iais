@@ -2,16 +2,19 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.*;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
 import com.nbs.iais.ms.common.enums.Language;
-import com.nbs.iais.ms.common.enums.RoleType;
+import com.nbs.iais.ms.common.enums.ProcessOutputType;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "Role")
-@Table(name = "role")
-public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
+@Entity(name = "BusinessService")
+@Table(name = "business_service")
+public class BusinessServiceEntity extends AbstractIdentifiableArtefact implements BusinessService {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
@@ -23,24 +26,23 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
-    @Column(name = "type")
-    private RoleType type;
-
-    @OneToMany(targetEntity = AgentInRoleEntity.class, mappedBy = "role")
-    private List<AgentInRole> agents;
-
-    @ManyToMany(targetEntity = AgentInRoleEntity.class)
-    @JoinTable(name = "role_agent_in_role",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
-    private List<AgentInRole> administrators;
-
-    @OneToOne(targetEntity = AdministrativeDetailsEntity.class)
-    private AdministrativeDetails administrativeDetails;
-
     @ManyToOne(targetEntity = ChangeEventEntity.class)
     @JoinColumn(name = "change_event_id", referencedColumnName = "id")
     private ChangeEvent changeEvent;
+
+    @ManyToMany(targetEntity = AgentInRoleEntity.class)
+    @JoinTable(name = "bs_agent_in_role",
+            joinColumns = @JoinColumn(name = "bs_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
+    private List<AgentInRole> administrators;
+
+    @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
+    private AdministrativeDetails administrativeDetails;
+
+    @ElementCollection(targetClass= String.class)
+    @CollectionTable(name="service_interfaces")
+    @Column(name="interface")
+    private List<String> serviceInterfaces;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -73,33 +75,33 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
     }
 
     @Override
-    public RoleType getType() {
-        return type;
+    public List<String> getServiceInterfaces() {
+        return serviceInterfaces;
     }
 
     @Override
-    public void setType(final RoleType type) {
-        this.type = type;
+    public void setServiceInterfaces(final List<String> serviceInterfaces) {
+        this.serviceInterfaces = serviceInterfaces;
     }
 
     @Override
-    public List<AgentInRole> getAdministrators() {
-        return administrators;
+    public List<ProcessDesign> getProcessDesignUses() {
+        return null;
     }
 
     @Override
-    public void setAdministrators(final List<AgentInRole> administrators) {
-        this.administrators = administrators;
+    public void setProcessDesignUses(List<ProcessDesign> processDesignUses) {
+
     }
 
     @Override
-    public AdministrativeDetails getAdministrativeDetails() {
-        return administrativeDetails;
+    public MultilingualText getName() {
+        return name;
     }
 
     @Override
-    public void setAdministrativeDetails(final AdministrativeDetails administrativeDetails) {
-        this.administrativeDetails = administrativeDetails;
+    public void setName(final MultilingualText name) {
+        this.name = name;
     }
 
     @Override
@@ -123,12 +125,22 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
     }
 
     @Override
-    public MultilingualText getName() {
-        return name;
+    public List<AgentInRole> getAdministrators() {
+        return administrators;
     }
 
     @Override
-    public void setName(final MultilingualText name) {
-        this.name = name;
+    public void setAdministrators(final List<AgentInRole> administrators) {
+        this.administrators = administrators;
+    }
+
+    @Override
+    public AdministrativeDetails getAdministrativeDetails() {
+        return administrativeDetails;
+    }
+
+    @Override
+    public void setAdministrativeDetails(final AdministrativeDetails administrativeDetails) {
+        this.administrativeDetails = administrativeDetails;
     }
 }
