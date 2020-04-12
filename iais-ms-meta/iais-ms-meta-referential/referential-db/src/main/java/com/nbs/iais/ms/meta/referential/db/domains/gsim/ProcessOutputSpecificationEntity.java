@@ -3,8 +3,6 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessDesign;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessOutputSpecification;
 import com.nbs.iais.ms.common.enums.Language;
@@ -27,18 +25,8 @@ public class ProcessOutputSpecificationEntity extends AbstractIdentifiableArtefa
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
-    @ManyToMany(targetEntity = AgentInRoleEntity.class)
-    @JoinTable(name = "pos_agent_in_role",
-            joinColumns = @JoinColumn(name = "pos_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
-    private List<AgentInRole> administrators;
-
     @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
     private AdministrativeDetails administrativeDetails;
-
-    @ManyToOne(targetEntity = ChangeEventEntity.class)
-    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
-    private ChangeEvent changeEvent;
 
     @ElementCollection(targetClass= ProcessOutputType.class)
     @Enumerated(EnumType.STRING)
@@ -46,8 +34,9 @@ public class ProcessOutputSpecificationEntity extends AbstractIdentifiableArtefa
     @Column(name="type")
     private List<ProcessOutputType> processOutputTypes;
 
-    @ManyToMany(targetEntity = ProcessDesignEntity.class)
-    private List<ProcessDesign> processDesigns;
+    @ManyToOne(targetEntity = ProcessDesignEntity.class)
+    @Column(name = "process_design_id")
+    private ProcessDesign processDesign;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -90,13 +79,13 @@ public class ProcessOutputSpecificationEntity extends AbstractIdentifiableArtefa
     }
 
     @Override
-    public List<ProcessDesign> getProcessDesigns() {
-        return processDesigns;
+    public ProcessDesign getProcessDesign() {
+        return processDesign;
     }
 
     @Override
-    public void setProcessDesigns(final List<ProcessDesign> processDesigns) {
-        this.processDesigns = processDesigns;
+    public void setProcessDesign(final ProcessDesign processDesign) {
+        this.processDesign = processDesign;
     }
 
     @Override
@@ -117,26 +106,6 @@ public class ProcessOutputSpecificationEntity extends AbstractIdentifiableArtefa
     @Override
     public void setDescription(final MultilingualText description) {
         this.description = description;
-    }
-
-    @Override
-    public ChangeEvent getChangeEvent() {
-        return changeEvent;
-    }
-
-    @Override
-    public void setChangeEvent(final ChangeEvent changeEvent) {
-        this.changeEvent = changeEvent;
-    }
-
-    @Override
-    public List<AgentInRole> getAdministrators() {
-        return administrators;
-    }
-
-    @Override
-    public void setAdministrators(final List<AgentInRole> administrators) {
-        this.administrators = administrators;
     }
 
     @Override

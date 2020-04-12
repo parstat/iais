@@ -3,9 +3,9 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocument;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
 import com.nbs.iais.ms.common.enums.Frequency;
 import com.nbs.iais.ms.common.enums.Language;
 
@@ -26,33 +26,26 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
-    @ManyToOne(targetEntity = ChangeEventEntity.class)
-    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
-    private ChangeEvent changeEvent;
-
-    @ManyToMany(targetEntity = AgentInRoleEntity.class)
-    @JoinTable(name = "pd_agent_in_role",
-            joinColumns = @JoinColumn(name = "pd_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
-    private List<AgentInRole> administrators;
-
     @ManyToMany(targetEntity = ProcessMethodEntity.class, mappedBy = "processDesigns")
     @JoinTable(name = "process_design_methods",
             joinColumns = @JoinColumn(name = "process_design_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "method_id", referencedColumnName = "id" ))
     private List<ProcessMethod> processMethods;
 
-    @ManyToMany(targetEntity = ProcessMethodEntity.class, mappedBy = "processDesigns")
-    @JoinTable(name = "process_design_input_specifications",
+    @ManyToMany(targetEntity = ProcessQualityIndicatorEntity.class, mappedBy = "processDesigns")
+    @JoinTable(name = "process_design_quality_indicators",
             joinColumns = @JoinColumn(name = "process_design_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "input_specification_id", referencedColumnName = "id" ))
+            inverseJoinColumns = @JoinColumn(name = "quality_indicator_id", referencedColumnName = "id" ))
+    private List<ProcessQualityIndicator> processQualityIndicators;
+
+    @OneToMany(targetEntity = ProcessMethodEntity.class, mappedBy = "processDesign")
     private List<ProcessInputSpecifications> processInputSpecifications;
 
-    @ManyToMany(targetEntity = ProcessMethodEntity.class, mappedBy = "processDesigns")
-    @JoinTable(name = "process_design_output_specifications",
-            joinColumns = @JoinColumn(name = "process_design_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "output_specification_id", referencedColumnName = "id" ))
+    @OneToMany(targetEntity = ProcessMethodEntity.class, mappedBy = "processDesign")
     private List<ProcessOutputSpecification> processOutputSpecifications;
+
+    @OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDesign")
+    private List<ProcessDocument> processDocuments;
 
     @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
@@ -124,27 +117,7 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
         this.description = description;
     }
 
-    @Override
-    public ChangeEvent getChangeEvent() {
-        return changeEvent;
-    }
-
-    @Override
-    public void setChangeEvent(final ChangeEvent changeEvent) {
-        this.changeEvent = changeEvent;
-    }
-
-    @Override
-    public List<AgentInRole> getAdministrators() {
-        return administrators;
-    }
-
-    @Override
-    public void setAdministrators(final List<AgentInRole> administrators) {
-        this.administrators = administrators;
-    }
-
-    @Override
+   @Override
     public AdministrativeDetails getAdministrativeDetails() {
         return administrativeDetails;
     }
@@ -192,6 +165,26 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
     @Override
     public void setProcessMethods(final List<ProcessMethod> processMethods) {
         this.processMethods = processMethods;
+    }
+
+    @Override
+    public List<ProcessDocument> getProcessDocuments() {
+        return processDocuments;
+    }
+
+    @Override
+    public void setProcessDocuments(final List<ProcessDocument> processDocuments) {
+        this.processDocuments = processDocuments;
+    }
+
+    @Override
+    public List<ProcessQualityIndicator> getProcessQualityIndicators() {
+        return processQualityIndicators;
+    }
+
+    @Override
+    public void setProcessQualityIndicators(final List<ProcessQualityIndicator> processQualityIndicators) {
+        this.processQualityIndicators = processQualityIndicators;
     }
 
     @Override

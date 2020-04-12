@@ -3,6 +3,7 @@ package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base;
 import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,9 +33,10 @@ public interface IdentifiableArtefact extends DomainObject {
 
     void setVersionRationale(String versionRationale);
 
-    ChangeEvent getChangeEvent();
+    //not all artefact has a change event
+    //ChangeEvent getChangeEvent();
 
-    void setChangeEvent(ChangeEvent changeEvent);
+    //void setChangeEvent(ChangeEvent changeEvent);
 
     //ChangeEventTuple getSourceChangeEventTuple();
 
@@ -44,12 +46,14 @@ public interface IdentifiableArtefact extends DomainObject {
 
     //void setTargetChangeEventTuple(ChangeEventTuple targetChangeEventTuple);
 
-    List<AgentInRole> getAdministrators();
+    //not all artefact has administrators
+    //List<AgentInRole> getAdministrators();
 
-    void setAdministrators(List<AgentInRole> administrators);
+    //void setAdministrators(List<AgentInRole> administrators);
 
     AdministrativeDetails getAdministrativeDetails();
 
     void setAdministrativeDetails(AdministrativeDetails administrativeDetails);
+
 
 }

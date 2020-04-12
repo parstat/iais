@@ -2,7 +2,6 @@ package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessProcess;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
@@ -57,13 +56,13 @@ public interface BusinessProcessDocumentation extends DomainObject {
 
     void setMethodsUsed(List<StatisticalMethod> methodsUsed);
 
-    List<QualityIndicator> getQualityIndicatorsUsed();
+    List<ProcessQualityIndicator> getQualityIndicatorsUsed();
 
-    void setQualityIndicatorsUsed(List<QualityIndicator> qualityIndicatorsUsed);
+    void setQualityIndicatorsUsed(List<ProcessQualityIndicator> processQualityIndicatorsUsed);
 
-    List<Document> getAdditionalDocuments();
+    List<ProcessDocument> getAdditionalDocuments();
 
-    void setAdditionalDocuments(List<Document> additionalDocuments);
+    void setAdditionalDocuments(List<ProcessDocument> additionalProcessDocuments);
 
     List<InputDocumentation> getInputs();
 

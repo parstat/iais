@@ -4,8 +4,6 @@ import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEventTuple;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessProcess;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
@@ -40,10 +38,6 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
 
     @Column(name = "reference_period_end")
     private LocalDateTime referencePeriodEnd;
-
-    @ManyToOne(targetEntity = ChangeEventEntity.class)
-    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
-    private ChangeEvent changeEvent;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -135,22 +129,10 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
 
     }
 
-    @Override
-    public ChangeEvent getChangeEvent() {
-        return changeEvent;
-    }
-
-    @Override
-    public void setChangeEvent(final ChangeEvent changeEvent) {
-        this.changeEvent = changeEvent;
-    }
-
-    @Override
     public List<AgentInRole> getAdministrators() {
         return null;
     }
 
-    @Override
     public void setAdministrators(List<AgentInRole> administrators) {
 
     }

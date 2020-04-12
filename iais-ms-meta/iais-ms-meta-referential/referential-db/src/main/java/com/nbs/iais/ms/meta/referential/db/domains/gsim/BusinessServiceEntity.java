@@ -7,7 +7,6 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
 import com.nbs.iais.ms.common.enums.Language;
-import com.nbs.iais.ms.common.enums.ProcessOutputType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,10 +24,6 @@ public class BusinessServiceEntity extends AbstractIdentifiableArtefact implemen
             targetEntity = MultiLanguageTextEntity.class)
     @JoinColumn(name = "key_description")
     private MultilingualText description;
-
-    @ManyToOne(targetEntity = ChangeEventEntity.class)
-    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
-    private ChangeEvent changeEvent;
 
     @ManyToMany(targetEntity = AgentInRoleEntity.class)
     @JoinTable(name = "bs_agent_in_role",
@@ -114,22 +109,10 @@ public class BusinessServiceEntity extends AbstractIdentifiableArtefact implemen
         this.description = description;
     }
 
-    @Override
-    public ChangeEvent getChangeEvent() {
-        return changeEvent;
-    }
-
-    @Override
-    public void setChangeEvent(final ChangeEvent changeEvent) {
-        this.changeEvent = changeEvent;
-    }
-
-    @Override
     public List<AgentInRole> getAdministrators() {
         return administrators;
     }
 
-    @Override
     public void setAdministrators(final List<AgentInRole> administrators) {
         this.administrators = administrators;
     }

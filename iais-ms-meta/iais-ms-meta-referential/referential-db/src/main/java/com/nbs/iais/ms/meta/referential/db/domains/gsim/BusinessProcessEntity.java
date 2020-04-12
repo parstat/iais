@@ -46,10 +46,6 @@ public class BusinessProcessEntity extends AbstractIdentifiableArtefact implemen
     @OneToMany(targetEntity = ProcessStepEntity.class, orphanRemoval = true, mappedBy = "businessProcess")
     private List<ProcessStep> processSteps = new ArrayList<>();
 
-    @ManyToOne(targetEntity = ChangeEventEntity.class)
-    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
-    private ChangeEvent changeEvent;
-
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
@@ -126,7 +122,7 @@ public class BusinessProcessEntity extends AbstractIdentifiableArtefact implemen
     }
 
     @Override
-    public void setPerforms(List<BusinessFunction> performs) {
+    public void setPerforms(final List<BusinessFunction> performs) {
 
     }
 
@@ -160,22 +156,10 @@ public class BusinessProcessEntity extends AbstractIdentifiableArtefact implemen
         this.description = description;
     }
 
-    @Override
-    public ChangeEvent getChangeEvent() {
-        return changeEvent;
-    }
-
-    @Override
-    public void setChangeEvent(final ChangeEvent changeEvent) {
-        this.changeEvent = changeEvent;
-    }
-
-    @Override
     public List<AgentInRole> getAdministrators() {
         return administrators;
     }
 
-    @Override
     public void setAdministrators(final List<AgentInRole> administrators) {
         this.administrators = administrators;
     }

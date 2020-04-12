@@ -3,15 +3,16 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessDesign;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocument;
 import com.nbs.iais.ms.common.enums.Language;
-import com.nbs.iais.ms.common.enums.StatisticalStandardType;
+import com.nbs.iais.ms.common.enums.MediaType;
 
 import javax.persistence.*;
 
-@Entity(name = "StatisticalStandardReference")
-@Table(name = "statistical_standard_reference")
-public class StatisticalStandardReferenceEntity extends AbstractIdentifiableArtefact implements StatisticalStandardReference {
+@Entity(name = "Document")
+@Table(name = "document")
+public class ProcessDocumentEntity extends AbstractIdentifiableArtefact implements ProcessDocument {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
@@ -28,10 +29,13 @@ public class StatisticalStandardReferenceEntity extends AbstractIdentifiableArte
     @JoinColumn(name = "key_link")
     private MultilingualText link;
 
+    @ManyToOne(targetEntity = ProcessDesignEntity.class)
+    @Column(name = "process_design_id")
+    private ProcessDesign processDesign;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private StatisticalStandardType type;
+
+    @Column(name = "media_type")
+    private MediaType mediaType;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -79,14 +83,25 @@ public class StatisticalStandardReferenceEntity extends AbstractIdentifiableArte
     }
 
 
+
     @Override
-    public StatisticalStandardType getType() {
-        return type;
+    public MediaType getMediaType() {
+        return mediaType;
     }
 
     @Override
-    public void setType(final StatisticalStandardType type) {
-        this.type = type;
+    public void setMediaType(final MediaType mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    @Override
+    public ProcessDesign getProcessDesign() {
+        return processDesign;
+    }
+
+    @Override
+    public void setProcessDesign(final ProcessDesign processDesign) {
+        this.processDesign = processDesign;
     }
 
     @Override

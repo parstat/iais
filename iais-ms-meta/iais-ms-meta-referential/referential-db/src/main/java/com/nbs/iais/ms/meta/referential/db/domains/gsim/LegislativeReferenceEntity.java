@@ -1,7 +1,9 @@
 package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractDomainObject;
+import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.LegislativeType;
@@ -11,12 +13,17 @@ import java.time.LocalDateTime;
 
 @Entity(name = "LegislativeReference")
 @Table(name = "legislative_reference")
-public class LegislativeReferenceEntity extends AbstractDomainObject implements LegislativeReference {
+public class LegislativeReferenceEntity extends AbstractIdentifiableArtefact implements LegislativeReference {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
-    @JoinColumn(name = "key_title")
-    private MultilingualText title;
+    @JoinColumn(name = "key_name")
+    private MultilingualText name;
+
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
+            targetEntity = MultiLanguageTextEntity.class)
+    @JoinColumn(name = "key_description")
+    private MultilingualText description;
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
@@ -33,19 +40,34 @@ public class LegislativeReferenceEntity extends AbstractDomainObject implements 
     @Column(name = "approval_date")
     private LocalDateTime approvalDate;
 
-    public void setTitle(final String title, final Language language) {
-        title().addText(language.getShortName(), title);
+    public void setName(final String name, final Language language) {
+        name().addText(language.getShortName(), name);
     }
 
-    public String getTitle(final Language language) {
-        return title().getText(language.getShortName());
+    public String getName(final Language language) {
+        return name().getText(language.getShortName());
     }
 
-    private MultilingualText title() {
-        if(getTitle() == null) {
-            setTitle(new MultiLanguageTextEntity());
+    private MultilingualText name() {
+        if(getName() == null) {
+            setName(new MultiLanguageTextEntity());
         }
-        return getTitle();
+        return getName();
+    }
+
+    public void setDescription(final String description, final Language language) {
+        description().addText(language.getShortName(), description);
+    }
+
+    public String getDescription(final Language language) {
+        return description().getText(language.getShortName());
+    }
+
+    private MultilingualText description() {
+        if(getDescription() == null) {
+            setDescription(new MultiLanguageTextEntity());
+        }
+        return getDescription();
     }
 
     private MultilingualText link() {
@@ -94,16 +116,6 @@ public class LegislativeReferenceEntity extends AbstractDomainObject implements 
     }
 
     @Override
-    public MultilingualText getTitle() {
-        return title;
-    }
-
-    @Override
-    public void setTitle(final MultilingualText title) {
-        this.title = title;
-    }
-
-    @Override
     public MultilingualText getLink() {
         return link;
     }
@@ -111,5 +123,35 @@ public class LegislativeReferenceEntity extends AbstractDomainObject implements 
     @Override
     public void setLink(final MultilingualText link) {
         this.link = link;
+    }
+
+    @Override
+    public MultilingualText getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(final MultilingualText name) {
+        this.name = name;
+    }
+
+    @Override
+    public MultilingualText getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(final MultilingualText description) {
+        this.description = description;
+    }
+
+    @Override
+    public AdministrativeDetails getAdministrativeDetails() {
+        return null;
+    }
+
+    @Override
+    public void setAdministrativeDetails(AdministrativeDetails administrativeDetails) {
+
     }
 }

@@ -5,7 +5,6 @@ import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEventTuple;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
 
 import javax.persistence.*;
@@ -161,22 +160,18 @@ public class ProcessStepEntity extends AbstractIdentifiableArtefact implements P
         this.description = description;
     }
 
-    @Override
     public ChangeEvent getChangeEvent() {
         return changeEvent;
     }
 
-    @Override
     public void setChangeEvent(final ChangeEvent changeEvent) {
         this.changeEvent = changeEvent;
     }
 
-    @Override
     public List<AgentInRole> getAdministrators() {
         return administrators;
     }
 
-    @Override
     public void setAdministrators(final List<AgentInRole> administrators) {
         this.administrators = administrators;
     }

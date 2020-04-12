@@ -1,5 +1,11 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessDesign;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
+import com.nbs.iais.ms.common.enums.AdministrativeStatus;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +30,29 @@ import com.nbs.iais.ms.referential.common.messageing.queries.GetStatisticalProce
 
 @Configuration
 @EnableAutoConfiguration
-@EntityScan(basePackageClasses = StatisticalProcessEntity.class)
+@EntityScan(basePackageClasses = {
+		StatisticalProcessEntity.class,
+		AdministrativeDetailsEntity.class,
+		AgentEntity.class,
+		AgentInRole.class,
+		BusinessFunctionEntity.class,
+		BusinessProcessEntity.class,
+		BusinessServiceEntity.class,
+		ChangeEventEntity.class,
+		LegislativeReferenceEntity.class,
+		MultiLanguageTextEntity.class,
+		ProcessDesignEntity.class,
+		ProcessDocumentEntity.class,
+		ProcessInputSpecificationsEntity.class,
+		ProcessMethodEntity.class,
+		ProcessOutputSpecificationEntity.class,
+		ProcessStepEntity.class,
+		RoleEntity.class,
+		StatisticalProgramCycleEntity.class,
+		StatisticalProgramDesignEntity.class,
+		StatisticalProgramEntity.class,
+		StatisticalStandardReferenceEntity.class
+})
 @ComponentScan(basePackageClasses = QueryReferentialService.class)
 @EnableJpaRepositories(basePackageClasses = StatisticalProcessRepository.class)
 @EnableIntegration

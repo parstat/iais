@@ -1,13 +1,10 @@
 package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm;
 
-import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
 
-public interface MultiLanguageLinkableDomain extends DomainObject {
+public interface MultiLanguageLinkableDomain extends IdentifiableArtefact {
 
-    MultilingualText getTitle();
-
-    void setTitle(MultilingualText title);
 
     MultilingualText getLink();
 

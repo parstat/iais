@@ -27,20 +27,10 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
     private RoleType type;
 
     @OneToMany(targetEntity = AgentInRoleEntity.class, mappedBy = "role")
-    private List<AgentInRole> agents;
-
-    @ManyToMany(targetEntity = AgentInRoleEntity.class)
-    @JoinTable(name = "role_agent_in_role",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
-    private List<AgentInRole> administrators;
+    private List<AgentInRole> agentInRoles;
 
     @OneToOne(targetEntity = AdministrativeDetailsEntity.class)
     private AdministrativeDetails administrativeDetails;
-
-    @ManyToOne(targetEntity = ChangeEventEntity.class)
-    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
-    private ChangeEvent changeEvent;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -83,13 +73,13 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
     }
 
     @Override
-    public List<AgentInRole> getAdministrators() {
-        return administrators;
+    public List<AgentInRole> getAgentInRoles() {
+        return agentInRoles;
     }
 
     @Override
-    public void setAdministrators(final List<AgentInRole> administrators) {
-        this.administrators = administrators;
+    public void setAgentInRoles(final List<AgentInRole> agentInRoles) {
+        this.agentInRoles = agentInRoles;
     }
 
     @Override
@@ -110,16 +100,6 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
     @Override
     public void setDescription(final MultilingualText description) {
         this.description = description;
-    }
-
-    @Override
-    public ChangeEvent getChangeEvent() {
-        return changeEvent;
-    }
-
-    @Override
-    public void setChangeEvent(final ChangeEvent changeEvent) {
-        this.changeEvent = changeEvent;
     }
 
     @Override

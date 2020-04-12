@@ -27,18 +27,8 @@ public class ProcessMethodEntity extends AbstractIdentifiableArtefact implements
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
-    @ManyToMany(targetEntity = AgentInRoleEntity.class)
-    @JoinTable(name = "pm_agent_in_role",
-            joinColumns = @JoinColumn(name = "pm_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
-    private List<AgentInRole> administrators;
-
     @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
     private AdministrativeDetails administrativeDetails;
-
-    @ManyToOne(targetEntity = ChangeEventEntity.class)
-    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
-    private ChangeEvent changeEvent;
 
     @ManyToMany(targetEntity = ProcessDesignEntity.class)
     private List<ProcessDesign> processDesigns;
@@ -111,26 +101,6 @@ public class ProcessMethodEntity extends AbstractIdentifiableArtefact implements
     @Override
     public void setDescription(final MultilingualText description) {
         this.description = description;
-    }
-
-    @Override
-    public ChangeEvent getChangeEvent() {
-        return changeEvent;
-    }
-
-    @Override
-    public void setChangeEvent(final ChangeEvent changeEvent) {
-        this.changeEvent = changeEvent;
-    }
-
-    @Override
-    public List<AgentInRole> getAdministrators() {
-        return administrators;
-    }
-
-    @Override
-    public void setAdministrators(final List<AgentInRole> administrators) {
-        this.administrators = administrators;
     }
 
     @Override

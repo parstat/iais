@@ -4,7 +4,6 @@ import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramDesign;
@@ -74,10 +73,6 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
 
     @OneToMany(targetEntity = StatisticalProgramCycleEntity.class, mappedBy = "statisticalProgram")
     private List<StatisticalProgramCycle> statisticalProgramCycles;
-
-    @ManyToOne(targetEntity = ChangeEventEntity.class)
-    @JoinColumn(name = "change_event_id", referencedColumnName = "id")
-    private ChangeEvent changeEvent;
 
     @ManyToOne(targetEntity = StatisticalProgramDesignEntity.class)
     @JoinColumn(name = "statistical_program_design_id", referencedColumnName = "id")
@@ -213,12 +208,10 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
         this.statisticalProgramDesign = statisticalProgramDesign;
     }
 
-    @Override
     public List<AgentInRole> getAdministrators() {
         return administrators;
     }
 
-    @Override
     public void setAdministrators(final List<AgentInRole> administrators) {
         this.administrators = administrators;
     }
@@ -241,16 +234,6 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @Override
     public void setDescription(final MultilingualText description) {
         this.description = description;
-    }
-
-    @Override
-    public ChangeEvent getChangeEvent() {
-        return changeEvent;
-    }
-
-    @Override
-    public void setChangeEvent(final ChangeEvent changeEvent) {
-        this.changeEvent = changeEvent;
     }
 
     @Override

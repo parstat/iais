@@ -11,7 +11,7 @@ public interface ProcessInputSpecifications extends IdentifiableArtefact {
 
     void setProcessInputTypes(List<ProcessInputType> processInputTypes);
 
-    List<ProcessDesign> getProcessDesigns();
+    ProcessDesign getProcessDesign();
 
-    void setProcessDesigns(List<ProcessDesign> processDesigns);
+    void setProcessDesign(ProcessDesign processDesign);
 }

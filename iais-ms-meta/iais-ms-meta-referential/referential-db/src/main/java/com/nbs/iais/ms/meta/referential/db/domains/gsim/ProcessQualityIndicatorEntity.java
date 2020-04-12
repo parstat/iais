@@ -1,16 +1,16 @@
 package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 
-import com.nbs.iais.ms.common.db.domains.abstracts.AbstractDomainObject;
+import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.QualityIndicator;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessDesign;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
 import com.nbs.iais.ms.common.enums.Language;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
 
-public class QualityIndicatorEntity extends AbstractDomainObject implements QualityIndicator {
+public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact implements ProcessQualityIndicator {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
@@ -21,6 +21,9 @@ public class QualityIndicatorEntity extends AbstractDomainObject implements Qual
             targetEntity = MultiLanguageTextEntity.class)
     @JoinColumn(name = "key_description")
     private MultilingualText description;
+
+    @ManyToMany(targetEntity = ProcessDesignEntity.class)
+    private List<ProcessDesign> processDesigns;
 
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
@@ -70,5 +73,25 @@ public class QualityIndicatorEntity extends AbstractDomainObject implements Qual
     @Override
     public void setDescription(final MultilingualText description) {
         this.description = description;
+    }
+
+    @Override
+    public AdministrativeDetails getAdministrativeDetails() {
+        return null;
+    }
+
+    @Override
+    public void setAdministrativeDetails(final AdministrativeDetails administrativeDetails) {
+
+    }
+
+    @Override
+    public List<ProcessDesign> getProcessDesigns() {
+        return processDesigns;
+    }
+
+    @Override
+    public void setProcessDesigns(final List<ProcessDesign> processDesigns) {
+        this.processDesigns = processDesigns;
     }
 }
