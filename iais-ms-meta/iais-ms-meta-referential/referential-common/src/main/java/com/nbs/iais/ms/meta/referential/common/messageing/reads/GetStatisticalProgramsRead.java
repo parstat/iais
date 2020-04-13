@@ -1,14 +1,15 @@
-package com.nbs.iais.ms.referential.common.messageing.reads;
+package com.nbs.iais.ms.meta.referential.common.messageing.reads;
 
 import com.nbs.iais.ms.common.dto.impl.StatisticalProcessDTO;
+import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.messaging.reads.abstracts.AbstractRead;
 
-public class GetStatisticalProcessesRead extends AbstractRead<DTOList<StatisticalProcessDTO>> {
+public class GetStatisticalProgramsRead extends AbstractRead<DTOList<StatisticalProgramDTO>> {
 
     private static final long serialVersionUID = 200L;
 
-    public GetStatisticalProcessesRead() {
+    public GetStatisticalProgramsRead() {
         super();
     }
 

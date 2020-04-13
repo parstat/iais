@@ -25,8 +25,8 @@ public class ProcessInputSpecificationsEntity extends AbstractIdentifiableArtefa
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
-
-    @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
+    @OneToOne(targetEntity = AdministrativeDetailsEntity.class, orphanRemoval = true)
+    @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
 
     @ElementCollection(targetClass=ProcessInputType.class)
@@ -36,13 +36,19 @@ public class ProcessInputSpecificationsEntity extends AbstractIdentifiableArtefa
     private List<ProcessInputType> processInputTypes;
 
     @ManyToOne(targetEntity = ProcessDesignEntity.class)
-    @Column(name = "process_design_id")
+    @JoinColumn(name = "process_design_id", referencedColumnName = "id")
     private ProcessDesign processDesign;
 
+    public ProcessInputSpecificationsEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -61,10 +67,12 @@ public class ProcessInputSpecificationsEntity extends AbstractIdentifiableArtefa
         return getDescription();
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }

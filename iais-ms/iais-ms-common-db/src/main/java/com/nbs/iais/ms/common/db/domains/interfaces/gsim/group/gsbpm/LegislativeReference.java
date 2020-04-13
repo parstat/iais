@@ -13,8 +13,7 @@ public interface LegislativeReference extends MultiLanguageLinkableDomain{
     int geNumber();
     
     void setNumber(int number);
-        
-    
+
     LocalDateTime getApprovalDate();
     
     void setApprovalDate(LocalDateTime approvalDate);

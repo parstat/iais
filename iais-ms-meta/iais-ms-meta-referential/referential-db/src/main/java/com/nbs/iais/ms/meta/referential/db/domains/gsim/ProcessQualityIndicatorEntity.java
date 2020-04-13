@@ -10,6 +10,8 @@ import com.nbs.iais.ms.common.enums.Language;
 import javax.persistence.*;
 import java.util.List;
 
+@Entity(name = "ProcessQualityIndicator")
+@Table(name = "process_quality_indicator")
 public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact implements ProcessQualityIndicator {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
@@ -25,10 +27,16 @@ public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact 
     @ManyToMany(targetEntity = ProcessDesignEntity.class)
     private List<ProcessDesign> processDesigns;
 
+    public ProcessQualityIndicatorEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -47,10 +55,12 @@ public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact 
         return getDescription();
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }

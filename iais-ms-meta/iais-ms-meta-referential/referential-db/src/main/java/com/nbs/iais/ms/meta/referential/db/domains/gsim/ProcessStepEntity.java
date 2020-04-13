@@ -6,6 +6,7 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Administrati
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
+import com.nbs.iais.ms.common.enums.Language;
 
 import javax.persistence.*;
 import java.util.List;
@@ -43,12 +44,51 @@ public class ProcessStepEntity extends AbstractIdentifiableArtefact implements P
     private List<ProcessStep> subProcessSteps;
 
     @ManyToOne(targetEntity = BusinessProcessEntity.class, optional = false)
-    @Column(name = "business_process_id")
+    @JoinColumn(name = "business_process_id", referencedColumnName = "id")
     private BusinessProcess businessProcess;
 
     @ManyToOne(targetEntity = ChangeEventEntity.class)
     @JoinColumn(name = "change_event_id", referencedColumnName = "id")
     private ChangeEvent changeEvent;
+
+    public ProcessStepEntity() {
+        super();
+    }
+
+    @Override
+    public void setName(final String name, final Language language) {
+        name().addText(language.getShortName(), name);
+    }
+
+    @Override
+    public String getName(final Language language) {
+        return name().getText(language.getShortName());
+    }
+
+    private MultilingualText name() {
+        if(getName() == null) {
+            setName(new MultiLanguageTextEntity());
+        }
+        return getName();
+    }
+
+    private MultilingualText description() {
+        if(getDescription() == null) {
+            setDescription(new MultiLanguageTextEntity());
+        }
+        return getDescription();
+    }
+
+    @Override
+    public String getDescription(final Language language) {
+        return description().getText(language.getShortName());
+    }
+
+    @Override
+    public void setDescription(final String description, final Language language) {
+        description().addText(language.getShortName(), description);
+    }
+
 
     @Override
     public boolean isComprehensive() {

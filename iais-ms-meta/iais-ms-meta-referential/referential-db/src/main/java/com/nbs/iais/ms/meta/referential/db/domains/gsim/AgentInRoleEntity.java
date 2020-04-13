@@ -36,6 +36,9 @@ public class AgentInRoleEntity extends AbstractDomainObject implements AgentInRo
     @JoinColumn(name = "change_event_id")
     private ChangeEvent changeEvent;
 
+    public AgentInRoleEntity() {
+        super();
+    }
 
     @Override
     public MultilingualText getName() {

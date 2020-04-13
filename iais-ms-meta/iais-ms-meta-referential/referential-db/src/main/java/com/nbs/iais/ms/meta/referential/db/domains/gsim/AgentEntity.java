@@ -20,12 +20,15 @@ public class AgentEntity extends AbstractIdentifiableArtefact implements Agent {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
-    @JoinColumn(name = "key_description")
+    @JoinColumn(name = "key_description", referencedColumnName = "id")
     private MultilingualText description;
 
     @ManyToOne(targetEntity = AgentEntity.class)
-    @Column(name = "parent_id")
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
     private Agent parent;
+
+    @OneToMany(targetEntity = AgentEntity.class, mappedBy = "parent")
+    private List<Agent> children;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -41,10 +44,19 @@ public class AgentEntity extends AbstractIdentifiableArtefact implements Agent {
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
 
+    @Column(name = "account_id")
+    private Long account;
+
+    public AgentEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -63,10 +75,12 @@ public class AgentEntity extends AbstractIdentifiableArtefact implements Agent {
         return getDescription();
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }
@@ -92,6 +106,16 @@ public class AgentEntity extends AbstractIdentifiableArtefact implements Agent {
     }
 
     @Override
+    public List<Agent> getChildren() {
+        return children;
+    }
+
+    @Override
+    public void setChildren(final List<Agent> children) {
+        this.children = children;
+    }
+
+    @Override
     public List<AgentInRole> getAgentInRoles() {
         return agentInRoles;
     }
@@ -99,6 +123,16 @@ public class AgentEntity extends AbstractIdentifiableArtefact implements Agent {
     @Override
     public void setAgentInRoles(final List<AgentInRole> agentInRoles) {
         this.agentInRoles = agentInRoles;
+    }
+
+    @Override
+    public Long getAccount() {
+        return account;
+    }
+
+    @Override
+    public void setAccount(final Long account) {
+        this.account = account;
     }
 
     @Override

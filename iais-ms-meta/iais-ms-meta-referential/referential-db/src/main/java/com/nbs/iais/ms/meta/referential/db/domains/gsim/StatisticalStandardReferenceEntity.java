@@ -33,10 +33,16 @@ public class StatisticalStandardReferenceEntity extends AbstractIdentifiableArte
     @Column(name = "type")
     private StatisticalStandardType type;
 
+    public StatisticalStandardReferenceEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -48,10 +54,12 @@ public class StatisticalStandardReferenceEntity extends AbstractIdentifiableArte
         return getName();
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }

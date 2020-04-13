@@ -12,7 +12,7 @@ public class MultiLanguageTextEntity extends AbstractMultiLanguageText {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name = "language", insertable = false, updatable = false)
-    @CollectionTable(name = "multilanguage_text", joinColumns = @JoinColumn(name = "text_id"))
+    @CollectionTable(name = "multilanguage_texts", joinColumns = @JoinColumn(name = "text_id"))
     @Column(name = "text")
     private Map<String, String> map = new HashMap<>();
 

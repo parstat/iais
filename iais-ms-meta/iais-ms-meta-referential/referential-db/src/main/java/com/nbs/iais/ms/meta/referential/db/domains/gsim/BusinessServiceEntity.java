@@ -31,7 +31,8 @@ public class BusinessServiceEntity extends AbstractIdentifiableArtefact implemen
             inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
     private List<AgentInRole> administrators;
 
-    @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
+    @OneToOne(targetEntity = AdministrativeDetailsEntity.class, orphanRemoval = true)
+    @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
 
     @ElementCollection(targetClass= String.class)
@@ -39,10 +40,16 @@ public class BusinessServiceEntity extends AbstractIdentifiableArtefact implemen
     @Column(name="interface")
     private List<String> serviceInterfaces;
 
+    public BusinessServiceEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -61,10 +68,12 @@ public class BusinessServiceEntity extends AbstractIdentifiableArtefact implemen
         return getDescription();
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }

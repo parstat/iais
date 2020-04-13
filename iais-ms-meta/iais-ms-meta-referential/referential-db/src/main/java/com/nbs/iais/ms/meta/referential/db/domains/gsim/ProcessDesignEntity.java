@@ -26,22 +26,22 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
-    @ManyToMany(targetEntity = ProcessMethodEntity.class, mappedBy = "processDesigns")
+    @ManyToMany(targetEntity = ProcessMethodEntity.class)
     @JoinTable(name = "process_design_methods",
             joinColumns = @JoinColumn(name = "process_design_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "method_id", referencedColumnName = "id" ))
     private List<ProcessMethod> processMethods;
 
-    @ManyToMany(targetEntity = ProcessQualityIndicatorEntity.class, mappedBy = "processDesigns")
+    @ManyToMany(targetEntity = ProcessQualityIndicatorEntity.class)
     @JoinTable(name = "process_design_quality_indicators",
             joinColumns = @JoinColumn(name = "process_design_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "quality_indicator_id", referencedColumnName = "id" ))
     private List<ProcessQualityIndicator> processQualityIndicators;
 
-    @OneToMany(targetEntity = ProcessMethodEntity.class, mappedBy = "processDesign")
+    @OneToMany(targetEntity = ProcessInputSpecificationsEntity.class, mappedBy = "processDesign")
     private List<ProcessInputSpecifications> processInputSpecifications;
 
-    @OneToMany(targetEntity = ProcessMethodEntity.class, mappedBy = "processDesign")
+    @OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDesign")
     private List<ProcessOutputSpecification> processOutputSpecifications;
 
     @OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDesign")
@@ -56,7 +56,7 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
     private BusinessFunction businessFunction;
 
     @ManyToOne(targetEntity = BusinessFunctionEntity.class)
-    @JoinColumn(name = "next_ business_function_id", referencedColumnName = "id")
+    @JoinColumn(name = "next_business_function_id", referencedColumnName = "id")
     private BusinessFunction nextBusinessFunction;
 
     @ManyToOne(targetEntity = StatisticalProgramDesignEntity.class)
@@ -67,10 +67,16 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
     @Column(name = "frequency")
     private Frequency frequency;
 
+    public ProcessDesignEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -89,10 +95,12 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
         return getDescription();
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }

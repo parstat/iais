@@ -42,6 +42,10 @@ public class AdministrativeDetailsEntity extends AbstractDomainObject implements
     @ElementCollection(targetClass = String.class)
     private List<String> urls;
 
+    public AdministrativeDetailsEntity() {
+        super();
+    }
+
     @Override
     public AdministrativeStatus getAdministrativeStatus() {
         return administrativeStatus;

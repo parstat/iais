@@ -3,7 +3,6 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessProcess;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
@@ -27,22 +26,30 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
-    @ManyToMany(targetEntity = AgentInRoleEntity.class)
-    @JoinTable(name = "spc_agent_in_role",
-            joinColumns = @JoinColumn(name = "spc_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
-    private List<AgentInRole> administrators;
-
     @Column(name = "reference_period_start")
     private LocalDateTime referencePeriodStart;
 
     @Column(name = "reference_period_end")
     private LocalDateTime referencePeriodEnd;
 
+    @OneToOne(targetEntity = AdministrativeDetailsEntity.class)
+    @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
+    private AdministrativeDetails administrativeDetails;
+
+    @ManyToOne(targetEntity = StatisticalProgramEntity.class)
+    @JoinColumn(name = "statistical_program_id", referencedColumnName = "id")
+    private StatisticalProgram statisticalProgram;
+
+    public StatisticalProgramCycleEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -61,10 +68,12 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
         return getDescription();
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }
@@ -101,49 +110,41 @@ public class StatisticalProgramCycleEntity extends AbstractIdentifiableArtefact 
 
     @Override
     public StatisticalProgram getStatisticalProgram() {
-        return null;
+        return statisticalProgram;
     }
 
     @Override
-    public void setStatisticalProgram(StatisticalProgram statisticalProgram) {
-
+    public void setStatisticalProgram(final StatisticalProgram statisticalProgram) {
+        this.statisticalProgram = statisticalProgram;
     }
 
     @Override
     public MultilingualText getName() {
-        return null;
+        return name;
     }
 
     @Override
-    public void setName(MultilingualText name) {
-
+    public void setName(final MultilingualText name) {
+        this.name = name;
     }
 
     @Override
     public MultilingualText getDescription() {
-        return null;
+        return description;
     }
 
     @Override
-    public void setDescription(MultilingualText description) {
-
-    }
-
-    public List<AgentInRole> getAdministrators() {
-        return null;
-    }
-
-    public void setAdministrators(List<AgentInRole> administrators) {
-
+    public void setDescription(final MultilingualText description) {
+        this.description = description;
     }
 
     @Override
     public AdministrativeDetails getAdministrativeDetails() {
-        return null;
+        return administrativeDetails;
     }
 
     @Override
-    public void setAdministrativeDetails(AdministrativeDetails administrativeDetails) {
-
+    public void setAdministrativeDetails(final AdministrativeDetails administrativeDetails) {
+        this.administrativeDetails = administrativeDetails;
     }
 }

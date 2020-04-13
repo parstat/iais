@@ -1,6 +1,5 @@
 package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 
-import com.nbs.iais.ms.common.db.domains.abstracts.AbstractDomainObject;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
@@ -40,10 +39,16 @@ public class LegislativeReferenceEntity extends AbstractIdentifiableArtefact imp
     @Column(name = "approval_date")
     private LocalDateTime approvalDate;
 
+    public LegislativeReferenceEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -55,10 +60,12 @@ public class LegislativeReferenceEntity extends AbstractIdentifiableArtefact imp
         return getName();
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
@@ -77,10 +84,12 @@ public class LegislativeReferenceEntity extends AbstractIdentifiableArtefact imp
         return getLink();
     }
 
+    @Override
     public String getLink(final Language language) {
         return link().getText(language.getShortName());
     }
 
+    @Override
     public void setLink(final String link, final Language language) {
         link().addText(language.getShortName(), link);
     }

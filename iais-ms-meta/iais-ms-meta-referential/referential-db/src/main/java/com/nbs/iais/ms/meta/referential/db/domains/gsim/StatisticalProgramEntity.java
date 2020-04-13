@@ -59,7 +59,8 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
             inverseJoinColumns = @JoinColumn(name = "relates_with", referencedColumnName = "id"))
     private List<StatisticalProgram> relates = new ArrayList<>();
 
-    @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
+    @OneToOne(targetEntity = AdministrativeDetailsEntity.class, orphanRemoval = true)
+    @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
 
     @ElementCollection(targetClass = String.class)
@@ -78,10 +79,16 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @JoinColumn(name = "statistical_program_design_id", referencedColumnName = "id")
     private StatisticalProgramDesign statisticalProgramDesign;
 
+    public StatisticalProgramEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -100,10 +107,12 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
         return getDescription();
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }

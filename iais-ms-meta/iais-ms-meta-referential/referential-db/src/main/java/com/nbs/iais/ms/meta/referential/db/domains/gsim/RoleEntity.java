@@ -30,12 +30,19 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
     private List<AgentInRole> agentInRoles;
 
     @OneToOne(targetEntity = AdministrativeDetailsEntity.class)
+    @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
 
+    public RoleEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -54,10 +61,12 @@ public class RoleEntity extends AbstractIdentifiableArtefact implements Role {
         return getDescription();
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }

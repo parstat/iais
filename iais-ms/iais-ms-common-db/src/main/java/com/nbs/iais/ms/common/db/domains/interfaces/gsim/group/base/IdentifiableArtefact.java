@@ -2,6 +2,7 @@ package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
+import com.nbs.iais.ms.common.enums.Language;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -11,11 +12,19 @@ public interface IdentifiableArtefact extends DomainObject {
 
     MultilingualText getName();
 
+    String getName(Language language);
+
     void setName(MultilingualText name);
+
+    void setName(String name, Language language);
 
     MultilingualText getDescription();
 
+    String getDescription(Language language);
+
     void setDescription(MultilingualText description);
+
+    void setDescription(String description, Language language);
 
     String getLocalId();
 

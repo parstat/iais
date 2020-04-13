@@ -30,17 +30,22 @@ public class ProcessDocumentEntity extends AbstractIdentifiableArtefact implemen
     private MultilingualText link;
 
     @ManyToOne(targetEntity = ProcessDesignEntity.class)
-    @Column(name = "process_design_id")
+    @JoinColumn(name = "process_design_id", referencedColumnName = "id")
     private ProcessDesign processDesign;
-
 
     @Column(name = "media_type")
     private MediaType mediaType;
 
+    public ProcessDocumentEntity() {
+        super();
+    }
+
+    @Override
     public void setName(final String name, final Language language) {
         name().addText(language.getShortName(), name);
     }
 
+    @Override
     public String getName(final Language language) {
         return name().getText(language.getShortName());
     }
@@ -52,10 +57,12 @@ public class ProcessDocumentEntity extends AbstractIdentifiableArtefact implemen
         return getName();
     }
 
+    @Override
     public void setDescription(final String description, final Language language) {
         description().addText(language.getShortName(), description);
     }
 
+    @Override
     public String getDescription(final Language language) {
         return description().getText(language.getShortName());
     }
@@ -74,10 +81,12 @@ public class ProcessDocumentEntity extends AbstractIdentifiableArtefact implemen
         return getLink();
     }
 
+    @Override
     public String getLink(final Language language) {
         return link().getText(language.getShortName());
     }
 
+    @Override
     public void setLink(final String link, final Language language) {
         link().addText(language.getShortName(), link);
     }

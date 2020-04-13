@@ -14,8 +14,16 @@ public interface Agent extends IdentifiableArtefact {
 
     void setType(AgentType type);
 
+    List<Agent> getChildren();
+
+    void setChildren(List<Agent> children);
+
     List<AgentInRole> getAgentInRoles();
 
     void setAgentInRoles(List<AgentInRole> agentInRoles);
+
+    Long getAccount();
+
+    void setAccount(Long account);
 
 }

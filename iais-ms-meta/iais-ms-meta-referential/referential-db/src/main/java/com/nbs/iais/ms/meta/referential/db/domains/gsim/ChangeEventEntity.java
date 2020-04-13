@@ -29,6 +29,10 @@ public class ChangeEventEntity extends AbstractDomainObject implements ChangeEve
     @OneToMany(targetEntity = AgentInRoleEntity.class, mappedBy = "changeEvent")
     private List<AgentInRole> attributedTo;
 
+    public ChangeEventEntity() {
+        super();
+    }
+
     @Override
     public LocalDateTime getChangeDate() {
         return changeDate;
