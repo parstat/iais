@@ -4,7 +4,7 @@ import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessDesign;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.enums.Language;
 
 import javax.persistence.*;
@@ -28,8 +28,8 @@ public class BusinessFunctionEntity extends AbstractIdentifiableArtefact impleme
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
 
-    @OneToMany(targetEntity = ProcessDesignEntity.class, mappedBy = "businessFunction")
-    private List<ProcessDesign> processDesigns;
+    @OneToMany(targetEntity = ProcessDocumentationEntity.class, mappedBy = "businessFunction")
+    private List<ProcessDocumentation> processDocumentations;
 
     public BusinessFunctionEntity() {
         super();
@@ -70,13 +70,13 @@ public class BusinessFunctionEntity extends AbstractIdentifiableArtefact impleme
     }
 
     @Override
-    public List<ProcessDesign> getProcessDesigns() {
-        return processDesigns;
+    public List<ProcessDocumentation> getProcessDocumentations() {
+        return processDocumentations;
     }
 
     @Override
-    public void setProcessDesigns(final List<ProcessDesign> processDesigns) {
-        this.processDesigns = processDesigns;
+    public void setProcessDocumentations(final List<ProcessDocumentation> processDocumentations) {
+        this.processDocumentations = processDocumentations;
     }
 
     @Override

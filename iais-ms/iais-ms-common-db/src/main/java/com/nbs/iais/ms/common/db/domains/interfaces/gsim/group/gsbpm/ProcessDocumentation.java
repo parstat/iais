@@ -1,15 +1,14 @@
-package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business;
+package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm;
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocument;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
-import com.nbs.iais.ms.common.db.domains.interfaces.meta.QualityControl;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
 import com.nbs.iais.ms.common.enums.Frequency;
 
 import java.util.List;
 
-public interface ProcessDesign extends IdentifiableArtefact {
+
+public interface ProcessDocumentation extends IdentifiableArtefact {
 
     List<BusinessService> getBusinessServices();
 
@@ -39,23 +38,23 @@ public interface ProcessDesign extends IdentifiableArtefact {
 
     void setBusinessFunction(BusinessFunction businessFunction);
 
-    //added
     BusinessFunction getNextBusinessFunction();
 
-    //added
     void setNextBusinessFunction(BusinessFunction businessFunction);
 
-    StatisticalProgramDesign getStatisticalProgramDesign();
+    StatisticalProgram getStatisticalProgram();
 
-    void setStatisticalProgramDesign(StatisticalProgramDesign statisticalProgramDesign);
+    void setStatisticalProgram(StatisticalProgram statisticalProgram);
 
-    //added
     Frequency getFrequency();
 
-    //added
     void setFrequency(Frequency frequency);
 
     List<StatisticalStandardReference> getStandardsUsed();
 
     void setStandardsUsed(List<StatisticalStandardReference> standardsUsed);
+
+    List<AgentInRole> getAdministrators();
+
+    void setAdministrators(List<AgentInRole> administrators);
 }

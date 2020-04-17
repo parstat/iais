@@ -34,9 +34,6 @@ public class AgentEntity extends AbstractIdentifiableArtefact implements Agent {
     @Column(name = "type")
     private AgentType type;
 
-    @ManyToMany(targetEntity = AgentInRoleEntity.class)
-    private List<AgentInRole> administrators;
-
     @OneToMany(targetEntity = AgentInRoleEntity.class, mappedBy = "agent")
     private List<AgentInRole> agentInRoles;
 
@@ -153,14 +150,6 @@ public class AgentEntity extends AbstractIdentifiableArtefact implements Agent {
     @Override
     public void setDescription(final MultilingualText description) {
         this.description = description;
-    }
-
-    public List<AgentInRole> getAdministrators() {
-        return administrators;
-    }
-
-    public void setAdministrators(final List<AgentInRole> administrators) {
-        this.administrators = administrators;
     }
 
     @Override

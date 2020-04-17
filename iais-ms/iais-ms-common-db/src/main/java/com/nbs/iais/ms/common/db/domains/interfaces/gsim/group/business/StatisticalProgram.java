@@ -2,6 +2,7 @@ package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
 import java.time.LocalDateTime;
@@ -37,16 +38,21 @@ public interface StatisticalProgram extends IdentifiableArtefact {
 
     void setProgramStatus(ProgramStatus programStatus);
 
-    List<StatisticalProgramCycle> getStatisticalProgramCycles();
+    //List<StatisticalProgramCycle> getStatisticalProgramCycles();
 
-    void setStatisticalProgramCycles(List<StatisticalProgramCycle> statisticalProgramCycles);
+    //void setStatisticalProgramCycles(List<StatisticalProgramCycle> statisticalProgramCycles);
 
-    List<StatisticalProgram> getRelates();
+    //List<StatisticalProgram> getRelates();
 
-    void setRelates(List<StatisticalProgram> statisticalProgram);
+    // setRelates(List<StatisticalProgram> statisticalProgram);
 
-    StatisticalProgramDesign getStatisticalProgramDesign();
+    //StatisticalProgramDesign getStatisticalProgramDesign();
 
-    void setStatisticalProgramDesign(StatisticalProgramDesign statisticalProgramDesign);
+    //void setStatisticalProgramDesign(StatisticalProgramDesign statisticalProgramDesign);
+
+    //does not exist in GSIM, added
+    List<ProcessDocumentation> getProcessDocumentations();
+
+    void setProcessDocumentations(List<ProcessDocumentation> processDocumentations);
 
 }

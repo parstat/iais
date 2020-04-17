@@ -9,7 +9,7 @@ public interface ProcessDocument extends MultiLanguageLinkableDomain  {
 
     void setMediaType(MediaType mediaType);
 
-    ProcessDesign getProcessDesign();
+    ProcessDocumentation getProcessDocumentation();
 
-    void setProcessDesign(ProcessDesign processDesign);
+    void setProcessDocumentation(ProcessDocumentation processDocumentation);
 }

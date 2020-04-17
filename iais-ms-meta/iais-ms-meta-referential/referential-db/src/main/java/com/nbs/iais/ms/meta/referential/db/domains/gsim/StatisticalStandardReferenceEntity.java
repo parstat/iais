@@ -33,6 +33,10 @@ public class StatisticalStandardReferenceEntity extends AbstractIdentifiableArte
     @Column(name = "type")
     private StatisticalStandardType type;
 
+    @OneToOne(targetEntity = AdministrativeDetailsEntity.class, orphanRemoval = true)
+    @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
+    private AdministrativeDetails administrativeDetails;
+
     public StatisticalStandardReferenceEntity() {
         super();
     }
@@ -129,11 +133,11 @@ public class StatisticalStandardReferenceEntity extends AbstractIdentifiableArte
 
     @Override
     public AdministrativeDetails getAdministrativeDetails() {
-        return null;
+        return administrativeDetails;
     }
 
     @Override
-    public void setAdministrativeDetails(AdministrativeDetails administrativeDetails) {
-
+    public void setAdministrativeDetails(final AdministrativeDetails administrativeDetails) {
+        this.administrativeDetails = administrativeDetails;
     }
 }

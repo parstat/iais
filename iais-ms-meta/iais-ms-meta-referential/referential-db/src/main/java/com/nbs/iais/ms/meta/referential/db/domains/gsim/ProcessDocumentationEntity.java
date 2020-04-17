@@ -3,18 +3,21 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocument;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.enums.Frequency;
 import com.nbs.iais.ms.common.enums.Language;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "ProcessDesign")
-@Table(name = "process_design")
-public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements ProcessDesign {
+@Entity(name = "ProcessDocumentation")
+@Table(name = "process_documentation")
+public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact implements ProcessDocumentation {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
@@ -26,25 +29,37 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
+    @ManyToMany(targetEntity = AgentInRoleEntity.class)
+    @JoinTable(name = "pd_agent_in_role",
+            joinColumns = @JoinColumn(name = "pd_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
+    private List<AgentInRole> administrators;
+
     @ManyToMany(targetEntity = ProcessMethodEntity.class)
-    @JoinTable(name = "process_design_methods",
-            joinColumns = @JoinColumn(name = "process_design_id", referencedColumnName = "id"),
+    @JoinTable(name = "process_documentation_methods",
+            joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "method_id", referencedColumnName = "id" ))
     private List<ProcessMethod> processMethods;
 
+    @ManyToMany(targetEntity =StatisticalStandardReferenceEntity.class)
+    @JoinTable(name = "process_documentation_standards",
+            joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "standard_id", referencedColumnName = "id" ))
+    private List<StatisticalStandardReference> standardsUsed;
+
     @ManyToMany(targetEntity = ProcessQualityIndicatorEntity.class)
-    @JoinTable(name = "process_design_quality_indicators",
-            joinColumns = @JoinColumn(name = "process_design_id", referencedColumnName = "id"),
+    @JoinTable(name = "process_documentation_quality_indicators",
+            joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "quality_indicator_id", referencedColumnName = "id" ))
     private List<ProcessQualityIndicator> processQualityIndicators;
 
-    @OneToMany(targetEntity = ProcessInputSpecificationsEntity.class, mappedBy = "processDesign")
+    @OneToMany(targetEntity = ProcessInputSpecificationsEntity.class, mappedBy = "processDocumentation")
     private List<ProcessInputSpecifications> processInputSpecifications;
 
-    @OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDesign")
+    @OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDocumentation")
     private List<ProcessOutputSpecification> processOutputSpecifications;
 
-    @OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDesign")
+    @OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDocumentation")
     private List<ProcessDocument> processDocuments;
 
     @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
@@ -59,15 +74,15 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
     @JoinColumn(name = "next_business_function_id", referencedColumnName = "id")
     private BusinessFunction nextBusinessFunction;
 
-    @ManyToOne(targetEntity = StatisticalProgramDesignEntity.class)
-    @JoinColumn(name = "statistical_program_design_id", referencedColumnName = "id")
-    private StatisticalProgramDesign statisticalProgramDesign;
+    @ManyToOne(targetEntity = StatisticalProgramEntity.class)
+    @JoinColumn(name = "statistical_program_id", referencedColumnName = "id")
+    private StatisticalProgram statisticalProgram;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "frequency")
     private Frequency frequency;
 
-    public ProcessDesignEntity() {
+    public ProcessDocumentationEntity() {
         super();
     }
 
@@ -216,13 +231,13 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
     }
 
     @Override
-    public StatisticalProgramDesign getStatisticalProgramDesign() {
-        return statisticalProgramDesign;
+    public StatisticalProgram getStatisticalProgram() {
+        return statisticalProgram;
     }
 
     @Override
-    public void setStatisticalProgramDesign(final StatisticalProgramDesign statisticalProgramDesign) {
-        this.statisticalProgramDesign = statisticalProgramDesign;
+    public void setStatisticalProgram(final StatisticalProgram statisticalProgram) {
+        this.statisticalProgram = statisticalProgram;
     }
 
     @Override
@@ -233,6 +248,26 @@ public class ProcessDesignEntity extends AbstractIdentifiableArtefact implements
     @Override
     public void setFrequency(final Frequency frequency) {
         this.frequency = frequency;
+    }
+
+    @Override
+    public List<StatisticalStandardReference> getStandardsUsed() {
+        return standardsUsed;
+    }
+
+    @Override
+    public void setStandardsUsed(final List<StatisticalStandardReference> standardsUsed) {
+        this.standardsUsed = standardsUsed;
+    }
+
+    @Override
+    public List<AgentInRole> getAdministrators() {
+        return administrators;
+    }
+
+    @Override
+    public void setAdministrators(final List<AgentInRole> administrators) {
+        this.administrators = administrators;
     }
 
 }

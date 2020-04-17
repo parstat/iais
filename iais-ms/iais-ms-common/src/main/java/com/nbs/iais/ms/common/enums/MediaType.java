@@ -22,5 +22,4 @@ public enum MediaType {
     TEXT_CSV,
     VIDEO_MP4
 
-
 }

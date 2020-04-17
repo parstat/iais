@@ -3,8 +3,8 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessDesign;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessOutputSpecification;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProcessOutputType;
 
@@ -31,13 +31,13 @@ public class ProcessOutputSpecificationEntity extends AbstractIdentifiableArtefa
 
     @ElementCollection(targetClass= ProcessOutputType.class)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name="output_types")
+    @CollectionTable(name="process_output_types")
     @Column(name="type")
     private List<ProcessOutputType> processOutputTypes;
 
-    @ManyToOne(targetEntity = ProcessDesignEntity.class)
-    @JoinColumn(name = "process_design_id", referencedColumnName = "id")
-    private ProcessDesign processDesign;
+    @ManyToOne(targetEntity = ProcessDocumentationEntity.class)
+    @JoinColumn(name = "process_documentation_id", referencedColumnName = "id")
+    private ProcessDocumentation processDocumentation;
 
     public ProcessOutputSpecificationEntity() {
         super();
@@ -88,13 +88,13 @@ public class ProcessOutputSpecificationEntity extends AbstractIdentifiableArtefa
     }
 
     @Override
-    public ProcessDesign getProcessDesign() {
-        return processDesign;
+    public ProcessDocumentation getProcessDocumentation() {
+        return processDocumentation;
     }
 
     @Override
-    public void setProcessDesign(final ProcessDesign processDesign) {
-        this.processDesign = processDesign;
+    public void setProcessDocumentation(final ProcessDocumentation processDocumentation) {
+        this.processDocumentation = processDocumentation;
     }
 
     @Override

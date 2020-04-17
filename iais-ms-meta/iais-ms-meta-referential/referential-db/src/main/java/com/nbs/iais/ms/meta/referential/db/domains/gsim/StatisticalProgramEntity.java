@@ -5,15 +5,13 @@ import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramCycle;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgramDesign;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -53,12 +51,6 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
                 inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
     private List<AgentInRole> administrators;
 
-    @ManyToMany(targetEntity = StatisticalProgramEntity.class)
-    @JoinTable(name = "related_statistical_programs",
-            joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "relates_with", referencedColumnName = "id"))
-    private List<StatisticalProgram> relates = new ArrayList<>();
-
     @OneToOne(targetEntity = AdministrativeDetailsEntity.class, orphanRemoval = true)
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
@@ -72,12 +64,8 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
             inverseJoinColumns = @JoinColumn(name = "legislative_reference_id", referencedColumnName = "id"))
     private List<LegislativeReference> legislativeReferences;
 
-    @OneToMany(targetEntity = StatisticalProgramCycleEntity.class, mappedBy = "statisticalProgram")
-    private List<StatisticalProgramCycle> statisticalProgramCycles;
-
-    @ManyToOne(targetEntity = StatisticalProgramDesignEntity.class)
-    @JoinColumn(name = "statistical_program_design_id", referencedColumnName = "id")
-    private StatisticalProgramDesign statisticalProgramDesign;
+    @OneToMany(targetEntity = ProcessDocumentationEntity.class, mappedBy = "statisticalProgram")
+    private List<ProcessDocumentation> processDocumentations;
 
     public StatisticalProgramEntity() {
         super();
@@ -188,33 +176,13 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     }
 
     @Override
-    public List<StatisticalProgramCycle> getStatisticalProgramCycles() {
-        return statisticalProgramCycles;
+    public List<ProcessDocumentation> getProcessDocumentations() {
+        return processDocumentations;
     }
 
     @Override
-    public void setStatisticalProgramCycles(final List<StatisticalProgramCycle> statisticalProgramCycles) {
-        this.statisticalProgramCycles = statisticalProgramCycles;
-    }
-
-    @Override
-    public List<StatisticalProgram> getRelates() {
-        return relates;
-    }
-
-    @Override
-    public void setRelates(List<StatisticalProgram> relates) {
-        this.relates = relates;
-    }
-
-    @Override
-    public StatisticalProgramDesign getStatisticalProgramDesign() {
-        return statisticalProgramDesign;
-    }
-
-    @Override
-    public void setStatisticalProgramDesign(final StatisticalProgramDesign statisticalProgramDesign) {
-        this.statisticalProgramDesign = statisticalProgramDesign;
+    public void setProcessDocumentations(final List<ProcessDocumentation> processDocumentations) {
+        this.processDocumentations = processDocumentations;
     }
 
     public List<AgentInRole> getAdministrators() {

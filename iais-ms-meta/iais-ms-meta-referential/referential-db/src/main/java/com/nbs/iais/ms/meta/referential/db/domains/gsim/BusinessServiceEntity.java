@@ -36,7 +36,7 @@ public class BusinessServiceEntity extends AbstractIdentifiableArtefact implemen
     private AdministrativeDetails administrativeDetails;
 
     @ElementCollection(targetClass= String.class)
-    @CollectionTable(name="service_interfaces")
+    @CollectionTable(name="business_service_interfaces")
     @Column(name="interface")
     private List<String> serviceInterfaces;
 

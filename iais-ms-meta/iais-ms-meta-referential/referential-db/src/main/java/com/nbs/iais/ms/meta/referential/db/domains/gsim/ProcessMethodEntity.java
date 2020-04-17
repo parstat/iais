@@ -3,9 +3,6 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.ChangeEvent;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessDesign;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessMethod;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.Rule;
 import com.nbs.iais.ms.common.enums.Language;
@@ -30,9 +27,6 @@ public class ProcessMethodEntity extends AbstractIdentifiableArtefact implements
     @OneToOne(targetEntity = AdministrativeDetailsEntity.class, orphanRemoval = true)
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
-
-    @ManyToMany(targetEntity = ProcessDesignEntity.class)
-    private List<ProcessDesign> processDesigns;
 
     public ProcessMethodEntity() {
         super();
@@ -80,16 +74,6 @@ public class ProcessMethodEntity extends AbstractIdentifiableArtefact implements
     @Override
     public void setRules(List<Rule> rules) {
 
-    }
-
-    @Override
-    public List<ProcessDesign> getProcessDesigns() {
-        return processDesigns;
-    }
-
-    @Override
-    public void setProcessDesigns(final List<ProcessDesign> processDesigns) {
-        this.processDesigns = processDesigns;
     }
 
     @Override

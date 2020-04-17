@@ -3,12 +3,10 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessDesign;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
 import com.nbs.iais.ms.common.enums.Language;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "ProcessQualityIndicator")
 @Table(name = "process_quality_indicator")
@@ -24,8 +22,14 @@ public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact 
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
-    @ManyToMany(targetEntity = ProcessDesignEntity.class)
-    private List<ProcessDesign> processDesigns;
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
+            targetEntity = MultiLanguageTextEntity.class)
+    @JoinColumn(name = "key_link")
+    private MultilingualText link;
+
+    @OneToOne(targetEntity = AdministrativeDetailsEntity.class, orphanRemoval = true)
+    @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
+    private AdministrativeDetails administrativeDetails;
 
     public ProcessQualityIndicatorEntity() {
         super();
@@ -65,6 +69,34 @@ public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact 
         description().addText(language.getShortName(), description);
     }
 
+    private MultilingualText link() {
+        if(getLink() == null) {
+            setLink(new MultiLanguageTextEntity());
+        }
+        return getLink();
+    }
+
+    @Override
+    public MultilingualText getLink() {
+        return link;
+    }
+
+    @Override
+    public void setLink(final MultilingualText link) {
+        this.link = link;
+    }
+
+    @Override
+    public String getLink(final Language language) {
+        return link().getText(language.getShortName());
+    }
+
+    @Override
+    public void setLink(final String link, final Language language) {
+        link().addText(language.getShortName(), link);
+    }
+
+
     @Override
     public MultilingualText getName() {
         return name;
@@ -87,21 +119,11 @@ public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact 
 
     @Override
     public AdministrativeDetails getAdministrativeDetails() {
-        return null;
+        return administrativeDetails;
     }
 
     @Override
     public void setAdministrativeDetails(final AdministrativeDetails administrativeDetails) {
-
-    }
-
-    @Override
-    public List<ProcessDesign> getProcessDesigns() {
-        return processDesigns;
-    }
-
-    @Override
-    public void setProcessDesigns(final List<ProcessDesign> processDesigns) {
-        this.processDesigns = processDesigns;
+        this.administrativeDetails = administrativeDetails;
     }
 }
