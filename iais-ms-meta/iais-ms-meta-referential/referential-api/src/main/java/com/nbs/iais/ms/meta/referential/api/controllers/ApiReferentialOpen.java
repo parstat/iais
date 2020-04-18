@@ -1,43 +1,37 @@
 package com.nbs.iais.ms.meta.referential.api.controllers;
 
-import org.springframework.http.HttpStatus;
+import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
+import com.nbs.iais.ms.common.enums.Language;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
-import com.nbs.iais.ms.common.dto.impl.StatisticalProcessDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
-import com.nbs.iais.ms.referential.common.messageing.queries.GetStatisticalProcessQuery;
-import com.nbs.iais.ms.referential.common.messageing.queries.GetStatisticalProcessesQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramQuery;
 
 @RestController
-@RequestMapping(value = "/api/v1/open/refential", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/referential", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiReferentialOpen extends AbstractController {
 
-	@GetMapping("/statprocess")
-	public ResponseEntity<DTOList<StatisticalProcessDTO>> getStatisticalProcessesQuery() {
+	@GetMapping("/statistical/programs")
+	public DTOList<StatisticalProgramDTO> getStatisticalProcessesQuery(
+			@RequestParam(name = "language") final Language language) {
 
-		final GetStatisticalProcessesQuery getStatisticalProcessesQuery = GetStatisticalProcessesQuery.create();
-		return ResponseEntity.ok(sendQuery(getStatisticalProcessesQuery, "referential").getRead().getData());
+		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create();
+		getStatisticalProgramsQuery.setLanguage(language);
+		return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
 
 	}
 
-	@GetMapping("/statprocess/{id}")
-	public ResponseEntity<StatisticalProcessDTO> getStatisticalProcessQuery(@PathVariable("id") Long id) {
+	@GetMapping("/statistical/programs/{id}")
+	public StatisticalProgramDTO getStatisticalProgram(
+			@PathVariable("id") final Long id,
+			@RequestParam(name = "language") final Language language) {
 
-		final GetStatisticalProcessQuery getStatisticalProcessQuery = GetStatisticalProcessQuery.create(id);
-		StatisticalProcessDTO statisticalProcessDTO = sendQuery(getStatisticalProcessQuery, "referential").getRead()
-				.getData();
-		if (statisticalProcessDTO != null) {
-			return ResponseEntity.ok(statisticalProcessDTO);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
+		final GetStatisticalProgramQuery getStatisticalProcessQuery = GetStatisticalProgramQuery.create(id);
+		getStatisticalProcessQuery.setLanguage(language);
+		return sendQuery(getStatisticalProcessQuery, "referential").getRead().getData();
 	}
 
 }

@@ -59,12 +59,12 @@ public class ApiSecurityClosed extends AbstractController {
     public AccountDTO getAccountById(
             @RequestHeader(name = "jwt-auth") final String jwt,
             @PathVariable(name = "id") final Long id,
-            @RequestParam(name = "language") final Language language) {
+            @RequestParam(name = "language") final String language) {
 
         final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
         final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
         final GetAccountQuery getAccountQuery = GetAccountQuery.create(id);
-        getAccountQuery.setLanguage(language);
+        getAccountQuery.setLanguage(Language.getLanguage(language));
         getAccountQuery.setAccountRole(accountRole);
         getAccountQuery.setAccountId(accountId);
         getAccountQuery.setClosed(true);

@@ -20,14 +20,6 @@ public interface ChangeEvent extends DomainObject {
 
     void setIdentifier(UUID identifier);
 
-    List<IdentifiableArtefact> getSources();
-
-    void setSources(List<IdentifiableArtefact> sources);
-
-    List<IdentifiableArtefact> getTargets();
-
-    void setTargets(List<IdentifiableArtefact> targets);
-
     List<ChangeEventTuple> getChangeEventTuples();
 
     void setChangeEventTuples(List<ChangeEventTuple> changeEventTuples);

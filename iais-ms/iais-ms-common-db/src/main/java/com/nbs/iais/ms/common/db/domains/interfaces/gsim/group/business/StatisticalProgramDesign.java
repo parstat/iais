@@ -1,16 +1,18 @@
 package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
+import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface StatisticalProgramDesign extends IdentifiableArtefact {
 
-    List<String> getConceptualFrameworks();
+    List<StatisticalStandardReference> getConceptualFrameworks();
 
-    void setConceptualFrameworks(List<String> conceptualFrameworks);
+    void setConceptualFrameworks(List<StatisticalStandardReference> conceptualFrameworks);
 
     LocalDateTime getDateEnded();
 
@@ -28,16 +30,16 @@ public interface StatisticalProgramDesign extends IdentifiableArtefact {
 
     void setStatisticalPrograms(List<StatisticalProgram> statisticalPrograms);
 
-    List<BusinessService> getBusinessServices();
+    //List<BusinessService> getBusinessServices();
 
-    void setBusinessServices(List<BusinessService> businessServices);
+    //void setBusinessServices(List<BusinessService> businessServices);
 
     List<ProcessDesign> getProcessDesigns();
 
     void setProcessDesigns(List<ProcessDesign> processDesigns);
 
-    List<BusinessCase> getBasedBusinessCases();
+    //<BusinessCase> getBasedBusinessCases();
 
-    void setBasedBusinessCases(List<BusinessCase> basedBusinessCases);
+   // void setBasedBusinessCases(List<BusinessCase> basedBusinessCases);
 
 }

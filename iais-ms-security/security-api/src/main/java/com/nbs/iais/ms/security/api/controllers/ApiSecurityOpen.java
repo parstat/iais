@@ -64,10 +64,10 @@ public class ApiSecurityOpen extends AbstractController {
             @RequestParam(name = "email") final String email,
             @RequestParam(name = "name") final String name,
             @RequestParam(name = "role", required = false) final AccountRole role,
-            @RequestParam(name = "language") final Language language) {
+            @RequestParam(name = "language") final String language) {
 
         final SignupCommand signupCommand = SignupCommand.create(username, password, email, name, role);
-        signupCommand.setLanguage(language);
+        signupCommand.setLanguage(Language.getLanguage(language));
         signupCommand.setClosed(false);
 
         return sendCommand(signupCommand, "security").getEvent().getData();
@@ -84,10 +84,10 @@ public class ApiSecurityOpen extends AbstractController {
     public DTOBoolean reset(
             @RequestParam(name = "confirmation") final String confirmation,
             @RequestParam(name = "newPassword") final String newPassword,
-            @RequestParam(name = "language") final Language language) {
+            @RequestParam(name = "language") final String language) {
 
         final ResetPasswordCommand command = ResetPasswordCommand.create(confirmation, newPassword);
-        command.setLanguage(language);
+        command.setLanguage(Language.getLanguage(language));
         command.setClosed(false);
 
         return sendCommand(command, "security").getEvent().getData();
@@ -103,10 +103,10 @@ public class ApiSecurityOpen extends AbstractController {
     @GetMapping(value = "/accounts")
     public DTOList<AccountDTO> getAccounts(
             @RequestParam(name = "name", required = false) final String name,
-            @RequestParam(name = "language") final Language language) {
+            @RequestParam(name = "language") final String language) {
 
         final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(AccountStatus.ACTIVE, name);
-        getAccountsQuery.setLanguage(language);
+        getAccountsQuery.setLanguage(Language.getLanguage(language));
         getAccountsQuery.setClosed(false);
 
         return sendQuery(getAccountsQuery, "security").getRead().getData();
@@ -122,10 +122,10 @@ public class ApiSecurityOpen extends AbstractController {
     @GetMapping(value = "/accounts/{id}")
     public AccountDTO getAccountById(
             @PathVariable(name = "id") final Long id,
-            @RequestParam(name = "language") final Language language) {
+            @RequestParam(name = "language") final String language) {
 
         final GetAccountQuery getAccountQuery = GetAccountQuery.create(id);
-        getAccountQuery.setLanguage(language);
+        getAccountQuery.setLanguage(Language.getLanguage(language));
         getAccountQuery.setClosed(false);
         return sendQuery(getAccountQuery, "security").getRead().getData();
     }
@@ -140,10 +140,10 @@ public class ApiSecurityOpen extends AbstractController {
     @GetMapping(value = "/accounts/username/{username}")
     public AccountDTO getAccountByUsername(
             @PathVariable(name = "username") final String username,
-            @RequestParam(name = "language") final Language language) {
+            @RequestParam(name = "language") final String language) {
 
         final GetAccountQuery getAccountQuery = GetAccountQuery.create(username);
-        getAccountQuery.setLanguage(language);
+        getAccountQuery.setLanguage(Language.getLanguage(language));
         getAccountQuery.setClosed(false);
 
         return sendQuery(getAccountQuery, "security").getRead().getData();

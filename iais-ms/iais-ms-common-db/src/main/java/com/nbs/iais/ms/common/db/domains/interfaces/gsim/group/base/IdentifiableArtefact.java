@@ -2,19 +2,29 @@ package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.DomainObject;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
+import com.nbs.iais.ms.common.enums.Language;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IdentifiableArtefact extends DomainObject {
 
+    MultilingualText getName();
+
+    String getName(Language language);
+
+    void setName(MultilingualText name);
+
+    void setName(String name, Language language);
+
     MultilingualText getDescription();
+
+    String getDescription(Language language);
 
     void setDescription(MultilingualText description);
 
-    MultilingualText getName();
-
-    void setName(MultilingualText name);
+    void setDescription(String description, Language language);
 
     String getLocalId();
 
@@ -32,16 +42,27 @@ public interface IdentifiableArtefact extends DomainObject {
 
     void setVersionRationale(String versionRationale);
 
-    ChangeEvent getChangeEvent();
+    //not all artefact has a change event
+    //ChangeEvent getChangeEvent();
 
-    void setChangeEvent(ChangeEvent changeEvent);
+    //void setChangeEvent(ChangeEvent changeEvent);
 
-    List<AgentInRole> getAdministrators();
+    //ChangeEventTuple getSourceChangeEventTuple();
 
-    void setAdministrators(List<AgentInRole> administrators);
+    //void setSourceChangeEventTuple(ChangeEventTuple sourceChangeEventTuple);
+
+    //ChangeEventTuple getTargetChangeEventTuple();
+
+    //void setTargetChangeEventTuple(ChangeEventTuple targetChangeEventTuple);
+
+    //not all artefact has administrators
+    //List<AgentInRole> getAdministrators();
+
+    //void setAdministrators(List<AgentInRole> administrators);
 
     AdministrativeDetails getAdministrativeDetails();
 
     void setAdministrativeDetails(AdministrativeDetails administrativeDetails);
+
 
 }
