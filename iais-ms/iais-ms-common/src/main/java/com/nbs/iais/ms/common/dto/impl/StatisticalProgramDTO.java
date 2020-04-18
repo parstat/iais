@@ -5,20 +5,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.abstracts.LinkableEntityDTO;
+import com.nbs.iais.ms.common.dto.abstracts.LinkableIdentifiableArtefactDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.DivisionMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.IndividualMiniDTO;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
 import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StatisticalProgramDTO extends LinkableEntityDTO {
+public class StatisticalProgramDTO extends LinkableIdentifiableArtefactDTO {
+
+    private static final long serialVersionUID = 2864464354903875090L;
 
     @JsonProperty
     @JsonView(Views.Minimal.class)
-    private String name;
-
-    @JsonProperty
-    @JsonView(Views.Basic.class)
-    private String description;
+    private String acronym;
 
     @JsonProperty
     @JsonView(Views.Extended.class)
@@ -40,28 +41,24 @@ public class StatisticalProgramDTO extends LinkableEntityDTO {
     @JsonView(Views.Extended.class)
     private LocalDateTime dateEnded;
 
+    @JsonProperty
+    @JsonView(Views.Extended.class)
+    private DivisionMiniDTO owner;
+
+    @JsonProperty
+    @JsonView(Views.Extended.class)
+    private IndividualMiniDTO contact;
+
+    @JsonProperty
+    @JsonView(Views.Secure.class)
+    private IndividualMiniDTO creator;
+
     public StatisticalProgramDTO() {
         super();
     }
 
     public StatisticalProgramDTO(final Long id) {
         super(id);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public ProgramStatus getProgramStatus() {
@@ -102,5 +99,37 @@ public class StatisticalProgramDTO extends LinkableEntityDTO {
 
     public void setDateEnded(LocalDateTime dateEnded) {
         this.dateEnded = dateEnded;
+    }
+
+    public DivisionMiniDTO getOwner() {
+        return owner;
+    }
+
+    public void setOwner(final DivisionMiniDTO owner) {
+        this.owner = owner;
+    }
+
+    public IndividualMiniDTO getContact() {
+        return contact;
+    }
+
+    public void setContact(final IndividualMiniDTO contact) {
+        this.contact = contact;
+    }
+
+    public IndividualMiniDTO getCreator() {
+        return creator;
+    }
+
+    public void setCreator(final IndividualMiniDTO creator) {
+        this.creator = creator;
+    }
+
+    public String getAcronym() {
+        return acronym;
+    }
+
+    public void setAcronym(final String acronym) {
+        this.acronym = acronym;
     }
 }

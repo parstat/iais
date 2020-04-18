@@ -1,14 +1,24 @@
 package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business;
 
+import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
+import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface StatisticalProgram extends IdentifiableArtefact {
+
+    MultilingualText getAcronym();
+
+    void setAcronym(MultilingualText acronym);
+
+    String getAcronym(Language language);
+
+    void setAcronym(String acronym, Language language);
 
     double getBudget();
 

@@ -26,6 +26,11 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
+    @JoinColumn(name = "key_acronym")
+    private MultilingualText acronym;
+
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
+            targetEntity = MultiLanguageTextEntity.class)
     @JoinColumn(name = "key_description")
     private MultilingualText description;
 
@@ -86,6 +91,33 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
             setName(new MultiLanguageTextEntity());
         }
         return getName();
+    }
+
+    @Override
+    public void setAcronym(final String acronym, final Language language) {
+        acronym().addText(language.getShortName(), acronym);
+    }
+
+    @Override
+    public MultilingualText getAcronym() {
+        return acronym;
+    }
+
+    @Override
+    public void setAcronym(final MultilingualText acronym) {
+        this.acronym = acronym;
+    }
+
+    @Override
+    public String getAcronym(final Language language) {
+        return acronym().getText(language.getShortName());
+    }
+
+    private MultilingualText acronym() {
+        if(getAcronym() == null) {
+            setAcronym(new MultiLanguageTextEntity());
+        }
+        return getAcronym();
     }
 
     private MultilingualText description() {
