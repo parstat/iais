@@ -1,7 +1,9 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
+import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,10 @@ import static com.nbs.iais.ms.common.db.domains.translators.Translator.translate
 public class QueryReferentialService {
 
 	@Autowired
-    StatisticalProgramRepository statisticalProgramRepository;
+    private StatisticalProgramRepository statisticalProgramRepository;
+
+	@Autowired
+	private BusinessFunctionRepository businessFunctionRepository;
 
 	public GetStatisticalProgramsQuery getStatisticalPrograms(final GetStatisticalProgramsQuery query) {
 
@@ -31,6 +36,19 @@ public class QueryReferentialService {
 				.flatMap(sp -> translate(sp, query.getLanguage()))
 				.ifPresent(query.getRead()::setData);
 
+		return query;
+	}
+
+	public GetBusinessFunctionQuery getBusinessFunction(final GetBusinessFunctionQuery query) {
+		if(query.getId() != null) {
+			businessFunctionRepository.findById(query.getId())
+					.flatMap(bf -> translate(bf, query.getLanguage()))
+					.ifPresent(query.getRead()::setData);
+			return query;
+		}
+		businessFunctionRepository.findByLocalIdAndVersion(query.getLocalId(), query.getVersion())
+					.flatMap(bf -> translate(bf, query.getLanguage()))
+					.ifPresent(query.getRead()::setData);
 		return query;
 	}
 

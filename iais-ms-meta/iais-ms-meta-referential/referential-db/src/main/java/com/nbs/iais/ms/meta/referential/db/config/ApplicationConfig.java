@@ -1,8 +1,10 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
+import com.nbs.iais.ms.meta.referential.db.services.CommandReferentialService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -55,7 +57,9 @@ public class ApplicationConfig {
 						.subFlowMapping(GetStatisticalProgramsQuery.class,
 								sf -> sf.<GetStatisticalProgramsQuery>handle((p, h) -> queryReferentialService.getStatisticalPrograms(p)))
 						.subFlowMapping(GetStatisticalProgramQuery.class,
-								sf -> sf.<GetStatisticalProgramQuery>handle((p, h) -> queryReferentialService.getStatisticalProcess(p))))
+								sf -> sf.<GetStatisticalProgramQuery>handle((p, h) -> queryReferentialService.getStatisticalProcess(p)))
+						.subFlowMapping(GetBusinessFunctionQuery.class,
+								sf -> sf.<GetBusinessFunctionQuery> handle((p, h) -> queryReferentialService.getBusinessFunction(p))))
 				.get();
 	}
 

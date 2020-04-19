@@ -1,12 +1,15 @@
 package com.nbs.iais.ms.common.db.domains.translators;
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.security.Account;
 import com.nbs.iais.ms.common.dto.DTO;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
+import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Language;
+import com.nbs.iais.ms.common.enums.PhaseName;
 
 import javax.persistence.GeneratedValue;
 import java.util.Optional;
@@ -76,6 +79,27 @@ public class Translator {
                 translate(sp, language).ifPresent(statisticalProgramDTOS::add));
 
         return Optional.of(statisticalProgramDTOS);
+
+    }
+
+    public static <BF extends BusinessFunction> Optional<BusinessFunctionDTO> translate(
+            final BF businessFunction, final Language language) {
+
+        if(businessFunction == null) {
+            return Optional.empty();
+        }
+
+        final BusinessFunctionDTO businessFunctionDTO = new BusinessFunctionDTO(businessFunction.getId());
+        businessFunctionDTO.setName(businessFunction.getName(language));
+        businessFunctionDTO.setDescription(businessFunction.getDescription(language));
+        businessFunctionDTO.setLocalId(businessFunction.getLocalId());
+        businessFunctionDTO.setVersion(businessFunction.getVersion());
+        businessFunctionDTO.setVersionDate(businessFunction.getVersionDate());
+        businessFunctionDTO.setVersionRationale(businessFunction.getVersionRationale());
+        businessFunctionDTO.setPhaseId(Integer.parseInt(businessFunction.getLocalId().substring(0, 1)));
+        businessFunctionDTO.setPhase(PhaseName.fromId(businessFunctionDTO.getPhaseId()).translate(language));
+
+        return Optional.of(businessFunctionDTO);
 
     }
 }
