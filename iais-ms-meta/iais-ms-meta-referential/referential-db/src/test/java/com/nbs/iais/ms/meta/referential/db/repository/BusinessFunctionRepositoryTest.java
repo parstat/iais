@@ -35,7 +35,6 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
         toSave.setDescription("description", Language.ENG);
         toSave.setDescription("descriere", Language.ROM);
         toSave.setDescription("описание", Language.RUS);
-        toSave.setId(1L);
         toSave.setLocalId("1.1");
         toSave.setVersion("5.1");
         toSave.setVersionDate(LocalDateTime.now());
