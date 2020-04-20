@@ -1,7 +1,5 @@
 package com.nbs.iais.ms.common.enums;
 
-import com.nbs.iais.ms.common.utils.StringTools;
-
 public enum PhaseName {
 
     SPECIFY_NEEDS,
