@@ -3,7 +3,6 @@ package com.nbs.iais.ms.common.db.domains.translators;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.security.Account;
-import com.nbs.iais.ms.common.dto.DTO;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
@@ -11,7 +10,6 @@ import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.PhaseName;
 
-import javax.persistence.GeneratedValue;
 import java.util.Optional;
 
 public class Translator {
@@ -35,7 +33,6 @@ public class Translator {
 
     }
 
-
     public static <A extends Account> Optional<DTOList<AccountDTO>> translate(final Iterable<A> accounts) {
 
         if(!accounts.iterator().hasNext()) {
@@ -48,7 +45,6 @@ public class Translator {
 
         return Optional.of(accountDTOS);
     }
-
 
     public static <SP extends StatisticalProgram> Optional<StatisticalProgramDTO> translate(final SP statisticalProgram,
                                                                                   final Language language) {

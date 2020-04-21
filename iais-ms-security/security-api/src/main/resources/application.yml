@@ -1,17 +1,19 @@
 spring:
+  datasource:
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=iais_security
+    username: postgres
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
-  datasource:
-    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
-  h2:
-    console:
-      enabled: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        globally_quoted_identifiers: true

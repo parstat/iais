@@ -32,9 +32,9 @@ public interface StatisticalProgram extends IdentifiableArtefact {
 
     void setDateEnded(LocalDateTime dateEnded);
 
-    List<String> getLegalFrameworks();
+    //List<String> getLegalFrameworks();
 
-    void setLegalFrameworks(List<String> legalFrameworks);
+    //void setLegalFrameworks(List<String> legalFrameworks);
 
     List<LegislativeReference> getLegislativeReference();
 
@@ -54,7 +54,7 @@ public interface StatisticalProgram extends IdentifiableArtefact {
 
     //List<StatisticalProgram> getRelates();
 
-    // setRelates(List<StatisticalProgram> statisticalProgram);
+    //setRelates(List<StatisticalProgram> statisticalProgram);
 
     //StatisticalProgramDesign getStatisticalProgramDesign();
 

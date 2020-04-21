@@ -60,9 +60,6 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
 
-    @ElementCollection(targetClass = String.class)
-    private List<String> legalFrameworks;
-
     @ManyToMany(targetEntity = LegislativeReferenceEntity.class)
     @JoinTable(name = "legislative_reference_used",
             joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
@@ -165,16 +162,6 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @Override
     public void setDateEnded(final LocalDateTime dateEnded) {
         this.dateEnded = dateEnded;
-    }
-
-    @Override
-    public List<String> getLegalFrameworks() {
-        return legalFrameworks;
-    }
-
-    @Override
-    public void setLegalFrameworks(final List<String> legalFrameworks) {
-        this.legalFrameworks = legalFrameworks;
     }
 
     @Override
