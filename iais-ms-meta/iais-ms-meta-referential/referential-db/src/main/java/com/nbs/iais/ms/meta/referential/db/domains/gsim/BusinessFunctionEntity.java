@@ -5,6 +5,7 @@ import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
 import com.nbs.iais.ms.common.enums.Language;
 
 import javax.persistence.*;

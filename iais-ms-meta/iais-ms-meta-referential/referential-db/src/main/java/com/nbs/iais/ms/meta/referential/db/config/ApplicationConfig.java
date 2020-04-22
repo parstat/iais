@@ -4,7 +4,6 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
-import com.nbs.iais.ms.meta.referential.db.services.CommandReferentialService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +37,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatistical
 		MultiLanguageTextEntity.class,
 		ProcessDocumentationEntity.class,
 		ProcessDocumentEntity.class,
-		ProcessInputSpecificationsEntity.class,
+		ProcessInputSpecificationEntity.class,
 		ProcessMethodEntity.class,
 		ProcessOutputSpecificationEntity.class,
 		RoleEntity.class,

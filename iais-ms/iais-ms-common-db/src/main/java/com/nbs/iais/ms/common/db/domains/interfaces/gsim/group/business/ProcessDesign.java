@@ -4,7 +4,6 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Identifiable
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocument;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
-import com.nbs.iais.ms.common.db.domains.interfaces.meta.QualityControl;
 import com.nbs.iais.ms.common.enums.Frequency;
 
 import java.util.List;
@@ -15,9 +14,9 @@ public interface ProcessDesign extends IdentifiableArtefact {
 
     void setBusinessServices(List<BusinessService> businessServices);
 
-    List<ProcessInputSpecifications> getProcessInputs();
+    List<ProcessInputSpecification> getProcessInputs();
 
-    void setProcessInputs(List<ProcessInputSpecifications> processInputs);
+    void setProcessInputs(List<ProcessInputSpecification> processInputs);
 
     List<ProcessOutputSpecification> getProcessOutputs();
 

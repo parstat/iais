@@ -14,9 +14,9 @@ public interface ProcessDocumentation extends IdentifiableArtefact {
 
     void setBusinessServices(List<BusinessService> businessServices);
 
-    List<ProcessInputSpecifications> getProcessInputs();
+    List<ProcessInputSpecification> getProcessInputs();
 
-    void setProcessInputs(List<ProcessInputSpecifications> processInputs);
+    void setProcessInputs(List<ProcessInputSpecification> processInputs);
 
     List<ProcessOutputSpecification> getProcessOutputs();
 

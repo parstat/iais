@@ -3,7 +3,7 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessInputSpecifications;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessInputSpecification;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProcessInputType;
@@ -11,9 +11,9 @@ import com.nbs.iais.ms.common.enums.ProcessInputType;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "ProcessInputSpecifications")
-@Table(name = "process_input_specifications")
-public class ProcessInputSpecificationsEntity extends AbstractIdentifiableArtefact implements ProcessInputSpecifications {
+@Entity(name = "ProcessInputSpecification")
+@Table(name = "process_input_specification")
+public class ProcessInputSpecificationEntity extends AbstractIdentifiableArtefact implements ProcessInputSpecification {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
@@ -39,7 +39,7 @@ public class ProcessInputSpecificationsEntity extends AbstractIdentifiableArtefa
     @JoinColumn(name = "process_documentation_id", referencedColumnName = "id")
     private ProcessDocumentation processDocumentation;
 
-    public ProcessInputSpecificationsEntity() {
+    public ProcessInputSpecificationEntity() {
         super();
     }
 

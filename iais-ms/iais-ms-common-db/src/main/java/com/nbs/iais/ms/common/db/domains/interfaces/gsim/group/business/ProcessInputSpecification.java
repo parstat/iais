@@ -6,7 +6,7 @@ import com.nbs.iais.ms.common.enums.ProcessInputType;
 
 import java.util.List;
 
-public interface ProcessInputSpecifications extends IdentifiableArtefact {
+public interface ProcessInputSpecification extends IdentifiableArtefact {
 
     List<ProcessInputType> getProcessInputTypes();
 

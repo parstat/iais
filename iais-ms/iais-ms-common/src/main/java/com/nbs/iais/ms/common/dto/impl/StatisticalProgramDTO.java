@@ -8,6 +8,8 @@ import com.nbs.iais.ms.common.dto.abstracts.LinkableEntityDTO;
 import com.nbs.iais.ms.common.dto.abstracts.LinkableIdentifiableArtefactDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.DivisionMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.IndividualMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.ProcessDocumentationMiniDTO;
+import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
 import java.time.LocalDateTime;
@@ -52,6 +54,10 @@ public class StatisticalProgramDTO extends LinkableIdentifiableArtefactDTO {
     @JsonProperty
     @JsonView(Views.Secure.class)
     private IndividualMiniDTO creator;
+
+    @JsonProperty
+    @JsonView(Views.Secure.class)
+    private DTOList<ProcessDocumentationMiniDTO> processDocumentationMinis;
 
     public StatisticalProgramDTO() {
         super();
@@ -131,5 +137,13 @@ public class StatisticalProgramDTO extends LinkableIdentifiableArtefactDTO {
 
     public void setAcronym(final String acronym) {
         this.acronym = acronym;
+    }
+
+    public DTOList<ProcessDocumentationMiniDTO> getProcessDocumentationMinis() {
+        return processDocumentationMinis;
+    }
+
+    public void setProcessDocumentationMinis(final DTOList<ProcessDocumentationMiniDTO> processDocumentationMinis) {
+        this.processDocumentationMinis = processDocumentationMinis;
     }
 }

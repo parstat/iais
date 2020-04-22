@@ -47,14 +47,14 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
             inverseJoinColumns = @JoinColumn(name = "standard_id", referencedColumnName = "id" ))
     private List<StatisticalStandardReference> standardsUsed;
 
-    @ManyToMany(targetEntity = ProcessQualityIndicatorEntity.class)
-    @JoinTable(name = "process_documentation_quality_indicators",
-            joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "quality_indicator_id", referencedColumnName = "id" ))
+    @OneToMany(targetEntity = ProcessQualityIndicatorEntity.class, mappedBy = "processDocumentation")
+    //@JoinTable(name = "process_documentation_quality_indicators",
+    //        joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
+    //        inverseJoinColumns = @JoinColumn(name = "quality_indicator_id", referencedColumnName = "id" ))
     private List<ProcessQualityIndicator> processQualityIndicators;
 
-    @OneToMany(targetEntity = ProcessInputSpecificationsEntity.class, mappedBy = "processDocumentation")
-    private List<ProcessInputSpecifications> processInputSpecifications;
+    @OneToMany(targetEntity = ProcessInputSpecificationEntity.class, mappedBy = "processDocumentation")
+    private List<ProcessInputSpecification> processInputSpecifications;
 
     @OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDocumentation")
     private List<ProcessOutputSpecification> processOutputSpecifications;
@@ -161,12 +161,12 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
     }
 
     @Override
-    public List<ProcessInputSpecifications> getProcessInputs() {
+    public List<ProcessInputSpecification> getProcessInputs() {
         return processInputSpecifications;
     }
 
     @Override
-    public void setProcessInputs(final List<ProcessInputSpecifications> processInputs) {
+    public void setProcessInputs(final List<ProcessInputSpecification> processInputs) {
         this.processInputSpecifications = processInputs;
     }
 

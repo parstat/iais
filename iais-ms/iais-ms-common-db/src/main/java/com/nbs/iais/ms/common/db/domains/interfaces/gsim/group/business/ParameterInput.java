@@ -5,7 +5,7 @@ import com.nbs.iais.ms.common.enums.ParameterRole;
 
 import java.util.List;
 
-public interface ParameterInput extends ProcessInputSpecifications {
+public interface ParameterInput extends ProcessInputSpecification {
 
     ParameterDataType getParameterDataType();
 

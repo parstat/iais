@@ -12,14 +12,11 @@ public enum MediaType {
     APPLICATION_ODT,
     APPLICATION_ODP,
     APPLICATION_ODS,
-    AUDIO_MP3,
-    AUDIO_MPEG,
     IMAGE_PNG,
     IMAGE_JPEG,
     IMAGE_SVG,
     TEXT_PLAIN,
     TEXT_HTML,
-    TEXT_CSV,
-    VIDEO_MP4
+    TEXT_CSV
 
 }

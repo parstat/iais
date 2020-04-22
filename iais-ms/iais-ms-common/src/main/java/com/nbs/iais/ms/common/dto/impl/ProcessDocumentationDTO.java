@@ -9,6 +9,7 @@ import com.nbs.iais.ms.common.dto.impl.mini.BusinessFunctionMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.DivisionMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.IndividualMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.StatisticalProgramMiniDTO;
+import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Frequency;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -35,6 +36,34 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
     @JsonProperty
     @JsonView(Views.Secure.class)
     private IndividualMiniDTO creator;
+
+    @JsonProperty
+    @JsonView(Views.Basic.class)
+    private DTOList<ProcessMethodDTO> processMethods;
+
+    @JsonProperty
+    @JsonView(Views.Basic.class)
+    private DTOList<ProcessInputSpecificationDTO> processInputSpecifications;
+
+    @JsonProperty
+    @JsonView(Views.Basic.class)
+    private DTOList<ProcessOutputSpecificationDTO> processOutputSpecifications;
+
+    @JsonProperty
+    @JsonView(Views.Basic.class)
+    private DTOList<BusinessServiceDTO> businessServices;
+
+    @JsonProperty
+    @JsonView(Views.Basic.class)
+    private DTOList<ProcessQualityIndicatorDTO> processQualityIndicators;
+
+    @JsonProperty
+    @JsonView(Views.Basic.class)
+    private String nextSubPhase;
+
+    @JsonProperty
+    @JsonView(Views.Basic.class)
+    private DTOList<ProcessDocumentDTO> documents;
 
     public ProcessDocumentationDTO() {
         super();
@@ -82,5 +111,61 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
 
     public void setCreator(IndividualMiniDTO creator) {
         this.creator = creator;
+    }
+
+    public DTOList<ProcessMethodDTO> getProcessMethods() {
+        return processMethods;
+    }
+
+    public void setProcessMethods(final DTOList<ProcessMethodDTO> processMethods) {
+        this.processMethods = processMethods;
+    }
+
+    public DTOList<ProcessInputSpecificationDTO> getProcessInputSpecifications() {
+        return processInputSpecifications;
+    }
+
+    public void setProcessInputSpecifications(final DTOList<ProcessInputSpecificationDTO> processInputSpecifications) {
+        this.processInputSpecifications = processInputSpecifications;
+    }
+
+    public DTOList<ProcessOutputSpecificationDTO> getProcessOutputSpecifications() {
+        return processOutputSpecifications;
+    }
+
+    public void setProcessOutputSpecifications(final DTOList<ProcessOutputSpecificationDTO> processOutputSpecifications) {
+        this.processOutputSpecifications = processOutputSpecifications;
+    }
+
+    public DTOList<BusinessServiceDTO> getBusinessServices() {
+        return businessServices;
+    }
+
+    public void setBusinessServices(final DTOList<BusinessServiceDTO> businessServices) {
+        this.businessServices = businessServices;
+    }
+
+    public DTOList<ProcessQualityIndicatorDTO> getProcessQualityIndicators() {
+        return processQualityIndicators;
+    }
+
+    public void setProcessQualityIndicators(final DTOList<ProcessQualityIndicatorDTO> processQualityIndicators) {
+        this.processQualityIndicators = processQualityIndicators;
+    }
+
+    public String getNextSubPhase() {
+        return nextSubPhase;
+    }
+
+    public void setNextSubPhase(final String nextSubPhase) {
+        this.nextSubPhase = nextSubPhase;
+    }
+
+    public DTOList<ProcessDocumentDTO> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(DTOList<ProcessDocumentDTO> documents) {
+        this.documents = documents;
     }
 }
