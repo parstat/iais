@@ -7,6 +7,7 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
@@ -61,10 +62,16 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     private AdministrativeDetails administrativeDetails;
 
     @ManyToMany(targetEntity = LegislativeReferenceEntity.class)
-    @JoinTable(name = "legislative_reference_used",
+    @JoinTable(name = "statistical_program_legislative_references",
             joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "legislative_reference_id", referencedColumnName = "id"))
     private List<LegislativeReference> legislativeReferences;
+
+    @ManyToMany(targetEntity = StatisticalStandardReferenceEntity.class)
+    @JoinTable(name = "statistical_program_standards",
+            joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "statistical_standard_reference_id", referencedColumnName = "id"))
+    private List<StatisticalStandardReference> statisticalStandardReferences;
 
     @OneToMany(targetEntity = ProcessDocumentationEntity.class, mappedBy = "statisticalProgram")
     private List<ProcessDocumentation> processDocumentations;
@@ -172,6 +179,16 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @Override
     public void setLegislativeReference(final List<LegislativeReference> legislativeReferences) {
         this.legislativeReferences = legislativeReferences;
+    }
+
+    @Override
+    public List<StatisticalStandardReference> getStatisticalStandardReferences() {
+        return statisticalStandardReferences;
+    }
+
+    @Override
+    public void setStatisticalStandardReferences(final List<StatisticalStandardReference> statisticalStandardReferences) {
+        this.statisticalStandardReferences = statisticalStandardReferences;
     }
 
     @Override

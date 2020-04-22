@@ -27,6 +27,14 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
 
     }
 
+    @Test
+    public void testFindBusinessFunctionById() {
+        final BusinessFunctionEntity toSave = getBusinessFunctionEntity();
+        final BusinessFunctionEntity saved = businessFunctionRepository.save(toSave);
+
+        Assert.assertTrue(businessFunctionRepository.findById(saved.getId()).isPresent());
+    }
+
     private BusinessFunctionEntity getBusinessFunctionEntity() {
         final BusinessFunctionEntity toSave = new BusinessFunctionEntity();
         toSave.setName("name", Language.ENG);

@@ -8,9 +8,18 @@ import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import com.nbs.iais.ms.security.db.services.CommandSecurityService;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
 import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -20,7 +29,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 public class CommandSecurityServiceTest extends ServiceTest {
 
@@ -32,6 +40,12 @@ public class CommandSecurityServiceTest extends ServiceTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
+
+    @Before
+    public void setUp() {
+        when(passwordEncoder.encode(any())).thenReturn("password");
+        when(passwordEncoder.matches(any(), any())).thenReturn(true);
+    }
 
     @Test
     public void signin() {
@@ -51,7 +65,6 @@ public class CommandSecurityServiceTest extends ServiceTest {
 
         when(accountRepository.findByUsername(eq(signinCommand.getUsername()))).thenReturn(Optional.of(accountEntity));
         when(accountRepository.save(any())).thenReturn(accountEntity);
-        when(passwordEncoder.matches(any(), any())).thenReturn(true);
 
         //call
         commandSecurityService.signin(signinCommand);
@@ -72,7 +85,9 @@ public class CommandSecurityServiceTest extends ServiceTest {
         when(accountRepository.save(any(AccountEntity.class))).thenAnswer(
                 (Answer<AccountEntity>) invocation -> {
                     Object[] args = invocation.getArguments();
-                    return (AccountEntity) args[0];
+                    final AccountEntity account = (AccountEntity) args[0];
+                    account.setId(1L);
+                    return account;
                 });
 
         //Call

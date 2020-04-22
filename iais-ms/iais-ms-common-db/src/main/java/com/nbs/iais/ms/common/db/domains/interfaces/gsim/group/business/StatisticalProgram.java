@@ -4,6 +4,7 @@ import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
@@ -39,6 +40,10 @@ public interface StatisticalProgram extends IdentifiableArtefact {
     List<LegislativeReference> getLegislativeReference();
 
     void setLegislativeReference(List<LegislativeReference> legislativeReference);
+
+    List<StatisticalStandardReference> getStatisticalStandardReferences();
+
+    void setStatisticalStandardReferences(List<StatisticalStandardReference> statisticalStandardReferences);
 
     String getSourceOfFounding();
 
