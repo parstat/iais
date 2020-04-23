@@ -2,7 +2,6 @@ package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
 
 import java.util.List;
 

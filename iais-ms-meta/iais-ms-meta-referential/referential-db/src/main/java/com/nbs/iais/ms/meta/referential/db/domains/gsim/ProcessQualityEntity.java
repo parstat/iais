@@ -3,16 +3,16 @@ package com.nbs.iais.ms.meta.referential.db.domains.gsim;
 import com.nbs.iais.ms.common.db.domains.abstracts.AbstractIdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQuality;
 import com.nbs.iais.ms.common.enums.Language;
+import com.nbs.iais.ms.common.enums.QualityType;
 
 import javax.persistence.*;
 
-@Entity(name = "ProcessQualityIndicator")
-@Table(name = "process_quality_indicator")
-public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact implements ProcessQualityIndicator {
+@Entity(name = "ProcessQuality")
+@Table(name = "process_quality")
+public class ProcessQualityEntity extends AbstractIdentifiableArtefact implements ProcessQuality {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
             targetEntity = MultiLanguageTextEntity.class)
@@ -32,7 +32,11 @@ public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact 
     @JoinColumn(name = "process_documentation_id", referencedColumnName = "id")
     private ProcessDocumentation processDocumentation;
 
-    public ProcessQualityIndicatorEntity() {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private QualityType type;
+
+    public ProcessQualityEntity() {
         super();
     }
 
@@ -108,5 +112,15 @@ public class ProcessQualityIndicatorEntity extends AbstractIdentifiableArtefact 
     @Override
     public void setProcessDocumentation(final ProcessDocumentation processDocumentation) {
         this.processDocumentation = processDocumentation;
+    }
+
+    @Override
+    public QualityType getQualityType() {
+        return type;
+    }
+
+    @Override
+    public void setQualityType(final QualityType type) {
+        this.type = type;
     }
 }

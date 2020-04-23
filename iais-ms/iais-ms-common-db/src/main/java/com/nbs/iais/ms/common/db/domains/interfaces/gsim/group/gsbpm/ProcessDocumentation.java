@@ -30,9 +30,9 @@ public interface ProcessDocumentation extends IdentifiableArtefact {
 
     void setProcessDocuments(List<ProcessDocument> processDocuments);
 
-    List<ProcessQualityIndicator> getProcessQualityIndicators();
+    List<ProcessQuality> getProcessQualityIndicators();
 
-    void setProcessQualityIndicators(List<ProcessQualityIndicator> processQualityIndicators);
+    void setProcessQualityIndicators(List<ProcessQuality> processQualityIndicators);
 
     BusinessFunction getBusinessFunction();
 

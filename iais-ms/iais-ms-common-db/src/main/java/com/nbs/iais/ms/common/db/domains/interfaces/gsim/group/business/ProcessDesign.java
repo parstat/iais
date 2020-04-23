@@ -2,7 +2,7 @@ package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocument;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQuality;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.enums.Frequency;
 
@@ -30,9 +30,9 @@ public interface ProcessDesign extends IdentifiableArtefact {
 
     void setProcessDocuments(List<ProcessDocument> processDocuments);
 
-    List<ProcessQualityIndicator> getProcessQualityIndicators();
+    List<ProcessQuality> getProcessQualityIndicators();
 
-    void setProcessQualityIndicators(List<ProcessQualityIndicator> processQualityIndicators);
+    void setProcessQualityIndicators(List<ProcessQuality> processQualityIndicators);
 
     BusinessFunction getBusinessFunction();
 

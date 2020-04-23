@@ -7,7 +7,7 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocument;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQualityIndicator;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQuality;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.enums.Frequency;
 import com.nbs.iais.ms.common.enums.Language;
@@ -47,11 +47,11 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
             inverseJoinColumns = @JoinColumn(name = "standard_id", referencedColumnName = "id" ))
     private List<StatisticalStandardReference> standardsUsed;
 
-    @OneToMany(targetEntity = ProcessQualityIndicatorEntity.class, mappedBy = "processDocumentation")
+    @OneToMany(targetEntity = ProcessQualityEntity.class, mappedBy = "processDocumentation")
     //@JoinTable(name = "process_documentation_quality_indicators",
     //        joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
     //        inverseJoinColumns = @JoinColumn(name = "quality_indicator_id", referencedColumnName = "id" ))
-    private List<ProcessQualityIndicator> processQualityIndicators;
+    private List<ProcessQuality> processQualityList;
 
     @OneToMany(targetEntity = ProcessInputSpecificationEntity.class, mappedBy = "processDocumentation")
     private List<ProcessInputSpecification> processInputSpecifications;
@@ -201,13 +201,13 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
     }
 
     @Override
-    public List<ProcessQualityIndicator> getProcessQualityIndicators() {
-        return processQualityIndicators;
+    public List<ProcessQuality> getProcessQualityIndicators() {
+        return processQualityList;
     }
 
     @Override
-    public void setProcessQualityIndicators(final List<ProcessQualityIndicator> processQualityIndicators) {
-        this.processQualityIndicators = processQualityIndicators;
+    public void setProcessQualityIndicators(final List<ProcessQuality> processQualityList) {
+        this.processQualityList = processQualityList;
     }
 
     @Override
