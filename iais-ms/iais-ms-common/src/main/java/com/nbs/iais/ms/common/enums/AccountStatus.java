@@ -14,5 +14,8 @@ public enum AccountStatus {
     //email of the user is unconfirmed
     UNCONFIRMED,
 
+    //user is automatically created
+    AUTOMATIC,
+
 
 }
