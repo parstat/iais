@@ -46,24 +46,6 @@ public class Translator {
         return Optional.of(accountDTOS);
     }
 
-    public static <SP extends StatisticalProgram> Optional<StatisticalProgramDTO> translate(final SP statisticalProgram,
-                                                                                  final Language language) {
-
-        if(statisticalProgram == null) {
-            return Optional.empty();
-        }
-        final StatisticalProgramDTO statisticalProgramDTO = new StatisticalProgramDTO(statisticalProgram.getId());
-        statisticalProgramDTO.setBudget(statisticalProgram.getBudget());
-        statisticalProgramDTO.setDateEnded(statisticalProgram.getDateEnded());
-        statisticalProgramDTO.setDateInitiated(statisticalProgram.getDateInitiated());
-        statisticalProgramDTO.setProgramStatus(statisticalProgram.getProgramStatus());
-        statisticalProgramDTO.setSourceOfFunding(statisticalProgram.getSourceOfFounding());
-        statisticalProgramDTO.setName(statisticalProgram.getName(language));
-        statisticalProgramDTO.setDescription(statisticalProgram.getDescription(language));
-        return Optional.of(statisticalProgramDTO);
-
-    }
-
     public static <SP extends StatisticalProgram> Optional<DTOList<StatisticalProgramDTO>> translate(
             final Iterable<SP> statisticalPrograms, final Language language) {
         if(statisticalPrograms == null || !statisticalPrograms.iterator().hasNext() ) {
@@ -98,4 +80,30 @@ public class Translator {
         return Optional.of(businessFunctionDTO);
 
     }
+
+    public static <SP extends StatisticalProgram> Optional<StatisticalProgramDTO> translate(
+            final SP statisticalProgram, final Language language) {
+
+        if(statisticalProgram == null) {
+            return Optional.empty();
+        }
+
+        final StatisticalProgramDTO statisticalProgramDTO = new StatisticalProgramDTO(statisticalProgram.getId());
+        statisticalProgramDTO.setName(statisticalProgram.getName(language));
+        statisticalProgramDTO.setDescription(statisticalProgram.getDescription(language));
+        statisticalProgramDTO.setAcronym(statisticalProgram.getAcronym(language));
+        statisticalProgramDTO.setProgramStatus(statisticalProgram.getProgramStatus());
+        statisticalProgramDTO.setSourceOfFunding(statisticalProgram.getSourceOfFounding());
+        statisticalProgramDTO.setDateInitiated(statisticalProgram.getDateInitiated());
+        statisticalProgramDTO.setDateEnded(statisticalProgram.getDateEnded());
+        statisticalProgramDTO.setLocalId(statisticalProgram.getLocalId());
+        statisticalProgramDTO.setVersion(statisticalProgram.getVersion());
+        statisticalProgramDTO.setVersionDate(statisticalProgram.getVersionDate());
+        statisticalProgramDTO.setVersionRationale(statisticalProgram.getVersionRationale());
+        statisticalProgramDTO.setLink("/statistical/programs/" + statisticalProgram.getId());
+
+        return Optional.of(statisticalProgramDTO);
+    }
+
+
 }

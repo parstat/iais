@@ -12,7 +12,9 @@ import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -55,7 +57,7 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @JoinTable(name = "sp_agent_in_role",
                 joinColumns = @JoinColumn(name = "sp_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
-    private List<AgentInRole> administrators;
+    private List<AgentInRole> administrators = new ArrayList<>();
 
     @OneToOne(targetEntity = AdministrativeDetailsEntity.class, orphanRemoval = true)
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
@@ -65,16 +67,29 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @JoinTable(name = "statistical_program_legislative_references",
             joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "legislative_reference_id", referencedColumnName = "id"))
-    private List<LegislativeReference> legislativeReferences;
+    private List<LegislativeReference> legislativeReferences = new ArrayList<>();
 
     @ManyToMany(targetEntity = StatisticalStandardReferenceEntity.class)
     @JoinTable(name = "statistical_program_standards",
             joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "statistical_standard_reference_id", referencedColumnName = "id"))
-    private List<StatisticalStandardReference> statisticalStandardReferences;
+    private List<StatisticalStandardReference> statisticalStandardReferences = new ArrayList<>();
 
     @OneToMany(targetEntity = ProcessDocumentationEntity.class, mappedBy = "statisticalProgram")
-    private List<ProcessDocumentation> processDocumentations;
+    private List<ProcessDocumentation> processDocumentations = new ArrayList<>();
+
+    @Column(name = "creator")
+    private Long creator;
+
+    @Column(name = "created_timestamp")
+    private Instant createdTimestamp;
+
+    @Column(name = "editor")
+    private Long editor;
+
+    @Column(name = "last_modified_timestamp")
+    private Instant lastModifiedTimestamp;
+
 
     public StatisticalProgramEntity() {
         super();
@@ -219,6 +234,46 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @Override
     public void setProcessDocumentations(final List<ProcessDocumentation> processDocumentations) {
         this.processDocumentations = processDocumentations;
+    }
+
+    @Override
+    public Long getCreator() {
+        return creator;
+    }
+
+    @Override
+    public void setCreator(final Long creator) {
+        this.creator = creator;
+    }
+
+    @Override
+    public Instant getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    @Override
+    public void setCreatedTimestamp(final Instant createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
+    }
+
+    @Override
+    public Long getEditor() {
+        return editor;
+    }
+
+    @Override
+    public void setEditor(final Long editor) {
+        this.editor = editor;
+    }
+
+    @Override
+    public Instant getLastModifiedTimestamp() {
+        return lastModifiedTimestamp;
+    }
+
+    @Override
+    public void setLastModifiedTimestamp(final Instant lastModifiedTimestamp) {
+        this.lastModifiedTimestamp = lastModifiedTimestamp;
     }
 
     public List<AgentInRole> getAdministrators() {

@@ -1,5 +1,6 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
+import com.nbs.iais.ms.common.db.domains.translators.Translator;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
@@ -42,12 +43,12 @@ public class QueryReferentialService {
 	public GetBusinessFunctionQuery getBusinessFunction(final GetBusinessFunctionQuery query) {
 		if(query.getId() != null) {
 			businessFunctionRepository.findById(query.getId())
-					.flatMap(bf -> translate(bf, query.getLanguage()))
+					.flatMap(bf -> Translator.translate(bf, query.getLanguage()))
 					.ifPresent(query.getRead()::setData);
 			return query;
 		}
 		businessFunctionRepository.findByLocalIdAndVersion(query.getLocalId(), query.getVersion())
-					.flatMap(bf -> translate(bf, query.getLanguage()))
+					.flatMap(bf -> Translator.translate(bf, query.getLanguage()))
 					.ifPresent(query.getRead()::setData);
 		return query;
 	}

@@ -1,8 +1,8 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.commands;
+package com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function;
 
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.UpdateBusinessFunctionEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.business.function.UpdateBusinessFunctionEvent;
 
 import java.time.LocalDateTime;
 

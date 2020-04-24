@@ -8,6 +8,7 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.Statistical
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -70,4 +71,19 @@ public interface StatisticalProgram extends IdentifiableArtefact {
 
     void setProcessDocumentations(List<ProcessDocumentation> processDocumentations);
 
+    Long getCreator();
+
+    void setCreator(Long creator);
+
+    Instant getCreatedTimestamp();
+
+    void setCreatedTimestamp(Instant createdTimestamp);
+
+    Long getEditor();
+
+    void setEditor(Long editor);
+
+    Instant getLastModifiedTimestamp();
+
+    void setLastModifiedTimestamp(Instant lastModifiedTimestamp);
 }

@@ -9,6 +9,8 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Role;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.enums.Language;
+import com.nbs.iais.ms.common.enums.RoleType;
+import com.nbs.iais.ms.common.enums.UserRole;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,23 +19,13 @@ import java.util.List;
 @Table(name = "agent_in_role")
 public class AgentInRoleEntity extends AbstractDomainObject implements AgentInRole {
 
-    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
-            targetEntity = MultiLanguageTextEntity.class)
-    @JoinColumn(name = "key_name")
-    private MultilingualText name;
-
-    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
-            targetEntity = MultiLanguageTextEntity.class)
-    @JoinColumn(name = "key_description")
-    private MultilingualText description;
-
     @ManyToOne(targetEntity = AgentEntity.class, optional = false)
     @JoinColumn(name = "agent_id")
     private Agent agent;
 
-    @ManyToOne(targetEntity = RoleEntity.class, optional = false)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private RoleType role;
 
     @ManyToOne(targetEntity = ChangeEventEntity.class)
     @JoinColumn(name = "change_event_id")
@@ -50,26 +42,6 @@ public class AgentInRoleEntity extends AbstractDomainObject implements AgentInRo
     }
 
     @Override
-    public MultilingualText getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(final MultilingualText name) {
-        this.name = name;
-    }
-
-    @Override
-    public MultilingualText getDescription() {
-        return description;
-    }
-
-    @Override
-    public void setDescription(final MultilingualText description) {
-        this.description = description;
-    }
-
-    @Override
     public ChangeEvent getChangeEvent() {
         return changeEvent;
     }
@@ -79,35 +51,7 @@ public class AgentInRoleEntity extends AbstractDomainObject implements AgentInRo
         this.changeEvent = changeEvent;
     }
 
-    public void setName(final String name, final Language language) {
-        name().addText(language.getShortName(), name);
-    }
 
-    public String getName(final Language language) {
-        return name().getText(language.getShortName());
-    }
-
-    private MultilingualText name() {
-        if(getName() == null) {
-            setName(new MultiLanguageTextEntity());
-        }
-        return getName();
-    }
-
-    private MultilingualText description() {
-        if(getDescription() == null) {
-            setDescription(new MultiLanguageTextEntity());
-        }
-        return getDescription();
-    }
-
-    public String getDescription(final Language language) {
-        return description().getText(language.getShortName());
-    }
-
-    public void setDescription(final String description, final Language language) {
-        description().addText(language.getShortName(), description);
-    }
 
     @Override
     public Agent getAgent() {
@@ -120,12 +64,12 @@ public class AgentInRoleEntity extends AbstractDomainObject implements AgentInRo
     }
 
     @Override
-    public Role getRole() {
+    public RoleType getRole() {
         return role;
     }
 
     @Override
-    public void setRole(final Role role) {
+    public void setRole(final RoleType role) {
         this.role = role;
     }
 

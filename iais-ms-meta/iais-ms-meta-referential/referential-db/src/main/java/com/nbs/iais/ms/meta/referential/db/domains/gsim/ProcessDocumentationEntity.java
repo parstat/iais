@@ -47,19 +47,19 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
             inverseJoinColumns = @JoinColumn(name = "standard_id", referencedColumnName = "id" ))
     private List<StatisticalStandardReference> standardsUsed;
 
-    @OneToMany(targetEntity = ProcessQualityEntity.class, mappedBy = "processDocumentation")
+    @OneToMany(targetEntity = ProcessQualityEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
     //@JoinTable(name = "process_documentation_quality_indicators",
     //        joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
     //        inverseJoinColumns = @JoinColumn(name = "quality_indicator_id", referencedColumnName = "id" ))
     private List<ProcessQuality> processQualityList;
 
-    @OneToMany(targetEntity = ProcessInputSpecificationEntity.class, mappedBy = "processDocumentation")
+    @OneToMany(targetEntity = ProcessInputSpecificationEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
     private List<ProcessInputSpecification> processInputSpecifications;
 
-    @OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDocumentation")
+    @OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
     private List<ProcessOutputSpecification> processOutputSpecifications;
 
-    @OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDocumentation")
+    @OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
     private List<ProcessDocument> processDocuments;
 
     @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)

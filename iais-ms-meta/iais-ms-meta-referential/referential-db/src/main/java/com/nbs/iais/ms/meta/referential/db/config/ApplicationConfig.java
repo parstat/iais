@@ -1,9 +1,15 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
+import com.nbs.iais.ms.meta.referential.db.services.CommandReferentialService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +46,6 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatistical
 		ProcessInputSpecificationEntity.class,
 		ProcessMethodEntity.class,
 		ProcessOutputSpecificationEntity.class,
-		RoleEntity.class,
 		StatisticalProgramEntity.class,
 		StatisticalStandardReferenceEntity.class
 })
@@ -61,6 +66,21 @@ public class ApplicationConfig {
 								sf -> sf.<GetBusinessFunctionQuery> handle((p, h) -> queryReferentialService.getBusinessFunction(p))))
 				.get();
 	}
+
+	@Bean public IntegrationFlow commandIntegrationFlow(final CommandReferentialService commandReferentialService) {
+		return IntegrationFlows.from(commandInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+						.subFlowMapping(CreateStatisticalProgramCommand.class,
+								sf -> sf.<CreateStatisticalProgramCommand>handle((p, h) -> commandReferentialService.createStatisticalProgram(p)))
+						.subFlowMapping(AddStatisticalProgramAdministratorCommand.class,
+								sf -> sf.<AddStatisticalProgramAdministratorCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramAdministrator(p)))
+						.subFlowMapping(AddStatisticalProgramLegislativeReferenceCommand.class,
+								sf -> sf.<AddStatisticalProgramLegislativeReferenceCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramLegislativeReference(p)))
+						.subFlowMapping(AddStatisticalProgramStandardCommand.class,
+								sf -> sf.<AddStatisticalProgramStandardCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramStandard(p))))
+				.get();
+	}
+
 
 	@Bean(name = Channels.QUERY_INPUT)
 	public MessageChannel queryInput() {
