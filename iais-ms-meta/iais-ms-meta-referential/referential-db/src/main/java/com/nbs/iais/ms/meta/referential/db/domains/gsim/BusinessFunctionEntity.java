@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "BusinessFunction")
-@Table(name = "business_function")
+@Table(name = "business_function", uniqueConstraints = @UniqueConstraint(columnNames = {"local_id", "version"}))
 public class BusinessFunctionEntity extends AbstractIdentifiableArtefact implements BusinessFunction {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,

@@ -4,10 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.Views;
-import com.nbs.iais.ms.common.dto.abstracts.LinkableEntityDTO;
 import com.nbs.iais.ms.common.dto.abstracts.LinkableIdentifiableArtefactDTO;
-import com.nbs.iais.ms.common.dto.impl.mini.DivisionMiniDTO;
-import com.nbs.iais.ms.common.dto.impl.mini.IndividualMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.ProcessDocumentationMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
@@ -45,15 +43,15 @@ public class StatisticalProgramDTO extends LinkableIdentifiableArtefactDTO {
 
     @JsonProperty
     @JsonView(Views.Extended.class)
-    private DivisionMiniDTO owner;
+    private AgentMiniDTO owner;
 
     @JsonProperty
     @JsonView(Views.Extended.class)
-    private IndividualMiniDTO contact;
+    private AgentMiniDTO contact;
 
     @JsonProperty
     @JsonView(Views.Secure.class)
-    private IndividualMiniDTO creator;
+    private AgentMiniDTO maintainer;
 
     @JsonProperty
     @JsonView(Views.Secure.class)
@@ -107,28 +105,28 @@ public class StatisticalProgramDTO extends LinkableIdentifiableArtefactDTO {
         this.dateEnded = dateEnded;
     }
 
-    public DivisionMiniDTO getOwner() {
+    public AgentMiniDTO getOwner() {
         return owner;
     }
 
-    public void setOwner(final DivisionMiniDTO owner) {
+    public void setOwner(final AgentMiniDTO owner) {
         this.owner = owner;
     }
 
-    public IndividualMiniDTO getContact() {
+    public AgentMiniDTO getContact() {
         return contact;
     }
 
-    public void setContact(final IndividualMiniDTO contact) {
+    public void setContact(final AgentMiniDTO contact) {
         this.contact = contact;
     }
 
-    public IndividualMiniDTO getCreator() {
-        return creator;
+    public AgentMiniDTO getMaintainer() {
+        return maintainer;
     }
 
-    public void setCreator(final IndividualMiniDTO creator) {
-        this.creator = creator;
+    public void setMaintainer(final AgentMiniDTO maintainer) {
+        this.maintainer = maintainer;
     }
 
     public String getAcronym() {

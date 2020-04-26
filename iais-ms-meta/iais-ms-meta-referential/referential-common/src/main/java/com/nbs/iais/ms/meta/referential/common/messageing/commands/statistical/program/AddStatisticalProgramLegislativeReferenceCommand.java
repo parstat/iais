@@ -16,22 +16,19 @@ public class AddStatisticalProgramLegislativeReferenceCommand extends AbstractCo
         super(new AddStatisticalProgramLegislativeReferenceEvent());
     }
 
-    private AddStatisticalProgramLegislativeReferenceCommand(final Long account, final AccountRole role,
-                                                             final Long statisticalProgram, final Long legislativeReference,
-                                                             final Language language) {
+    private AddStatisticalProgramLegislativeReferenceCommand(final String jwt, final Long statisticalProgram,
+                                                             final Long legislativeReference, final Language language) {
 
         super(new AddStatisticalProgramLegislativeReferenceEvent());
         this.legislativeReference = legislativeReference;
         this.statisticalProgram = statisticalProgram;
         setLanguage(language);
-        setAccountId(account);
-        setAccountRole(role);
+        setJwt(jwt);
     }
 
-    public static AddStatisticalProgramLegislativeReferenceCommand create(final Long account, final AccountRole role,
-                                                                          final Long statisticalProgram, final Long legalReference,
-                                                                          final Language language) {
-        return new AddStatisticalProgramLegislativeReferenceCommand(account, role, statisticalProgram, legalReference,
+    public static AddStatisticalProgramLegislativeReferenceCommand create(final String jwt, final Long statisticalProgram,
+                                                                          final Long legalReference, final Language language) {
+        return new AddStatisticalProgramLegislativeReferenceCommand(jwt, statisticalProgram, legalReference,
                 language);
     }
 

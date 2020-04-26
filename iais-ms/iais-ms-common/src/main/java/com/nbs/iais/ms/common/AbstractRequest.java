@@ -7,8 +7,7 @@ import com.nbs.iais.ms.common.enums.Language;
 public abstract class AbstractRequest<RES extends ResponseMessage<? extends DTO>> implements RequestMessage<RES> {
 
     private Language language;
-    private Long accountId;
-    private AccountRole accountRole;
+    private String jwt;
     private boolean closed = false;
 
     public AbstractRequest() {
@@ -26,23 +25,13 @@ public abstract class AbstractRequest<RES extends ResponseMessage<? extends DTO>
     }
 
     @Override
-    public Long getAccountId() {
-        return accountId;
+    public String getJwt() {
+        return jwt;
     }
 
     @Override
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
-    }
-
-    @Override
-    public AccountRole getAccountRole() {
-        return accountRole;
-    }
-
-    @Override
-    public void setAccountRole(final AccountRole accountRole) {
-        this.accountRole = accountRole;
+    public void setJwt(final String jwt) {
+        this.jwt = jwt;
     }
 
     @Override

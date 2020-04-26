@@ -1,5 +1,6 @@
 package com.nbs.iais.ms.security.db.services;
 
+import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.AccountStatus;
@@ -114,7 +115,8 @@ public class CommandSecurityService {
      */
     public ChangePasswordCommand changePassword(final ChangePasswordCommand command) throws ChangePasswordException {
 
-        final AccountEntity account = accountRepository.findById(command.getAccountId()).orElseThrow(() ->
+        final Long accountId = JWT.decode(command.getJwt()).getClaim("user").asLong();
+        final AccountEntity account = accountRepository.findById(accountId).orElseThrow(() ->
                 new ChangePasswordException(ExceptionCodes.NOT_FOUND));
         if (passwordEncoder.matches(command.getOldPassword(), account.getPassword())) {
             resetFailedSignins(account);

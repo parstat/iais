@@ -1,5 +1,6 @@
 package com.nbs.iais.ms.security.db.services;
 
+import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.AccountRole;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -48,18 +50,19 @@ public class QuerySecurityService {
     }
 
     private List<AccountStatus> getStatuses(final GetAccountsQuery query) {
+        final AccountRole role = AccountRole.valueOf(JWT.decode(query.getJwt()).getClaim("role").asString());
         if(query.isClosed()) {
-            if(query.getAccountRole() == AccountRole.ROOT || query.getAccountRole() == AccountRole.ADMIN) {
+            if(role == AccountRole.ROOT || role == AccountRole.ADMIN) {
                 if(StringTools.isNotEmpty(query.getName())) {
                     return Arrays.asList(AccountStatus.ACTIVE, AccountStatus.UNCONFIRMED, AccountStatus.TERMINATED,
                             AccountStatus.LOCKED);
                 }
                 if(query.getStatus() != null) {
-                    return Arrays.asList(query.getStatus());
+                    return Collections.singletonList(query.getStatus());
                 }
             }
         }
-        return Arrays.asList(AccountStatus.ACTIVE);
+        return Collections.singletonList(AccountStatus.ACTIVE);
     }
 
     /**
@@ -70,7 +73,8 @@ public class QuerySecurityService {
      */
     public IsAuthenticatedQuery authenticate(final IsAuthenticatedQuery query) throws SigninException {
 
-        final AccountEntity account = accountRepository.findById(query.getAccountId()).orElseThrow(() ->
+        final Long accountId = JWT.decode(query.getJwt()).getClaim("user").asLong();
+        final AccountEntity account = accountRepository.findById(accountId).orElseThrow(() ->
                 new SigninException(ExceptionCodes.NOT_FOUND));
 
         if(account.getStatus() != AccountStatus.ACTIVE) {

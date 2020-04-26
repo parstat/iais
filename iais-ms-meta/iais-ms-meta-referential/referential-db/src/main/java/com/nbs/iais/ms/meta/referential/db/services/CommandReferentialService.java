@@ -1,7 +1,9 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
+import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
+import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
@@ -35,19 +37,49 @@ public class CommandReferentialService {
     public CreateStatisticalProgramCommand createStatisticalProgram(final CreateStatisticalProgramCommand command) {
             final StatisticalProgramEntity sp =
                     statisticalProgramRepository.save(CommandTranslator.translate(command));
+
+            if(command.getOwner() != null) {
+                agentRepository.findById(command.getOwner()).ifPresent(agent -> {
+                    addAdministrator(sp, agent, RoleType.OWNER);
+                    statisticalProgramRepository.save(sp);
+                });
+            }
+
+            if(command.getMaintainer() != null) {
+                agentRepository.findById(command.getMaintainer()).ifPresent(agent -> {
+                    addAdministrator(sp, agent, RoleType.MAINTAINER);
+                    statisticalProgramRepository.save(sp);
+                });
+            }
+
+            if(command.getContact() != null) {
+                agentRepository.findById(command.getContact()).ifPresent(agent -> {
+                    addAdministrator(sp, agent, RoleType.CONTACT);
+                    statisticalProgramRepository.save(sp);
+                });
+            }
+
         Translator.translate(sp, command.getLanguage()).ifPresent(command.getEvent()::setData);
         return command;
     }
 
+    private void addAdministrator(final StatisticalProgramEntity sp, final AgentEntity agent, final RoleType type) {
+        final AgentInRole agentInRole = new AgentInRoleEntity();
+        agentInRole.setAgent(agent);
+        agentInRole.setRole(type);
+        sp.getAdministrators().add(agentInRole);
+
+    }
+
     public AddStatisticalProgramAdministratorCommand addStatisticalProgramAdministrator(
             final AddStatisticalProgramAdministratorCommand command) {
+
+        final Long accountId = JWT.decode(command.getJwt()).getClaim("user").asLong();
+
         statisticalProgramRepository.findById(command.getStatisticalProgram())
                 .ifPresent(sp -> agentRepository.findById(command.getAgent()).ifPresent(agent -> {
-            final AgentInRole agentInRole = new AgentInRoleEntity();
-            agentInRole.setRole(command.getRole());
-            agentInRole.setAgent(agent);
-            sp.getAdministrators().add(agentInRole);
-            sp.setEditor(command.getAccountId());
+            addAdministrator(sp, agent, command.getRole());
+            sp.setEditor(accountId);
             sp.setLastModifiedTimestamp(Instant.now());
             Translator.translate(statisticalProgramRepository.save(sp), command.getLanguage())
                     .ifPresent(command.getEvent()::setData);

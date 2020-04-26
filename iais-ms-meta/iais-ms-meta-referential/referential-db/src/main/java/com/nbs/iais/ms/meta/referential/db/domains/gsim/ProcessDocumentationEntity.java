@@ -16,7 +16,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "ProcessDocumentation")
-@Table(name = "process_documentation")
+@Table(name = "process_documentation",
+        uniqueConstraints = @UniqueConstraint(columnNames
+                = {"business_function_id", "statistical_program_id", "version"}))
 public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact implements ProcessDocumentation {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,

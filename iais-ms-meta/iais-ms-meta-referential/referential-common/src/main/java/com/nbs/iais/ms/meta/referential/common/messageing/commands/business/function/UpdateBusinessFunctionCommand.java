@@ -50,7 +50,7 @@ public class UpdateBusinessFunctionCommand extends AbstractCommand<UpdateBusines
         super(new UpdateBusinessFunctionEvent());
     }
 
-    private UpdateBusinessFunctionCommand(final Long accountId, final Long id, final String name, final String description,
+    private UpdateBusinessFunctionCommand(final String jwt, final Long id, final String name, final String description,
                                           final String localId, final String version, final LocalDateTime versionDate,
                                           final Language language) {
         super(new UpdateBusinessFunctionEvent());
@@ -61,14 +61,14 @@ public class UpdateBusinessFunctionCommand extends AbstractCommand<UpdateBusines
         this.version = version;
         this.versionDate = versionDate;
         setLanguage(language);
-        setAccountId(accountId);
+        setJwt(jwt);
 
     }
 
-    public static UpdateBusinessFunctionCommand create(final Long accountId, final Long id, final String name, final String description,
+    public static UpdateBusinessFunctionCommand create(final String jwt, final Long id, final String name, final String description,
                                                        final String localId, final String version, final LocalDateTime versionDate,
                                                        final Language language) {
-        return new UpdateBusinessFunctionCommand(accountId, id, name, description, localId, version, versionDate, language);
+        return new UpdateBusinessFunctionCommand(jwt, id, name, description, localId, version, versionDate, language);
     }
 
     public Long getId() {

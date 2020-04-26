@@ -1,5 +1,6 @@
 package com.nbs.iais.ms.meta.referential.db.utils;
 
+import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
@@ -29,11 +30,17 @@ public class CommandTranslator {
             statisticalProgram.setLocalId(command.getLocalId());
         }
 
+        statisticalProgram.setProgramStatus(command.getStatus());
+        statisticalProgram.setBudget(command.getBudget());
+        statisticalProgram.setSourceOfFunding(command.getSourceOfFunding());
+        statisticalProgram.setDateEnded(command.getDateEnded());
+        statisticalProgram.setDateInitiated(command.getDateInitiated());
+
         statisticalProgram.setVersion("1.0");
         statisticalProgram.setVersionDate(LocalDateTime.now());
         statisticalProgram.setVersionRationale("Newly created");
         statisticalProgram.setProgramStatus(command.getStatus());
-        statisticalProgram.setCreator(command.getAccountId());
+        statisticalProgram.setCreator(JWT.decode(command.getJwt()).getClaim("user").asLong());
         statisticalProgram.setCreatedTimestamp(Instant.now());
 
 

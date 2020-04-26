@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class AbstractIdentifiableArtefact extends AbstractDomainObject implements IdentifiableArtefact {
 
-    @Column(name = "local_id")
+    @Column(name = "local_id", nullable = false)
     private String localId;
 
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     private String version;
 
-    @Column(name = "version_date")
+    @Column(name = "version_date", nullable = false)
     private LocalDateTime versionDate;
 
     @Column(name = "version_rationale")

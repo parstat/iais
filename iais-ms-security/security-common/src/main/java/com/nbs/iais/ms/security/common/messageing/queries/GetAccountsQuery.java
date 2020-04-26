@@ -28,23 +28,23 @@ public class GetAccountsQuery extends AbstractQuery<GetAccountsRead> {
         this.name = name;
     }
 
-    private GetAccountsQuery(final Long requester, final AccountStatus status) {
+    private GetAccountsQuery(final String jwt, final AccountStatus status) {
         super(new GetAccountsRead());
         this.status = status;
-        setAccountId(requester);
+        setJwt(jwt);
     }
 
-    private GetAccountsQuery(final Long requester, final AccountStatus status, final String name) {
+    private GetAccountsQuery(final String jwt, final AccountStatus status, final String name) {
         super(new GetAccountsRead());
         this.status = status;
         this.name = name;
-        setAccountId(requester);
+        setJwt(jwt);
 
     }
 
-    private GetAccountsQuery(final Long requester, final String name) {
+    private GetAccountsQuery(final String jwt, final String name) {
         super(new GetAccountsRead());
-        setAccountId(requester);
+        setJwt(jwt);
         this.name = name;
     }
 
@@ -56,12 +56,12 @@ public class GetAccountsQuery extends AbstractQuery<GetAccountsRead> {
         return new GetAccountsQuery(status, name);
     }
 
-    public static GetAccountsQuery create(final Long requester, final AccountStatus status) {
-        return new GetAccountsQuery(requester, status);
+    public static GetAccountsQuery create(final String jwt, final AccountStatus status) {
+        return new GetAccountsQuery(jwt, status);
     }
 
-    public static GetAccountsQuery create(final Long requester, final AccountStatus status, final String name) {
-        return new GetAccountsQuery(requester, status, name);
+    public static GetAccountsQuery create(final String jwt, final AccountStatus status, final String name) {
+        return new GetAccountsQuery(jwt, status, name);
     }
 
     public AccountStatus getStatus() {

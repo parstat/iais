@@ -36,12 +36,8 @@ public class ApiSecurityClosed extends AbstractController {
             @RequestParam(name = "name", required = false) final String name,
             @RequestParam(name = "language") final Language language) {
 
-        final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
-        final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
-
-        final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(accountId, status, name);
+        final GetAccountsQuery getAccountsQuery = GetAccountsQuery.create(jwt, status, name);
         getAccountsQuery.setLanguage(language);
-        getAccountsQuery.setAccountRole(accountRole);
         getAccountsQuery.setClosed(true);
 
         return sendQuery(getAccountsQuery, "security").getRead().getData();
@@ -61,12 +57,9 @@ public class ApiSecurityClosed extends AbstractController {
             @PathVariable(name = "id") final Long id,
             @RequestParam(name = "language") final String language) {
 
-        final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
-        final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
         final GetAccountQuery getAccountQuery = GetAccountQuery.create(id);
         getAccountQuery.setLanguage(Language.getLanguage(language));
-        getAccountQuery.setAccountRole(accountRole);
-        getAccountQuery.setAccountId(accountId);
+        getAccountQuery.setJwt(jwt);
         getAccountQuery.setClosed(true);
 
         return sendQuery(getAccountQuery, "security").getRead().getData();
@@ -86,12 +79,9 @@ public class ApiSecurityClosed extends AbstractController {
             @PathVariable(name = "username") final String username,
             @RequestParam(name = "language") final Language language) {
 
-        final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
-        final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
         final GetAccountQuery getAccountQuery = GetAccountQuery.create(username);
         getAccountQuery.setLanguage(language);
-        getAccountQuery.setAccountRole(accountRole);
-        getAccountQuery.setAccountId(accountId);
+        getAccountQuery.setJwt(jwt);
         getAccountQuery.setClosed(true);
 
         return sendQuery(getAccountQuery, "security").getRead().getData();
@@ -115,13 +105,10 @@ public class ApiSecurityClosed extends AbstractController {
             @RequestParam(name = "newPassword") final String newPassword,
             @RequestParam(name = "language") final Language language) {
 
-        final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
-        final AccountRole accountRole = AccountRole.valueOf(JWT.decode(jwt).getClaim("role").asString());
         final ChangePasswordCommand command = ChangePasswordCommand.create(oldPassword, newPassword);
 
         command.setLanguage(language);
-        command.setAccountId(accountId);
-        command.setAccountRole(accountRole);
+        command.setJwt(jwt);
         command.setClosed(true);
 
         return sendCommand(command, "security").getEvent().getData();

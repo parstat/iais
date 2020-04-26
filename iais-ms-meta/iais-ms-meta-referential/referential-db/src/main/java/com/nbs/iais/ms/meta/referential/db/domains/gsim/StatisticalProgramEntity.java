@@ -19,7 +19,7 @@ import java.util.List;
 
 
 @Entity(name = "StatisticalProgram")
-@Table(name = "statistical_program")
+@Table(name = "statistical_program", uniqueConstraints = @UniqueConstraint(columnNames = {"local_id", "version"}))
 public class StatisticalProgramEntity extends AbstractIdentifiableArtefact implements StatisticalProgram  {
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,
@@ -78,10 +78,10 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @OneToMany(targetEntity = ProcessDocumentationEntity.class, mappedBy = "statisticalProgram")
     private List<ProcessDocumentation> processDocumentations = new ArrayList<>();
 
-    @Column(name = "creator")
+    @Column(name = "creator", nullable = false)
     private Long creator;
 
-    @Column(name = "created_timestamp")
+    @Column(name = "created_timestamp", nullable = false)
     private Instant createdTimestamp;
 
     @Column(name = "editor")
@@ -212,7 +212,7 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     }
 
     @Override
-    public void setSourceOfFounding(final String sourceOfFounding) {
+    public void setSourceOfFunding(final String sourceOfFounding) {
         this.sourceOfFunding = sourceOfFounding;
     }
 

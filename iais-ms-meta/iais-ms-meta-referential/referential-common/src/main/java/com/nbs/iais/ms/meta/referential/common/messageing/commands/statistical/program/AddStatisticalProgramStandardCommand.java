@@ -16,22 +16,21 @@ public class AddStatisticalProgramStandardCommand extends AbstractCommand<AddSta
         super(new AddStatisticalProgramStandardEvent());
     }
 
-    private AddStatisticalProgramStandardCommand(final Long account, final AccountRole role, final Long statisticalProgram,
+    private AddStatisticalProgramStandardCommand(final String jwt, final Long statisticalProgram,
                                                  final Long statisticalStandardReference, final Language language) {
 
         super(new AddStatisticalProgramStandardEvent());
         this.statisticalProgram = statisticalProgram;
         this.statisticalStandardReference = statisticalStandardReference;
-        setAccountId(account);
-        setAccountRole(role);
+        setJwt(jwt);
         setLanguage(language);
 
     }
 
-    public static AddStatisticalProgramStandardCommand create(final Long account, final AccountRole role, final Long statisticalProgram,
+    public static AddStatisticalProgramStandardCommand create(final String jwt, final Long statisticalProgram,
                                                        final Long statisticalStandardReference, final Language language) {
 
-        return new AddStatisticalProgramStandardCommand(account, role, statisticalProgram, statisticalStandardReference, language);
+        return new AddStatisticalProgramStandardCommand(jwt, statisticalProgram, statisticalStandardReference, language);
     }
 
     public Long getStatisticalProgram() {

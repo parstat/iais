@@ -1,6 +1,5 @@
 package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program;
 
-import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
@@ -18,23 +17,20 @@ public class AddStatisticalProgramAdministratorCommand extends AbstractCommand<A
         super(new AddStatisticalProgramAdministratorEvent());
     }
 
-    private AddStatisticalProgramAdministratorCommand(final Long accountId, final AccountRole accountRole,
-                                                      final Long statisticalProgram, final Long agent,
+    private AddStatisticalProgramAdministratorCommand(final String jwt, final Long statisticalProgram, final Long agent,
                                                       final RoleType role, final Language language) {
         super(new AddStatisticalProgramAdministratorEvent());
         this.statisticalProgram = statisticalProgram;
         this.agent = agent;
         this.role = role;
         setLanguage(language);
-        setAccountId(accountId);
-        setAccountRole(accountRole);
+        setJwt(jwt);
     }
 
-    public AddStatisticalProgramAdministratorCommand create(final Long accountId, final AccountRole accountRole,
-                                                            final Long statisticalProgram, final Long agent,
+    public AddStatisticalProgramAdministratorCommand create(final String jwt, final Long statisticalProgram, final Long agent,
                                                             final RoleType role, final Language language) {
 
-        return new AddStatisticalProgramAdministratorCommand(accountId, accountRole, statisticalProgram,agent, role,
+        return new AddStatisticalProgramAdministratorCommand(jwt, statisticalProgram,agent, role,
                 language);
     }
 

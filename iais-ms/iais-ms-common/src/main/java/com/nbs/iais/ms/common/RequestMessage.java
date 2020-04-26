@@ -11,13 +11,9 @@ public interface RequestMessage<R extends ResponseMessage<? extends DTO>> extend
 
     void setLanguage(Language language);
 
-    Long getAccountId();
+    String getJwt();
 
-    void setAccountId(Long accountId);
-
-    AccountRole getAccountRole();
-
-    void setAccountRole(final AccountRole accountRole);
+    void setJwt(String jwt);
 
     boolean isClosed();
 

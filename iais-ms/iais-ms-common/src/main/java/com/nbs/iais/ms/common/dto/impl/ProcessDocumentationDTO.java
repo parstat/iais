@@ -6,8 +6,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.abstracts.IdentifiableArtefactDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.BusinessFunctionMiniDTO;
-import com.nbs.iais.ms.common.dto.impl.mini.DivisionMiniDTO;
-import com.nbs.iais.ms.common.dto.impl.mini.IndividualMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.StatisticalProgramMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Frequency;
@@ -27,7 +26,7 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
 
     @JsonProperty
     @JsonView(Views.Basic.class)
-    private DivisionMiniDTO owner;
+    private AgentMiniDTO owner;
 
     @JsonProperty
     @JsonView(Views.Basic.class)
@@ -35,7 +34,7 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
 
     @JsonProperty
     @JsonView(Views.Secure.class)
-    private IndividualMiniDTO creator;
+    private AgentMiniDTO maintainer;
 
     @JsonProperty
     @JsonView(Views.Basic.class)
@@ -89,11 +88,11 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
         this.statisticalProgram = statisticalProgram;
     }
 
-    public DivisionMiniDTO getOwner() {
+    public AgentMiniDTO getOwner() {
         return owner;
     }
 
-    public void setOwner(final DivisionMiniDTO owner) {
+    public void setOwner(final AgentMiniDTO owner) {
         this.owner = owner;
     }
 
@@ -105,12 +104,12 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
         this.frequency = frequency;
     }
 
-    public IndividualMiniDTO getCreator() {
-        return creator;
+    public AgentMiniDTO getMaintainer() {
+        return maintainer;
     }
 
-    public void setCreator(IndividualMiniDTO creator) {
-        this.creator = creator;
+    public void setMaintainer(AgentMiniDTO maintainer) {
+        this.maintainer = maintainer;
     }
 
     public DTOList<ProcessMethodDTO> getProcessMethods() {

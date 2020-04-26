@@ -48,7 +48,7 @@ public interface StatisticalProgram extends IdentifiableArtefact {
 
     String getSourceOfFounding();
 
-    void setSourceOfFounding(String sourceOfFounding);
+    void setSourceOfFunding(String sourceOfFounding);
 
     ProgramStatus getProgramStatus();
 
