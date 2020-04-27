@@ -8,6 +8,10 @@ public class GetStatisticalProgramQuery extends AbstractQuery<GetStatisticalProg
 	private static final long serialVersionUID = 20320L;
 
 	private Long id;
+
+	private String localId;
+
+	private String version;
 	
     private GetStatisticalProgramQuery() {
 		super(new GetStatisticalProgramRead());
@@ -18,9 +22,28 @@ public class GetStatisticalProgramQuery extends AbstractQuery<GetStatisticalProg
     	this.id = id;
 	}
 
+	private GetStatisticalProgramQuery(final String localId) {
+    	super(new GetStatisticalProgramRead());
+    	this.localId = localId;
+	}
+
+	private GetStatisticalProgramQuery(final String localId, final String version) {
+    	super(new GetStatisticalProgramRead());
+    	this.localId = localId;
+    	this.version = version;
+	}
+
 	public static GetStatisticalProgramQuery create() {
 	        return new GetStatisticalProgramQuery();
     }
+
+    public static GetStatisticalProgramQuery create(final String localId) {
+    	return new GetStatisticalProgramQuery(localId);
+	}
+
+	public static GetStatisticalProgramQuery create(final String localId, final String version) {
+		return new GetStatisticalProgramQuery(localId, version);
+	}
 
 	public static GetStatisticalProgramQuery create(final Long id) {
 		return new GetStatisticalProgramQuery(id);
@@ -36,6 +59,22 @@ public class GetStatisticalProgramQuery extends AbstractQuery<GetStatisticalProg
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getLocalId() {
+		return localId;
+	}
+
+	public void setLocalId(String localId) {
+		this.localId = localId;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 }
 

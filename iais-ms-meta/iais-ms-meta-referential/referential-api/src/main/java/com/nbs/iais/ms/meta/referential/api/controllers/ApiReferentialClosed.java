@@ -36,8 +36,8 @@ public class ApiReferentialClosed extends AbstractController {
      * @param owner of the survey, normally the statistical office
      * @param maintainer of the survey, normally the responsible division
      * @param contact of the survey, normally an individual of the responsible division
-     * @param language to use
-     * @return StatisticalProgramDTO
+     * @param language to present the returned DTO
+     * @return StatisticalProgramDTO (the created survey)
      */
     @JsonView(Views.Extended.class)
     @PutMapping("/statistical/programs/{local_id}")

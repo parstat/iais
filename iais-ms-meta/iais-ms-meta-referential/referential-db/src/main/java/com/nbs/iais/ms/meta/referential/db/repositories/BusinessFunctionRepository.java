@@ -1,7 +1,9 @@
 package com.nbs.iais.ms.meta.referential.db.repositories;
 
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -13,6 +15,9 @@ public interface BusinessFunctionRepository extends CrudRepository<BusinessFunct
 
     Iterable<BusinessFunctionEntity> findAllByLocalIdStartingWith(String phase);
 
-    Iterable<BusinessFunctionEntity> findAllByNameContaining(String name);
+    //A named query because search should be done only for selected language texts
+    @Query("SELECT bf FROM BusinessFunction bf INNER JOIN bf.name n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:name%")
+    Iterable<BusinessFunctionEntity> findAllByNameInLanguageContaining(@Param(value = "language") String language,
+                                                                       @Param(value = "name") String name);
 
 }

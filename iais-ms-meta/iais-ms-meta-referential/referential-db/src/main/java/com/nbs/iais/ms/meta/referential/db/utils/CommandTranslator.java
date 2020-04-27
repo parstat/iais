@@ -38,7 +38,7 @@ public class CommandTranslator {
 
         statisticalProgram.setVersion("1.0");
         statisticalProgram.setVersionDate(LocalDateTime.now());
-        statisticalProgram.setVersionRationale("Newly created");
+        statisticalProgram.setVersionRationale("First Version");
         statisticalProgram.setProgramStatus(command.getStatus());
         statisticalProgram.setCreator(JWT.decode(command.getJwt()).getClaim("user").asLong());
         statisticalProgram.setCreatedTimestamp(Instant.now());

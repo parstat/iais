@@ -1,7 +1,5 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
@@ -9,6 +7,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.p
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
+import com.nbs.iais.ms.meta.referential.db.repositories.*;
 import com.nbs.iais.ms.meta.referential.db.services.CommandReferentialService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -26,7 +25,6 @@ import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.messaging.MessageChannel;
 import com.nbs.iais.ms.common.messaging.channels.Channels;
-import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
 import com.nbs.iais.ms.meta.referential.db.services.QueryReferentialService;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramQuery;
 
@@ -35,7 +33,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatistical
 @EntityScan(basePackageClasses = {
 		AdministrativeDetailsEntity.class,
 		AgentEntity.class,
-		AgentInRole.class,
+		AgentInRoleEntity.class,
 		BusinessFunctionEntity.class,
 		BusinessServiceEntity.class,
 		ChangeEventEntity.class,
@@ -46,11 +44,19 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatistical
 		ProcessInputSpecificationEntity.class,
 		ProcessMethodEntity.class,
 		ProcessOutputSpecificationEntity.class,
+		ProcessQualityEntity.class,
 		StatisticalProgramEntity.class,
-		StatisticalStandardReferenceEntity.class
-})
-@ComponentScan(basePackageClasses = QueryReferentialService.class)
-@EnableJpaRepositories(basePackageClasses = StatisticalProgramRepository.class)
+		StatisticalStandardReferenceEntity.class })
+@ComponentScan(basePackageClasses = {
+		QueryReferentialService.class,
+		CommandReferentialService.class })
+@EnableJpaRepositories(basePackageClasses = {
+		AgentRepository.class,
+		AgentInRoleRepository.class,
+		BusinessFunctionRepository.class,
+		LegislativeReferenceRepository.class,
+		StatisticalStandardReferenceRepository.class,
+		StatisticalProgramRepository.class })
 @EnableIntegration
 public class ApplicationConfig {
 

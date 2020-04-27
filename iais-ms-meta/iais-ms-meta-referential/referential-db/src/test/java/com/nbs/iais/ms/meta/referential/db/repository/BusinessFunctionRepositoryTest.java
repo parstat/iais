@@ -52,14 +52,16 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
         Assert.assertTrue(businessFunction.iterator().hasNext());
     }
 
-    /*@Test//This class we clarify later because the name is multilingual.
+    @Test
     public void testFindBusinessFunctionNameContaining() {
         final BusinessFunctionEntity toSave = getBusinessFunctionEntity();
         final BusinessFunctionEntity saved = businessFunctionRepository.save(toSave);
 
-        Iterable<BusinessFunctionEntity> businessFunction = businessFunctionRepository.findAllByNameContaining("name");
+        final Iterable<BusinessFunctionEntity> businessFunction = businessFunctionRepository
+                .findAllByNameInLanguageContaining(Language.ENG.getShortName(), "am");
+
         Assert.assertTrue(businessFunction.iterator().hasNext());
-    }*/
+    }
 
     private BusinessFunctionEntity getBusinessFunctionEntity() {
         final BusinessFunctionEntity toSave = new BusinessFunctionEntity();

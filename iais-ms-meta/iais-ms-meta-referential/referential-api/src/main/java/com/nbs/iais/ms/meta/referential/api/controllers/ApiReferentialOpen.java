@@ -19,9 +19,15 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatistical
 @RequestMapping(value = "/api/v1/referential", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiReferentialOpen extends AbstractController {
 
+
+	/**
+	 * Method to get all statistical programs (survey)
+	 * @param language to present the DTOs
+	 * @return DTOList<StatisticalProgramDTO> (List of all Surveys in selected language)
+	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs")
-	public DTOList<StatisticalProgramDTO> getStatisticalProcessesQuery(
+	public DTOList<StatisticalProgramDTO> getStatisticalPrograms(
 			@RequestParam(name = "language") final String language) {
 
 		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create();
@@ -30,6 +36,12 @@ public class ApiReferentialOpen extends AbstractController {
 
 	}
 
+	/**
+	 * Method to get a statistical program (survey) by id
+	 * @param id of the statistical program (survey)
+	 * @param language to present the returned DTO
+	 * @return StatisticalProgramDTO (the requested survey presented in the selected language)
+	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs/{id}")
 	public StatisticalProgramDTO getStatisticalProgram(
@@ -41,6 +53,12 @@ public class ApiReferentialOpen extends AbstractController {
 		return sendQuery(getStatisticalProcessQuery, "referential").getRead().getData();
 	}
 
+	/**
+	 * Method to get a business function (gsbpm sub-phase) by id
+	 * @param id sub-phase id
+	 * @param language to present the returned DTO
+	 * @return BusinessFunctionDTO (the requested gsbpm sub-phase in the selected language)
+	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions/{id}")
 	public BusinessFunctionDTO getBusinessFunction(
@@ -53,10 +71,19 @@ public class ApiReferentialOpen extends AbstractController {
 		return sendQuery(getBusinessFunctionQuery, "referential").getRead().getData();
 	}
 
+	/**
+	 * Method to get a business function (gsbpm sub-phase) by local id and version
+	 * sub-phase of gsbpm can have different version, current is 5.1
+	 * if the user is interested in another version can use this method
+	 * @param localId the id of sub-phase
+	 * @param version version of sub-phase
+	 * @param language to present the returned DTO
+	 * @return BusinessFunctionDTO (gsbpm sub-phase in the requested language)
+	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions/sub-phase/{localId}/version/{version}")
 	public BusinessFunctionDTO getBusinessFunction(
-			@PathVariable(name = "localId") final String localId,
+			@PathVariable(name = "sub_phase") final String localId,
 			@PathVariable(name = "version") final String version,
 			@RequestParam(name = "language") final String language) {
 
@@ -65,6 +92,13 @@ public class ApiReferentialOpen extends AbstractController {
 		return sendQuery(getBusinessFunctionQuery, "referential").getRead().getData();
 	}
 
+	/**
+	 * Method to get the current version of gsbpm sub-phse (business function)
+	 * current version is hardcoded to 5.1 method should be changed to get always the latest version
+	 * @param localId id of gsbpm sub-phase
+	 * @param language to present the returned DTO
+	 * @return BusinessFunctionDTO the requested business function (gsbpm sub-phase) in the selected language
+	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions/sub-phase/{localId}")
 	public BusinessFunctionDTO getBusinessFunction(
