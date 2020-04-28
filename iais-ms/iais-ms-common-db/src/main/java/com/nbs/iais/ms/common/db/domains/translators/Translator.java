@@ -35,17 +35,18 @@ public class Translator {
 
 	}
 
-	public static <A extends Account> Optional<DTOList<AccountDTO>> translate(final Iterable<A> accounts) {
+    public static <A extends Account> Optional<DTOList<AccountDTO>> translate(final Iterable<A> accounts) {
 
-		if (!accounts.iterator().hasNext()) {
-			return Optional.empty();
-		}
-		final DTOList<AccountDTO> accountDTOS = DTOList.empty(AccountDTO.class);
+        if(!accounts.iterator().hasNext()) {
+            return Optional.empty();
+        }
+        final DTOList<AccountDTO> accountDTOS = DTOList.empty(AccountDTO.class);
 
-		accounts.forEach(accountEntity -> translate(accountEntity).ifPresent(accountDTOS::add));
+        accounts.forEach(accountEntity -> translate(accountEntity)
+                .ifPresent(accountDTOS::add));
 
-		return Optional.of(accountDTOS);
-	}
+        return Optional.of(accountDTOS);
+    }
 
 	public static <SP extends StatisticalProgram> Optional<DTOList<StatisticalProgramDTO>> translate(
 			final Iterable<SP> statisticalPrograms, final Language language) {
@@ -81,8 +82,22 @@ public class Translator {
 
 	}
 
-	public static <SP extends StatisticalProgram> Optional<StatisticalProgramDTO> translate(final SP statisticalProgram,
-			final Language language) {
+
+
+	public static <BF extends BusinessFunction> Optional<DTOList<BusinessFunctionDTO>> translateBusinessFunctions(
+            final Iterable<BF> businessFunctions, final Language language) {
+
+        if(businessFunctions == null || !businessFunctions.iterator().hasNext()) {
+            return Optional.empty();
+        }
+        final DTOList<BusinessFunctionDTO> businessFunctionDTOS = DTOList.empty(BusinessFunctionDTO.class);
+        businessFunctions.forEach(bf ->
+            translate(bf, language).ifPresent(businessFunctionDTOS::add));
+        return Optional.of(businessFunctionDTOS);
+    }
+
+    public static <SP extends StatisticalProgram> Optional<StatisticalProgramDTO> translate(
+            final SP statisticalProgram, final Language language) {
 
 		if (statisticalProgram == null) {
 			return Optional.empty();

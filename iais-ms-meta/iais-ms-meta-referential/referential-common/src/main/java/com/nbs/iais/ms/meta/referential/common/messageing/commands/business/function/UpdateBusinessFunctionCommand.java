@@ -32,43 +32,53 @@ public class UpdateBusinessFunctionCommand extends AbstractCommand<UpdateBusines
     private String description;
 
     /**
-     * new localId, if null or empty will not change the previous one
+     * to get the business function (combined with version)
+     * not updatable
      */
     private String localId;
 
     /**
-     * new version, if null or empty will not change the previous one
+     * to get the business function (combined with localId) default current version 5.1
+     * not updatable
      */
-    private String version;
+    private String version = "5.1";
 
-    /**
-     * new version date, if null or empty will not change the previous one
-     */
-    private LocalDateTime versionDate;
 
     private UpdateBusinessFunctionCommand() {
         super(new UpdateBusinessFunctionEvent());
     }
 
-    private UpdateBusinessFunctionCommand(final String jwt, final Long id, final String name, final String description,
-                                          final String localId, final String version, final LocalDateTime versionDate,
-                                          final Language language) {
+    private UpdateBusinessFunctionCommand(final String jwt, final String name, final String description,
+                                          final String localId, final String version, final Language language) {
         super(new UpdateBusinessFunctionEvent());
-        this.id = id;
         this.name = name;
         this.description = description;
         this.localId = localId;
         this.version = version;
-        this.versionDate = versionDate;
         setLanguage(language);
         setJwt(jwt);
 
     }
 
+    private UpdateBusinessFunctionCommand(final String jwt, final Long id, final String name, final String description,
+                                          final Language language) {
+        super(new UpdateBusinessFunctionEvent());
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        setLanguage(language);
+        setJwt(jwt);
+
+    }
+
+    public static UpdateBusinessFunctionCommand create(final String jwt, final String name, final String description,
+                                                       final String localId, final String version, final Language language) {
+        return new UpdateBusinessFunctionCommand(jwt, name, description, localId, version, language);
+    }
+
     public static UpdateBusinessFunctionCommand create(final String jwt, final Long id, final String name, final String description,
-                                                       final String localId, final String version, final LocalDateTime versionDate,
                                                        final Language language) {
-        return new UpdateBusinessFunctionCommand(jwt, id, name, description, localId, version, versionDate, language);
+        return new UpdateBusinessFunctionCommand(jwt, id, name, description, language);
     }
 
     public Long getId() {
@@ -111,11 +121,4 @@ public class UpdateBusinessFunctionCommand extends AbstractCommand<UpdateBusines
         this.version = version;
     }
 
-    public LocalDateTime getVersionDate() {
-        return versionDate;
-    }
-
-    public void setVersionDate(final LocalDateTime versionDate) {
-        this.versionDate = versionDate;
-    }
 }

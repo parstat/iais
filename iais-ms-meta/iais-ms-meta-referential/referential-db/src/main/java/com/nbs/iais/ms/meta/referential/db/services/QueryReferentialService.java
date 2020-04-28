@@ -1,9 +1,11 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
+import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionsQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
@@ -26,10 +28,11 @@ public class QueryReferentialService {
     private StatisticalProgramRepository statisticalProgramRepository;
 
 	@Autowired
-    private AgentRepository agentRepository;
-	
+	private AgentRepository agentRepository;
+
 	@Autowired
 	private BusinessFunctionRepository businessFunctionRepository;
+
 
 	public GetStatisticalProgramsQuery getStatisticalPrograms(final GetStatisticalProgramsQuery query) {
 
@@ -39,7 +42,7 @@ public class QueryReferentialService {
 		return query;
 	}
 
-	public GetStatisticalProgramQuery getStatisticalProcess(final GetStatisticalProgramQuery query) {
+	public GetStatisticalProgramQuery getStatisticalProgram(final GetStatisticalProgramQuery query) {
 
 		statisticalProgramRepository.findById(query.getId())
 				.flatMap(sp -> translate(sp, query.getLanguage()))
@@ -61,6 +64,22 @@ public class QueryReferentialService {
 		return query;
 	}
 
+	public GetBusinessFunctionsQuery getBusinessFunctions(final GetBusinessFunctionsQuery query) {
+		if(StringTools.isNotEmpty(query.getName())) {
+			Translator.translateBusinessFunctions(businessFunctionRepository
+					.findAllByNameInLanguageContaining(query.getLanguage().getShortName(), query.getName()), query.getLanguage())
+					.ifPresent(query.getRead()::setData);
+		}
+
+		if(query.getPhase() > 0 && query.getPhase() <= 8) {
+			Translator.translateBusinessFunctions(businessFunctionRepository
+					.findAllByLocalIdStartingWith(String.valueOf(query.getPhase())), query.getLanguage())
+					.ifPresent(query.getRead()::setData);
+		}
+
+		return query;
+	}
+
 	// Agent section
 	public GetAgentsQuery getAgents(final GetAgentsQuery query) {
 
@@ -78,5 +97,5 @@ public class QueryReferentialService {
 
 		return query;
 	}
-	
+
 }

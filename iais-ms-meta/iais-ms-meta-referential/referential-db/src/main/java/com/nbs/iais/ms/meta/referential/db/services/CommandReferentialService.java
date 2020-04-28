@@ -1,10 +1,15 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
 import com.auth0.jwt.JWT;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
+import com.nbs.iais.ms.common.enums.AccountRole;
+import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.enums.RoleType;
+import com.nbs.iais.ms.common.exceptions.AuthorizationException;
+import com.nbs.iais.ms.common.utils.StringTools;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
@@ -15,10 +20,8 @@ import com.nbs.iais.ms.meta.referential.db.repositories.*;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.time.Instant;
-import java.util.List;
 
 @Service
 public class CommandReferentialService {
@@ -34,12 +37,12 @@ public class CommandReferentialService {
 
     @Autowired
     private LegislativeReferenceRepository legislativeReferenceRepository;
-    
-    @Autowired
-    private AdministrativeDetailsRepository administrativeDetailsRepository;
 
     @Autowired
     private StatisticalStandardReferenceRepository statisticalStandardReferenceRepository;
+
+    @Autowired
+    private BusinessFunctionRepository businessFunctionRepository;
 
     public CreateStatisticalProgramCommand createStatisticalProgram(final CreateStatisticalProgramCommand command) {
             final StatisticalProgramEntity sp =
@@ -117,8 +120,47 @@ public class CommandReferentialService {
 
         return command;
     }
-    
-    
+
+
+    public CreateBusinessFunctionCommand createBusinessFunction(final CreateBusinessFunctionCommand command) throws AuthorizationException {
+
+        if(AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString()) == AccountRole.USER) {
+            throw new AuthorizationException("You have no permission to perform this operation", ExceptionCodes.NO_PERMISSION);
+        }
+        final BusinessFunctionEntity businessFunctionEntity = CommandTranslator.translate(command);
+
+        Translator.translate(businessFunctionRepository.save(businessFunctionEntity), command.getLanguage())
+                .ifPresent(command.getEvent()::setData);
+
+        return command;
+    }
+
+    public UpdateBusinessFunctionCommand updateBusinessFunction(final UpdateBusinessFunctionCommand command) throws AuthorizationException{
+
+        if(AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString()) == AccountRole.USER) {
+            throw new AuthorizationException("You have no permission to perform this operation", ExceptionCodes.NO_PERMISSION);
+        }
+
+        if(command.getId() != null) {
+            businessFunctionRepository.findById(command.getId()).ifPresent(bf -> {
+                CommandTranslator.translate(command, bf);
+                Translator.translate(businessFunctionRepository.save(bf), command.getLanguage())
+                        .ifPresent(command.getEvent()::setData);
+            });
+
+        }
+        if(StringTools.isNotEmpty(command.getLocalId())) {
+            businessFunctionRepository.findByLocalIdAndVersion(command.getLocalId(), command.getVersion())
+                    .ifPresent(bf -> {
+                        CommandTranslator.translate(command, bf);
+                        Translator.translate(businessFunctionRepository.save(bf), command.getLanguage())
+                                .ifPresent(command.getEvent()::setData);
+                    });
+        }
+        return command;
+    }
+
+
     public CreateAgentCommand createAgent(final CreateAgentCommand command) {
         final AgentEntity agentEntity =
                 agentRepository.save(CommandTranslator.translate(command));
@@ -130,22 +172,6 @@ public class CommandReferentialService {
             });
         }
 
-        if(command.getAdministrativeDetails() != null) {
-        	administrativeDetailsRepository.findById(command.getAdministrativeDetails()).ifPresent(adminDet -> {
-        		agentEntity.setAdministrativeDetails(adminDet);
-        		agentRepository.save(agentEntity);
-            });
-        }
-
-        if(!CollectionUtils.isEmpty(command.getChildren())) {
-        	
-         List<Agent> children=  agentRepository.findByIdIn(command.getChildren());
-         if(!CollectionUtils.isEmpty(children)) {
-        	 agentEntity.setChildren(children);
-     		agentRepository.save(agentEntity);
-            }
-        }
-   
     Translator.translate(agentEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
     return command;
 }

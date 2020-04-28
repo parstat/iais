@@ -42,21 +42,19 @@ public class CreateBusinessFunctionCommand extends AbstractCommand<CreateBusines
         super(new CreateBusinessFunctionEvent());
     }
 
-    private CreateBusinessFunctionCommand(final String jwt, final String name, final String description, final String localId,
-                                          final String version, final LocalDateTime versionDate, final Language language) {
+    private CreateBusinessFunctionCommand(final String jwt, final String name, final String description,
+                                          final String localId, final Language language) {
         super(new CreateBusinessFunctionEvent());
         this.name = name;
         this.description = description;
         this.localId = localId;
-        this.version = version;
-        this.versionDate = versionDate;
         setLanguage(language);
         setJwt(jwt);
     }
 
-    public static CreateBusinessFunctionCommand create(final String jwt, final String name, final String description, final String localId,
-                                                       final String version, final LocalDateTime versionDate, final Language language) {
-        return new CreateBusinessFunctionCommand(jwt, name, description, localId, version, versionDate, language);
+    public static CreateBusinessFunctionCommand create(final String jwt, final String name, final String description,
+                                                       final String localId, final Language language) {
+        return new CreateBusinessFunctionCommand(jwt, name, description, localId, language);
     }
 
     public String getName() {

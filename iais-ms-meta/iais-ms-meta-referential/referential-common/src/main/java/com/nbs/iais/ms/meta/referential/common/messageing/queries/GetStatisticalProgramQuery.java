@@ -1,5 +1,6 @@
 package com.nbs.iais.ms.meta.referential.common.messageing.queries;
 
+import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.queries.abstracts.AbstractQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.reads.GetStatisticalProgramRead;
 
@@ -17,36 +18,31 @@ public class GetStatisticalProgramQuery extends AbstractQuery<GetStatisticalProg
 		super(new GetStatisticalProgramRead());
 	}
 
-	private GetStatisticalProgramQuery(final Long id) {
+	private GetStatisticalProgramQuery(final Long id, final Language language) {
     	super(new GetStatisticalProgramRead());
     	this.id = id;
+    	setLanguage(language);
 	}
 
-	private GetStatisticalProgramQuery(final String localId) {
-    	super(new GetStatisticalProgramRead());
-    	this.localId = localId;
-	}
 
-	private GetStatisticalProgramQuery(final String localId, final String version) {
+	private GetStatisticalProgramQuery(final String localId, final String version, final Language language) {
     	super(new GetStatisticalProgramRead());
     	this.localId = localId;
     	this.version = version;
+    	setLanguage(language);
 	}
 
 	public static GetStatisticalProgramQuery create() {
 	        return new GetStatisticalProgramQuery();
     }
 
-    public static GetStatisticalProgramQuery create(final String localId) {
-    	return new GetStatisticalProgramQuery(localId);
+
+	public static GetStatisticalProgramQuery create(final String localId, final String version, final Language language) {
+		return new GetStatisticalProgramQuery(localId, version, language);
 	}
 
-	public static GetStatisticalProgramQuery create(final String localId, final String version) {
-		return new GetStatisticalProgramQuery(localId, version);
-	}
-
-	public static GetStatisticalProgramQuery create(final Long id) {
-		return new GetStatisticalProgramQuery(id);
+	public static GetStatisticalProgramQuery create(final Long id, final Language language) {
+		return new GetStatisticalProgramQuery(id, language);
 	}
 
 	public static long getSerialVersionUID() {

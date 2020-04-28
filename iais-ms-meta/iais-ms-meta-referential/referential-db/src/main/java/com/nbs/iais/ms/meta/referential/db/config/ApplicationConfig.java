@@ -1,5 +1,7 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
@@ -33,11 +35,22 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatistical
 
 @Configuration
 @EnableAutoConfiguration
-@EntityScan(basePackageClasses = { AdministrativeDetailsEntity.class, AgentEntity.class, AgentInRoleEntity.class,
-		BusinessFunctionEntity.class, BusinessServiceEntity.class, ChangeEventEntity.class,
-		LegislativeReferenceEntity.class, MultiLanguageTextEntity.class, ProcessDocumentationEntity.class,
-		ProcessDocumentEntity.class, ProcessInputSpecificationEntity.class, ProcessMethodEntity.class,
-		ProcessOutputSpecificationEntity.class, ProcessQualityEntity.class, StatisticalProgramEntity.class,
+@EntityScan(basePackageClasses = {
+		AdministrativeDetailsEntity.class,
+		AgentEntity.class,
+		AgentInRoleEntity.class,
+		BusinessFunctionEntity.class,
+		BusinessServiceEntity.class,
+		ChangeEventEntity.class,
+		LegislativeReferenceEntity.class,
+		MultiLanguageTextEntity.class,
+		ProcessDocumentationEntity.class,
+		ProcessDocumentEntity.class,
+		ProcessInputSpecificationEntity.class,
+		ProcessMethodEntity.class,
+		ProcessOutputSpecificationEntity.class,
+		ProcessQualityEntity.class,
+		StatisticalProgramEntity.class,
 		StatisticalStandardReferenceEntity.class })
 @ComponentScan(basePackageClasses = { QueryReferentialService.class, CommandReferentialService.class })
 @EnableJpaRepositories(basePackageClasses = { AgentRepository.class, AgentInRoleRepository.class,
@@ -54,8 +67,7 @@ public class ApplicationConfig {
 								sf -> sf.<GetStatisticalProgramsQuery>handle(
 										(p, h) -> queryReferentialService.getStatisticalPrograms(p)))
 						.subFlowMapping(GetStatisticalProgramQuery.class,
-								sf -> sf.<GetStatisticalProgramQuery>handle(
-										(p, h) -> queryReferentialService.getStatisticalProcess(p)))
+								sf -> sf.<GetStatisticalProgramQuery>handle((p, h) -> queryReferentialService.getStatisticalProgram(p)))
 						.subFlowMapping(GetBusinessFunctionQuery.class,
 								sf -> sf.<GetBusinessFunctionQuery>handle(
 										(p, h) -> queryReferentialService.getBusinessFunction(p)))
@@ -85,9 +97,15 @@ public class ApplicationConfig {
 										(p, h) -> commandReferentialService.addStatisticalProgramStandard(p)))
 						.subFlowMapping(CreateAgentCommand.class,
 								sf -> sf.<CreateAgentCommand>handle((p, h) -> commandReferentialService.createAgent(p)))
-
-				).get();
+						.subFlowMapping(AddStatisticalProgramStandardCommand.class,
+								sf -> sf.<AddStatisticalProgramStandardCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramStandard(p)))
+						.subFlowMapping(CreateBusinessFunctionCommand.class,
+								sf -> sf.<CreateBusinessFunctionCommand>handle((p, h) -> commandReferentialService.createBusinessFunction(p)))
+						.subFlowMapping(UpdateBusinessFunctionCommand.class,
+								sf -> sf.<UpdateBusinessFunctionCommand>handle((p, h) -> commandReferentialService.updateBusinessFunction(p))))
+				.get();
 	}
+
 
 	@Bean(name = Channels.QUERY_INPUT)
 	public MessageChannel queryInput() {

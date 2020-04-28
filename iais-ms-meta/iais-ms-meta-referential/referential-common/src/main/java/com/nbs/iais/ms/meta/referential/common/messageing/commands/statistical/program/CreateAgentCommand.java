@@ -9,10 +9,14 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
 
-@Getter
-@Setter
 public class CreateAgentCommand extends AbstractCommand<CreateAgentEvent> {
 
+	//FIXME
+	//Remove children and administrative details
+	//AdministrativeDetail not in use currently, is for later
+	//Children can be found using parent id
+	// i.e get all agents that has a selected parent
+	//DONE
 	private static final long serialVersionUID = 2600L;
 
 	/**
@@ -45,11 +49,6 @@ public class CreateAgentCommand extends AbstractCommand<CreateAgentEvent> {
 	private Long parent;
 
 	/**
-	 * Children id agent list
-	 */
-	private List<Long> children;
-
-	/**
 	 * Account id
 	 */
 	private Long account;
@@ -63,29 +62,72 @@ public class CreateAgentCommand extends AbstractCommand<CreateAgentEvent> {
 		super(new CreateAgentEvent());
 	}
 
-	private CreateAgentCommand(final String name, final String description, final AgentType type, final String localId,
-			final Long parent, final Long account, List<Long> children, final Long administrativeDetails,
-			final Language language) {
+	private CreateAgentCommand(final String jwt, final String name, final String description, final AgentType type, final String localId,
+			final Long parent, final Long account, final Language language) {
 		super(new CreateAgentEvent());
 		this.name = name;
 		this.description = description;
 		this.type = type;
 		this.localId = localId;
 		this.parent = parent;
-		this.children = children;
 		this.account = account;
-		this.administrativeDetails = administrativeDetails;
 		setLanguage(language);
 		setClosed(true);
+		setJwt(jwt);
 	}
 
-	public static CreateAgentCommand create(final String name, final String description, final AgentType type,
-			final String localId, final Long parent, final Long account, List<Long> children,
-			final Long administrativeDetails, final Language language) {
+	public static CreateAgentCommand create(final String jwt, final String name, final String description, final AgentType type,
+			final String localId, final Long parent, final Long account, final Language language) {
 
-		return new CreateAgentCommand(name, description, type, localId, parent, account, children,
-				administrativeDetails, language);
+		return new CreateAgentCommand(jwt, name, description, type, localId, parent, account, language);
 
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
+	}
+
+	public String getLocalId() {
+		return localId;
+	}
+
+	public void setLocalId(final String localId) {
+		this.localId = localId;
+	}
+
+	public AgentType getType() {
+		return type;
+	}
+
+	public void setType(final AgentType type) {
+		this.type = type;
+	}
+
+	public Long getParent() {
+		return parent;
+	}
+
+	public void setParent(final Long parent) {
+		this.parent = parent;
+	}
+
+	public Long getAccount() {
+		return account;
+	}
+
+	public void setAccount(Long account) {
+		this.account = account;
+	}
 }

@@ -2,8 +2,11 @@ package com.nbs.iais.ms.meta.referential.db.utils;
 
 import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.utils.StringTools;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 
@@ -48,7 +51,7 @@ public class CommandTranslator {
 
         return statisticalProgram;
     }
-    
+
     public static AgentEntity translate(final CreateAgentCommand command) {
 
 		final AgentEntity agentEntity = new AgentEntity();
@@ -73,4 +76,29 @@ public class CommandTranslator {
 
 		return agentEntity;
 	}
+
+    public static BusinessFunctionEntity translate(final CreateBusinessFunctionCommand command) {
+
+        final BusinessFunctionEntity businessFunctionEntity = new BusinessFunctionEntity();
+
+        businessFunctionEntity.setLocalId(command.getLocalId());
+        businessFunctionEntity.setName(command.getName(), command.getLanguage());
+        businessFunctionEntity.setDescription(command.getDescription(), command.getLanguage());
+        businessFunctionEntity.setVersion("5.1");
+        businessFunctionEntity.setVersionRationale("Latest version");
+        businessFunctionEntity.setVersionDate(command.getVersionDate());
+
+        return businessFunctionEntity;
+
+    }
+
+    public static void translate(final UpdateBusinessFunctionCommand command, final BusinessFunctionEntity existingBusinessFunction) {
+        if(StringTools.isNotEmpty(command.getDescription())) {
+            existingBusinessFunction.setDescription(command.getDescription(), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getName())) {
+            existingBusinessFunction.setName(command.getName(), command.getLanguage());
+        }
+    }
 }
