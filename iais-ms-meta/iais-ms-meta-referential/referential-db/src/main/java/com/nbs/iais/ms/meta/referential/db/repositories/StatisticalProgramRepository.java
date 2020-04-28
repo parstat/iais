@@ -8,4 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StatisticalProgramRepository extends CrudRepository<StatisticalProgramEntity, Long> {
 
+    Iterable<StatisticalProgramEntity> findAllByLocalId(String localId);
+
+    boolean existsByLocalId(String localId);
+
 }

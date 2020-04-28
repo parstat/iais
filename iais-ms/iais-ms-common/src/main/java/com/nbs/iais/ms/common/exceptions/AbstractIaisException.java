@@ -1,6 +1,7 @@
 package com.nbs.iais.ms.common.exceptions;
 
 import com.nbs.iais.ms.common.enums.ExceptionCodes;
+import com.nbs.iais.ms.common.utils.StringTools;
 
 public abstract class AbstractIaisException extends RuntimeException implements IaisException {
 
@@ -46,5 +47,12 @@ public abstract class AbstractIaisException extends RuntimeException implements 
     @Override
     public void setType(ExceptionCodes type) {
         this.type = type;
+    }
+
+    @Override
+    public String getMessage() {
+
+        return StringTools.isEmpty(super.getMessage()) ? getType().toString() : super.getMessage();
+
     }
 }
