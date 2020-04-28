@@ -24,6 +24,11 @@ public class GetStatisticalProgramQuery extends AbstractQuery<GetStatisticalProg
     	setLanguage(language);
 	}
 
+	private GetStatisticalProgramQuery(final String localId, final Language language) {
+		super(new GetStatisticalProgramRead());
+		this.localId = localId;
+		setLanguage(language);
+	}
 
 	private GetStatisticalProgramQuery(final String localId, final String version, final Language language) {
     	super(new GetStatisticalProgramRead());
@@ -39,6 +44,10 @@ public class GetStatisticalProgramQuery extends AbstractQuery<GetStatisticalProg
 
 	public static GetStatisticalProgramQuery create(final String localId, final String version, final Language language) {
 		return new GetStatisticalProgramQuery(localId, version, language);
+	}
+
+	public static GetStatisticalProgramQuery create(final String localId, final Language language) {
+		return new GetStatisticalProgramQuery(localId, language);
 	}
 
 	public static GetStatisticalProgramQuery create(final Long id, final Language language) {

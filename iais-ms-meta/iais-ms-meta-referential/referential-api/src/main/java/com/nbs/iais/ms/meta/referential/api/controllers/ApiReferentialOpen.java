@@ -9,6 +9,7 @@ import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
+import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
@@ -33,10 +34,24 @@ public class ApiReferentialOpen extends AbstractController {
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs")
 	public DTOList<StatisticalProgramDTO> getStatisticalPrograms(
+			@RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "maintainer", required = false) final Long maintainer,
 			@RequestParam(name = "language") final String language) {
 
-		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create();
-		getStatisticalProgramsQuery.setLanguage(Language.getLanguage(language));
+		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create(Language.getLanguage(language));
+		//all survey by division all versions
+		if(maintainer != null) {
+			getStatisticalProgramsQuery.setMaintainer(maintainer);
+			return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
+		}
+
+		//search by name in the selected language (all versions)
+		if(StringTools.isNotEmpty(name)) {
+			getStatisticalProgramsQuery.setName(name);
+			return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
+		}
+
+		//all statistical programs of all versions
 		return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
 
 	}
@@ -59,15 +74,15 @@ public class ApiReferentialOpen extends AbstractController {
 	}
 
 	/**
-	 * Method to get a statistical program (survey) by id
+	 * Method to get a statistical program (survey) by local id and version
 	 * @param localId of the statistical program (survey)
 	 * @param version of the statistical program (survey)
 	 * @param language to present the returned DTO
 	 * @return StatisticalProgramDTO (the requested survey presented in the selected language)
 	 */
 	@JsonView(Views.Extended.class)
-	@GetMapping("/statistical/programs/{local_id}/version/{version}")
-	public StatisticalProgramDTO getStatisticalProgram(
+	@GetMapping("/statistical/programs/{local_id}/versions/{version}")
+	public StatisticalProgramDTO getStatisticalProgramByVersion(
 			@PathVariable(name = "local_id") final String localId,
 			@PathVariable(name = "version") final String version,
 			@RequestParam(name = "language") final String language) {
@@ -76,6 +91,41 @@ public class ApiReferentialOpen extends AbstractController {
 				Language.getLanguage(language));
 
 		return sendQuery(getStatisticalProcessQuery, "referential").getRead().getData();
+	}
+
+	/**
+	 * Method to get latest versions of a statistical program (survey)
+	 * @param localId of the statistical program (survey)
+	 * @param language to present the returned DTO
+	 * @return StatisticalProgramDTO (the latest versions of the survey presented in the selected language)
+	 */
+	@JsonView(Views.Extended.class)
+	@GetMapping("/statistical/programs/{local_id}/latest")
+	public StatisticalProgramDTO getLatestVersionStatisticalProgram(
+			@PathVariable(name = "local_id") final String localId,
+			@RequestParam(name = "language") final String language) {
+
+		final GetStatisticalProgramQuery getStatisticalProgramQuery = GetStatisticalProgramQuery.create(localId,
+				Language.getLanguage(language));
+
+		return sendQuery(getStatisticalProgramQuery, "referential").getRead().getData();
+	}
+
+	/**
+	 * Method to get all versions of a statistical program (survey)
+	 * @param localId of the statistical program (survey)
+	 * @param language to present the returned DTO
+	 * @return DTOList<StatisticalProgramDTO> (the requested versions of the survey presented in the selected language)
+	 */
+	@JsonView(Views.Extended.class)
+	@GetMapping("/statistical/programs/{local_id}/versions")
+	public DTOList<StatisticalProgramDTO> getAllVersionsOfStatisticalProgram(
+			@PathVariable(name = "local_id") final String localId,
+			@RequestParam(name = "language") final String language) {
+
+		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create(Language.getLanguage(language));
+		getStatisticalProgramsQuery.setLocalId(localId);
+		return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
 	}
 
 	/**
@@ -106,7 +156,7 @@ public class ApiReferentialOpen extends AbstractController {
 	 * @return BusinessFunctionDTO (gsbpm sub-phase in the requested language)
 	 */
 	@JsonView(Views.Extended.class)
-	@GetMapping("/business/functions/sub-phase/{localId}/version/{version}")
+	@GetMapping("/business/functions/sub-phase/{localId}/versions/{version}")
 	public BusinessFunctionDTO getBusinessFunction(
 			@PathVariable(name = "sub_phase") final String localId,
 			@PathVariable(name = "version") final String version,
@@ -118,6 +168,7 @@ public class ApiReferentialOpen extends AbstractController {
 	}
 
 	/**
+	 * FIXME FLORIAN
 	 * Method to get the current version of gsbpm sub-phse (business function)
 	 * current version is hardcoded to 5.1 method should be changed to get always the latest version
 	 * @param localId id of gsbpm sub-phase

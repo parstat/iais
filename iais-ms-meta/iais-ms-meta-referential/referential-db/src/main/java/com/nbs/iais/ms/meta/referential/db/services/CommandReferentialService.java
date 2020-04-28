@@ -110,11 +110,10 @@ public class CommandReferentialService {
         final AgentEntity agent = agentRepository.findById(command.getAgent()).orElseThrow(() ->
                 new EntityException(ExceptionCodes.AGENT_NOT_FOUND));
 
-        final Long accountId = JWT.decode(command.getJwt()).getClaim("user").asLong();
+
 
         addAdministrator(sp, agent, command.getRole());
-        sp.setEditor(accountId);
-        sp.setLastModifiedTimestamp(Instant.now());
+        auditingChanges(sp, command.getJwt());
 
         Translator.translate(statisticalProgramRepository.save(sp), command.getLanguage())
                 .ifPresent(command.getEvent()::setData);
@@ -139,6 +138,10 @@ public class CommandReferentialService {
                 .findById(command.getLegislativeReference()).orElseThrow(() ->
                         new EntityException(ExceptionCodes.LEGISLATIVE_REFERENCE_NOT_FOUND));
 
+        sp.getLegislativeReference().add(lr);
+        auditingChanges(sp, command.getJwt());
+
+        //save and translate to dto
         Translator.translate(statisticalProgramRepository.save(sp), command.getLanguage())
                 .ifPresent(command.getEvent()::setData);
 
@@ -161,11 +164,18 @@ public class CommandReferentialService {
                         new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
 
         sp.getStatisticalStandardReferences().add(sr);
+        auditingChanges(sp, command.getJwt());
 
         Translator.translate(statisticalProgramRepository.save(sp), command.getLanguage())
                 .ifPresent(command.getEvent()::setData);
 
         return command;
+    }
+
+    private void auditingChanges(StatisticalProgramEntity sp, String jwt) {
+        final Long accountId = JWT.decode(jwt).getClaim("user").asLong();
+        sp.setEditor(accountId);
+        sp.setLastModifiedTimestamp(Instant.now());
     }
 
 

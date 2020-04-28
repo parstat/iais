@@ -77,7 +77,7 @@ public class ApiReferentialClosed extends AbstractController {
      * @param type of agent: DIVISION, ORGANIZATION, INDIVIDUAL
      * @param description of the agent in the selected language
      * @param localId of the agent i.e the email of the INDIVIDUAL
-     * @param parent of the agent ORGANIZATIONS Can not have parents
+     * @param parent of the agent, ORGANIZATIONS Can not have parents
      * @param account INDIVIDUAL only are related to an account
      * @param language selected
      * @return AgentDTO
