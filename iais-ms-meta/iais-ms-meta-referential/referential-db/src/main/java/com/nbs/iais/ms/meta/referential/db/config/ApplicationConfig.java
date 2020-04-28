@@ -3,7 +3,10 @@ package com.nbs.iais.ms.meta.referential.db.config;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
@@ -30,33 +33,16 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatistical
 
 @Configuration
 @EnableAutoConfiguration
-@EntityScan(basePackageClasses = {
-		AdministrativeDetailsEntity.class,
-		AgentEntity.class,
-		AgentInRoleEntity.class,
-		BusinessFunctionEntity.class,
-		BusinessServiceEntity.class,
-		ChangeEventEntity.class,
-		LegislativeReferenceEntity.class,
-		MultiLanguageTextEntity.class,
-		ProcessDocumentationEntity.class,
-		ProcessDocumentEntity.class,
-		ProcessInputSpecificationEntity.class,
-		ProcessMethodEntity.class,
-		ProcessOutputSpecificationEntity.class,
-		ProcessQualityEntity.class,
-		StatisticalProgramEntity.class,
+@EntityScan(basePackageClasses = { AdministrativeDetailsEntity.class, AgentEntity.class, AgentInRoleEntity.class,
+		BusinessFunctionEntity.class, BusinessServiceEntity.class, ChangeEventEntity.class,
+		LegislativeReferenceEntity.class, MultiLanguageTextEntity.class, ProcessDocumentationEntity.class,
+		ProcessDocumentEntity.class, ProcessInputSpecificationEntity.class, ProcessMethodEntity.class,
+		ProcessOutputSpecificationEntity.class, ProcessQualityEntity.class, StatisticalProgramEntity.class,
 		StatisticalStandardReferenceEntity.class })
-@ComponentScan(basePackageClasses = {
-		QueryReferentialService.class,
-		CommandReferentialService.class })
-@EnableJpaRepositories(basePackageClasses = {
-		AgentRepository.class,
-		AgentInRoleRepository.class,
-		BusinessFunctionRepository.class,
-		LegislativeReferenceRepository.class,
-		StatisticalStandardReferenceRepository.class,
-		StatisticalProgramRepository.class })
+@ComponentScan(basePackageClasses = { QueryReferentialService.class, CommandReferentialService.class })
+@EnableJpaRepositories(basePackageClasses = { AgentRepository.class, AgentInRoleRepository.class,
+		BusinessFunctionRepository.class, LegislativeReferenceRepository.class,
+		StatisticalStandardReferenceRepository.class, StatisticalProgramRepository.class })
 @EnableIntegration
 public class ApplicationConfig {
 
@@ -65,28 +51,43 @@ public class ApplicationConfig {
 		return IntegrationFlows.from(queryInput())
 				.<Object, Class<?>>route(Object::getClass, rs -> rs
 						.subFlowMapping(GetStatisticalProgramsQuery.class,
-								sf -> sf.<GetStatisticalProgramsQuery>handle((p, h) -> queryReferentialService.getStatisticalPrograms(p)))
+								sf -> sf.<GetStatisticalProgramsQuery>handle(
+										(p, h) -> queryReferentialService.getStatisticalPrograms(p)))
 						.subFlowMapping(GetStatisticalProgramQuery.class,
-								sf -> sf.<GetStatisticalProgramQuery>handle((p, h) -> queryReferentialService.getStatisticalProcess(p)))
+								sf -> sf.<GetStatisticalProgramQuery>handle(
+										(p, h) -> queryReferentialService.getStatisticalProcess(p)))
 						.subFlowMapping(GetBusinessFunctionQuery.class,
-								sf -> sf.<GetBusinessFunctionQuery> handle((p, h) -> queryReferentialService.getBusinessFunction(p))))
-				.get();
+								sf -> sf.<GetBusinessFunctionQuery>handle(
+										(p, h) -> queryReferentialService.getBusinessFunction(p)))
+						.subFlowMapping(GetAgentsQuery.class,
+								sf -> sf.<GetAgentsQuery>handle((p, h) -> queryReferentialService.getAgents(p)))
+						.subFlowMapping(GetAgentQuery.class,
+								sf -> sf.<GetAgentQuery>handle((p, h) -> queryReferentialService.getAgent(p)))
+
+				).get();
 	}
 
-	@Bean public IntegrationFlow commandIntegrationFlow(final CommandReferentialService commandReferentialService) {
+	@Bean
+	public IntegrationFlow commandIntegrationFlow(final CommandReferentialService commandReferentialService) {
 		return IntegrationFlows.from(commandInput())
 				.<Object, Class<?>>route(Object::getClass, rs -> rs
 						.subFlowMapping(CreateStatisticalProgramCommand.class,
-								sf -> sf.<CreateStatisticalProgramCommand>handle((p, h) -> commandReferentialService.createStatisticalProgram(p)))
+								sf -> sf.<CreateStatisticalProgramCommand>handle(
+										(p, h) -> commandReferentialService.createStatisticalProgram(p)))
 						.subFlowMapping(AddStatisticalProgramAdministratorCommand.class,
-								sf -> sf.<AddStatisticalProgramAdministratorCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramAdministrator(p)))
+								sf -> sf.<AddStatisticalProgramAdministratorCommand>handle(
+										(p, h) -> commandReferentialService.addStatisticalProgramAdministrator(p)))
 						.subFlowMapping(AddStatisticalProgramLegislativeReferenceCommand.class,
-								sf -> sf.<AddStatisticalProgramLegislativeReferenceCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramLegislativeReference(p)))
+								sf -> sf.<AddStatisticalProgramLegislativeReferenceCommand>handle((p,
+										h) -> commandReferentialService.addStatisticalProgramLegislativeReference(p)))
 						.subFlowMapping(AddStatisticalProgramStandardCommand.class,
-								sf -> sf.<AddStatisticalProgramStandardCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramStandard(p))))
-				.get();
-	}
+								sf -> sf.<AddStatisticalProgramStandardCommand>handle(
+										(p, h) -> commandReferentialService.addStatisticalProgramStandard(p)))
+						.subFlowMapping(CreateAgentCommand.class,
+								sf -> sf.<CreateAgentCommand>handle((p, h) -> commandReferentialService.createAgent(p)))
 
+				).get();
+	}
 
 	@Bean(name = Channels.QUERY_INPUT)
 	public MessageChannel queryInput() {
@@ -98,7 +99,6 @@ public class ApplicationConfig {
 	public MessageChannel commandInput() {
 		return new DirectChannel();
 	}
-
 
 	@Bean(name = PollerMetadata.DEFAULT_POLLER)
 	public PollerMetadata poller() {

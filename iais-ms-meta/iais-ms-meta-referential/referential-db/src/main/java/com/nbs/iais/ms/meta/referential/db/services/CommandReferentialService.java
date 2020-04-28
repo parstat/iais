@@ -1,20 +1,24 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
 import com.auth0.jwt.JWT;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
 import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.db.repositories.*;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class CommandReferentialService {
@@ -30,6 +34,9 @@ public class CommandReferentialService {
 
     @Autowired
     private LegislativeReferenceRepository legislativeReferenceRepository;
+    
+    @Autowired
+    private AdministrativeDetailsRepository administrativeDetailsRepository;
 
     @Autowired
     private StatisticalStandardReferenceRepository statisticalStandardReferenceRepository;
@@ -110,5 +117,37 @@ public class CommandReferentialService {
 
         return command;
     }
+    
+    
+    public CreateAgentCommand createAgent(final CreateAgentCommand command) {
+        final AgentEntity agentEntity =
+                agentRepository.save(CommandTranslator.translate(command));
+
+        if(command.getParent() != null) {
+            agentRepository.findById(command.getParent()).ifPresent(parent -> {
+             	agentEntity.setParent(parent);
+            	agentRepository.save(agentEntity);
+            });
+        }
+
+        if(command.getAdministrativeDetails() != null) {
+        	administrativeDetailsRepository.findById(command.getAdministrativeDetails()).ifPresent(adminDet -> {
+        		agentEntity.setAdministrativeDetails(adminDet);
+        		agentRepository.save(agentEntity);
+            });
+        }
+
+        if(!CollectionUtils.isEmpty(command.getChildren())) {
+        	
+         List<Agent> children=  agentRepository.findByIdIn(command.getChildren());
+         if(!CollectionUtils.isEmpty(children)) {
+        	 agentEntity.setChildren(children);
+     		agentRepository.save(agentEntity);
+            }
+        }
+   
+    Translator.translate(agentEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+    return command;
+}
 
 }

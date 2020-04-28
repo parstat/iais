@@ -2,10 +2,12 @@ package com.nbs.iais.ms.meta.referential.api.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.Views;
+import com.nbs.iais.ms.common.dto.impl.AgentDTO;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.enums.Language;
-import com.nbs.iais.ms.common.utils.StringTools;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -108,5 +110,27 @@ public class ApiReferentialOpen extends AbstractController {
 		final GetBusinessFunctionQuery getBusinessFunctionQuery = GetBusinessFunctionQuery.create(localId,
 				Language.getLanguage(language));
 		return sendQuery(getBusinessFunctionQuery, "referential").getRead().getData();
+	}
+	
+	
+	
+	@JsonView(Views.Extended.class)
+	@GetMapping("/agents")
+	public DTOList<AgentDTO> getAgentsQuery(@RequestParam(name = "language") final String language) {
+
+		final GetAgentsQuery getAgentsQuery = GetAgentsQuery.create();
+		getAgentsQuery.setLanguage(Language.getLanguage(language));
+		return sendQuery(getAgentsQuery, "referential").getRead().getData();
+
+	}
+
+	@JsonView(Views.Extended.class)
+	@GetMapping("/agents/{id}")
+	public AgentDTO getAgentQuery(@PathVariable(name = "id") final Long id,
+			@RequestParam(name = "language") final String language) {
+
+		final GetAgentQuery getAgentQuery = GetAgentQuery.create(id);
+		getAgentQuery.setLanguage(Language.getLanguage(language));
+		return sendQuery(getAgentQuery, "referential").getRead().getData();
 	}
 }

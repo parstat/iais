@@ -1,20 +1,22 @@
 package com.nbs.iais.ms.meta.referential.api.controllers;
 
-import com.auth0.jwt.JWT;
+
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.Views;
+import com.nbs.iais.ms.common.dto.impl.AgentDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
-import com.nbs.iais.ms.common.enums.AccountRole;
+
+import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
-import com.nbs.iais.ms.common.enums.RoleType;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/close/referential", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,7 +43,7 @@ public class ApiReferentialClosed extends AbstractController {
      */
     @JsonView(Views.Extended.class)
     @PutMapping("/statistical/programs/{local_id}")
-    public StatisticalProgramDTO creteStatisticalProgram(
+    public StatisticalProgramDTO createStatisticalProgram(
             @RequestHeader(name = "jwt-auth") final String jwt,
             @RequestParam(name = "name", required = false) final String name,
             @RequestParam(name = "acronym", required = false) final String acronym,
@@ -60,6 +62,33 @@ public class ApiReferentialClosed extends AbstractController {
         final CreateStatisticalProgramCommand command = CreateStatisticalProgramCommand.create(jwt, name,
                 description, acronym, localId, dateInitiated, dateEnded, budget, funding, status, owner,
                 maintainer, contact, Language.getLanguage(language) );
+        return sendCommand(command, "referential").getEvent().getData();
+
+    }
+    
+    /**
+     * API method to create an Agent
+     *
+     * @param jwt token in the header of the request
+ 
+     * @return AgentDTO
+     */
+    @JsonView(Views.Extended.class)
+    @PutMapping("/agents/{local_id}")
+    public AgentDTO createAgent(
+            @RequestParam(name = "name", required = false) final String name,
+            @RequestParam(name = "type", required = false) final AgentType type,
+            @RequestParam(name = "description", required = false) final String description,
+            @PathVariable(name = "local_id") final String localId,
+            @RequestParam(name = "parent", required = false) final Long parent,
+            @RequestParam(name = "account", required = false) final Long account,
+            @RequestParam(name = "children", required = false) final List<Long> children,
+            @RequestParam(name = "administrativeDetails", required = false) final Long administrativeDetails,
+            @RequestParam(name = "language", required = false) final String language) {
+ 
+    	
+    	final CreateAgentCommand command = CreateAgentCommand.create(name,
+                description, type, localId, parent, account, children, administrativeDetails,  Language.getLanguage(language) );
         return sendCommand(command, "referential").getEvent().getData();
 
     }
