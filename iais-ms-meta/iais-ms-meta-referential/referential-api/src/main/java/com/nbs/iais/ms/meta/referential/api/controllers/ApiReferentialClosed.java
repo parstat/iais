@@ -11,9 +11,11 @@ import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
+import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +53,9 @@ public class ApiReferentialClosed extends AbstractController {
             @RequestParam(name = "acronym", required = false) final String acronym,
             @RequestParam(name = "description", required = false) final String description,
             @PathVariable(name = "local_id") final String localId,
+            @RequestParam(name = "version", required = false) final String version,
+            @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+            @RequestParam(name = "versionRationale", required = false) final String versionRationale,
             @RequestParam(name = "status", required = false) final ProgramStatus status,
             @RequestParam(name = "budget", required = false) final double budget,
             @RequestParam(name = "funding", required = false) final String funding,
@@ -63,6 +68,72 @@ public class ApiReferentialClosed extends AbstractController {
 
         final CreateStatisticalProgramCommand command = CreateStatisticalProgramCommand.create(jwt, name,
                 description, acronym, localId, dateInitiated, dateEnded, budget, funding, status, owner,
+                maintainer, contact, Language.getLanguage(language) );
+
+        //To create the first version
+        //not required default 1.0
+        if(StringTools.isNotEmpty(version)) {
+            command.setVersion(version);
+        }
+        //not required default now()
+        if(versionDate != null) {
+            command.setVersionDate(versionDate);
+        }
+        //not required default 'First Version'
+        if(StringTools.isNotEmpty(versionRationale)) {
+            command.setVersionRationale(versionRationale);
+        }
+        return sendCommand(command, "referential").getEvent().getData();
+
+    }
+
+    /**
+     * API method to create a new version of statistical program
+     *
+     * @param jwt token in the header of the request
+     * @param name of survey
+     * @param acronym of survey
+     * @param description of survey
+     * @param localId of survey
+     * @param version new version id
+     * @param versionDate date of new version
+     * @param versionRationale reason for new version
+     * @param previousVersion where the new version is based
+     * @param status of survey
+     * @param budget of survey
+     * @param funding source of funding for survey
+     * @param dateInitiated started date of the survey
+     * @param dateEnded ended date of the survey if it is not cycled
+     * @param owner of the survey, normally the statistical office
+     * @param maintainer of the survey, normally the responsible division
+     * @param contact of the survey, normally an individual of the responsible division
+     * @param language to present the returned DTO
+     * @return StatisticalProgramDTO (the created survey)
+     */
+    @JsonView(Views.Extended.class)
+    @PutMapping("/statistical/programs/{local_id}/versions/{version}")
+    public StatisticalProgramDTO addStatisticalProgramVersion(
+            @RequestHeader(name = "jwt-auth") final String jwt,
+            @RequestParam(name = "name", required = false) final String name,
+            @RequestParam(name = "acronym", required = false) final String acronym,
+            @RequestParam(name = "description", required = false) final String description,
+            @PathVariable(name = "local_id") final String localId,
+            @PathVariable(name = "version") final String version,
+            @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+            @RequestParam(name = "versionRationale", required = false) final String versionRationale,
+            @RequestParam(name = "previousVersion") final String previousVersion,
+            @RequestParam(name = "status", required = false) final ProgramStatus status,
+            @RequestParam(name = "budget", required = false) final double budget,
+            @RequestParam(name = "funding", required = false) final String funding,
+            @RequestParam(name = "initiated", required = false) final LocalDateTime dateInitiated,
+            @RequestParam(name = "ended", required = false) final LocalDateTime dateEnded,
+            @RequestParam(name = "owner", required = false) final Long owner,
+            @RequestParam(name = "maintainer", required = false) final Long maintainer,
+            @RequestParam(name = "contact", required = false) final Long contact,
+            @RequestParam(name = "language", required = false) final String language) {
+
+        final AddStatisticalProgramVersionCommand command = AddStatisticalProgramVersionCommand.create(jwt, name,
+                description, acronym, localId, previousVersion, version, versionDate, versionRationale, dateInitiated, dateEnded, budget, funding, status, owner,
                 maintainer, contact, Language.getLanguage(language) );
         return sendCommand(command, "referential").getEvent().getData();
 

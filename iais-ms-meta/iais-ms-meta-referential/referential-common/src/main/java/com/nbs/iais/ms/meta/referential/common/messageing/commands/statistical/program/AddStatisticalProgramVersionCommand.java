@@ -130,6 +130,37 @@ public class AddStatisticalProgramVersionCommand extends AbstractCommand<AddStat
         setClosed(true);
     }
 
+    private AddStatisticalProgramVersionCommand(final String jwt, final String name,
+                                                final String description, final String acronym, final String localId,
+                                                final String previousVersion, final String version,
+                                                final LocalDateTime versionDate, final String versionRationale,
+                                                final LocalDateTime dateInitiated, final LocalDateTime dateEnded,
+                                                final double budget, final String sourceOfFunding,
+                                                final ProgramStatus status, final Long owner, final Long maintainer,
+                                                final Long contact, final Language language) {
+        super(new AddStatisticalProgramVersionEvent());
+        setJwt(jwt);
+        this.name = name;
+        this.description = description;
+        this.acronym = acronym;
+        this.localId = localId;
+        this.previousVersion = previousVersion;
+        this.version = version;
+        this.versionDate = versionDate;
+        this.versionRationale = versionRationale;
+        this.dateInitiated = dateInitiated;
+        this.dateEnded = dateEnded;
+        this.budget = budget;
+        this.sourceOfFunding = sourceOfFunding;
+        this.status = status;
+        this.owner = owner;
+        this.maintainer = maintainer;
+        this.contact = contact;
+        setLanguage(language);
+        setClosed(true);
+    }
+
+
     public static AddStatisticalProgramVersionCommand create(final String jwt, final String name,
                                                          final String description, final String acronym, final String localId,
                                                          final LocalDateTime dateInitiated, final LocalDateTime dateEnded,
@@ -140,6 +171,19 @@ public class AddStatisticalProgramVersionCommand extends AbstractCommand<AddStat
         return new AddStatisticalProgramVersionCommand(jwt, name, description, acronym, localId, dateInitiated,
                 dateEnded, budget, sourceOfFonding, status, owner, maintainer, contact, language);
 
+    }
+
+    public static AddStatisticalProgramVersionCommand create(final String jwt, final String name,
+                                                             final String description, final String acronym, final String localId,
+                                                             final String previousVersion, final String version,
+                                                             final LocalDateTime versionDate, final String versionRationale,
+                                                             final LocalDateTime dateInitiated, final LocalDateTime dateEnded,
+                                                             final double budget, final String sourceOfFunding,
+                                                             final ProgramStatus status, final Long owner, final Long maintainer,
+                                                             final Long contact, final Language language) {
+        return new AddStatisticalProgramVersionCommand(jwt, name, description, acronym, localId, previousVersion,
+                version, versionDate, versionRationale, dateInitiated, dateEnded, budget, sourceOfFunding, status,
+                owner, maintainer, contact, language);
     }
 
     public String getName() {
