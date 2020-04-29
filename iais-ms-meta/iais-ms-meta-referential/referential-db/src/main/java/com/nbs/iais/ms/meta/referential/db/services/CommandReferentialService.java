@@ -90,6 +90,12 @@ public class CommandReferentialService {
 
     }
 
+    /**
+     * Method to add a statistical program version
+     * @param command to execute
+     * @return AddStatisticalProgramVersionCommand
+     * @throws EntityException when new version exits or previous version does not exist
+     */
     public AddStatisticalProgramVersionCommand addStatisticalProgramVersion(final AddStatisticalProgramVersionCommand command) throws EntityException {
 
         final StatisticalProgramEntity previousVersion = statisticalProgramRepository.findByLocalIdAndVersion(
@@ -128,6 +134,28 @@ public class CommandReferentialService {
 
         return command;
 
+
+    }
+
+    /**
+     * Method to update a statistical program by id
+     * @param command to execute
+     * @return UpdateStatisticalProgramCommand including the updated dto
+     * @throws EntityException when statistical program not found
+     */
+    public UpdateStatisticalProgramCommand updateStatisticalProgram(final UpdateStatisticalProgramCommand command)
+            throws EntityException {
+
+        final StatisticalProgramEntity sp = statisticalProgramRepository.findById(command.getId()).orElseThrow(() ->
+                new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND));
+
+        CommandTranslator.translate(command, sp);
+
+        auditingChanges(sp, command.getJwt());
+
+        Translator.translate(sp, command.getLanguage()).ifPresent(command.getEvent()::setData);
+
+        return command;
 
     }
 

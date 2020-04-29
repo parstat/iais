@@ -7,6 +7,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
@@ -96,6 +97,50 @@ public class CommandTranslator {
 
 
         return statisticalProgram;
+    }
+
+    public static void translate(final UpdateStatisticalProgramCommand command, final StatisticalProgramEntity sp) {
+
+        if(StringTools.isNotEmpty(command.getName())) {
+            sp.setName(command.getName(), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getDescription())) {
+            sp.setDescription(command.getDescription(), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getAcronym())) {
+            sp.setAcronym(command.getAcronym(), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getVersionRationale())) {
+            sp.setVersionRationale(command.getVersionRationale());
+        }
+
+        if(command.getBudget() > 0.0) {
+            sp.setBudget(command.getBudget());
+        }
+
+        if(command.getVersionDate() != null) {
+            sp.setVersionDate(command.getVersionDate());
+        }
+
+        if(command.getDateInitiated() != null) {
+            sp.setDateInitiated(command.getDateInitiated());
+        }
+
+        if(command.getDateEnded() != null) {
+            sp.setDateEnded(command.getDateEnded());
+        }
+
+        if(StringTools.isNotEmpty(command.getSourceOfFunding())) {
+            sp.setSourceOfFunding(command.getSourceOfFunding());
+        }
+
+        if(command.getStatus() != null) {
+            sp.setProgramStatus(command.getStatus());
+        }
+
     }
 
     public static AgentEntity translate(final CreateAgentCommand command) {

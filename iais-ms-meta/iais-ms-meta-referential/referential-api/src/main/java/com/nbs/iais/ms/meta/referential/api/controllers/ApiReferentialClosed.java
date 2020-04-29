@@ -17,6 +17,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,6 +88,7 @@ public class ApiReferentialClosed extends AbstractController {
 
     }
 
+
     /**
      * API method to create a new version of statistical program
      *
@@ -135,6 +137,46 @@ public class ApiReferentialClosed extends AbstractController {
         final AddStatisticalProgramVersionCommand command = AddStatisticalProgramVersionCommand.create(jwt, name,
                 description, acronym, localId, previousVersion, version, versionDate, versionRationale, dateInitiated, dateEnded, budget, funding, status, owner,
                 maintainer, contact, Language.getLanguage(language) );
+        return sendCommand(command, "referential").getEvent().getData();
+
+    }
+
+    /**
+     * API method to updated a statistical program by id
+     *
+     * @param jwt token in the header of the request
+     * @param name of survey
+     * @param acronym of survey
+     * @param description of survey
+     * @param status of survey
+     * @param budget of survey
+     * @param funding source of funding for survey
+     * @param dateInitiated started date of the survey
+     * @param dateEnded ended date of the survey if it is not cycled
+     * @param language to present the returned DTO
+     * @return StatisticalProgramDTO (the created survey)
+     */
+    @JsonView(Views.Extended.class)
+    @PatchMapping("/statistical/programs/{id}")
+    public StatisticalProgramDTO updateStatisticalProgram(
+            @RequestHeader(name = "jwt-auth") final String jwt,
+            @RequestParam(name = "name", required = false) final String name,
+            @RequestParam(name = "acronym", required = false) final String acronym,
+            @RequestParam(name = "description", required = false) final String description,
+            @PathVariable(name = "id") final Long id,
+            @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+            @RequestParam(name = "versionRationale", required = false) final String versionRationale,
+            @RequestParam(name = "status", required = false) final ProgramStatus status,
+            @RequestParam(name = "budget", required = false) final double budget,
+            @RequestParam(name = "funding", required = false) final String funding,
+            @RequestParam(name = "initiated", required = false) final LocalDateTime dateInitiated,
+            @RequestParam(name = "ended", required = false) final LocalDateTime dateEnded,
+            @RequestParam(name = "language", required = false) final String language) {
+
+        final UpdateStatisticalProgramCommand command = UpdateStatisticalProgramCommand.create(jwt, id, name,
+                description, acronym, versionRationale, versionDate, dateInitiated, dateEnded, budget, funding, status,
+                Language.getLanguage(language) );
+
         return sendCommand(command, "referential").getEvent().getData();
 
     }
