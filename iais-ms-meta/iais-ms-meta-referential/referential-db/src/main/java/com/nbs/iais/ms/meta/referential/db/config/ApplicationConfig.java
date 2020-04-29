@@ -107,6 +107,8 @@ public class ApplicationConfig {
 								sf -> sf.<AddStatisticalProgramVersionCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramVersion(p)))
 						.subFlowMapping(UpdateStatisticalProgramCommand.class,
 								sf -> sf.<UpdateStatisticalProgramCommand>handle((p, h) -> commandReferentialService.updateStatisticalProgram(p)))
+						.subFlowMapping(DeleteStatisticalProgramCommand.class,
+								sf -> sf.<DeleteStatisticalProgramCommand>handle((p, h) -> commandReferentialService.deleteStatisticalProgram(p)))
 						//Agent
 						.subFlowMapping(CreateAgentCommand.class,
 								sf -> sf.<CreateAgentCommand>handle((p, h) -> commandReferentialService.createAgent(p)))

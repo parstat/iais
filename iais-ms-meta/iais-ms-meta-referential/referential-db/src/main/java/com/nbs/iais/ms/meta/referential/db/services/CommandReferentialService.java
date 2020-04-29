@@ -3,6 +3,7 @@ package com.nbs.iais.ms.meta.referential.db.services;
 import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
+import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.enums.RoleType;
@@ -15,6 +16,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateA
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.db.repositories.*;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,8 @@ import java.time.Instant;
 
 @Service
 public class CommandReferentialService {
+
+    private final static Logger LOG = LogManager.getLogger(CommandReferentialService.class);
 
     @Autowired
     private StatisticalProgramRepository statisticalProgramRepository;
@@ -157,6 +162,27 @@ public class CommandReferentialService {
 
         return command;
 
+    }
+
+    public DeleteStatisticalProgramCommand deleteStatisticalProgram(final DeleteStatisticalProgramCommand command) throws AuthorizationException {
+
+        final AccountRole role = AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString());
+
+        if(role == AccountRole.USER) {
+            throw new AuthorizationException(ExceptionCodes.NOT_AUTHORIZED);
+        }
+
+        try {
+            statisticalProgramRepository.deleteById(command.getId());
+        } catch (Exception e) {
+            LOG.debug("Error deleting statistical program: " + e.getMessage());
+            command.getEvent().setData(DTOBoolean.FAIL);
+            return command;
+        }
+
+        command.getEvent().setData(DTOBoolean.TRUE);
+
+        return command;
     }
 
     /**

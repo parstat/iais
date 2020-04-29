@@ -8,6 +8,7 @@ import com.nbs.iais.ms.common.dto.impl.AgentDTO;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 
+import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
@@ -17,6 +18,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -179,6 +181,23 @@ public class ApiReferentialClosed extends AbstractController {
 
         return sendCommand(command, "referential").getEvent().getData();
 
+    }
+
+    /**
+     * Method to delete a statistical program
+     * @param jwt authorization token, only ADMIN and ROOT can delete currently
+     * @param id of statistical program to delete
+     * @return DTOBoolean true if the statistical program has been deleted
+     */
+    @JsonView(Views.Extended.class)
+    @DeleteMapping("/statistical/programs/{id}")
+    public DTOBoolean deleteStatisticalProgram(
+            @RequestHeader(name = "jwt-auth") final String jwt,
+            @PathVariable(name = "id") final Long id) {
+
+        final DeleteStatisticalProgramCommand command = DeleteStatisticalProgramCommand.create(jwt, id);
+
+        return sendCommand(command, "referential").getEvent().getData();
     }
 
     /**

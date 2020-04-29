@@ -190,12 +190,12 @@ public class ApiReferentialOpen extends AbstractController {
 	 * @param language selected
 	 * @return  DTOList<AgentDTO> a list of agents in the selected language
 	 */
-	//TODO the filters needed here are:
+	//TODO the filters needed here, are:
 	//by type
 	// i.e get all DIVISIONS or ORGANIZATIONS or INDIVIDUALS
 	// this method can include all filters, if none provided return all
 	// currently we will not support combination of filters
-	//   i.e childern by type
+	//   i.e children by type
 	//by parent
 	// i.e get all DIVISIONS of ORGANIZATION, get all INDIVIDUALS of a DIVISION
 	//by name
@@ -231,6 +231,10 @@ public class ApiReferentialOpen extends AbstractController {
 	//TODO Francesco add another method to get agent by account or by localId (email)
 	//You can modify the GetAgentQuery to support also localId and account
 
+	/**
+	 *
+	 * @return DTOList<BusinessFunctionDTO>
+	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions")
 	public DTOList<BusinessFunctionDTO> getBusinessFunctions() {
