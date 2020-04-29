@@ -44,6 +44,25 @@ public class QueryReferentialService {
 	 */
 	public GetStatisticalProgramsQuery getStatisticalPrograms(final GetStatisticalProgramsQuery query) {
 
+		if (query.getLocalId() != null) {
+			final Iterable<StatisticalProgramEntity> statisticalPrograms =
+					statisticalProgramRepository.findAllByLocalId(query.getLocalId());
+			translate(statisticalPrograms, query.getLanguage()).ifPresent(query.getRead()::setData);
+			return query;
+		}
+
+		if(StringTools.isNotEmpty(query.getName())) {
+			final Iterable<StatisticalProgramEntity> sp = statisticalProgramRepository
+					.findAllByNameInLanguageContaining(query.getLanguage().getShortName(), query.getName());
+
+			translate(sp, query.getLanguage()).ifPresent(query.getRead()::setData);
+			return query;
+		}
+		if(query.getMaintainer() != null) {
+			//TODO add a repository method here
+			return query;
+		}
+		//return all if no parameter has been provided to the query
 		final Iterable<StatisticalProgramEntity> statisticalPrograms = statisticalProgramRepository.findAll();
 		translate(statisticalPrograms, query.getLanguage())
 				.ifPresent(query.getRead()::setData);

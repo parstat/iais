@@ -33,11 +33,14 @@ public class ApiReferentialClosed extends AbstractController {
     /**
      * API method to create a statistical program
      *
-     * @param jwt token in the header of the request
+     * @param jwt token in the header of the request (header name: jwt-auth)
      * @param name of survey
      * @param acronym of survey
      * @param description of survey
      * @param localId of survey
+     * @param version first version of statistical program (default 1.0)
+     * @param versionDate of the statistical program (default now())
+     * @param versionRationale reason of the first version of statistical program (default 'First Version')
      * @param status of survey
      * @param budget of survey
      * @param funding source of funding for survey
@@ -145,17 +148,20 @@ public class ApiReferentialClosed extends AbstractController {
     }
 
     /**
-     * API method to updated a statistical program by id
+     * API method to update a statistical program by id
      *
+     * @param id of the statistical program to update
      * @param jwt token in the header of the request
-     * @param name of survey
-     * @param acronym of survey
-     * @param description of survey
-     * @param status of survey
-     * @param budget of survey
-     * @param funding source of funding for survey
-     * @param dateInitiated started date of the survey
-     * @param dateEnded ended date of the survey if it is not cycled
+     * @param name to update or add in another language the name of survey
+     * @param acronym to update or add in another language the acronym of survey
+     * @param description to update or add in another language the description of survey
+     * @param versionRationale to update the reason for the version
+     * @param versionDate to update the version date for the servey
+     * @param status to update the status of survey
+     * @param budget to update the budget of survey
+     * @param funding to update the source of funding for survey
+     * @param dateInitiated to update the started date of the survey
+     * @param dateEnded to update the ended date of the survey if it is not cycled
      * @param language to present the returned DTO
      * @return StatisticalProgramDTO (the created survey)
      */
@@ -216,7 +222,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PostMapping("/agents")
-	public AgentDTO createAgent(@RequestHeader(name = "jwt-auth") final String jwt,
+	public AgentDTO createAgent(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "type", required = false) final AgentType type,
 			@RequestParam(name = "description", required = false) final String description,

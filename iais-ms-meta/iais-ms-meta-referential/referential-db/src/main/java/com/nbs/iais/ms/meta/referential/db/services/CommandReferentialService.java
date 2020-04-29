@@ -44,6 +44,9 @@ public class CommandReferentialService {
     @Autowired
     private BusinessFunctionRepository businessFunctionRepository;
 
+    @Autowired
+    private AgentInRoleRepository agentInRoleRepository;
+
     /**
      * Method to create a statistical program
      * @param command to execute
@@ -86,10 +89,15 @@ public class CommandReferentialService {
     }
 
     private void addAdministrator(final StatisticalProgramEntity sp, final AgentEntity agent, final RoleType type) {
-        final AgentInRole agentInRole = new AgentInRoleEntity();
-        agentInRole.setAgent(agent);
-        agentInRole.setRole(type);
-        sp.getAdministrators().add(agentInRole);
+        agentInRoleRepository.findByAgentAndRole(agent, type).ifPresentOrElse(agentInRole ->
+                sp.getAdministrators().add(agentInRole), () -> {
+            final AgentInRoleEntity agentInRole = new AgentInRoleEntity();
+            agentInRole.setAgent(agent);
+            agentInRole.setRole(type);
+
+            sp.getAdministrators().add(agentInRoleRepository.save(agentInRole));
+        });
+
 
     }
 
@@ -156,7 +164,8 @@ public class CommandReferentialService {
 
         auditingChanges(sp, command.getJwt());
 
-        Translator.translate(sp, command.getLanguage()).ifPresent(command.getEvent()::setData);
+
+        Translator.translate(statisticalProgramRepository.save(sp), command.getLanguage()).ifPresent(command.getEvent()::setData);
 
         return command;
 
@@ -327,8 +336,9 @@ public class CommandReferentialService {
 	 * @param command to execute
 	 * @return CreateAgentCommand including the dto of agent in the event
 	 * @throws AuthorizationException when user is not an ADMIN or ROOT
+     * @throws EntityException when the command includes a parent that can not be found
 	 */
-	public CreateAgentCommand createAgent(final CreateAgentCommand command) throws AuthorizationException {
+	public CreateAgentCommand createAgent(final CreateAgentCommand command) throws AuthorizationException, EntityException {
 
 		if (AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString()) == AccountRole.USER) {
 			throw new AuthorizationException("You have no permission to perform this operation",
@@ -370,17 +380,16 @@ public class CommandReferentialService {
 				if (command.getParent() != null) {
 					if (command.getId().equals( command.getParent())) {throw new EntityException(ExceptionCodes.AGENT_PARENT_NOT_APPLICABLE);}
 					
-					agentRepository.findById(command.getParent()).ifPresentOrElse(parent -> {
-						agent.setParent(parent);
-					}, () -> {
-						throw new EntityException(ExceptionCodes.AGENT_PARENT_NOT_FOUND);
+					agentRepository.findById(command.getParent()).ifPresentOrElse(agent::setParent,
+                            () -> {
+					    throw new EntityException(ExceptionCodes.AGENT_PARENT_NOT_FOUND);
 					});
 				}
 
 				Translator.translate(agentRepository.save(agent), command.getLanguage())
 						.ifPresent(command.getEvent()::setData);
 			}, () -> {
-				throw new EntityException(ExceptionCodes.AGENT_NOT_FOUND);
+			    throw new EntityException(ExceptionCodes.AGENT_NOT_FOUND);
 			});
 
 		}

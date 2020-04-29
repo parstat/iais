@@ -25,9 +25,11 @@ public class ApiReferentialOpen extends AbstractController {
 
 
 	/**
-	 * Method to get all statistical programs (survey)
+	 * Method to get many statistical programs (survey)
+	 * @param name to search the statistical surveys
+	 * @param maintainer to get all statistical surveys of a division
 	 * @param language to present the DTOs
-	 * @return DTOList<StatisticalProgramDTO> (List of all Surveys in selected language)
+	 * @return (List of all Surveys in selected language)
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs")
@@ -113,7 +115,7 @@ public class ApiReferentialOpen extends AbstractController {
 	 * Method to get all versions of a statistical program (survey)
 	 * @param localId of the statistical program (survey)
 	 * @param language to present the returned DTO
-	 * @return DTOList<StatisticalProgramDTO> (the requested versions of the survey presented in the selected language)
+	 * @return (the requested versions of the survey presented in the selected language)
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs/{local_id}/versions")
@@ -149,8 +151,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 * sub-phase of gsbpm can have different version, current is 5.1
 	 * if the user is interested in another version can use this method
 	 * @param localId the id of sub-phase
-	 * @param version version of sub-phase
-	 * @param language to present the returned DTO
+	 * @param version version of sub-phase (default 5.1)
+	 * @param language ('en', 'ro', 'ru')
 	 * @return BusinessFunctionDTO (gsbpm sub-phase in the requested language)
 	 */
 	@JsonView(Views.Extended.class)
@@ -186,9 +188,10 @@ public class ApiReferentialOpen extends AbstractController {
 
 
 	/**
-	 * Method to get all agents in the selected language
-	 * @param language selected
-	 * @return  DTOList<AgentDTO> a list of agents in the selected language
+	 * Method to get many agents in the selected language
+	 * @param type (DIVISION, ORGANIZATION, DEPARTMENT OR INDIVIDUAL)
+	 * @param language ('en', 'ro', 'ru')
+	 * @return a list of agents in the selected language
 	 */
 	
 	@JsonView(Views.Extended.class)
@@ -257,7 +260,7 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 *
-	 * @return DTOList<BusinessFunctionDTO>
+	 * @return list of business function
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions")

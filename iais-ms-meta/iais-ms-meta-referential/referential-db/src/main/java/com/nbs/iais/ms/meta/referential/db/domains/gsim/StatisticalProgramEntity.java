@@ -53,7 +53,7 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @Column(name = "source_of_funding")
     private String sourceOfFunding;
 
-    @ManyToMany(targetEntity = AgentInRoleEntity.class, cascade = CascadeType.REMOVE)
+    @ManyToMany(targetEntity = AgentInRoleEntity.class)
     @JoinTable(name = "sp_agent_in_role",
                 joinColumns = @JoinColumn(name = "sp_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
