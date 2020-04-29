@@ -1,8 +1,6 @@
 package com.nbs.iais.ms.meta.referential.api.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.AgentDTO;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
@@ -10,16 +8,16 @@ import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.utils.StringTools;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentsQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramQuery;
 
 @RestController
 @RequestMapping(value = "/api/v1/referential", produces = MediaType.APPLICATION_JSON_VALUE)

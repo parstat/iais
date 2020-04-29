@@ -1,9 +1,9 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.queries;
+package com.nbs.iais.ms.meta.referential.common.messageing.queries.agent;
 
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.queries.abstracts.AbstractQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.reads.GetAgentsRead;
+import com.nbs.iais.ms.meta.referential.common.messageing.reads.agent.GetAgentsRead;
 
 public class GetAgentsQuery extends AbstractQuery<GetAgentsRead> {
 

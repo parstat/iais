@@ -1,7 +1,7 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.queries;
+package com.nbs.iais.ms.meta.referential.common.messageing.queries.agent;
 
 import com.nbs.iais.ms.common.messaging.queries.abstracts.AbstractQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.reads.GetAgentRead;
+import com.nbs.iais.ms.meta.referential.common.messageing.reads.agent.GetAgentRead;
 
 
 public class GetAgentQuery extends AbstractQuery<GetAgentRead> {

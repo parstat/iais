@@ -1,8 +1,8 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.queries;
+package com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function;
 
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.queries.abstracts.AbstractQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.reads.GetBusinessFunctionRead;
+import com.nbs.iais.ms.meta.referential.common.messageing.reads.business.function.GetBusinessFunctionRead;
 
 public class GetBusinessFunctionQuery extends AbstractQuery<GetBusinessFunctionRead> {
 

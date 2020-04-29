@@ -4,7 +4,8 @@ import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
@@ -41,9 +42,54 @@ public class CommandTranslator {
         statisticalProgram.setDateEnded(command.getDateEnded());
         statisticalProgram.setDateInitiated(command.getDateInitiated());
 
-        statisticalProgram.setVersion("1.0");
+        statisticalProgram.setVersion(command.getVersion());
         statisticalProgram.setVersionDate(LocalDateTime.now());
-        statisticalProgram.setVersionRationale("First Version");
+        statisticalProgram.setVersionRationale(command.getVersionRationale());
+        statisticalProgram.setProgramStatus(command.getStatus());
+        statisticalProgram.setCreator(JWT.decode(command.getJwt()).getClaim("user").asLong());
+        statisticalProgram.setCreatedTimestamp(Instant.now());
+
+
+        return statisticalProgram;
+    }
+
+
+    public static StatisticalProgramEntity translate(final AddStatisticalProgramVersionCommand command,
+                                                     final StatisticalProgramEntity previousVersion) {
+
+        final StatisticalProgramEntity statisticalProgram = new StatisticalProgramEntity();
+
+        if(StringTools.isNotEmpty(command.getName())) {
+            statisticalProgram.setName(command.getName(), command.getLanguage());
+        } else {
+            statisticalProgram.setName(previousVersion.getName(command.getLanguage()), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getAcronym())) {
+            statisticalProgram.setAcronym(command.getAcronym(), command.getLanguage());
+        } else {
+            statisticalProgram.setAcronym(previousVersion.getAcronym(command.getLanguage()), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getDescription())) {
+            statisticalProgram.setDescription(command.getDescription(), command.getLanguage());
+        } else {
+            statisticalProgram.setDescription(previousVersion.getDescription(command.getLanguage()), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getLocalId())) {
+            statisticalProgram.setLocalId(command.getLocalId());
+        }
+
+        statisticalProgram.setProgramStatus(command.getStatus());
+        statisticalProgram.setBudget(command.getBudget());
+        statisticalProgram.setSourceOfFunding(command.getSourceOfFunding());
+        statisticalProgram.setDateEnded(command.getDateEnded());
+        statisticalProgram.setDateInitiated(command.getDateInitiated());
+
+        statisticalProgram.setVersion(command.getVersion());
+        statisticalProgram.setVersionDate(command.getVersionDate());
+        statisticalProgram.setVersionRationale(command.getVersionRationale());
         statisticalProgram.setProgramStatus(command.getStatus());
         statisticalProgram.setCreator(JWT.decode(command.getJwt()).getClaim("user").asLong());
         statisticalProgram.setCreatedTimestamp(Instant.now());

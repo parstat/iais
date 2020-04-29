@@ -2,13 +2,13 @@ package com.nbs.iais.ms.meta.referential.db.services;
 
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
 import com.nbs.iais.ms.common.utils.StringTools;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetAgentsQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetBusinessFunctionsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionsQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramsQuery;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
 
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.GetStatisticalProgramQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramQuery;
 
 import static com.nbs.iais.ms.common.db.domains.translators.Translator.translate;
 import static com.nbs.iais.ms.common.db.domains.translators.Translator.translateAgents;

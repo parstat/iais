@@ -1,8 +1,8 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.queries;
+package com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program;
 
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.queries.abstracts.AbstractQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.reads.GetStatisticalProgramRead;
+import com.nbs.iais.ms.meta.referential.common.messageing.reads.statistical.program.GetStatisticalProgramRead;
 
 public class GetStatisticalProgramQuery extends AbstractQuery<GetStatisticalProgramRead> {
 

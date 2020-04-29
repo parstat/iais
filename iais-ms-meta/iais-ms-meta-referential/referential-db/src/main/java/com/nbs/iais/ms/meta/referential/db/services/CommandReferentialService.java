@@ -8,14 +8,10 @@ import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.common.exceptions.AuthorizationException;
 import com.nbs.iais.ms.common.exceptions.EntityException;
-import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateAgentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.db.repositories.*;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
@@ -91,6 +87,47 @@ public class CommandReferentialService {
         agentInRole.setAgent(agent);
         agentInRole.setRole(type);
         sp.getAdministrators().add(agentInRole);
+
+    }
+
+    public AddStatisticalProgramVersionCommand addStatisticalProgramVersion(final AddStatisticalProgramVersionCommand command) throws EntityException {
+
+        final StatisticalProgramEntity previousVersion = statisticalProgramRepository.findByLocalIdAndVersion(
+                command.getLocalId(), command.getPreviousVersion()).orElseThrow(() ->
+                new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND));
+
+        if(statisticalProgramRepository.existsByLocalIdAndVersion(command.getLocalId(), command.getVersion())) {
+            throw new EntityException(ExceptionCodes.VERSION_EXIST);
+        }
+
+        final StatisticalProgramEntity sp =
+                statisticalProgramRepository.save(CommandTranslator.translate(command, previousVersion));
+
+        if(command.getOwner() != null) {
+            agentRepository.findById(command.getOwner()).ifPresent(agent -> {
+                addAdministrator(sp, agent, RoleType.OWNER);
+                statisticalProgramRepository.save(sp);
+            });
+        }
+
+        if(command.getMaintainer() != null) {
+            agentRepository.findById(command.getMaintainer()).ifPresent(agent -> {
+                addAdministrator(sp, agent, RoleType.MAINTAINER);
+                statisticalProgramRepository.save(sp);
+            });
+        }
+
+        if(command.getContact() != null) {
+            agentRepository.findById(command.getContact()).ifPresent(agent -> {
+                addAdministrator(sp, agent, RoleType.CONTACT);
+                statisticalProgramRepository.save(sp);
+            });
+        }
+
+        Translator.translate(sp, command.getLanguage()).ifPresent(command.getEvent()::setData);
+
+        return command;
+
 
     }
 
@@ -177,6 +214,7 @@ public class CommandReferentialService {
         sp.setEditor(accountId);
         sp.setLastModifiedTimestamp(Instant.now());
     }
+
 
 
     /**

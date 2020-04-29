@@ -1,4 +1,4 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.reads;
+package com.nbs.iais.ms.meta.referential.common.messageing.reads.business.function;
 
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;

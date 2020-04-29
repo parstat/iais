@@ -3,12 +3,11 @@ package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.program.CreateStatisticalProgramEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.program.AddStatisticalProgramVersionEvent;
 
 import java.time.LocalDateTime;
 
-
-public class CreateStatisticalProgramCommand extends AbstractCommand<CreateStatisticalProgramEvent> {
+public class AddStatisticalProgramVersionCommand extends AbstractCommand<AddStatisticalProgramVersionEvent> {
 
     private static final long serialVersionUID = 200L;
 
@@ -34,16 +33,19 @@ public class CreateStatisticalProgramCommand extends AbstractCommand<CreateStati
     private String localId;
 
     /**
-     * Version being created
-     * default 1.0
+     * The previous version
      */
-    private String version = "1.0";
+    private String previousVersion;
+
+    /**
+     * new version
+     */
+    private String version;
 
     /**
      * Version description
-     * default "First Version"
      */
-    private String versionRationale = "First Version";
+    private String versionRationale;
 
     /**
      * Date of the version
@@ -99,18 +101,18 @@ public class CreateStatisticalProgramCommand extends AbstractCommand<CreateStati
      */
     private Long contact;
 
-    private CreateStatisticalProgramCommand() {
-        super(new CreateStatisticalProgramEvent());
+    private AddStatisticalProgramVersionCommand() {
+        super();
     }
 
-    private CreateStatisticalProgramCommand(final String jwt, final String name,
-                                            final String description, final String acronym, final String localId,
-                                            final LocalDateTime dateInitiated,
-                                            final LocalDateTime dateEnded, final double budget,
-                                            final String sourceOfFunding, final ProgramStatus status,
-                                            final Long owner, final Long maintainer, final Long contact,
-                                            final Language language) {
-        super(new CreateStatisticalProgramEvent());
+    private AddStatisticalProgramVersionCommand(final String jwt, final String name,
+                                                final String description, final String acronym, final String localId,
+                                                final LocalDateTime dateInitiated,
+                                                final LocalDateTime dateEnded, final double budget,
+                                                final String sourceOfFunding, final ProgramStatus status,
+                                                final Long owner, final Long maintainer, final Long contact,
+                                                final Language language) {
+        super(new AddStatisticalProgramVersionEvent());
         setJwt(jwt);
         this.name = name;
         this.description = description;
@@ -128,14 +130,14 @@ public class CreateStatisticalProgramCommand extends AbstractCommand<CreateStati
         setClosed(true);
     }
 
-    public static CreateStatisticalProgramCommand create(final String jwt, final String name,
+    public static AddStatisticalProgramVersionCommand create(final String jwt, final String name,
                                                          final String description, final String acronym, final String localId,
                                                          final LocalDateTime dateInitiated, final LocalDateTime dateEnded,
                                                          final double budget, final String sourceOfFonding, final ProgramStatus status,
                                                          final Long owner, final Long maintainer, final Long contact,
                                                          final Language language) {
 
-        return new CreateStatisticalProgramCommand(jwt, name, description, acronym, localId, dateInitiated,
+        return new AddStatisticalProgramVersionCommand(jwt, name, description, acronym, localId, dateInitiated,
                 dateEnded, budget, sourceOfFonding, status, owner, maintainer, contact, language);
 
     }
@@ -172,6 +174,22 @@ public class CreateStatisticalProgramCommand extends AbstractCommand<CreateStati
         this.localId = localId;
     }
 
+    public String getPreviousVersion() {
+        return previousVersion;
+    }
+
+    public void setPreviousVersion(final String previousVersion) {
+        this.previousVersion = previousVersion;
+    }
+
+    public LocalDateTime getVersionDate() {
+        return versionDate;
+    }
+
+    public void setVersionDate(final LocalDateTime versionDate) {
+        this.versionDate = versionDate;
+    }
+
     public String getVersion() {
         return version;
     }
@@ -188,13 +206,6 @@ public class CreateStatisticalProgramCommand extends AbstractCommand<CreateStati
         this.versionRationale = versionRationale;
     }
 
-    public LocalDateTime getVersionDate() {
-        return versionDate;
-    }
-
-    public void setVersionDate(final LocalDateTime versionDate) {
-        this.versionDate = versionDate;
-    }
 
     public ProgramStatus getStatus() {
         return status;
@@ -259,4 +270,5 @@ public class CreateStatisticalProgramCommand extends AbstractCommand<CreateStati
     public void setContact(final Long contact) {
         this.contact = contact;
     }
+
 }

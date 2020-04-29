@@ -1,13 +1,9 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program;
+package com.nbs.iais.ms.meta.referential.common.messageing.commands.agent;
 
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.events.agent.CreateAgentEvent;
-
-import lombok.Getter;
-import lombok.Setter;
-import java.util.List;
 
 public class CreateAgentCommand extends AbstractCommand<CreateAgentEvent> {
 
