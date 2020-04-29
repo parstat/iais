@@ -152,30 +152,4 @@ public class ApiReferentialClosed extends AbstractController {
         return sendCommand(command, "referential").getEvent().getData();
     }
 
-    /**
-     * Method to update a specific version of GSBPM sub-phase
-     * Currently does not differ from the update by id
-     * @param jwt authorization token
-     * @param local_id currently the GSBPM sub-phase id
-     * @param version currently the GSBPM version 5.1
-     * @param name new value of name in the selected language
-     * @param description new value of description in the selected language
-     * @param language selected language
-     * @return BusinessFunctionDTO the dto of the updated business function in the selected language
-     */
-    @JsonView(Views.Secure.class)
-    @PatchMapping("/business/functions/sub-phase/{local_id}/version/{version}")
-    public BusinessFunctionDTO updateBusinessFunctionByVersion(
-            @RequestHeader(name = "jwt-auth") final String jwt,
-            @PathVariable(name = "local_id") final String local_id,
-            @PathVariable(name = "version") final String version,
-            @RequestParam(name = "name") final String name,
-            @RequestParam(name = "description", required = false) final String description,
-            @RequestParam(name = "language") final String language) {
-
-        final UpdateBusinessFunctionCommand command = UpdateBusinessFunctionCommand.create(jwt, name, description,
-                local_id, version, Language.getLanguage(language));
-
-        return sendCommand(command, "referential").getEvent().getData();
-    }
 }

@@ -219,7 +219,6 @@ public class CommandReferentialService {
         if(AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString()) == AccountRole.USER) {
             throw new AuthorizationException("You have no permission to perform this operation", ExceptionCodes.NO_PERMISSION);
         }
-
         if(command.getId() != null) {
             businessFunctionRepository.findById(command.getId()).ifPresent(bf -> {
                 CommandTranslator.translate(command, bf);
@@ -228,16 +227,6 @@ public class CommandReferentialService {
             });
 
         }
-
-        if(StringTools.isNotEmpty(command.getLocalId())) {
-            businessFunctionRepository.findByLocalIdAndVersion(command.getLocalId(), command.getVersion())
-                    .ifPresent(bf -> {
-                        CommandTranslator.translate(command, bf);
-                        Translator.translate(businessFunctionRepository.save(bf), command.getLanguage())
-                                .ifPresent(command.getEvent()::setData);
-                    });
-        }
-
         return command;
     }
 
