@@ -121,33 +121,42 @@ public class QueryReferentialService {
 
 	// Agent section
 
-	/**
-	 * FIXME FRANCESCO add different filters, agentType, parent, name
-	 * Method to get many agents
-	 * @param query to request
-	 * @return GetAgentsQuery with the DTOList of requested agents
-	 */
-	public GetAgentsQuery getAgents(final GetAgentsQuery query) {
+		/**
+		 * Method to get all agents or many agents filtered by agentType, parent, name
+		 * valued
+		 * 
+		 * @param query to request
+		 * @return GetAgentsQuery with the DTOList of requested agents
+		 */
+		public GetAgentsQuery getAgents(final GetAgentsQuery query) {
+			final AgentEntity parent = (query.getParent() == null ? null
+					: agentRepository.findById(query.getParent()).orElse(null));
+			final Iterable<AgentEntity> agents = agentRepository.findBySelectedNameAndTypeAndParent(query.getAgentType(),
+					parent, query.getName(), query.getLanguage().getShortName());
+			translateAgents(agents, query.getLanguage()).ifPresent(query.getRead()::setData);
+			return query;
+		}
 
-		final Iterable<AgentEntity> agents = agentRepository.findAll();
-		translateAgents(agents, query.getLanguage())
-				.ifPresent(query.getRead()::setData);
-		return query;
-	}
-
-	/**
-	 * FIXME FRANCESCO add also by accountId and/or (not sure) by email (localId)
-	 * Method to get a single agent
-	 * @param query to request
-	 * @return GetAgentQuery including requested agent dto in the read
-	 */
-	public GetAgentQuery getAgent(final GetAgentQuery query) {
-
-		agentRepository.findById(query.getId())
-				.flatMap(sp -> translate(sp, query.getLanguage()))
-				.ifPresent(query.getRead()::setData);
-
-		return query;
-	}
+		/**
+		 * Method to get a single agent by id, accountId and   by email (localId)
+		 * 
+		 * @param query to request
+		 * @return GetAgentQuery including requested agent dto in the read
+		 */
+		public GetAgentQuery getAgent(final GetAgentQuery query) {
+			if (query.getId() != null) {
+				agentRepository.findById(query.getId()).flatMap(sp -> translate(sp, query.getLanguage()))
+						.ifPresent(query.getRead()::setData);
+			}
+			if (query.getAccountId() != null) {
+				agentRepository.findByAccount(query.getAccountId()).flatMap(sp -> translate(sp, query.getLanguage()))
+						.ifPresent(query.getRead()::setData);
+			}
+			if (StringTools.isNotEmpty(query.getLocalId())) {
+				agentRepository.findByLocalId(query.getLocalId()).flatMap(sp -> translate(sp, query.getLanguage()))
+						.ifPresent(query.getRead()::setData);
+			}
+			return query;
+		}
 
 }

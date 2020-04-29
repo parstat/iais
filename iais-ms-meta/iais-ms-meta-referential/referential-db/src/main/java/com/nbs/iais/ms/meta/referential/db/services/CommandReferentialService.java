@@ -13,6 +13,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.db.repositories.*;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
@@ -33,9 +34,6 @@ public class CommandReferentialService {
 
     @Autowired
     private AgentRepository agentRepository;
-
-    @Autowired
-    private AgentInRoleRepository agentInRoleRepository;
 
     @Autowired
     private LegislativeReferenceRepository legislativeReferenceRepository;
@@ -324,23 +322,68 @@ public class CommandReferentialService {
 
 
     /**
-     * Method to create a new Agent
-     * @param command to execute
-     * @return CreateAgentCommand including the new agent dto in the event
-     */
-    public CreateAgentCommand createAgent(final CreateAgentCommand command) {
-        final AgentEntity agentEntity =
-                agentRepository.save(CommandTranslator.translate(command));
+	 * Method to create an agent
+	 * 
+	 * @param command to execute
+	 * @return CreateAgentCommand including the dto of agent in the event
+	 * @throws AuthorizationException when user is not an ADMIN or ROOT
+	 */
+	public CreateAgentCommand createAgent(final CreateAgentCommand command) throws AuthorizationException {
 
-        if(command.getParent() != null) {
-            agentRepository.findById(command.getParent()).ifPresent(parent -> {
-             	agentEntity.setParent(parent);
-            	agentRepository.save(agentEntity);
-            });
-        }
+		if (AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString()) == AccountRole.USER) {
+			throw new AuthorizationException("You have no permission to perform this operation",
+					ExceptionCodes.NO_PERMISSION);
+		}
+		final AgentEntity agentEntity = agentRepository.save(CommandTranslator.translate(command));
 
-    Translator.translate(agentEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
-    return command;
-}
+		if (command.getParent() != null) {
+			agentRepository.findById(command.getParent()).ifPresentOrElse(parent -> {
+				agentEntity.setParent(parent);
+				agentRepository.save(agentEntity);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.AGENT_PARENT_NOT_FOUND);
+			});
+		}
 
+		Translator.translate(agentEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+		return command;
+	}
+
+	/**
+	 * Method to update an agent usually to add name and description in other
+	 * languages
+	 * 
+	 * @param command to execute
+	 * @return UpdateAgentCommand including the dto of updated agent in the event
+	 * @throws AuthorizationException when user is not an ADMIN or ROOT
+	 */
+	public UpdateAgentCommand updateAgent(final UpdateAgentCommand command) throws AuthorizationException {
+
+		if (AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString()) == AccountRole.USER) {
+			throw new AuthorizationException("You have no permission to perform this operation",
+					ExceptionCodes.NO_PERMISSION);
+		}
+		if (command.getId() != null) {
+			agentRepository.findById(command.getId()).ifPresentOrElse(agent -> {
+				CommandTranslator.translate(command, agent);
+
+				if (command.getParent() != null) {
+					if (command.getId().equals( command.getParent())) {throw new EntityException(ExceptionCodes.AGENT_PARENT_NOT_APPLICABLE);}
+					
+					agentRepository.findById(command.getParent()).ifPresentOrElse(parent -> {
+						agent.setParent(parent);
+					}, () -> {
+						throw new EntityException(ExceptionCodes.AGENT_PARENT_NOT_FOUND);
+					});
+				}
+
+				Translator.translate(agentRepository.save(agent), command.getLanguage())
+						.ifPresent(command.getEvent()::setData);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.AGENT_NOT_FOUND);
+			});
+
+		}
+		return command;
+	}
 }

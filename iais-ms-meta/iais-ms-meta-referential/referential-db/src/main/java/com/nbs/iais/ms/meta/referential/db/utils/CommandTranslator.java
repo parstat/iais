@@ -5,6 +5,7 @@ import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
@@ -168,6 +169,23 @@ public class CommandTranslator {
 		return agentEntity;
 	}
 
+    public static void translate(final UpdateAgentCommand command, final AgentEntity existingAgent) {
+        if(StringTools.isNotEmpty(command.getDescription())) {
+        	existingAgent.setDescription(command.getDescription(), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getName())) {
+        	existingAgent.setName(command.getName(), command.getLanguage());
+        }
+        
+        if(command.getType()!=null) {
+        	existingAgent.setType(command.getType());
+        }
+        if(command.getAccount()!=null) {
+        	existingAgent.setAccount(command.getAccount());
+        }
+    }
+    
     public static BusinessFunctionEntity translate(final CreateBusinessFunctionCommand command) {
 
         final BusinessFunctionEntity businessFunctionEntity = new BusinessFunctionEntity();

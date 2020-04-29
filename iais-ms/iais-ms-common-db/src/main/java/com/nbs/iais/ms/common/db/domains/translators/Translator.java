@@ -35,18 +35,17 @@ public class Translator {
 
 	}
 
-    public static <A extends Account> Optional<DTOList<AccountDTO>> translate(final Iterable<A> accounts) {
+	public static <A extends Account> Optional<DTOList<AccountDTO>> translate(final Iterable<A> accounts) {
 
-        if(!accounts.iterator().hasNext()) {
-            return Optional.empty();
-        }
-        final DTOList<AccountDTO> accountDTOS = DTOList.empty(AccountDTO.class);
+		if (!accounts.iterator().hasNext()) {
+			return Optional.empty();
+		}
+		final DTOList<AccountDTO> accountDTOS = DTOList.empty(AccountDTO.class);
 
-        accounts.forEach(accountEntity -> translate(accountEntity)
-                .ifPresent(accountDTOS::add));
+		accounts.forEach(accountEntity -> translate(accountEntity).ifPresent(accountDTOS::add));
 
-        return Optional.of(accountDTOS);
-    }
+		return Optional.of(accountDTOS);
+	}
 
 	public static <SP extends StatisticalProgram> Optional<DTOList<StatisticalProgramDTO>> translate(
 			final Iterable<SP> statisticalPrograms, final Language language) {
@@ -82,22 +81,19 @@ public class Translator {
 
 	}
 
-
-
 	public static <BF extends BusinessFunction> Optional<DTOList<BusinessFunctionDTO>> translateBusinessFunctions(
-            final Iterable<BF> businessFunctions, final Language language) {
+			final Iterable<BF> businessFunctions, final Language language) {
 
-        if(businessFunctions == null || !businessFunctions.iterator().hasNext()) {
-            return Optional.empty();
-        }
-        final DTOList<BusinessFunctionDTO> businessFunctionDTOS = DTOList.empty(BusinessFunctionDTO.class);
-        businessFunctions.forEach(bf ->
-            translate(bf, language).ifPresent(businessFunctionDTOS::add));
-        return Optional.of(businessFunctionDTOS);
-    }
+		if (businessFunctions == null || !businessFunctions.iterator().hasNext()) {
+			return Optional.empty();
+		}
+		final DTOList<BusinessFunctionDTO> businessFunctionDTOS = DTOList.empty(BusinessFunctionDTO.class);
+		businessFunctions.forEach(bf -> translate(bf, language).ifPresent(businessFunctionDTOS::add));
+		return Optional.of(businessFunctionDTOS);
+	}
 
-    public static <SP extends StatisticalProgram> Optional<StatisticalProgramDTO> translate(
-            final SP statisticalProgram, final Language language) {
+	public static <SP extends StatisticalProgram> Optional<StatisticalProgramDTO> translate(final SP statisticalProgram,
+			final Language language) {
 
 		if (statisticalProgram == null) {
 			return Optional.empty();
@@ -131,7 +127,8 @@ public class Translator {
 		agentDTO.setDescription(agent.getDescription(language));
 		agentDTO.setAccount(agent.getAccount());
 		agentDTO.setType(agent.getType());
-		if(agent.getParent()!=null) agentDTO.setParent(getParent(agent.getParent(),language));
+		if (agent.getParent() != null)
+			agentDTO.setParent(getParent(agent.getParent(), language));
 		agentDTO.setChildren(getChildren(agent, language));
 		agentDTO.setLocalId(agent.getLocalId());
 		agentDTO.setVersion(agent.getVersion());

@@ -14,6 +14,7 @@ import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
@@ -201,37 +202,66 @@ public class ApiReferentialClosed extends AbstractController {
     }
 
     /**
-     * FIXME not sure we can use localId to make this a PUT method
-     * This method can remain POST and lets use localId for the email of the individuals
-     * Method to create an agent
-     * @param jwt authorization token
-     * @param name of the agent in selected language
-     * @param type of agent: DIVISION, ORGANIZATION, INDIVIDUAL
-     * @param description of the agent in the selected language
-     * @param localId of the agent i.e the email of the INDIVIDUAL
-     * @param parent of the agent, ORGANIZATIONS Can not have parents
-     * @param account INDIVIDUAL only are related to an account
-     * @param language selected
-     * @return AgentDTO
-     */
-    @JsonView(Views.Extended.class)
-    @PutMapping("/agents/{local_id}")
-    public AgentDTO createAgent(
-            @RequestHeader(name = "jwt-auth") final String jwt,
-            @RequestParam(name = "name", required = false) final String name,
-            @RequestParam(name = "type", required = false) final AgentType type,
-            @RequestParam(name = "description", required = false) final String description,
-            @PathVariable(name = "local_id") final String localId,
-            @RequestParam(name = "parent", required = false) final Long parent,
-            @RequestParam(name = "account", required = false) final Long account,
-            @RequestParam(name = "language", required = false) final String language) {
+	 * Method to create an agent
+	 * 
+	 * @param jwt         authorization token
+	 * @param name        of the agent in selected language
+	 * @param type        of agent: DIVISION, ORGANIZATION, INDIVIDUAL
+	 * @param description of the agent in the selected language
+	 * @param localId     of the agent i.e the email of the INDIVIDUAL
+	 * @param parent      of the agent, ORGANIZATIONS Can not have parents
+	 * @param account     INDIVIDUAL only are related to an account
+	 * @param language    selected
+	 * @return AgentDTO
+	 */
+	@JsonView(Views.Extended.class)
+	@PostMapping("/agents")
+	public AgentDTO createAgent(@RequestHeader(name = "jwt-auth") final String jwt,
+			@RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "type", required = false) final AgentType type,
+			@RequestParam(name = "description", required = false) final String description,
+			@RequestParam(name = "local_id") final String localId,
+			@RequestParam(name = "parent", required = false) final Long parent,
+			@RequestParam(name = "account", required = false) final Long account,
+			@RequestParam(name = "language", required = false) final String language) {
 
+		final CreateAgentCommand command = CreateAgentCommand.create(jwt, name, description, type, localId, parent,
+				account, Language.getLanguage(language));
+		return sendCommand(command, "referential").getEvent().getData();
 
-    	final CreateAgentCommand command = CreateAgentCommand.create(jwt, name,
-                description, type, localId, parent, account,  Language.getLanguage(language) );
-        return sendCommand(command, "referential").getEvent().getData();
+	}
 
-    }
+	/**
+	 * Method to update an agent
+	 * 
+	 * @param jwt         authorization token
+	 * @param id          of the agent
+	 * @param name        of the agent in selected language
+	 * @param type        of agent: DIVISION, ORGANIZATION, INDIVIDUAL
+	 * @param description of the agent in the selected language
+	 * @param localId     of the agent i.e the email of the INDIVIDUAL
+	 * @param parent      of the agent, ORGANIZATIONS Can not have parents
+	 * @param account     INDIVIDUAL only are related to an account
+	 * @param language    selected
+	 * @return AgentDTO
+	 */
+	@JsonView(Views.Extended.class)
+	@PatchMapping("/agents/{id}")
+	public AgentDTO updateAgent(@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "type", required = false) final AgentType type,
+			@RequestParam(name = "description", required = false) final String description,
+			@RequestParam(name = "local_id", required = false) final String localId,
+			@RequestParam(name = "parent", required = false) final Long parent,
+			@RequestParam(name = "account", required = false) final Long account,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final UpdateAgentCommand command = UpdateAgentCommand.create(jwt, id, name, description, type, localId, parent,
+				account, Language.getLanguage(language));
+		return sendCommand(command, "referential").getEvent().getData();
+
+	}
 
     /**
      * Method to create a business function

@@ -4,6 +4,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
@@ -112,6 +113,8 @@ public class ApplicationConfig {
 						//Agent
 						.subFlowMapping(CreateAgentCommand.class,
 								sf -> sf.<CreateAgentCommand>handle((p, h) -> commandReferentialService.createAgent(p)))
+						.subFlowMapping(UpdateAgentCommand.class,
+								sf -> sf.<UpdateAgentCommand>handle((p, h) -> commandReferentialService.updateAgent(p)))
 						//Business Function
 						.subFlowMapping(CreateBusinessFunctionCommand.class,
 								sf -> sf.<CreateBusinessFunctionCommand>handle((p, h) -> commandReferentialService.createBusinessFunction(p)))

@@ -190,28 +190,21 @@ public class ApiReferentialOpen extends AbstractController {
 	 * @param language selected
 	 * @return  DTOList<AgentDTO> a list of agents in the selected language
 	 */
-	//TODO the filters needed here, are:
-	//by type
-	// i.e get all DIVISIONS or ORGANIZATIONS or INDIVIDUALS
-	// this method can include all filters, if none provided return all
-	// currently we will not support combination of filters
-	//   i.e children by type
-	//by parent
-	// i.e get all DIVISIONS of ORGANIZATION, get all INDIVIDUALS of a DIVISION
-	//by name
-	// i.e when a user searches by name for a division
-	// for the repository method check BusinessFunctionRepository
+	
 	@JsonView(Views.Extended.class)
 	@GetMapping("/agents")
 	public DTOList<AgentDTO> getAgentsQuery(
 			@RequestParam(name = "type", required = false) final AgentType type,
+			@RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "parent", required = false) final Long parent,
 			@RequestParam(name = "language") final String language) {
 
-		final GetAgentsQuery getAgentsQuery = GetAgentsQuery.create(type, Language.getLanguage(language));
+		final GetAgentsQuery getAgentsQuery = GetAgentsQuery.create(type,name,parent, Language.getLanguage(language));
 		return sendQuery(getAgentsQuery, "referential").getRead().getData();
 
 	}
-
+	
+	
 	/**
 	 * Method to get the agent by id
 	 * @param id of the agent
@@ -227,9 +220,40 @@ public class ApiReferentialOpen extends AbstractController {
 		getAgentQuery.setLanguage(Language.getLanguage(language));
 		return sendQuery(getAgentQuery, "referential").getRead().getData();
 	}
+	
+	/**
+	 * Method to get the agent by localId
+	 * @param localId of the agent
+	 * @param language selected
+	 * @return AgentDTO in the selected language
+	 */
+	@JsonView(Views.Extended.class)
+	@GetMapping("/agents/localid/{localId}")
+	public AgentDTO getAgentQueryByLocalId(@PathVariable(name = "localId") final String localId,
+			@RequestParam(name = "language") final String language) {
 
-	//TODO Francesco add another method to get agent by account or by localId (email)
-	//You can modify the GetAgentQuery to support also localId and account
+		final GetAgentQuery getAgentQuery = GetAgentQuery.create();
+		getAgentQuery.setLocalId(localId);
+		getAgentQuery.setLanguage(Language.getLanguage(language));
+		return sendQuery(getAgentQuery, "referential").getRead().getData();
+	}
+	
+	/**
+	 * Method to get the agent by account
+	 * @param account id of the agent
+	 * @param language selected
+	 * @return AgentDTO in the selected language
+	 */
+	@JsonView(Views.Extended.class)
+	@GetMapping("/agents/account/{account}")
+	public AgentDTO getAgentQueryByAccount(@PathVariable(name = "account") final Long account,
+			@RequestParam(name = "language") final String language) {
+
+		final GetAgentQuery getAgentQuery = GetAgentQuery.create();
+		getAgentQuery.setAccountId(account);
+		getAgentQuery.setLanguage(Language.getLanguage(language));
+		return sendQuery(getAgentQuery, "referential").getRead().getData();
+	}
 
 	/**
 	 *
