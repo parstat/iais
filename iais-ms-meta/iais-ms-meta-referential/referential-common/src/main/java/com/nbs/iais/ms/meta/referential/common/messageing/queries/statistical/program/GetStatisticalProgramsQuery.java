@@ -21,12 +21,28 @@ public class GetStatisticalProgramsQuery extends AbstractQuery<GetStatisticalPro
 		setLanguage(language);
 	}
 
+	private GetStatisticalProgramsQuery(final String localId, final Language language) {
+		super(new GetStatisticalProgramsRead());
+		this.localId = localId;
+		setLanguage(language);
+	}
+
+	private GetStatisticalProgramsQuery(final String name, final Long maintainer, final Language language) {
+		super(new GetStatisticalProgramsRead());
+		this.name = name;
+		this.maintainer = maintainer;
+		setLanguage(language);
+	}
 
 
 	public static GetStatisticalProgramsQuery create(final Language language) {
 	        return new GetStatisticalProgramsQuery(language);
     }
 
+
+	public static GetStatisticalProgramsQuery create(final String name, final Long maintainer, final Language language) {
+		return new GetStatisticalProgramsQuery(name, maintainer, language);
+	}
 
 	public String getName() {
 		return name;

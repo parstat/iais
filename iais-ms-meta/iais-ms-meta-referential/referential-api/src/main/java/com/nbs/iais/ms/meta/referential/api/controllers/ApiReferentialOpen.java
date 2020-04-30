@@ -19,17 +19,24 @@ import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramQuery;
 
+/**
+ * All API method in this controller does not require being registered
+ * <p>Open methods</p>
+ */
 @RestController
 @RequestMapping(value = "/api/v1/referential", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiReferentialOpen extends AbstractController {
 
 
 	/**
-	 * Method to get many statistical programs (survey)
-	 * @param name to search the statistical surveys
-	 * @param maintainer to get all statistical surveys of a division
-	 * @param language to present the DTOs
-	 * @return (List of all Surveys in selected language)
+	 * Method to get statistical programs (survey) by different filters
+	 * @param name the name to search the statistical surveys
+	 *             if this parameter has value the other filter parameters will be ignored
+	 * @param maintainer the division id, to get all statistical surveys by division id
+	 * @param language the language to present the DTOs (en, ro, ru)
+	 *                 also the query will search only in the selected language name of the statistical survey
+	 * @return List of all  Surveys in selected language if not parameter provided or will return only filtered
+	 * surveys
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs")
@@ -38,28 +45,15 @@ public class ApiReferentialOpen extends AbstractController {
 			@RequestParam(name = "maintainer", required = false) final Long maintainer,
 			@RequestParam(name = "language") final String language) {
 
-		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create(Language.getLanguage(language));
-		//all survey by division all versions
-		if(maintainer != null) {
-			getStatisticalProgramsQuery.setMaintainer(maintainer);
-			return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
-		}
-
-		//search by name in the selected language (all versions)
-		if(StringTools.isNotEmpty(name)) {
-			getStatisticalProgramsQuery.setName(name);
-			return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
-		}
-
-		//all statistical programs of all versions
+		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create(name, maintainer, Language.getLanguage(language));
 		return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
 
 	}
 
 	/**
 	 * Method to get a statistical program (survey) by id
-	 * @param id of the statistical program (survey)
-	 * @param language to present the returned DTO
+	 * @param id the id of the requested statistical program (survey)
+	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return StatisticalProgramDTO (the requested survey presented in the selected language)
 	 */
 	@JsonView(Views.Extended.class)
@@ -75,9 +69,9 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get a statistical program (survey) by local id and version
-	 * @param localId of the statistical program (survey)
-	 * @param version of the statistical program (survey)
-	 * @param language to present the returned DTO
+	 * @param localId local id of the requested statistical program (survey)
+	 * @param version the version of the statistical program (survey)
+	 * @param language to present the returned DTO (en, ro, ru)
 	 * @return StatisticalProgramDTO (the requested survey presented in the selected language)
 	 */
 	@JsonView(Views.Extended.class)
@@ -95,8 +89,8 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get latest versions of a statistical program (survey)
-	 * @param localId of the statistical program (survey)
-	 * @param language to present the returned DTO
+	 * @param localId the local id of the statistical program (survey)
+	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return StatisticalProgramDTO (the latest versions of the survey presented in the selected language)
 	 */
 	@JsonView(Views.Extended.class)
@@ -114,7 +108,7 @@ public class ApiReferentialOpen extends AbstractController {
 	/**
 	 * Method to get all versions of a statistical program (survey)
 	 * @param localId of the statistical program (survey)
-	 * @param language to present the returned DTO
+	 * @param language to present the returned DTO (en, ro, ru)
 	 * @return (the requested versions of the survey presented in the selected language)
 	 */
 	@JsonView(Views.Extended.class)
@@ -123,7 +117,8 @@ public class ApiReferentialOpen extends AbstractController {
 			@PathVariable(name = "local_id") final String localId,
 			@RequestParam(name = "language") final String language) {
 
-		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create(Language.getLanguage(language));
+		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery
+				.create(Language.getLanguage(language));
 		getStatisticalProgramsQuery.setLocalId(localId);
 		return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
 	}
@@ -131,7 +126,7 @@ public class ApiReferentialOpen extends AbstractController {
 	/**
 	 * Method to get a business function (gsbpm sub-phase) by id
 	 * @param id sub-phase id
-	 * @param language to present the returned DTO
+	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return BusinessFunctionDTO (the requested gsbpm sub-phase in the selected language)
 	 */
 	@JsonView(Views.Extended.class)
@@ -148,11 +143,11 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get a business function (gsbpm sub-phase) by local id and version
-	 * sub-phase of gsbpm can have different version, current is 5.1
-	 * if the user is interested in another version can use this method
+	 * <p> Sub-phase of gsbpm can have different version, current is 5.1
+	 * if the user is interested in another version can use this method </p>
 	 * @param localId the id of sub-phase
 	 * @param version version of sub-phase (default 5.1)
-	 * @param language ('en', 'ro', 'ru')
+	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return BusinessFunctionDTO (gsbpm sub-phase in the requested language)
 	 */
 	@JsonView(Views.Extended.class)
@@ -170,9 +165,9 @@ public class ApiReferentialOpen extends AbstractController {
 	/**
 	 * FIXME FLORIAN
 	 * Method to get the current version of gsbpm sub-phse (business function)
-	 * current version is hardcoded to 5.1 method should be changed to get always the latest version
-	 * @param localId id of gsbpm sub-phase
-	 * @param language to present the returned DTO
+	 * <p>Current version is hardcoded to 5.1 method should be changed to get always the latest version</p>
+	 * @param localId the id of gsbpm sub-phase
+	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return BusinessFunctionDTO the requested business function (gsbpm sub-phase) in the selected language
 	 */
 	@JsonView(Views.Extended.class)
@@ -189,11 +184,14 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get many agents in the selected language
-	 * @param type (DIVISION, ORGANIZATION, DEPARTMENT OR INDIVIDUAL)
-	 * @param language ('en', 'ro', 'ru')
-	 * @return a list of agents in the selected language
+	 * @param name the name to search the agents
+	 *             if this parameter has value the other filter parameters will be ignored
+	 * @param type the type of agent: DIVISION, ORGANIZATION, DEPARTMENT, INDIVIDUAL
+	 * @param parent the agent id to return all children
+	 * @param language the language to present the returned DTO (en, ro, ru)
+	 * @return a list of filtered agents in the selected language
+	 * all agents if no filter parameter has been provided
 	 */
-	
 	@JsonView(Views.Extended.class)
 	@GetMapping("/agents")
 	public DTOList<AgentDTO> getAgentsQuery(
@@ -210,8 +208,8 @@ public class ApiReferentialOpen extends AbstractController {
 	
 	/**
 	 * Method to get the agent by id
-	 * @param id of the agent
-	 * @param language selected
+	 * @param id the id of the agent
+	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return AgentDTO in the selected language
 	 */
 	@JsonView(Views.Extended.class)
@@ -225,9 +223,10 @@ public class ApiReferentialOpen extends AbstractController {
 	}
 	
 	/**
+	 * FIXME not sure wee need this method
 	 * Method to get the agent by localId
-	 * @param localId of the agent
-	 * @param language selected
+	 * @param localId the local id of the agent
+	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return AgentDTO in the selected language
 	 */
 	@JsonView(Views.Extended.class)
@@ -243,8 +242,8 @@ public class ApiReferentialOpen extends AbstractController {
 	
 	/**
 	 * Method to get the agent by account
-	 * @param account id of the agent
-	 * @param language selected
+	 * @param account id of registered account that is mapped with an agent
+	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return AgentDTO in the selected language
 	 */
 	@JsonView(Views.Extended.class)
@@ -259,7 +258,7 @@ public class ApiReferentialOpen extends AbstractController {
 	}
 
 	/**
-	 *
+	 * FIXME FLORIAN
 	 * @return list of business function
 	 */
 	@JsonView(Views.Extended.class)

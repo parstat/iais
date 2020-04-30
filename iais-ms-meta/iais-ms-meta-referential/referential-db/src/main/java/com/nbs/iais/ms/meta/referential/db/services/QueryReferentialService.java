@@ -34,10 +34,7 @@ public class QueryReferentialService {
 	private BusinessFunctionRepository businessFunctionRepository;
 
 
-
-
 	/**
-	 * FIXME FRANCESCO add different filters as listed in the query
 	 * Method to get many statistical programs
 	 * @param query to request
 	 * @return GetStatisticalProgramsQuery including DTOList of the requested Statistical Programs
