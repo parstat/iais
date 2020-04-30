@@ -9,9 +9,11 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateA
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -209,5 +211,30 @@ public class CommandTranslator {
         if(StringTools.isNotEmpty(command.getName())) {
             existingBusinessFunction.setName(command.getName(), command.getLanguage());
         }
+    }
+    
+    public static StatisticalStandardReferenceEntity translate(final CreateStatisticalStandardCommand command) {
+
+        final StatisticalStandardReferenceEntity statisticalStandard= new StatisticalStandardReferenceEntity();
+
+        if(StringTools.isNotEmpty(command.getName())) {
+        	statisticalStandard.setName(command.getName(), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getDescription())) {
+        	statisticalStandard.setDescription(command.getDescription(), command.getLanguage());
+        }
+
+        if(StringTools.isNotEmpty(command.getLocalId())) {
+        	statisticalStandard.setLocalId(command.getLocalId());
+        }
+
+        statisticalStandard.setType(command.getType());
+  
+        statisticalStandard.setVersion(command.getVersion());
+        statisticalStandard.setVersionDate(LocalDateTime.now());
+        statisticalStandard.setVersionRationale(command.getVersionRationale());
+      
+        return statisticalStandard;
     }
 }

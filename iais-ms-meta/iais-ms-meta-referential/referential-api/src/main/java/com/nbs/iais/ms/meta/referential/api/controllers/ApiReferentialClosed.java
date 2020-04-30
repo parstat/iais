@@ -7,11 +7,12 @@ import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.AgentDTO;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
-
+import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
+import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
@@ -22,7 +23,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.p
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.agent.DeleteAgentEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -290,6 +291,35 @@ public class ApiReferentialClosed extends AbstractController {
         return sendCommand(command, "referential").getEvent().getData();
     }
 
+    
+    /**
+   	 * Method to create an agent
+   	 * 
+   	 * @param jwt         authorization token
+   	 * @param name        of the agent in selected language
+   	 * @param type        of agent: DIVISION, ORGANIZATION, INDIVIDUAL
+   	 * @param description of the agent in the selected language
+   	 * @param localId     of the agent i.e the email of the INDIVIDUAL
+   	 * @param parent      of the agent, ORGANIZATIONS Can not have parents
+   	 * @param account     INDIVIDUAL only are related to an account
+   	 * @param language    selected
+   	 * @return AgentDTO
+   	 */
+   	@JsonView(Views.Extended.class)
+   	@PostMapping("/statistical/standards")
+   	public StatisticalStandardDTO createStatisticalStandard(
+   			@RequestHeader(name = "jwt-auth") final String jwt,
+   			@RequestParam(name = "name", required = false) final String name,
+   			@RequestParam(name = "type", required = false) final StatisticalStandardType type,
+   			@RequestParam(name = "description", required = false) final String description,
+   			@RequestParam(name = "local_id") final String localId,
+   			@RequestParam(name = "administrativeDetails", required = false) final Long administrativeDetails,
+   			@RequestParam(name = "language", required = false) final String language) {
+
+   		final CreateStatisticalStandardCommand  command = CreateStatisticalStandardCommand.create(jwt, name, description , localId, type,administrativeDetails, Language.getLanguage(language));
+   		return sendCommand(command, "referential").getEvent().getData();
+
+   	}
 	
     /**
      * Method to create a business function

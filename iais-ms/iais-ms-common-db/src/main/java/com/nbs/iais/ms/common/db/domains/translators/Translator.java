@@ -1,17 +1,22 @@
 package com.nbs.iais.ms.common.db.domains.translators;
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.security.Account;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
+import com.nbs.iais.ms.common.dto.impl.AdministativeDetailsDTO;
 import com.nbs.iais.ms.common.dto.impl.AgentDTO;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
+import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.PhaseName;
+
 
 import java.util.Optional;
 
@@ -175,5 +180,43 @@ public class Translator {
 			});
 		}
 		return children;
+	}
+
+	public static <SS extends StatisticalStandardReference> Optional<StatisticalStandardDTO> translate(
+			final SS statisticalStandard, final Language language) {
+
+		if (statisticalStandard == null) {
+			return Optional.empty();
+		}
+
+		final StatisticalStandardDTO statisticalStandardDTO = new StatisticalStandardDTO(statisticalStandard.getId());
+		statisticalStandardDTO.setName(statisticalStandard.getName(language));
+		statisticalStandardDTO.setDescription(statisticalStandard.getDescription(language));
+
+		statisticalStandardDTO.setType(statisticalStandard.getType());
+		if (statisticalStandard.getAdministrativeDetails() != null) {
+			statisticalStandardDTO
+					.setAdministativeDetails(translate(statisticalStandard.getAdministrativeDetails(), language).get());
+		}
+		statisticalStandardDTO.setLocalId(statisticalStandard.getLocalId());
+		statisticalStandardDTO.setVersion(statisticalStandard.getVersion());
+		statisticalStandardDTO.setVersionDate(statisticalStandard.getVersionDate());
+		statisticalStandardDTO.setVersionRationale(statisticalStandard.getVersionRationale());
+		statisticalStandardDTO.setLink("/statistical/standards/" + statisticalStandard.getId());
+
+		return Optional.of(statisticalStandardDTO);
+	}
+
+	public static <AD extends AdministrativeDetails> Optional<AdministativeDetailsDTO> translate(
+			final AD administrativeDetails, final Language language) {
+
+		if (administrativeDetails == null) {
+			return Optional.empty();
+		}
+
+		final AdministativeDetailsDTO administativeDetailsDTO = new AdministativeDetailsDTO(
+				administrativeDetails.getId());
+		// TODO
+		return Optional.of(administativeDetailsDTO);
 	}
 }

@@ -12,6 +12,7 @@ import com.nbs.iais.ms.common.exceptions.EntityException;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
@@ -48,6 +49,9 @@ public class CommandReferentialService {
 
 	@Autowired
 	private AgentInRoleRepository agentInRoleRepository;
+	
+	@Autowired
+	AdministrativeDetailsRepository administrativeDetailsRepository;
 
 	/**
 	 * Method to create a statistical program
@@ -350,17 +354,12 @@ public class CommandReferentialService {
 	 * 
 	 * @param command to execute
 	 * @return CreateAgentCommand including the dto of agent in the event
-	 * @throws AuthorizationException when user is not an ADMIN or ROOT
 	 * @throws EntityException        when the command includes a parent that can
 	 *                                not be found
 	 */
 	public CreateAgentCommand createAgent(final CreateAgentCommand command)
 			throws AuthorizationException, EntityException {
 
-		if (AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString()) == AccountRole.USER) {
-			throw new AuthorizationException("You have no permission to perform this operation",
-					ExceptionCodes.NO_PERMISSION);
-		}
 		final AgentEntity agentEntity = agentRepository.save(CommandTranslator.translate(command));
 
 		if (command.getParent() != null) {
@@ -382,14 +381,9 @@ public class CommandReferentialService {
 	 * 
 	 * @param command to execute
 	 * @return UpdateAgentCommand including the dto of updated agent in the event
-	 * @throws AuthorizationException when user is not an ADMIN or ROOT
 	 */
 	public UpdateAgentCommand updateAgent(final UpdateAgentCommand command) throws AuthorizationException {
 
-		if (AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString()) == AccountRole.USER) {
-			throw new AuthorizationException("You have no permission to perform this operation",
-					ExceptionCodes.NO_PERMISSION);
-		}
 		if (command.getId() != null) {
 			agentRepository.findById(command.getId()).ifPresentOrElse(agent -> {
 				CommandTranslator.translate(command, agent);
@@ -414,15 +408,17 @@ public class CommandReferentialService {
 		return command;
 	}
 
+	/**
+	 * Method to delete an agent
+	 * 
+	 * @param command to execute
+	 * @return DTOBoolean
+	 * @throws AGENT_NOT_FOUND        when the agent can  not be found
+	 */
 	@Transactional
 	public DeleteAgentCommand deleteAgent(final DeleteAgentCommand command) throws AuthorizationException {
 
-		final AccountRole role = AccountRole.valueOf(JWT.decode(command.getJwt()).getClaim("role").asString());
-
-		if (role == AccountRole.USER) {
-			throw new AuthorizationException(ExceptionCodes.NOT_AUTHORIZED);
-		}
-
+	
 		try {
 			final AgentEntity agentToDelete = agentRepository.findById(command.getId())
 					.orElseThrow(() -> new EntityException(ExceptionCodes.AGENT_NOT_FOUND));
@@ -444,4 +440,33 @@ public class CommandReferentialService {
 
 		return command;
 	}
+	
+	
+
+	/**
+	 * Method to create an Statistical Standard
+	 * 
+	 * @param command to execute
+	 * @return CreateStatisticalStandardCommand including the dto of StatisticalStandard in the event
+	 * @throws EntityException        when the command includes a parent that can
+	 *                                not be found
+	 */
+	public CreateStatisticalStandardCommand createStatisticalStandard(final CreateStatisticalStandardCommand command)
+			throws AuthorizationException, EntityException {
+
+		final StatisticalStandardReferenceEntity standardEntity = statisticalStandardReferenceRepository.save(CommandTranslator.translate(command));
+		
+		if (command.getAdministrativeDetailsId() != null) {
+			administrativeDetailsRepository.findById(command.getAdministrativeDetailsId()).ifPresentOrElse(admindet -> {
+				standardEntity.setAdministrativeDetails(admindet);
+				statisticalStandardReferenceRepository.save(standardEntity);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.ADMINISTRATIVE_DETAILS_NOT_FOUND);
+			});
+		}
+
+	   Translator.translate(standardEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+		return command;
+	}
+
 }

@@ -102,8 +102,6 @@ public class ApplicationConfig {
 								sf -> sf.<AddStatisticalProgramLegislativeReferenceCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramLegislativeReference(p)))
 						.subFlowMapping(AddStatisticalProgramStandardCommand.class,
 								sf -> sf.<AddStatisticalProgramStandardCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramStandard(p)))
-						.subFlowMapping(AddStatisticalProgramStandardCommand.class,
-								sf -> sf.<AddStatisticalProgramStandardCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramStandard(p)))
 						.subFlowMapping(AddStatisticalProgramVersionCommand.class,
 								sf -> sf.<AddStatisticalProgramVersionCommand>handle((p, h) -> commandReferentialService.addStatisticalProgramVersion(p)))
 						.subFlowMapping(UpdateStatisticalProgramCommand.class,
