@@ -62,6 +62,14 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
 
         Assert.assertTrue(businessFunction.iterator().hasNext());
     }
+    @Test
+    public void testDeleteBusinessFunctionByLocalId() {
+        final BusinessFunctionEntity toSave = getBusinessFunctionEntity();
+        final BusinessFunctionEntity saved = businessFunctionRepository.save(toSave);
+
+        businessFunctionRepository.delete(saved);
+        Assert.assertFalse(businessFunctionRepository.findById(saved.getId()).isPresent());
+    }
 
     private BusinessFunctionEntity getBusinessFunctionEntity() {
         final BusinessFunctionEntity toSave = new BusinessFunctionEntity();
