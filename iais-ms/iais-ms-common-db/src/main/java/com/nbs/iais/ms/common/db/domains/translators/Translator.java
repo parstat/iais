@@ -4,14 +4,10 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Administrati
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.security.Account;
-import com.nbs.iais.ms.common.dto.impl.AccountDTO;
-import com.nbs.iais.ms.common.dto.impl.AdministativeDetailsDTO;
-import com.nbs.iais.ms.common.dto.impl.AgentDTO;
-import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
-import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
-import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
+import com.nbs.iais.ms.common.dto.impl.*;
 import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Language;
@@ -19,6 +15,7 @@ import com.nbs.iais.ms.common.enums.PhaseName;
 import com.nbs.iais.ms.common.enums.RoleType;
 
 
+import java.util.Collection;
 import java.util.Optional;
 
 public class Translator {
@@ -130,6 +127,13 @@ public class Translator {
 			}
 		});
 
+		translateLegislativeReferences(statisticalProgram.getLegislativeReference(), language)
+				.ifPresent(statisticalProgramDTO::setLegislativeReferences);
+
+		translateStatisticalStandards(statisticalProgram.getStatisticalStandardReferences(), language)
+				.ifPresent(statisticalProgramDTO::setStatisticalStandards);
+
+
 		return Optional.of(statisticalProgramDTO);
 	}
 
@@ -217,16 +221,55 @@ public class Translator {
 		return Optional.of(statisticalStandardDTO);
 	}
 
-	public static <AD extends AdministrativeDetails> Optional<AdministativeDetailsDTO> translate(
-			final AD administrativeDetails, final Language language) {
+	public static <SS extends StatisticalStandardReference> Optional<DTOList<StatisticalStandardDTO>> translateStatisticalStandards(final Collection<SS> statisticalStandards, final Language language) {
 
-		if (administrativeDetails == null) {
+		if(statisticalStandards == null || statisticalStandards.size() == 0) {
 			return Optional.empty();
 		}
 
-		final AdministativeDetailsDTO administativeDetailsDTO = new AdministativeDetailsDTO(
-				administrativeDetails.getId());
-		// TODO
-		return Optional.of(administativeDetailsDTO);
+		final DTOList<StatisticalStandardDTO> statisticalStandardDTOS = DTOList.empty(StatisticalStandardDTO.class);
+
+		statisticalStandards.forEach(ss -> translate(ss, language)
+				.ifPresent(statisticalStandardDTOS::add));
+
+		return Optional.of(statisticalStandardDTOS);
+	}
+
+
+
+	public static <LR extends LegislativeReference> Optional<LegislativeReferenceDTO> translate(final LR legislativeReference,
+																					  final Language language) {
+
+		if(legislativeReference == null) {
+			return Optional.empty();
+		}
+
+		final LegislativeReferenceDTO legislativeReferenceDTO = new LegislativeReferenceDTO(legislativeReference.getId());
+		legislativeReferenceDTO.setApproval(legislativeReference.getApprovalDate());
+		legislativeReferenceDTO.setNumber(legislativeReference.geNumber());
+		legislativeReferenceDTO.setName(legislativeReference.getName(language));
+		legislativeReferenceDTO.setDescription(legislativeReference.getDescription(language));
+		legislativeReferenceDTO.setType(legislativeReference.getLegislativeType());
+		legislativeReferenceDTO.setLocalId(legislativeReference.getLocalId());
+		legislativeReferenceDTO.setVersion(legislativeReference.getVersion());
+		legislativeReferenceDTO.setVersionDate(legislativeReference.getVersionDate());
+		legislativeReferenceDTO.setVersionRationale(legislativeReference.getVersionRationale());
+		legislativeReferenceDTO.setLink("/legislative/references/" + legislativeReference.getId().toString());
+
+		return Optional.of(legislativeReferenceDTO);
+	}
+
+	public static <LR extends LegislativeReference> Optional<DTOList<LegislativeReferenceDTO>> translateLegislativeReferences(
+			final Collection<LR> legislativeReferences, final Language language) {
+		if(legislativeReferences == null || legislativeReferences.size() == 0) {
+			return Optional.empty();
+		}
+
+		final DTOList<LegislativeReferenceDTO> legislativeReferenceDTOS = DTOList.empty(LegislativeReferenceDTO.class);
+
+		legislativeReferences.forEach(lr ->
+			translate(lr, language).ifPresent(legislativeReferenceDTOS::add));
+
+		return Optional.of(legislativeReferenceDTOS);
 	}
 }
