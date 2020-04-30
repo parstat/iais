@@ -1,4 +1,4 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program;
+package com.nbs.iais.ms.meta.referential.common.messageing.commands.agent;
 
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.events.agent.DeleteAgentEvent;

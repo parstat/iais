@@ -6,6 +6,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgent
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardsQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramsQuery;
@@ -172,6 +174,33 @@ public class QueryReferentialService {
 				agentRepository.findByLocalId(query.getLocalId()).flatMap(sp -> translate(sp, query.getLanguage()))
 						.ifPresent(query.getRead()::setData);
 			}
+			return query;
+		}
+
+		
+
+		/** FIXME Francesco
+		 * Method to get all agents or many agents filtered by agentType, parent, name
+		 * valued
+		 * 
+		 * @param query to request
+		 * @return GetAgentsQuery with the DTOList of requested agents
+		 */
+		public GetStatisticalStandardsQuery getStatisticalStandards(final GetStatisticalStandardsQuery query) {
+			//TODO
+			
+			return query;
+		}
+
+		/** FIXME Francesco
+		 * Method to get a single agent by id, accountId and   by email (localId)
+		 * 
+		 * @param query to request
+		 * @return GetAgentQuery including requested agent dto in the read
+		 */
+		public GetStatisticalStandardQuery getStatisticalStandard(final GetStatisticalStandardQuery query) {
+			
+			//TODO
 			return query;
 		}
 

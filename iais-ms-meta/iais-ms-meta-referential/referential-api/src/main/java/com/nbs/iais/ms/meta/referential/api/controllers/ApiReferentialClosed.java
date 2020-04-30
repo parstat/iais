@@ -15,15 +15,17 @@ import com.nbs.iais.ms.common.enums.ProgramStatus;
 import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.DeleteAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.DeleteStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.UpdateStatisticalStandardCommand;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -291,8 +293,9 @@ public class ApiReferentialClosed extends AbstractController {
         return sendCommand(command, "referential").getEvent().getData();
     }
 
-    
-    /**
+	
+
+    /** FIXME Francesco
    	 * Method to create an agent
    	 * 
    	 * @param jwt         authorization token
@@ -321,7 +324,56 @@ public class ApiReferentialClosed extends AbstractController {
 
    	}
 	
-    /**
+
+    
+    /** FIXME Francesco
+	 * Method to update an agent
+	 * 
+	 * @param jwt         authorization token
+	 * @param id          of the agent
+	 * @param name        of the agent in selected language
+	 * @param type        of agent: DIVISION, ORGANIZATION, INDIVIDUAL
+	 * @param description of the agent in the selected language
+	 * @param localId     of the agent i.e the email of the INDIVIDUAL
+	 * @param parent      of the agent, ORGANIZATIONS Can not have parents
+	 * @param account     INDIVIDUAL only are related to an account
+	 * @param language    selected
+	 * @return AgentDTO
+	 */
+	@JsonView(Views.Extended.class)
+	@PatchMapping("/statistical/standards/{id}")
+	public StatisticalStandardDTO updateStatisticalStandard(@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "type", required = false) final StatisticalStandardType type,
+			@RequestParam(name = "description", required = false) final String description,
+			@RequestParam(name = "local_id", required = false) final String localId,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final UpdateStatisticalStandardCommand command = UpdateStatisticalStandardCommand.create(jwt, id, name, description, type, localId, Language.getLanguage(language));
+		return sendCommand(command, "referential").getEvent().getData();
+
+	}
+
+	 /** FIXME Francesco
+     * Method to delete an agent
+     * @param jwt authorization token, only ADMIN and ROOT can delete currently
+     * @param id of agent to delete
+     * @return DTOBoolean true if the agent has been deleted
+     */
+    @JsonView(Views.Extended.class)
+    @DeleteMapping("/statistical/standard/{id}")
+    public DTOBoolean deleteStatisticalStandard(
+            @RequestHeader(name = "jwt-auth") final String jwt,
+            @PathVariable(name = "id") final Long id) {
+
+        final DeleteStatisticalStandardCommand command = DeleteStatisticalStandardCommand.create(jwt, id);
+
+        return sendCommand(command, "referential").getEvent().getData();
+    }
+
+
+        /**
      * Method to create a business function
      * currently this method supports only adding the current version of GSBPM sub-phases 5.1
      * @param jwt authentication token

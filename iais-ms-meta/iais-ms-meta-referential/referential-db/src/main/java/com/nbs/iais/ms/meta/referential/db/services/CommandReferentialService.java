@@ -13,7 +13,10 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.DeleteStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.UpdateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.DeleteAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.db.repositories.*;
@@ -468,5 +471,32 @@ public class CommandReferentialService {
 	   Translator.translate(standardEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
 		return command;
 	}
+
+	/** FIXME Francesco
+	 * Method to update an agent usually to add name and description in other
+	 * languages
+	 * 
+	 * @param command to execute
+	 * @return UpdateAgentCommand including the dto of updated agent in the event
+	 */
+	public UpdateStatisticalStandardCommand updateStatisticalStandard(final UpdateStatisticalStandardCommand command) throws AuthorizationException {
+             //TODO   
+			return command;
+	}
+
+	/** FIXME Francesco
+	 * Method to delete an agent
+	 * 
+	 * @param command to execute
+	 * @return DTOBoolean
+	 * @throws AGENT_NOT_FOUND        when the agent can  not be found
+	 */
+	
+	public DeleteStatisticalStandardCommand deleteStatisticalStandard(final DeleteStatisticalStandardCommand command) throws AuthorizationException {
+         //TODO
+		return command;
+	}
+	
+	
 
 }
