@@ -8,6 +8,7 @@ import com.nbs.iais.ms.common.dto.abstracts.LinkableIdentifiableArtefactDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.ProcessDocumentationMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
+import com.nbs.iais.ms.common.enums.LegislativeType;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 
 import java.time.LocalDateTime;
@@ -19,43 +20,16 @@ public class LegislativeReferenceDTO extends LinkableIdentifiableArtefactDTO {
 
     @JsonProperty
     @JsonView(Views.Minimal.class)
-    private String acronym;
+    private int number;
 
     @JsonProperty
     @JsonView(Views.Extended.class)
-    private ProgramStatus programStatus;
+    private LocalDateTime approval;
 
     @JsonProperty
     @JsonView(Views.Extended.class)
-    private double budget;
+    private LegislativeType type;
 
-    @JsonProperty
-    @JsonView(Views.Extended.class)
-    private String sourceOfFunding;
-
-    @JsonProperty
-    @JsonView(Views.Extended.class)
-    private LocalDateTime dateInitiated;
-
-    @JsonProperty
-    @JsonView(Views.Extended.class)
-    private LocalDateTime dateEnded;
-
-    @JsonProperty
-    @JsonView(Views.Extended.class)
-    private AgentMiniDTO owner;
-
-    @JsonProperty
-    @JsonView(Views.Extended.class)
-    private AgentMiniDTO contact;
-
-    @JsonProperty
-    @JsonView(Views.Secure.class)
-    private AgentMiniDTO maintainer;
-
-    @JsonProperty
-    @JsonView(Views.Secure.class)
-    private DTOList<ProcessDocumentationMiniDTO> processDocumentationMinis;
 
     public LegislativeReferenceDTO() {
         super();
@@ -65,83 +39,27 @@ public class LegislativeReferenceDTO extends LinkableIdentifiableArtefactDTO {
         super(id);
     }
 
-    public ProgramStatus getProgramStatus() {
-        return programStatus;
+    public int getNumber() {
+        return number;
     }
 
-    public void setProgramStatus(ProgramStatus programStatus) {
-        this.programStatus = programStatus;
+    public void setNumber(final int number) {
+        this.number = number;
     }
 
-    public double getBudget() {
-        return budget;
+    public LocalDateTime getApproval() {
+        return approval;
     }
 
-    public void setBudget(double budget) {
-        this.budget = budget;
+    public void setApproval(final LocalDateTime approval) {
+        this.approval = approval;
     }
 
-    public String getSourceOfFunding() {
-        return sourceOfFunding;
+    public LegislativeType getType() {
+        return type;
     }
 
-    public void setSourceOfFunding(String sourceOfFunding) {
-        this.sourceOfFunding = sourceOfFunding;
-    }
-
-    public LocalDateTime getDateInitiated() {
-        return dateInitiated;
-    }
-
-    public void setDateInitiated(LocalDateTime dateInitiated) {
-        this.dateInitiated = dateInitiated;
-    }
-
-    public LocalDateTime getDateEnded() {
-        return dateEnded;
-    }
-
-    public void setDateEnded(LocalDateTime dateEnded) {
-        this.dateEnded = dateEnded;
-    }
-
-    public AgentMiniDTO getOwner() {
-        return owner;
-    }
-
-    public void setOwner(final AgentMiniDTO owner) {
-        this.owner = owner;
-    }
-
-    public AgentMiniDTO getContact() {
-        return contact;
-    }
-
-    public void setContact(final AgentMiniDTO contact) {
-        this.contact = contact;
-    }
-
-    public AgentMiniDTO getMaintainer() {
-        return maintainer;
-    }
-
-    public void setMaintainer(final AgentMiniDTO maintainer) {
-        this.maintainer = maintainer;
-    }
-
-    public String getAcronym() {
-        return acronym;
-    }
-
-    public void setAcronym(final String acronym) {
-        this.acronym = acronym;
-    }
-
-    public DTOList<ProcessDocumentationMiniDTO> getProcessDocumentationMinis() {
-        return processDocumentationMinis;
-    }
-
-    public void setProcessDocumentationMinis(final DTOList<ProcessDocumentationMiniDTO> processDocumentationMinis) {
-        this.processDocumentationMinis = processDocumentationMinis;
+    public void setType(final LegislativeType type) {
+        this.type = type;
     }
 }

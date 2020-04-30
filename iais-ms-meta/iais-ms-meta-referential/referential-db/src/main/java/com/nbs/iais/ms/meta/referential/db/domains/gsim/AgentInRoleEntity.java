@@ -16,7 +16,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "AgentInRole")
-@Table(name = "agent_in_role")
+@Table(name = "agent_in_role", uniqueConstraints = @UniqueConstraint(columnNames = {"agent_id", "role"}))
 public class AgentInRoleEntity extends AbstractDomainObject implements AgentInRole {
 
     @ManyToOne(targetEntity = AgentEntity.class, optional = false)

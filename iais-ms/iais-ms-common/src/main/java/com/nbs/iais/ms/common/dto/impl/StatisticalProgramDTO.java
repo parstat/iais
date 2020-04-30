@@ -42,19 +42,27 @@ public class StatisticalProgramDTO extends LinkableIdentifiableArtefactDTO {
     private LocalDateTime dateEnded;
 
     @JsonProperty
-    @JsonView(Views.Extended.class)
+    @JsonView(Views.Minimal.class)
     private AgentMiniDTO owner;
 
     @JsonProperty
-    @JsonView(Views.Extended.class)
+    @JsonView(Views.Minimal.class)
     private AgentMiniDTO contact;
 
     @JsonProperty
-    @JsonView(Views.Secure.class)
+    @JsonView(Views.Minimal.class)
     private AgentMiniDTO maintainer;
 
     @JsonProperty
-    @JsonView(Views.Secure.class)
+    @JsonView(Views.Extended.class)
+    private DTOList<StatisticalStandardDTO> statisticalStandards;
+
+    @JsonProperty
+    @JsonView(Views.Extended.class)
+    private DTOList<LegislativeReferenceDTO> legislativeReferences;
+
+    @JsonProperty
+    @JsonView(Views.Extended.class)
     private DTOList<ProcessDocumentationMiniDTO> processDocumentationMinis;
 
     public StatisticalProgramDTO() {
@@ -135,6 +143,22 @@ public class StatisticalProgramDTO extends LinkableIdentifiableArtefactDTO {
 
     public void setAcronym(final String acronym) {
         this.acronym = acronym;
+    }
+
+    public DTOList<StatisticalStandardDTO> getStatisticalStandards() {
+        return statisticalStandards;
+    }
+
+    public void setStatisticalStandards(final DTOList<StatisticalStandardDTO> statisticalStandards) {
+        this.statisticalStandards = statisticalStandards;
+    }
+
+    public DTOList<LegislativeReferenceDTO> getLegislativeReferences() {
+        return legislativeReferences;
+    }
+
+    public void setLegislativeReferences(DTOList<LegislativeReferenceDTO> legislativeReferences) {
+        this.legislativeReferences = legislativeReferences;
     }
 
     public DTOList<ProcessDocumentationMiniDTO> getProcessDocumentationMinis() {

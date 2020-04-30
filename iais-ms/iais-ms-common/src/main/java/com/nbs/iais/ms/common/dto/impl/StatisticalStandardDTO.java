@@ -13,10 +13,6 @@ import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 public class StatisticalStandardDTO extends LinkableIdentifiableArtefactDTO {
 
     private static final long serialVersionUID = 2864464354903875090L;
-
-    @JsonProperty
-    @JsonView(Views.Minimal.class)
-    private AdministativeDetailsDTO administativeDetails;
     
     @JsonProperty
     @JsonView(Views.Minimal.class)
@@ -29,14 +25,6 @@ public class StatisticalStandardDTO extends LinkableIdentifiableArtefactDTO {
 
 	public void setType(StatisticalStandardType type) {
 		this.type = type;
-	}
-
-	public AdministativeDetailsDTO getAdministativeDetails() {
-		return administativeDetails;
-	}
-
-	public void setAdministativeDetails(AdministativeDetailsDTO administativeDetails) {
-		this.administativeDetails = administativeDetails;
 	}
 
 	public StatisticalStandardDTO() {

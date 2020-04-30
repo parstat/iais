@@ -276,10 +276,12 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
         this.lastModifiedTimestamp = lastModifiedTimestamp;
     }
 
+    @Override
     public List<AgentInRole> getAdministrators() {
         return administrators;
     }
 
+    @Override
     public void setAdministrators(final List<AgentInRole> administrators) {
         this.administrators = administrators;
     }

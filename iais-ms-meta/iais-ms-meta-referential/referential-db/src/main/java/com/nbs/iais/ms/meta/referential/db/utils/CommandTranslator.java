@@ -166,7 +166,7 @@ public class CommandTranslator {
 		agentEntity.setAccount(command.getAccount());
 		agentEntity.setVersion("1.0");
 		agentEntity.setVersionDate(LocalDateTime.now());
-		agentEntity.setVersionRationale("Newly created");
+		agentEntity.setVersionRationale("First Version");
 
 		return agentEntity;
 	}

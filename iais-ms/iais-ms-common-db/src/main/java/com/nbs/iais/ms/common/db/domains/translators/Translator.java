@@ -16,6 +16,7 @@ import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.PhaseName;
+import com.nbs.iais.ms.common.enums.RoleType;
 
 
 import java.util.Optional;
@@ -117,6 +118,17 @@ public class Translator {
 		statisticalProgramDTO.setVersionDate(statisticalProgram.getVersionDate());
 		statisticalProgramDTO.setVersionRationale(statisticalProgram.getVersionRationale());
 		statisticalProgramDTO.setLink("/statistical/programs/" + statisticalProgram.getId());
+		statisticalProgram.getAdministrators().forEach(agentInRole -> {
+			if(agentInRole.getRole() == RoleType.OWNER) {
+				translateMini(agentInRole.getAgent(), language).ifPresent(statisticalProgramDTO::setOwner);
+			}
+			if(agentInRole.getRole() == RoleType.MAINTAINER) {
+				translateMini(agentInRole.getAgent(), language).ifPresent(statisticalProgramDTO::setMaintainer);
+			}
+			if(agentInRole.getRole() == RoleType.CONTACT) {
+				translateMini(agentInRole.getAgent(), language).ifPresent(statisticalProgramDTO::setContact);
+			}
+		});
 
 		return Optional.of(statisticalProgramDTO);
 	}
@@ -132,8 +144,7 @@ public class Translator {
 		agentDTO.setDescription(agent.getDescription(language));
 		agentDTO.setAccount(agent.getAccount());
 		agentDTO.setType(agent.getType());
-		if (agent.getParent() != null)
-			agentDTO.setParent(getParent(agent.getParent(), language));
+		translateMini(agent.getParent(), language).ifPresent(agentDTO::setParent);
 		agentDTO.setChildren(getChildren(agent, language));
 		agentDTO.setLocalId(agent.getLocalId());
 		agentDTO.setVersion(agent.getVersion());
@@ -144,13 +155,16 @@ public class Translator {
 		return Optional.of(agentDTO);
 	}
 
-	private static AgentMiniDTO getParent(Agent parent, final Language language) {
-		// TODO Auto-generated method stub
-		AgentMiniDTO parentDto = new AgentMiniDTO(parent.getId());
-		parentDto.setLink("/agents/" + parent.getId());
-		parentDto.setType(parent.getType());
-		parentDto.setName(parent.getName(language));
-		return parentDto;
+	public static Optional<AgentMiniDTO> translateMini(final Agent agent, final Language language) {
+
+		if(agent == null) {
+			return Optional.empty();
+		}
+		AgentMiniDTO agentMiniDTO = new AgentMiniDTO(agent.getId());
+		agentMiniDTO.setLink("/agents/" + agent.getId());
+		agentMiniDTO.setType(agent.getType());
+		agentMiniDTO.setName(agent.getName(language));
+		return Optional.of(agentMiniDTO);
 	}
 
 	public static <AG extends Agent> Optional<DTOList<AgentDTO>> translateAgents(final Iterable<AG> agents,
@@ -194,10 +208,6 @@ public class Translator {
 		statisticalStandardDTO.setDescription(statisticalStandard.getDescription(language));
 
 		statisticalStandardDTO.setType(statisticalStandard.getType());
-		if (statisticalStandard.getAdministrativeDetails() != null) {
-			statisticalStandardDTO
-					.setAdministativeDetails(translate(statisticalStandard.getAdministrativeDetails(), language).get());
-		}
 		statisticalStandardDTO.setLocalId(statisticalStandard.getLocalId());
 		statisticalStandardDTO.setVersion(statisticalStandard.getVersion());
 		statisticalStandardDTO.setVersionDate(statisticalStandard.getVersionDate());

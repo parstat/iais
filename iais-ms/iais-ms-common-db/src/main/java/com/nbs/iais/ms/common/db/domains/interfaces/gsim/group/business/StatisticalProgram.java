@@ -1,6 +1,8 @@
 package com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.IdentifiableArtefact;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
@@ -53,6 +55,10 @@ public interface StatisticalProgram extends IdentifiableArtefact {
     ProgramStatus getProgramStatus();
 
     void setProgramStatus(ProgramStatus programStatus);
+
+    List<AgentInRole> getAdministrators();
+
+    void setAdministrators(List<AgentInRole> administrators);
 
     //List<StatisticalProgramCycle> getStatisticalProgramCycles();
 
