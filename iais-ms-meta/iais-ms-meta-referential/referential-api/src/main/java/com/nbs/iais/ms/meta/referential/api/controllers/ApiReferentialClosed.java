@@ -19,8 +19,11 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.agent.DeleteAgentEvent;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -270,6 +273,24 @@ public class ApiReferentialClosed extends AbstractController {
 
 	}
 
+	 /**
+     * Method to delete an agent
+     * @param jwt authorization token, only ADMIN and ROOT can delete currently
+     * @param id of agent to delete
+     * @return DTOBoolean true if the agent has been deleted
+     */
+    @JsonView(Views.Extended.class)
+    @DeleteMapping("/agents/{id}")
+    public DTOBoolean deleteAgent(
+            @RequestHeader(name = "jwt-auth") final String jwt,
+            @PathVariable(name = "id") final Long id) {
+
+        final DeleteAgentCommand command = DeleteAgentCommand.create(jwt, id);
+
+        return sendCommand(command, "referential").getEvent().getData();
+    }
+
+	
     /**
      * Method to create a business function
      * currently this method supports only adding the current version of GSBPM sub-phases 5.1

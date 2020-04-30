@@ -115,6 +115,9 @@ public class ApplicationConfig {
 								sf -> sf.<CreateAgentCommand>handle((p, h) -> commandReferentialService.createAgent(p)))
 						.subFlowMapping(UpdateAgentCommand.class,
 								sf -> sf.<UpdateAgentCommand>handle((p, h) -> commandReferentialService.updateAgent(p)))
+						.subFlowMapping(DeleteAgentCommand.class,
+								sf -> sf.<DeleteAgentCommand>handle((p, h) -> commandReferentialService.deleteAgent(p)))
+					
 						//Business Function
 						.subFlowMapping(CreateBusinessFunctionCommand.class,
 								sf -> sf.<CreateBusinessFunctionCommand>handle((p, h) -> commandReferentialService.createBusinessFunction(p)))
