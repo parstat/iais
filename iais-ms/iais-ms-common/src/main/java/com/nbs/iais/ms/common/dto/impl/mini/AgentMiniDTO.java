@@ -21,10 +21,6 @@ public class AgentMiniDTO extends LinkableEntityDTO {
     @JsonView(Views.Minimal.class)
     private AgentType type;
 
-    @JsonProperty
-    @JsonView(Views.Extended.class)
-    private DTOList<AgentMiniDTO> children;
-
     public AgentMiniDTO() {
         super();
     }
@@ -49,11 +45,4 @@ public class AgentMiniDTO extends LinkableEntityDTO {
         this.type = type;
     }
 
-    public DTOList<AgentMiniDTO> getChildren() {
-        return children;
-    }
-
-    public void setChildren(DTOList<AgentMiniDTO> children) {
-        this.children = children;
-    }
 }

@@ -1,6 +1,5 @@
 package com.nbs.iais.ms.common.db.domains.translators;
 
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AdministrativeDetails;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
@@ -115,6 +114,7 @@ public class Translator {
 		statisticalProgramDTO.setVersionDate(statisticalProgram.getVersionDate());
 		statisticalProgramDTO.setVersionRationale(statisticalProgram.getVersionRationale());
 		statisticalProgramDTO.setLink("/statistical/programs/" + statisticalProgram.getId());
+		statisticalProgramDTO.setBudget(statisticalProgram.getBudget());
 		statisticalProgram.getAdministrators().forEach(agentInRole -> {
 			if(agentInRole.getRole() == RoleType.OWNER) {
 				translateMini(agentInRole.getAgent(), language).ifPresent(statisticalProgramDTO::setOwner);
@@ -193,7 +193,6 @@ public class Translator {
 				agentMini.setLink("/agents/" + child.getId());
 				agentMini.setName(child.getName(language));
 				agentMini.setType(child.getType());
-				agentMini.setChildren(getChildren(child, language));
 				children.add(agentMini);
 			});
 		}
