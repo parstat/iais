@@ -1,5 +1,6 @@
 package com.nbs.iais.ms.meta.referential.common.messageing.queries.agent;
 
+import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.queries.abstracts.AbstractQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.reads.agent.GetAgentRead;
 
@@ -19,8 +20,9 @@ public class GetAgentQuery extends AbstractQuery<GetAgentRead> {
 		super(new GetAgentRead());
 	}
 
-	private GetAgentQuery(final Long id) {
+	private GetAgentQuery(final Long id, final Language language) {
     	super(new GetAgentRead());
+    	setLanguage(language);
     	this.id = id;
 	}
 
@@ -28,8 +30,8 @@ public class GetAgentQuery extends AbstractQuery<GetAgentRead> {
 	        return new GetAgentQuery();
     }
 
-	public static GetAgentQuery create(final Long id) {
-		return new GetAgentQuery(id);
+	public static GetAgentQuery create(final Long id, final Language language) {
+		return new GetAgentQuery(id, language);
 	}
 
 	public static long getSerialVersionUID() {

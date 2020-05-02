@@ -13,6 +13,7 @@ import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardsQuery;
 
@@ -186,6 +187,24 @@ public class ApiReferentialOpen extends AbstractController {
 		return sendQuery(getBusinessFunctionQuery, "referential").getRead().getData();
 	}
 
+	/**
+	 * Method to get business functions using different filters
+	 * @param name the string to search on the name of the selected language
+	 * @param phase to get all business function of this phase
+	 * @param language the selected language to return the result
+	 * @return a list of BusinessFunctionDTO in the selected language
+	 */
+	@JsonView(Views.Extended.class)
+	@GetMapping("/business/functions")
+	public DTOList<BusinessFunctionDTO> getBusinessFunctions(
+			@RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "phase", required = false) final int phase,
+			@RequestParam(name = "language") final String language) {
+
+		final GetBusinessFunctionsQuery query = GetBusinessFunctionsQuery.create(name, phase,null, Language.getLanguage(language));
+
+		return sendQuery(query, "referential").getRead().getData();
+	}
 
 	/**
 	 * Method to get many agents in the selected language
@@ -222,8 +241,7 @@ public class ApiReferentialOpen extends AbstractController {
 	public AgentDTO getAgentQuery(@PathVariable(name = "id") final Long id,
 			@RequestParam(name = "language") final String language) {
 
-		final GetAgentQuery getAgentQuery = GetAgentQuery.create(id);
-		getAgentQuery.setLanguage(Language.getLanguage(language));
+		final GetAgentQuery getAgentQuery = GetAgentQuery.create(id, Language.getLanguage(language));
 		return sendQuery(getAgentQuery, "referential").getRead().getData();
 	}
 	
@@ -246,6 +264,7 @@ public class ApiReferentialOpen extends AbstractController {
 	}
 	
 	/**
+	 * FIXME not sure this method should be open (the user requesting this info must be ADMIN or self)
 	 * Method to get the agent by account
 	 * @param account id of registered account that is mapped with an agent
 	 * @param language the language to present the returned DTO (en, ro, ru)
@@ -267,7 +286,6 @@ public class ApiReferentialOpen extends AbstractController {
 	 * @param name the name to search the agents
 	 *             if this parameter has value the other filter parameters will be ignored
 	 * @param type the type of agent: DIVISION, ORGANIZATION, DEPARTMENT, INDIVIDUAL
-	 * @param parent the agent id to return all children
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return a list of filtered agents in the selected language
 	 * all agents if no filter parameter has been provided
@@ -318,16 +336,6 @@ public class ApiReferentialOpen extends AbstractController {
 		getStatisticalStandardQuery.setLanguage(Language.getLanguage(language));
 		return sendQuery(getStatisticalStandardQuery, "referential").getRead().getData();
 	}
-		
-	/**
-	 * FIXME FLORIAN
-	 * @return list of business function
-	 */
-	@JsonView(Views.Extended.class)
-	@GetMapping("/business/functions")
-	public DTOList<BusinessFunctionDTO> getBusinessFunctions() {
-		//TODO Florian
-		return null;
-	}
+
 
 }

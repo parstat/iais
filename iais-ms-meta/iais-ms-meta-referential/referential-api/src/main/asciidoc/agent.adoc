@@ -24,3 +24,19 @@ include::{snippets}/get-agent/curl-request.adoc[]
 include::{snippets}/get-agent/response-fields.adoc[]
 ===== Response Example
 include::{snippets}/get-agent/http-response.adoc[]
+
+[[resources-get-agents]]
+== APIs
+=== Get Agents
+==== Request
+include::{snippets}/get-agents/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-agents/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-agents/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-agents/curl-request.adoc[]
+==== Response
+include::{snippets}/get-agents/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-agents/http-response.adoc[]

@@ -1,0 +1,42 @@
+= IAIS API Guide: Business Function
+:revnumber: {iais.version}
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-get-business-function]]
+== APIs
+=== Get Business Function
+==== Request
+include::{snippets}/get-business-function/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-business-function/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-business-function/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-business-function/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-business-function/curl-request.adoc[]
+==== Response
+include::{snippets}/get-business-function/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-business-function/http-response.adoc[]
+
+[[resources-get-business-functions]]
+== APIs
+=== Get Business Functions
+==== Request
+include::{snippets}/get-business-functions/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-business-functions/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-business-functions/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-business-functions/curl-request.adoc[]
+==== Response
+include::{snippets}/get-business-functions/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-business-functions/http-response.adoc[]
