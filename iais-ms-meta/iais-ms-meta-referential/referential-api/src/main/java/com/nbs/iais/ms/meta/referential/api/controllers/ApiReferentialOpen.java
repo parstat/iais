@@ -209,7 +209,6 @@ public class ApiReferentialOpen extends AbstractController {
 	/**
 	 * Method to get many agents in the selected language
 	 * @param name the name to search the agents
-	 *             if this parameter has value the other filter parameters will be ignored
 	 * @param type the type of agent: DIVISION, ORGANIZATION, DEPARTMENT, INDIVIDUAL
 	 * @param parent the agent id to return all children
 	 * @param language the language to present the returned DTO (en, ro, ru)
@@ -282,13 +281,14 @@ public class ApiReferentialOpen extends AbstractController {
 	}
 
 	/**
-	 * Method to get many agents in the selected language
-	 * @param name the name to search the agents
-	 *             if this parameter has value the other filter parameters will be ignored
-	 * @param type the type of agent: DIVISION, ORGANIZATION, DEPARTMENT, INDIVIDUAL
+	 * Method to get many statistical standards in the selected language
+	 * @param name the name to search the statistical standards
+	 * @param type the type of Statistical Standard: CLASSIFICATIONS, CONCEPTS,
+	 *                          DEFINITIONS, METHODOLOGIES, PROCEDURES,
+	 *                         RECOMMENDATIONS, FRAMEWORK
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return a list of filtered agents in the selected language
-	 * all agents if no filter parameter has been provided
+	 * @return a list of filtered statistical standards in the selected language
+	 * all statistical standards if no filter parameter has been provided
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/standards")
@@ -304,10 +304,10 @@ public class ApiReferentialOpen extends AbstractController {
 	
 
 	/**
-	 * Method to get the agent by id
-	 * @param id the id of the agent
+	 * Method to get the statistical standards by id
+	 * @param id the id of the statistical standards
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return AgentDTO in the selected language
+	 * @return StatisticalStandardDTO in the selected language
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/standards/{id}")
@@ -319,12 +319,11 @@ public class ApiReferentialOpen extends AbstractController {
 		return sendQuery(getStatisticalStandardQuery, "referential").getRead().getData();
 	}
 	
-	/**
-	 * FIXME not sure wee need this method
-	 * Method to get the agent by localId
-	 * @param localId the local id of the agent
+	/**  FIXME it required unique local_Id
+	 * Method to get the agent by statistical standards
+	 * @param localId the local id of the statistical standards
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return AgentDTO in the selected language
+	 * @return StatisticalStandardDTO in the selected language
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/standards/localid/{localId}")

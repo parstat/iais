@@ -1,7 +1,6 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
 import com.auth0.jwt.JWT;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.AccountRole;
@@ -52,7 +51,7 @@ public class CommandReferentialService {
 
 	@Autowired
 	private AgentInRoleRepository agentInRoleRepository;
-	
+
 	@Autowired
 	AdministrativeDetailsRepository administrativeDetailsRepository;
 
@@ -357,8 +356,8 @@ public class CommandReferentialService {
 	 * 
 	 * @param command to execute
 	 * @return CreateAgentCommand including the dto of agent in the event
-	 * @throws EntityException        when the command includes a parent that can
-	 *                                not be found
+	 * @throws EntityException when the command includes a parent that can not be
+	 *                         found
 	 */
 	public CreateAgentCommand createAgent(final CreateAgentCommand command)
 			throws AuthorizationException, EntityException {
@@ -416,12 +415,11 @@ public class CommandReferentialService {
 	 * 
 	 * @param command to execute
 	 * @return DTOBoolean
-	 * @throws AGENT_NOT_FOUND        when the agent can  not be found
+	 * @throws AGENT_NOT_FOUND when the agent can not be found
 	 */
 	@Transactional
 	public DeleteAgentCommand deleteAgent(final DeleteAgentCommand command) throws AuthorizationException {
 
-	
 		try {
 			final AgentEntity agentToDelete = agentRepository.findById(command.getId())
 					.orElseThrow(() -> new EntityException(ExceptionCodes.AGENT_NOT_FOUND));
@@ -443,60 +441,78 @@ public class CommandReferentialService {
 
 		return command;
 	}
-	
-	
 
 	/**
 	 * Method to create an Statistical Standard
 	 * 
 	 * @param command to execute
-	 * @return CreateStatisticalStandardCommand including the dto of StatisticalStandard in the event
-	 * @throws EntityException        when the command includes a parent that can
-	 *                                not be found
+	 * @return CreateStatisticalStandardCommand including the dto of
+	 *         StatisticalStandard in the event
+	 * @throws EntityException when the command includes a parent that can not be
+	 *                         found
 	 */
 	public CreateStatisticalStandardCommand createStatisticalStandard(final CreateStatisticalStandardCommand command)
 			throws AuthorizationException, EntityException {
 
-		final StatisticalStandardReferenceEntity standardEntity = statisticalStandardReferenceRepository.save(CommandTranslator.translate(command));
-		
-		if (command.getAdministrativeDetailsId() != null) {
-			administrativeDetailsRepository.findById(command.getAdministrativeDetailsId()).ifPresentOrElse(admindet -> {
-				standardEntity.setAdministrativeDetails(admindet);
-				statisticalStandardReferenceRepository.save(standardEntity);
-			}, () -> {
-				throw new EntityException(ExceptionCodes.ADMINISTRATIVE_DETAILS_NOT_FOUND);
-			});
-		}
+		final StatisticalStandardReferenceEntity standardEntity = statisticalStandardReferenceRepository
+				.save(CommandTranslator.translate(command));
 
-	   Translator.translate(standardEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+		Translator.translate(standardEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
 		return command;
 	}
 
-	/** FIXME Francesco
-	 * Method to update an agent usually to add name and description in other
-	 * languages
+	/**
+	 * Method to update a StatisticalStandard
 	 * 
 	 * @param command to execute
-	 * @return UpdateAgentCommand including the dto of updated agent in the event
+	 * @return UpdateStatisticalStandardCommand including the dto of updated entity
+	 *         in the event
 	 */
-	public UpdateStatisticalStandardCommand updateStatisticalStandard(final UpdateStatisticalStandardCommand command) throws AuthorizationException {
-             //TODO   
-			return command;
+	public UpdateStatisticalStandardCommand updateStatisticalStandard(final UpdateStatisticalStandardCommand command)
+			throws AuthorizationException {
+
+		if (command.getId() != null) {
+			statisticalStandardReferenceRepository.findById(command.getId()).ifPresentOrElse(standard -> {
+				CommandTranslator.translate(command, standard);
+
+				Translator.translate(statisticalStandardReferenceRepository.save(standard), command.getLanguage())
+						.ifPresent(command.getEvent()::setData);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND);
+			});
+
+		}
+
+		return command;
 	}
 
-	/** FIXME Francesco
-	 * Method to delete an agent
+	/**
+	 * Method to delete an Statistical Standard
 	 * 
 	 * @param command to execute
 	 * @return DTOBoolean
-	 * @throws AGENT_NOT_FOUND        when the agent can  not be found
+	 * @throws STANDARD_REFERENCE_NOT_FOUND when the Statistical Standard can not be
+	 *                                      found
 	 */
-	
-	public DeleteStatisticalStandardCommand deleteStatisticalStandard(final DeleteStatisticalStandardCommand command) throws AuthorizationException {
-         //TODO
+
+	public DeleteStatisticalStandardCommand deleteStatisticalStandard(final DeleteStatisticalStandardCommand command)
+			throws AuthorizationException {
+
+		try {
+			final StatisticalStandardReferenceEntity standardEntity = statisticalStandardReferenceRepository
+					.findById(command.getId())
+					.orElseThrow(() -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
+
+			statisticalStandardReferenceRepository.delete(standardEntity);
+		} catch (Exception e) {
+			LOG.debug("Error deleting agent: " + e.getMessage());
+			command.getEvent().setData(DTOBoolean.FAIL);
+			return command;
+		}
+
+		command.getEvent().setData(DTOBoolean.TRUE);
+
 		return command;
 	}
-	
-	
 
 }

@@ -1,5 +1,7 @@
 package com.nbs.iais.ms.meta.referential.common.messageing.commands.agent;
 
+import java.time.LocalDateTime;
+
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
@@ -47,12 +49,28 @@ public class UpdateAgentCommand extends AbstractCommand<UpdateAgentEvent> {
 	 */
 	private Long account;
 
+	/**
+	 * new version
+	 */
+	private String version;
+
+	/**
+	 * Version description
+	 */
+	private String versionRationale;
+
+	/**
+	 * Date of the version Default current time
+	 */
+	private LocalDateTime versionDate = LocalDateTime.now();
+
 	private UpdateAgentCommand() {
 		super(new UpdateAgentEvent());
 	}
 
-	private UpdateAgentCommand(final String jwt,final Long id, final String name, final String description, final AgentType type,
-			final String localId, final Long parent, final Long account, final Language language) {
+	private UpdateAgentCommand(final String jwt, final Long id, final String name, final String description,
+			final AgentType type, final String localId, final Long parent, final Long account, final String version,
+			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 		super(new UpdateAgentEvent());
 		this.setId(id);
 		this.name = name;
@@ -61,6 +79,10 @@ public class UpdateAgentCommand extends AbstractCommand<UpdateAgentEvent> {
 		this.localId = localId;
 		this.parent = parent;
 		this.account = account;
+		this.version = version;
+		if (versionDate != null)
+			this.versionDate = versionDate;
+		this.versionRationale = versionRationale;
 		setLanguage(language);
 		setClosed(true);
 		setJwt(jwt);
@@ -68,9 +90,11 @@ public class UpdateAgentCommand extends AbstractCommand<UpdateAgentEvent> {
 
 	public static UpdateAgentCommand create(final String jwt, final Long id, final String name,
 			final String description, final AgentType type, final String localId, final Long parent, final Long account,
+			final String version, final LocalDateTime versionDate, final String versionRationale,
 			final Language language) {
 
-		return new UpdateAgentCommand(jwt, id,name, description, type, localId, parent, account, language);
+		return new UpdateAgentCommand(jwt, id, name, description, type, localId, parent, account, version, versionDate,
+				versionRationale, language);
 
 	}
 
@@ -129,4 +153,29 @@ public class UpdateAgentCommand extends AbstractCommand<UpdateAgentEvent> {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getVersionRationale() {
+		return versionRationale;
+	}
+
+	public void setVersionRationale(String versionRationale) {
+		this.versionRationale = versionRationale;
+	}
+
+	public LocalDateTime getVersionDate() {
+		return versionDate;
+	}
+
+	public void setVersionDate(LocalDateTime versionDate) {
+		this.versionDate = versionDate;
+	}
+
 }

@@ -10,6 +10,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.sta
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardsQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramsQuery;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
@@ -17,11 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
-
+import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalStandardReferenceRepository;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramQuery;
 
 import static com.nbs.iais.ms.common.db.domains.translators.Translator.translate;
 import static com.nbs.iais.ms.common.db.domains.translators.Translator.translateAgents;
+
+import java.util.List;
 
 @Service
 public class QueryReferentialService {
@@ -34,6 +37,9 @@ public class QueryReferentialService {
 
 	@Autowired
 	private BusinessFunctionRepository businessFunctionRepository;
+	
+	@Autowired
+	private StatisticalStandardReferenceRepository statisticalStandardReferenceRepository;
 
 
 	/**
@@ -149,7 +155,7 @@ public class QueryReferentialService {
 		public GetAgentsQuery getAgents(final GetAgentsQuery query) {
 			final AgentEntity parent = (query.getParent() == null ? null
 					: agentRepository.findById(query.getParent()).orElse(null));
-			final Iterable<AgentEntity> agents = agentRepository.findBySelectedNameAndTypeAndParent(query.getAgentType(),
+			final Iterable<AgentEntity> agents = agentRepository.findAllOrBySelectedNameAndTypeAndParent(query.getAgentType(),
 					parent, query.getName(), query.getLanguage().getShortName());
 			translateAgents(agents, query.getLanguage()).ifPresent(query.getRead()::setData);
 			return query;
@@ -179,28 +185,36 @@ public class QueryReferentialService {
 
 		
 
-		/** FIXME Francesco
-		 * Method to get all agents or many agents filtered by agentType, parent, name
-		 * valued
+		/** 
+		 * Method to get all statistical standards or many statistical standards filtered by type, name  valued
 		 * 
 		 * @param query to request
-		 * @return GetAgentsQuery with the DTOList of requested agents
+		 * @return GetStatisticalStandardsQuery with the DTOList of requested statistical standards
 		 */
 		public GetStatisticalStandardsQuery getStatisticalStandards(final GetStatisticalStandardsQuery query) {
-			//TODO
+
+			final List<StatisticalStandardReferenceEntity> standards =  statisticalStandardReferenceRepository.findAllOrBySelectedNameAndType(query.getType(),
+					 query.getName(), query.getLanguage().getShortName());
+			Translator.translateStatisticalStandards(standards, query.getLanguage()).ifPresent(query.getRead()::setData);
 			
 			return query;
 		}
 
-		/** FIXME Francesco
-		 * Method to get a single agent by id, accountId and   by email (localId)
+		/** 
+		 * Method to get a single statistical standards by id or localId
 		 * 
 		 * @param query to request
-		 * @return GetAgentQuery including requested agent dto in the read
+		 * @return GetStatisticalStandardQuery including requested  statistical standards dto in the read
 		 */
 		public GetStatisticalStandardQuery getStatisticalStandard(final GetStatisticalStandardQuery query) {
-			
-			//TODO
+			if (query.getId() != null) {
+				statisticalStandardReferenceRepository.findById(query.getId()).flatMap(ss -> translate(ss, query.getLanguage()))
+						.ifPresent(query.getRead()::setData);
+			}
+		 if (StringTools.isNotEmpty(query.getLocalId())) {
+			 statisticalStandardReferenceRepository.findByLocalId(query.getLocalId()).flatMap(ss -> translate(ss, query.getLanguage()))
+						.ifPresent(query.getRead()::setData);
+			}
 			return query;
 		}
 

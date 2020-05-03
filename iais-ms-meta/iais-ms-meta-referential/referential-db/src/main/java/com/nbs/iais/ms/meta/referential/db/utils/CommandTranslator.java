@@ -10,6 +10,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.p
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.UpdateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
@@ -20,133 +21,131 @@ import java.time.LocalDateTime;
 
 public class CommandTranslator {
 
-    public static StatisticalProgramEntity translate(final CreateStatisticalProgramCommand command) {
+	public static StatisticalProgramEntity translate(final CreateStatisticalProgramCommand command) {
 
-        final StatisticalProgramEntity statisticalProgram = new StatisticalProgramEntity();
+		final StatisticalProgramEntity statisticalProgram = new StatisticalProgramEntity();
 
-        if(StringTools.isNotEmpty(command.getName())) {
-            statisticalProgram.setName(command.getName(), command.getLanguage());
-        }
+		if (StringTools.isNotEmpty(command.getName())) {
+			statisticalProgram.setName(command.getName(), command.getLanguage());
+		}
 
-        if(StringTools.isNotEmpty(command.getAcronym())) {
-            statisticalProgram.setAcronym(command.getAcronym(), command.getLanguage());
-        }
+		if (StringTools.isNotEmpty(command.getAcronym())) {
+			statisticalProgram.setAcronym(command.getAcronym(), command.getLanguage());
+		}
 
-        if(StringTools.isNotEmpty(command.getDescription())) {
-            statisticalProgram.setDescription(command.getDescription(), command.getLanguage());
-        }
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			statisticalProgram.setDescription(command.getDescription(), command.getLanguage());
+		}
 
-        if(StringTools.isNotEmpty(command.getLocalId())) {
-            statisticalProgram.setLocalId(command.getLocalId());
-        }
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			statisticalProgram.setLocalId(command.getLocalId());
+		}
 
-        statisticalProgram.setProgramStatus(command.getStatus());
-        statisticalProgram.setBudget(command.getBudget());
-        statisticalProgram.setSourceOfFunding(command.getSourceOfFunding());
-        statisticalProgram.setDateEnded(command.getDateEnded());
-        statisticalProgram.setDateInitiated(command.getDateInitiated());
+		statisticalProgram.setProgramStatus(command.getStatus());
+		statisticalProgram.setBudget(command.getBudget());
+		statisticalProgram.setSourceOfFunding(command.getSourceOfFunding());
+		statisticalProgram.setDateEnded(command.getDateEnded());
+		statisticalProgram.setDateInitiated(command.getDateInitiated());
 
-        statisticalProgram.setVersion(command.getVersion());
-        statisticalProgram.setVersionDate(LocalDateTime.now());
-        statisticalProgram.setVersionRationale(command.getVersionRationale());
-        statisticalProgram.setProgramStatus(command.getStatus());
-        statisticalProgram.setCreator(JWT.decode(command.getJwt()).getClaim("user").asLong());
-        statisticalProgram.setCreatedTimestamp(Instant.now());
+		statisticalProgram.setVersion(command.getVersion());
+		statisticalProgram.setVersionDate(LocalDateTime.now());
+		statisticalProgram.setVersionRationale(command.getVersionRationale());
+		statisticalProgram.setProgramStatus(command.getStatus());
+		statisticalProgram.setCreator(JWT.decode(command.getJwt()).getClaim("user").asLong());
+		statisticalProgram.setCreatedTimestamp(Instant.now());
 
+		return statisticalProgram;
+	}
 
-        return statisticalProgram;
-    }
+	public static StatisticalProgramEntity translate(final AddStatisticalProgramVersionCommand command,
+			final StatisticalProgramEntity previousVersion) {
 
+		final StatisticalProgramEntity statisticalProgram = new StatisticalProgramEntity();
 
-    public static StatisticalProgramEntity translate(final AddStatisticalProgramVersionCommand command,
-                                                     final StatisticalProgramEntity previousVersion) {
+		if (StringTools.isNotEmpty(command.getName())) {
+			statisticalProgram.setName(command.getName(), command.getLanguage());
+		} else {
+			statisticalProgram.setName(previousVersion.getName(command.getLanguage()), command.getLanguage());
+		}
 
-        final StatisticalProgramEntity statisticalProgram = new StatisticalProgramEntity();
+		if (StringTools.isNotEmpty(command.getAcronym())) {
+			statisticalProgram.setAcronym(command.getAcronym(), command.getLanguage());
+		} else {
+			statisticalProgram.setAcronym(previousVersion.getAcronym(command.getLanguage()), command.getLanguage());
+		}
 
-        if(StringTools.isNotEmpty(command.getName())) {
-            statisticalProgram.setName(command.getName(), command.getLanguage());
-        } else {
-            statisticalProgram.setName(previousVersion.getName(command.getLanguage()), command.getLanguage());
-        }
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			statisticalProgram.setDescription(command.getDescription(), command.getLanguage());
+		} else {
+			statisticalProgram.setDescription(previousVersion.getDescription(command.getLanguage()),
+					command.getLanguage());
+		}
 
-        if(StringTools.isNotEmpty(command.getAcronym())) {
-            statisticalProgram.setAcronym(command.getAcronym(), command.getLanguage());
-        } else {
-            statisticalProgram.setAcronym(previousVersion.getAcronym(command.getLanguage()), command.getLanguage());
-        }
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			statisticalProgram.setLocalId(command.getLocalId());
+		}
 
-        if(StringTools.isNotEmpty(command.getDescription())) {
-            statisticalProgram.setDescription(command.getDescription(), command.getLanguage());
-        } else {
-            statisticalProgram.setDescription(previousVersion.getDescription(command.getLanguage()), command.getLanguage());
-        }
+		statisticalProgram.setProgramStatus(command.getStatus());
+		statisticalProgram.setBudget(command.getBudget());
+		statisticalProgram.setSourceOfFunding(command.getSourceOfFunding());
+		statisticalProgram.setDateEnded(command.getDateEnded());
+		statisticalProgram.setDateInitiated(command.getDateInitiated());
 
-        if(StringTools.isNotEmpty(command.getLocalId())) {
-            statisticalProgram.setLocalId(command.getLocalId());
-        }
+		statisticalProgram.setVersion(command.getVersion());
+		statisticalProgram.setVersionDate(command.getVersionDate());
+		statisticalProgram.setVersionRationale(command.getVersionRationale());
+		statisticalProgram.setProgramStatus(command.getStatus());
+		statisticalProgram.setCreator(JWT.decode(command.getJwt()).getClaim("user").asLong());
+		statisticalProgram.setCreatedTimestamp(Instant.now());
 
-        statisticalProgram.setProgramStatus(command.getStatus());
-        statisticalProgram.setBudget(command.getBudget());
-        statisticalProgram.setSourceOfFunding(command.getSourceOfFunding());
-        statisticalProgram.setDateEnded(command.getDateEnded());
-        statisticalProgram.setDateInitiated(command.getDateInitiated());
+		return statisticalProgram;
+	}
 
-        statisticalProgram.setVersion(command.getVersion());
-        statisticalProgram.setVersionDate(command.getVersionDate());
-        statisticalProgram.setVersionRationale(command.getVersionRationale());
-        statisticalProgram.setProgramStatus(command.getStatus());
-        statisticalProgram.setCreator(JWT.decode(command.getJwt()).getClaim("user").asLong());
-        statisticalProgram.setCreatedTimestamp(Instant.now());
+	public static void translate(final UpdateStatisticalProgramCommand command, final StatisticalProgramEntity sp) {
 
+		if (StringTools.isNotEmpty(command.getName())) {
+			sp.setName(command.getName(), command.getLanguage());
+		}
 
-        return statisticalProgram;
-    }
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			sp.setDescription(command.getDescription(), command.getLanguage());
+		}
 
-    public static void translate(final UpdateStatisticalProgramCommand command, final StatisticalProgramEntity sp) {
+		if (StringTools.isNotEmpty(command.getAcronym())) {
+			sp.setAcronym(command.getAcronym(), command.getLanguage());
+		}
 
-        if(StringTools.isNotEmpty(command.getName())) {
-            sp.setName(command.getName(), command.getLanguage());
-        }
+		if (StringTools.isNotEmpty(command.getVersionRationale())) {
+			sp.setVersionRationale(command.getVersionRationale());
+		}
 
-        if(StringTools.isNotEmpty(command.getDescription())) {
-            sp.setDescription(command.getDescription(), command.getLanguage());
-        }
+		if (command.getBudget() > 0.0) {
+			sp.setBudget(command.getBudget());
+		}
 
-        if(StringTools.isNotEmpty(command.getAcronym())) {
-            sp.setAcronym(command.getAcronym(), command.getLanguage());
-        }
+		if (command.getVersionDate() != null) {
+			sp.setVersionDate(command.getVersionDate());
+		}
 
-        if(StringTools.isNotEmpty(command.getVersionRationale())) {
-            sp.setVersionRationale(command.getVersionRationale());
-        }
+		if (command.getDateInitiated() != null) {
+			sp.setDateInitiated(command.getDateInitiated());
+		}
 
-        if(command.getBudget() > 0.0) {
-            sp.setBudget(command.getBudget());
-        }
+		if (command.getDateEnded() != null) {
+			sp.setDateEnded(command.getDateEnded());
+		}
 
-        if(command.getVersionDate() != null) {
-            sp.setVersionDate(command.getVersionDate());
-        }
+		if (StringTools.isNotEmpty(command.getSourceOfFunding())) {
+			sp.setSourceOfFunding(command.getSourceOfFunding());
+		}
 
-        if(command.getDateInitiated() != null) {
-            sp.setDateInitiated(command.getDateInitiated());
-        }
+		if (command.getStatus() != null) {
+			sp.setProgramStatus(command.getStatus());
+		}
 
-        if(command.getDateEnded() != null) {
-            sp.setDateEnded(command.getDateEnded());
-        }
+	}
 
-        if(StringTools.isNotEmpty(command.getSourceOfFunding())) {
-            sp.setSourceOfFunding(command.getSourceOfFunding());
-        }
-
-        if(command.getStatus() != null) {
-            sp.setProgramStatus(command.getStatus());
-        }
-
-    }
-
-    public static AgentEntity translate(final CreateAgentCommand command) {
+	public static AgentEntity translate(final CreateAgentCommand command) {
 
 		final AgentEntity agentEntity = new AgentEntity();
 
@@ -171,70 +170,100 @@ public class CommandTranslator {
 		return agentEntity;
 	}
 
-    public static void translate(final UpdateAgentCommand command, final AgentEntity existingAgent) {
-        if(StringTools.isNotEmpty(command.getDescription())) {
-        	existingAgent.setDescription(command.getDescription(), command.getLanguage());
-        }
+	public static void translate(final UpdateAgentCommand command, final AgentEntity existingAgent) {
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			existingAgent.setDescription(command.getDescription(), command.getLanguage());
+		}
 
-        if(StringTools.isNotEmpty(command.getName())) {
-        	existingAgent.setName(command.getName(), command.getLanguage());
-        }
-        
-        if(command.getType()!=null) {
-        	existingAgent.setType(command.getType());
-        }
-        if(command.getAccount()!=null) {
-        	existingAgent.setAccount(command.getAccount());
-        }
-    }
-    
-    public static BusinessFunctionEntity translate(final CreateBusinessFunctionCommand command) {
+		if (StringTools.isNotEmpty(command.getName())) {
+			existingAgent.setName(command.getName(), command.getLanguage());
+		}
 
-        final BusinessFunctionEntity businessFunctionEntity = new BusinessFunctionEntity();
+		if (command.getType() != null) {
+			existingAgent.setType(command.getType());
+		}
+		if (command.getAccount() != null) {
+			existingAgent.setAccount(command.getAccount());
+		}
+	}
 
-        businessFunctionEntity.setLocalId(command.getLocalId());
-        businessFunctionEntity.setName(command.getName(), command.getLanguage());
-        businessFunctionEntity.setDescription(command.getDescription(), command.getLanguage());
-        businessFunctionEntity.setVersion("5.1");
-        businessFunctionEntity.setVersionRationale("Latest version");
-        businessFunctionEntity.setVersionDate(command.getVersionDate());
+	public static BusinessFunctionEntity translate(final CreateBusinessFunctionCommand command) {
 
-        return businessFunctionEntity;
+		final BusinessFunctionEntity businessFunctionEntity = new BusinessFunctionEntity();
 
-    }
+		businessFunctionEntity.setLocalId(command.getLocalId());
+		businessFunctionEntity.setName(command.getName(), command.getLanguage());
+		businessFunctionEntity.setDescription(command.getDescription(), command.getLanguage());
+		businessFunctionEntity.setVersion("5.1");
+		businessFunctionEntity.setVersionRationale("Latest version");
+		businessFunctionEntity.setVersionDate(command.getVersionDate());
 
-    public static void translate(final UpdateBusinessFunctionCommand command, final BusinessFunctionEntity existingBusinessFunction) {
-        if(StringTools.isNotEmpty(command.getDescription())) {
-            existingBusinessFunction.setDescription(command.getDescription(), command.getLanguage());
-        }
+		return businessFunctionEntity;
 
-        if(StringTools.isNotEmpty(command.getName())) {
-            existingBusinessFunction.setName(command.getName(), command.getLanguage());
-        }
-    }
-    
-    public static StatisticalStandardReferenceEntity translate(final CreateStatisticalStandardCommand command) {
+	}
 
-        final StatisticalStandardReferenceEntity statisticalStandard= new StatisticalStandardReferenceEntity();
+	public static void translate(final UpdateBusinessFunctionCommand command,
+			final BusinessFunctionEntity existingBusinessFunction) {
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			existingBusinessFunction.setDescription(command.getDescription(), command.getLanguage());
+		}
 
-        if(StringTools.isNotEmpty(command.getName())) {
-        	statisticalStandard.setName(command.getName(), command.getLanguage());
-        }
+		if (StringTools.isNotEmpty(command.getName())) {
+			existingBusinessFunction.setName(command.getName(), command.getLanguage());
+		}
+	}
 
-        if(StringTools.isNotEmpty(command.getDescription())) {
-        	statisticalStandard.setDescription(command.getDescription(), command.getLanguage());
-        }
+	public static StatisticalStandardReferenceEntity translate(final CreateStatisticalStandardCommand command) {
 
-        if(StringTools.isNotEmpty(command.getLocalId())) {
-        	statisticalStandard.setLocalId(command.getLocalId());
-        }
+		final StatisticalStandardReferenceEntity statisticalStandard = new StatisticalStandardReferenceEntity();
 
-        statisticalStandard.setType(command.getType());
-  
-        statisticalStandard.setVersion(command.getVersion());
-        statisticalStandard.setVersionDate(LocalDateTime.now());
-        statisticalStandard.setVersionRationale(command.getVersionRationale());
-      
-        return statisticalStandard;
-    }
+		if (StringTools.isNotEmpty(command.getName())) {
+			statisticalStandard.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			statisticalStandard.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			statisticalStandard.setLocalId(command.getLocalId());
+		}
+
+		statisticalStandard.setType(command.getType());
+
+		statisticalStandard.setVersion(command.getVersion());
+		statisticalStandard.setVersionDate(LocalDateTime.now());
+		statisticalStandard.setVersionRationale(command.getVersionRationale());
+
+		return statisticalStandard;
+	}
+
+	public static StatisticalStandardReferenceEntity translate(final UpdateStatisticalStandardCommand command,
+			StatisticalStandardReferenceEntity statisticalStandard) {
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			statisticalStandard.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			statisticalStandard.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			statisticalStandard.setLocalId(command.getLocalId());
+		}
+		if (command.getType() != null) {
+			statisticalStandard.setType(command.getType());
+		}
+		if (StringTools.isNotEmpty(command.getVersion())) {
+			statisticalStandard.setVersion(command.getVersion());
+		}
+		if (command.getVersionDate() != null) {
+			statisticalStandard.setVersionDate(command.getVersionDate());
+		}
+		if (command.getVersionRationale() != null) {
+			statisticalStandard.setVersionRationale(command.getVersionRationale());
+		}
+		return statisticalStandard;
+	}
 }

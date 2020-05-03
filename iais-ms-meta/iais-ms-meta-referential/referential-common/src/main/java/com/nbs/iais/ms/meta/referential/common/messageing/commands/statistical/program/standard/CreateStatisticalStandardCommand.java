@@ -46,25 +46,24 @@ public class CreateStatisticalStandardCommand extends AbstractCommand<CreateStat
 	 **/
 	private StatisticalStandardType type;
 
-	/**
-	 * the administrativeDetails Id
-	 **/
-
-	private Long administrativeDetailsId;
-
 	private CreateStatisticalStandardCommand() {
 		super(new CreateStatisticalStandardEvent());
 	}
 
 	private CreateStatisticalStandardCommand(final String jwt, final String name, final String description,
-			final String localId, final StatisticalStandardType type, final Long administrativeDetailsId,
-			final Language language) {
+			final String localId, final StatisticalStandardType type, final String version,
+			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 		super(new CreateStatisticalStandardEvent());
 		setJwt(jwt);
 		this.name = name;
 		this.description = description;
 		this.localId = localId;
-		this.administrativeDetailsId = administrativeDetailsId;
+		if (version != null)
+			this.version = version;
+		if (versionDate != null)
+			this.versionDate = versionDate;
+		if (versionRationale != null)
+			this.versionRationale = versionRationale;
 		this.type = type;
 		setLanguage(language);
 		setClosed(true);
@@ -78,20 +77,12 @@ public class CreateStatisticalStandardCommand extends AbstractCommand<CreateStat
 		this.type = type;
 	}
 
-	public Long getAdministrativeDetailsId() {
-		return administrativeDetailsId;
-	}
-
-	public void setAdministrativeDetailsId(Long administrativeDetailsId) {
-		this.administrativeDetailsId = administrativeDetailsId;
-	}
-
 	public static CreateStatisticalStandardCommand create(final String jwt, final String name, final String description,
-			final String localId, final StatisticalStandardType type, final Long administrativeDetailsId,
-			final Language language) {
+			final String localId, final StatisticalStandardType type, final String version,
+			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 
-		return new CreateStatisticalStandardCommand(jwt, name, description, localId, type, administrativeDetailsId,
-				language);
+		return new CreateStatisticalStandardCommand(jwt, name, description, localId, type, version, versionDate,
+				versionRationale, language);
 
 	}
 
