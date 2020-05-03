@@ -25,6 +25,40 @@ include::{snippets}/get-statistical-program/response-fields.adoc[]
 ===== Response Example
 include::{snippets}/get-statistical-program/http-response.adoc[]
 
+[[resources-get-latest-statistical-program]]
+=== Get The Latest Version of Statistical Program
+==== Request
+include::{snippets}/get-latest-statistical-program/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-latest-statistical-program/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-latest-statistical-program/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-latest-statistical-program/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-latest-statistical-program/curl-request.adoc[]
+==== Response
+include::{snippets}/get-latest-statistical-program/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-latest-statistical-program/http-response.adoc[]
+
+[[resources-get-version-statistical-program]]
+=== Get The Specific Version of Statistical Program
+==== Request
+include::{snippets}/get-version-statistical-program/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-version-statistical-program/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-version-statistical-program/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-version-statistical-program/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-version-statistical-program/curl-request.adoc[]
+==== Response
+include::{snippets}/get-version-statistical-program/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-version-statistical-program/http-response.adoc[]
+
 [[resources-get-statistical-programs]]
 === Get Statistical Programs
 ==== Request
@@ -40,8 +74,24 @@ include::{snippets}/get-statistical-programs/response-fields.adoc[]
 ===== Response Example
 include::{snippets}/get-statistical-programs/http-response.adoc[]
 
+[[resources-get-statistical-program-versions]]
+=== Get Statistical Program Versions
+==== Request
+include::{snippets}/get-statistical-program-versions/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-statistical-program-versions/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-statistical-program-versions/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-statistical-program-versions/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-statistical-program-versions/curl-request.adoc[]
+==== Response
+include::{snippets}/get-statistical-program-versions/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-statistical-program-versions/http-response.adoc[]
+
 [[resources-create-statistical-program]]
-== APIs
 === Create Statistical Program
 ==== Request
 include::{snippets}/create-statistical-program/http-request.adoc[]
@@ -59,3 +109,58 @@ include::{snippets}/create-statistical-program/curl-request.adoc[]
 include::{snippets}/create-statistical-program/response-fields.adoc[]
 ===== Response Example
 include::{snippets}/create-statistical-program/http-response.adoc[]
+
+[[resources-create-statistical-program-version]]
+=== Create Version of Statistical Program
+==== Request
+include::{snippets}/create-version-statistical-program/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-version-statistical-program/request-body.adoc[]
+===== Path parameters
+include::{snippets}/create-version-statistical-program/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/create-version-statistical-program/request-parameters.adoc[]
+===== Request headers
+include::{snippets}/create-version-statistical-program/request-headers.adoc[]
+===== CURL request
+include::{snippets}/create-version-statistical-program/curl-request.adoc[]
+==== Response
+include::{snippets}/create-version-statistical-program/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-version-statistical-program/http-response.adoc[]
+
+[[resources-update-statistical-program]]
+=== Update Statistical Program
+==== Request
+include::{snippets}/update-statistical-program/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-statistical-program/request-body.adoc[]
+===== Path parameters
+include::{snippets}/update-statistical-program/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/update-statistical-program/request-parameters.adoc[]
+===== Request headers
+include::{snippets}/update-statistical-program/request-headers.adoc[]
+===== CURL request
+include::{snippets}/update-statistical-program/curl-request.adoc[]
+==== Response
+include::{snippets}/update-statistical-program/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-statistical-program/http-response.adoc[]
+
+[[resources-delete-statistical-program]]
+=== Delete Statistical Program
+==== Request
+include::{snippets}/delete-statistical-program/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-statistical-program/request-body.adoc[]
+===== Path parameters
+include::{snippets}/delete-statistical-program/path-parameters.adoc[]
+===== Request headers
+include::{snippets}/delete-statistical-program/request-headers.adoc[]
+===== CURL request
+include::{snippets}/delete-statistical-program/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-statistical-program/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-statistical-program/http-response.adoc[]

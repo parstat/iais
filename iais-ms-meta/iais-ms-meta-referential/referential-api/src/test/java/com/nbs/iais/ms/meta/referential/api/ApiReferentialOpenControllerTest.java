@@ -297,19 +297,169 @@ public class ApiReferentialOpenControllerTest {
                         ))).andReturn();
     }
 
+    @Test
+    public void getStatisticalProgramLatestVersion() throws Exception {
+        final GetStatisticalProgramQuery query = GetStatisticalProgramQuery.create("lfs", Language.ENG);
+        query.getRead().setData(statisticalProgram());
+        when(iaisGateway.sendQuery(any(), anyString())).thenReturn(query);
+        mockMvc.perform(get("/api/v1/referential/statistical/programs/{local_id}/latest", "lfs")
+                .param("language", "en")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isOk());
+
+        ArgumentCaptor<GetStatisticalProgramQuery> argumentCaptor = ArgumentCaptor.forClass(GetStatisticalProgramQuery.class);
+        verify(iaisGateway).sendQuery(argumentCaptor.capture(), anyString());
+    }
+
+    @Test
+    public void documentGetStatisticalProgramLatestVersion() throws Exception{
+        final GetStatisticalProgramQuery query = GetStatisticalProgramQuery.create(1L, Language.ENG);
+        query.getRead().setData(statisticalProgram());
+        when(iaisGateway.sendQuery(any(), anyString())).thenReturn(query);
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/referential/statistical/programs/{local_id}/latest", "lfs")
+                .param("language", "en"))
+                .andDo(document("get-latest-statistical-program",
+                        requestParameters(parameterWithName("language").description("language to get the result")),
+                        pathParameters(
+                                parameterWithName("local_id").description("Local id of the requested statistical program").attributes()
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("The id of requested statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("name").description("Name of the requested statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("description").description("Description or the requested statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("acronym").description("Acronym of statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("link").description("Client link of the requested statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("version").description("Version of statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("localId").description("The local id of the statistical program"),
+                                fieldWithPath("budget").description("Budget of statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("dateInitiated").description("The initiated date of the statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("dateEnded").description("The ended date of the statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("sourceOfFunding").description("Source of Funding of the statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("link").description("Client link of the entity").type(JsonFieldType.STRING),
+                                fieldWithPath("programStatus").description("Status of the statistical program: CURRENT, COMPLETED, ").type(JsonFieldType.STRING),
+                                fieldWithPath("contact").description("Contact agent of the statistical program").type(JsonFieldType.OBJECT),
+                                fieldWithPath("contact.id").description("id of the contact agent").type(JsonFieldType.NUMBER),
+                                fieldWithPath("contact.name").description("Name of the contact agent").type(JsonFieldType.STRING),
+                                fieldWithPath("contact.type").description("Type of contact agent, normally INDIVIDUAL").type(JsonFieldType.STRING),
+                                fieldWithPath("contact.link").description("Client link of contact agent").type(JsonFieldType.STRING),
+                                fieldWithPath("owner").description("Owner agent of the statistical program").type(JsonFieldType.OBJECT),
+                                fieldWithPath("owner.id").description("Id of the owner agent").type(JsonFieldType.NUMBER),
+                                fieldWithPath("owner.name").description("Name of the owner agent").type(JsonFieldType.STRING),
+                                fieldWithPath("owner.type").description("Type of owner agent, normally ORGANIZATION").type(JsonFieldType.STRING),
+                                fieldWithPath("owner.link").description("Client link of owner agent").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainer").description("Maintainer agent of the statistical program").type(JsonFieldType.OBJECT),
+                                fieldWithPath("maintainer.id").description("Id of the maintainer agent").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainer.name").description("Name of the maintainer agent").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainer.type").description("Type of maintainer agent, normally DIVISION").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainer.link").description("Client link of contact agent").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[]").description("List of statistical standards of the statistical program").type(JsonFieldType.ARRAY),
+                                fieldWithPath("statisticalStandards[].id").description("Id of the statistical standard").type(JsonFieldType.NUMBER),
+                                fieldWithPath("statisticalStandards[].name").description("Name of the statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[].description").description("Description of the statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[].type").description("Type of statistical standard:  CLASSIFICATIONS, CONCEPTS, DEFINITIONS, METHODOLOGIES, PROCEDURES, RECOMMENDATIONS, FRAMEWORK").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[].version").description("Version of statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[].link").description("Client link of statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[]").description("List of statistical standards of the legislative reference").type(JsonFieldType.ARRAY),
+                                fieldWithPath("legislativeReferences[].id").description("Id of the legislative reference").type(JsonFieldType.NUMBER),
+                                fieldWithPath("legislativeReferences[].name").description("Name of the legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].description").description("Description of the legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].type").description("Type of legislative reference:   REGULATION, LAW, CODE, GOVERNMENTAL_DECISION, AMENDMENT,").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].version").description("Version of legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].link").description("Client link of legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].approval").description("First approval date of the legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].number").description("Number of the legislative reference").type(JsonFieldType.NUMBER)
+
+                        ))).andReturn();
+    }
+
+    @Test
+    public void getStatisticalProgramVersion() throws Exception {
+        final GetStatisticalProgramQuery query = GetStatisticalProgramQuery.create("lfs", Language.ENG);
+        query.getRead().setData(statisticalProgram());
+        when(iaisGateway.sendQuery(any(), anyString())).thenReturn(query);
+        mockMvc.perform(get("/api/v1/referential/statistical/programs/{local_id}/versions/{version}", "lfs", "1.0")
+                .param("language", "en")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isOk());
+
+        ArgumentCaptor<GetStatisticalProgramQuery> argumentCaptor = ArgumentCaptor.forClass(GetStatisticalProgramQuery.class);
+        verify(iaisGateway).sendQuery(argumentCaptor.capture(), anyString());
+    }
+
+    @Test
+    public void documentGetStatisticalProgramVersion() throws Exception{
+        final GetStatisticalProgramQuery query = GetStatisticalProgramQuery.create(1L, Language.ENG);
+        query.getRead().setData(statisticalProgram());
+        when(iaisGateway.sendQuery(any(), anyString())).thenReturn(query);
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/referential/statistical/programs/{local_id}/versions/{version}", "lfs", "1.0")
+                .param("language", "en"))
+                .andDo(document("get-version-statistical-program",
+                        requestParameters(parameterWithName("language").description("language to get the result")),
+                        pathParameters(
+                                parameterWithName("local_id").description("Local id of the requested statistical program").attributes(),
+                                parameterWithName("version").description("The specific version of statistical program requested").attributes()
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("The id of requested statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("name").description("Name of the requested statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("description").description("Description or the requested statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("acronym").description("Acronym of statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("link").description("Client link of the requested statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("version").description("Version of statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("localId").description("The local id of the statistical program"),
+                                fieldWithPath("budget").description("Budget of statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("dateInitiated").description("The initiated date of the statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("dateEnded").description("The ended date of the statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("sourceOfFunding").description("Source of Funding of the statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("link").description("Client link of the entity").type(JsonFieldType.STRING),
+                                fieldWithPath("programStatus").description("Status of the statistical program: CURRENT, COMPLETED, ").type(JsonFieldType.STRING),
+                                fieldWithPath("contact").description("Contact agent of the statistical program").type(JsonFieldType.OBJECT),
+                                fieldWithPath("contact.id").description("id of the contact agent").type(JsonFieldType.NUMBER),
+                                fieldWithPath("contact.name").description("Name of the contact agent").type(JsonFieldType.STRING),
+                                fieldWithPath("contact.type").description("Type of contact agent, normally INDIVIDUAL").type(JsonFieldType.STRING),
+                                fieldWithPath("contact.link").description("Client link of contact agent").type(JsonFieldType.STRING),
+                                fieldWithPath("owner").description("Owner agent of the statistical program").type(JsonFieldType.OBJECT),
+                                fieldWithPath("owner.id").description("Id of the owner agent").type(JsonFieldType.NUMBER),
+                                fieldWithPath("owner.name").description("Name of the owner agent").type(JsonFieldType.STRING),
+                                fieldWithPath("owner.type").description("Type of owner agent, normally ORGANIZATION").type(JsonFieldType.STRING),
+                                fieldWithPath("owner.link").description("Client link of owner agent").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainer").description("Maintainer agent of the statistical program").type(JsonFieldType.OBJECT),
+                                fieldWithPath("maintainer.id").description("Id of the maintainer agent").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainer.name").description("Name of the maintainer agent").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainer.type").description("Type of maintainer agent, normally DIVISION").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainer.link").description("Client link of contact agent").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[]").description("List of statistical standards of the statistical program").type(JsonFieldType.ARRAY),
+                                fieldWithPath("statisticalStandards[].id").description("Id of the statistical standard").type(JsonFieldType.NUMBER),
+                                fieldWithPath("statisticalStandards[].name").description("Name of the statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[].description").description("Description of the statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[].type").description("Type of statistical standard:  CLASSIFICATIONS, CONCEPTS, DEFINITIONS, METHODOLOGIES, PROCEDURES, RECOMMENDATIONS, FRAMEWORK").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[].version").description("Version of statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("statisticalStandards[].link").description("Client link of statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[]").description("List of statistical standards of the legislative reference").type(JsonFieldType.ARRAY),
+                                fieldWithPath("legislativeReferences[].id").description("Id of the legislative reference").type(JsonFieldType.NUMBER),
+                                fieldWithPath("legislativeReferences[].name").description("Name of the legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].description").description("Description of the legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].type").description("Type of legislative reference:   REGULATION, LAW, CODE, GOVERNMENTAL_DECISION, AMENDMENT,").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].version").description("Version of legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].link").description("Client link of legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].approval").description("First approval date of the legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("legislativeReferences[].number").description("Number of the legislative reference").type(JsonFieldType.NUMBER)
+
+                        ))).andReturn();
+    }
 
     @Test
     public void getStatisticalPrograms() throws Exception {
         final GetStatisticalProgramsQuery query = GetStatisticalProgramsQuery.create("Labor", null, Language.ENG);
         query.getRead().setData(DTOList.create(statisticalProgram()));
-        when(iaisGateway.sendQuery(any(), anyString())).thenReturn(query);
+        when(iaisGateway.sendQuery(any(GetStatisticalProgramsQuery.class), anyString())).thenReturn(query);
         mockMvc.perform(get("/api/v1/referential/statistical/programs")
                 .param("language", "en")
                 .param("name", "Labor")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().isOk());
 
-        ArgumentCaptor<GetBusinessFunctionsQuery> argumentCaptor = ArgumentCaptor.forClass(GetBusinessFunctionsQuery.class);
+        ArgumentCaptor<GetStatisticalProgramsQuery> argumentCaptor = ArgumentCaptor.forClass(GetStatisticalProgramsQuery.class);
         verify(iaisGateway).sendQuery(argumentCaptor.capture(), anyString());
     }
 
@@ -317,11 +467,90 @@ public class ApiReferentialOpenControllerTest {
     public void documentGetStatisticalPrograms() throws Exception{
         final GetStatisticalProgramsQuery query = GetStatisticalProgramsQuery.create("Labor", null, Language.ENG);
         query.getRead().setData(DTOList.create(statisticalProgram()));
-        when(iaisGateway.sendQuery(any(), anyString())).thenReturn(query);
+        when(iaisGateway.sendQuery(any(GetStatisticalProgramsQuery.class), anyString())).thenReturn(query);
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/referential/statistical/programs")
                 .param("language", "en")
                 .param("name", "Labor"))
                 .andDo(document("get-statistical-programs",
+                        requestParameters(parameterWithName("language").description("language to get the result"),
+                                parameterWithName("name").description("The name to search with").optional()),
+                        responseFields(
+                                fieldWithPath("[]").description("List of business functions").type(JsonFieldType.ARRAY),
+                                fieldWithPath("[].id").description("The id of requested statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("[].name").description("Name of the requested statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("[].description").description("Description or the requested statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("[].acronym").description("Acronym of statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("[].link").description("Client link of the requested statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("[].version").description("Version of statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("[].localId").description("The local id of the statistical program"),
+                                fieldWithPath("[].budget").description("Budget of statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("[].dateInitiated").description("The initiated date of the statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("[].dateEnded").description("The ended date of the statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("[].sourceOfFunding").description("Source of Funding of the statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("[].link").description("Client link of the entity").type(JsonFieldType.STRING),
+                                fieldWithPath("[].programStatus").description("Status of the statistical program: CURRENT, COMPLETED, ").type(JsonFieldType.STRING),
+                                fieldWithPath("[].contact").description("Contact agent of the statistical program").type(JsonFieldType.OBJECT),
+                                fieldWithPath("[].contact.id").description("id of the contact agent").type(JsonFieldType.NUMBER),
+                                fieldWithPath("[].contact.name").description("Name of the contact agent").type(JsonFieldType.STRING),
+                                fieldWithPath("[].contact.type").description("Type of contact agent, normally INDIVIDUAL").type(JsonFieldType.STRING),
+                                fieldWithPath("[].contact.link").description("Client link of contact agent").type(JsonFieldType.STRING),
+                                fieldWithPath("[].owner").description("Owner agent of the statistical program").type(JsonFieldType.OBJECT),
+                                fieldWithPath("[].owner.id").description("Id of the owner agent").type(JsonFieldType.NUMBER),
+                                fieldWithPath("[].owner.name").description("Name of the owner agent").type(JsonFieldType.STRING),
+                                fieldWithPath("[].owner.type").description("Type of owner agent, normally ORGANIZATION").type(JsonFieldType.STRING),
+                                fieldWithPath("[].owner.link").description("Client link of owner agent").type(JsonFieldType.STRING),
+                                fieldWithPath("[].maintainer").description("Maintainer agent of the statistical program").type(JsonFieldType.OBJECT),
+                                fieldWithPath("[].maintainer.id").description("Id of the maintainer agent").type(JsonFieldType.NUMBER),
+                                fieldWithPath("[].maintainer.name").description("Name of the maintainer agent").type(JsonFieldType.STRING),
+                                fieldWithPath("[].maintainer.type").description("Type of maintainer agent, normally DIVISION").type(JsonFieldType.STRING),
+                                fieldWithPath("[].maintainer.link").description("Client link of contact agent").type(JsonFieldType.STRING),
+                                fieldWithPath("[].statisticalStandards[]").description("List of statistical standards of the statistical program").type(JsonFieldType.ARRAY),
+                                fieldWithPath("[].statisticalStandards[].id").description("Id of the statistical standard").type(JsonFieldType.NUMBER),
+                                fieldWithPath("[].statisticalStandards[].name").description("Name of the statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("[].statisticalStandards[].description").description("Description of the statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("[].statisticalStandards[].type").description("Type of statistical standard:  CLASSIFICATIONS, CONCEPTS, DEFINITIONS, METHODOLOGIES, PROCEDURES, RECOMMENDATIONS, FRAMEWORK").type(JsonFieldType.STRING),
+                                fieldWithPath("[].statisticalStandards[].version").description("Version of statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("[].statisticalStandards[].link").description("Client link of statistical standard").type(JsonFieldType.STRING),
+                                fieldWithPath("[].legislativeReferences[]").description("List of statistical standards of the legislative reference").type(JsonFieldType.ARRAY),
+                                fieldWithPath("[].legislativeReferences[].id").description("Id of the legislative reference").type(JsonFieldType.NUMBER),
+                                fieldWithPath("[].legislativeReferences[].name").description("Name of the legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("[].legislativeReferences[].description").description("Description of the legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("[].legislativeReferences[].type").description("Type of legislative reference:   REGULATION, LAW, CODE, GOVERNMENTAL_DECISION, AMENDMENT,").type(JsonFieldType.STRING),
+                                fieldWithPath("[].legislativeReferences[].version").description("Version of legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("[].legislativeReferences[].link").description("Client link of legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("[].legislativeReferences[].approval").description("First approval date of the legislative reference").type(JsonFieldType.STRING),
+                                fieldWithPath("[].legislativeReferences[].number").description("Number of the legislative reference").type(JsonFieldType.NUMBER)
+
+
+                        ))).andReturn();
+    }
+
+    @Test
+    public void getStatisticalProgramVersions() throws Exception {
+        final GetStatisticalProgramsQuery query = GetStatisticalProgramsQuery.create(Language.ENG);
+        query.setLocalId("lfs");
+        query.getRead().setData(DTOList.create(statisticalProgram()));
+        when(iaisGateway.sendQuery(any(GetStatisticalProgramsQuery.class), anyString())).thenReturn(query);
+        mockMvc.perform(get("/api/v1/referential/statistical/programs/{local_id}/versions", "lfs")
+                .param("language", "en")
+                .param("name", "Labor")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isOk());
+
+        ArgumentCaptor<GetStatisticalProgramsQuery> argumentCaptor = ArgumentCaptor.forClass(GetStatisticalProgramsQuery.class);
+        verify(iaisGateway).sendQuery(argumentCaptor.capture(), anyString());
+    }
+
+    @Test
+    public void documentGetStatisticalProgramVersions() throws Exception{
+        final GetStatisticalProgramsQuery query = GetStatisticalProgramsQuery.create("Labor", null, Language.ENG);
+        query.getRead().setData(DTOList.create(statisticalProgram()));
+        when(iaisGateway.sendQuery(any(GetStatisticalProgramsQuery.class), anyString())).thenReturn(query);
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/referential/statistical/programs/{local_id}/versions", "lfs")
+                .param("language", "en")
+                .param("name", "Labor"))
+                .andDo(document("get-statistical-program-versions",
+                        pathParameters(parameterWithName("local_id").description("Local id of the statistical program")),
                         requestParameters(parameterWithName("language").description("language to get the result"),
                                 parameterWithName("name").description("The name to search with").optional()),
                         responseFields(
