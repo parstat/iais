@@ -5,7 +5,7 @@ info:
     version: 1.0.0
 
 server:
-  port: 8081
+  port: 8080
 iais:
   jwt:
     header:
@@ -20,6 +20,10 @@ zuul:
       path: /v1/**/security/**
       serviceId: security
       stripPrefix: false
+    referential:
+      path: /v1/**/referential/**
+      serviceId: referential
+      stripPrefix: false
 
 ribbon:
   eureka:
@@ -28,3 +32,7 @@ ribbon:
 security:
   ribbon:
     listOfServers: iais-ms-security-api:8080
+
+referential:
+  ribbon:
+    listOfServers: iais-ms-referential-api:8080
