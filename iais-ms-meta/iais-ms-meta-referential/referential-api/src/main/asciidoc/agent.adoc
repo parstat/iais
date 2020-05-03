@@ -26,7 +26,6 @@ include::{snippets}/get-agent/response-fields.adoc[]
 include::{snippets}/get-agent/http-response.adoc[]
 
 [[resources-get-agents]]
-== APIs
 === Get Agents
 ==== Request
 include::{snippets}/get-agents/http-request.adoc[]

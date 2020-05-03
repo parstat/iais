@@ -1,0 +1,61 @@
+= IAIS API Guide: Statistical Program
+:revnumber: 0.0.1-SNAPSHOT
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-get-statistical-program]]
+== APIs
+=== Get Statistical Program By id
+==== Request
+include::{snippets}/get-statistical-program/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-statistical-program/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-statistical-program/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-statistical-program/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-statistical-program/curl-request.adoc[]
+==== Response
+include::{snippets}/get-statistical-program/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-statistical-program/http-response.adoc[]
+
+[[resources-get-statistical-programs]]
+=== Get Statistical Programs
+==== Request
+include::{snippets}/get-statistical-programs/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-statistical-programs/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-statistical-programs/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-statistical-programs/curl-request.adoc[]
+==== Response
+include::{snippets}/get-statistical-programs/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-statistical-programs/http-response.adoc[]
+
+[[resources-create-statistical-program]]
+== APIs
+=== Create Statistical Program
+==== Request
+include::{snippets}/create-statistical-program/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-statistical-program/request-body.adoc[]
+===== Path parameters
+include::{snippets}/create-statistical-program/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/create-statistical-program/request-parameters.adoc[]
+===== Request headers
+include::{snippets}/create-statistical-program/request-headers.adoc[]
+===== CURL request
+include::{snippets}/create-statistical-program/curl-request.adoc[]
+==== Response
+include::{snippets}/create-statistical-program/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-statistical-program/http-response.adoc[]

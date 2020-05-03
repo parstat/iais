@@ -55,6 +55,13 @@
 			<version>${iais.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.nbs.iais.ms.common</groupId>
+			<artifactId>iais-ms-common-testsupport</artifactId>
+			<version>${iais.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 

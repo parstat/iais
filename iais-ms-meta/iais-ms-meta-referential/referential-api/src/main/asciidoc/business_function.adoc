@@ -26,7 +26,6 @@ include::{snippets}/get-business-function/response-fields.adoc[]
 include::{snippets}/get-business-function/http-response.adoc[]
 
 [[resources-get-business-functions]]
-== APIs
 === Get Business Functions
 ==== Request
 include::{snippets}/get-business-functions/http-request.adoc[]
