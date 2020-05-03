@@ -17,7 +17,7 @@ public class ProcessDocumentationMiniDTO extends LinkableEntityDTO {
     private BusinessFunctionMiniDTO businessFunction;
 
     @JsonProperty
-    @JsonView(Views.Minimal.class)
+    @JsonView(Views.Extended.class)
     private StatisticalProgramMiniDTO statisticalProgram;
 
     @JsonProperty
@@ -30,7 +30,7 @@ public class ProcessDocumentationMiniDTO extends LinkableEntityDTO {
 
     @JsonProperty
     @JsonView(Views.Minimal.class)
-    private AgentMiniDTO division;
+    private AgentMiniDTO maintainer;
 
     public ProcessDocumentationMiniDTO() {
         super();
@@ -72,11 +72,11 @@ public class ProcessDocumentationMiniDTO extends LinkableEntityDTO {
         this.frequency = frequency;
     }
 
-    public AgentMiniDTO getDivision() {
-        return division;
+    public AgentMiniDTO getMaintainer() {
+        return maintainer;
     }
 
-    public void setDivision(final AgentMiniDTO division) {
-        this.division = division;
+    public void setMaintainer(final AgentMiniDTO maintainer) {
+        this.maintainer = maintainer;
     }
 }

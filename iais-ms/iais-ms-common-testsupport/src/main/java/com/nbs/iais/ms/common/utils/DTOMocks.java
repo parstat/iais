@@ -2,6 +2,9 @@ package com.nbs.iais.ms.common.utils;
 
 import com.nbs.iais.ms.common.dto.impl.*;
 import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.BusinessFunctionMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.ProcessDocumentationMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.StatisticalProgramMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.*;
 
@@ -88,6 +91,14 @@ public class DTOMocks {
         return businessFunctionDTO;
     }
 
+    public static BusinessFunctionMiniDTO businessFunctionMini() {
+        final BusinessFunctionMiniDTO businessFunctionMiniDTO = new BusinessFunctionMiniDTO(1L);
+        businessFunctionMiniDTO.setName("Specify Needs");
+        businessFunctionMiniDTO.setLocalId("1.1");
+        businessFunctionMiniDTO.setLink("/business/functions/1");
+        return businessFunctionMiniDTO;
+    }
+
     public static StatisticalProgramDTO statisticalProgram() {
         final StatisticalProgramDTO statisticalProgramDTO = new StatisticalProgramDTO(1L);
         statisticalProgramDTO.setName("Labor Force Survey");
@@ -108,6 +119,29 @@ public class DTOMocks {
         statisticalProgramDTO.setStatisticalStandards(DTOList.create(statisticalStandard()));
         statisticalProgramDTO.setLegislativeReferences(DTOList.create(legislativeReference()));
 
+        statisticalProgramDTO.setProcessDocumentations(DTOList.create(processDocumentationMini()));
+
         return statisticalProgramDTO;
+    }
+
+    public static StatisticalProgramMiniDTO statisticalProgramMini() {
+        final StatisticalProgramMiniDTO statisticalProgramMiniDTO = new StatisticalProgramMiniDTO(1L);
+        statisticalProgramMiniDTO.setName("Labor Force Survey");
+        statisticalProgramMiniDTO.setAcronym("LFS");
+        statisticalProgramMiniDTO.setDescription("Description");
+        statisticalProgramMiniDTO.setLink("/statistical/programs/1");
+        return statisticalProgramMiniDTO;
+    }
+
+    public static ProcessDocumentationMiniDTO processDocumentationMini() {
+        ProcessDocumentationMiniDTO processDocumentationMiniDTO = new ProcessDocumentationMiniDTO(1L);
+        processDocumentationMiniDTO.setBusinessFunction(businessFunctionMini());
+        processDocumentationMiniDTO.setStatisticalProgram(statisticalProgramMini());
+        processDocumentationMiniDTO.setDescription("Description");
+        processDocumentationMiniDTO.setMaintainer(maintainer());
+        processDocumentationMiniDTO.setFrequency(Frequency.YEARLY);
+        processDocumentationMiniDTO.setLink("/process/documentations/1");
+
+        return processDocumentationMiniDTO;
     }
 }

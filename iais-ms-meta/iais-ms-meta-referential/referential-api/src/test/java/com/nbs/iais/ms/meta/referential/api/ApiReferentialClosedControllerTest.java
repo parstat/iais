@@ -172,7 +172,30 @@ public class ApiReferentialClosedControllerTest {
                                 fieldWithPath("legislativeReferences[].version").description("Version of legislative reference").type(JsonFieldType.STRING),
                                 fieldWithPath("legislativeReferences[].link").description("Client link of legislative reference").type(JsonFieldType.STRING),
                                 fieldWithPath("legislativeReferences[].approval").description("First approval date of the legislative reference").type(JsonFieldType.STRING),
-                                fieldWithPath("legislativeReferences[].number").description("Number of the legislative reference").type(JsonFieldType.NUMBER)
+                                fieldWithPath("legislativeReferences[].number").description("Number of the legislative reference").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[]").description("List of process (GSBPM sub-phases) documentations").type(JsonFieldType.ARRAY),
+                                fieldWithPath("processDocumentations[].id").description("Id of process documentation").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].description").description("Description of process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].frequency").description("Frequency of process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].link").description("Client link of process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction").description("Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.OBJECT),
+                                fieldWithPath("processDocumentations[].businessFunction.id").description("Id of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].businessFunction.name").description("Name of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction.link").description("Link of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction.localId").description("Local id of Business Function (GSBPM sub-phase number) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction.name").description("Name of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram").description("Statistical Program being documented").type(JsonFieldType.OBJECT),
+                                fieldWithPath("processDocumentations[].statisticalProgram.id").description("Id of Statistical Program being documented").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].statisticalProgram.name").description("Name of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainer").description("Maintainer of Process for statistical program, usually the responsible DIVISION agent").type(JsonFieldType.OBJECT),
+                                fieldWithPath("processDocumentations[].maintainer.id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].maintainer.name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainer.type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainer.link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
+
 
                         ))).andReturn();
     }
@@ -301,7 +324,31 @@ public class ApiReferentialClosedControllerTest {
                                 fieldWithPath("legislativeReferences[].version").description("Version of legislative reference").type(JsonFieldType.STRING),
                                 fieldWithPath("legislativeReferences[].link").description("Client link of legislative reference").type(JsonFieldType.STRING),
                                 fieldWithPath("legislativeReferences[].approval").description("First approval date of the legislative reference").type(JsonFieldType.STRING),
-                                fieldWithPath("legislativeReferences[].number").description("Number of the legislative reference").type(JsonFieldType.NUMBER)
+                                fieldWithPath("legislativeReferences[].number").description("Number of the legislative reference").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[]").description("List of process (GSBPM sub-phases) documentations").type(JsonFieldType.ARRAY),
+                                fieldWithPath("processDocumentations[].id").description("Id of process documentation").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].description").description("Description of process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].frequency").description("Frequency of process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].link").description("Client link of process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction").description("Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.OBJECT),
+                                fieldWithPath("processDocumentations[].businessFunction.id").description("Id of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].businessFunction.name").description("Name of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction.link").description("Link of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction.localId").description("Local id of Business Function (GSBPM sub-phase number) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction.name").description("Name of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram").description("Statistical Program being documented").type(JsonFieldType.OBJECT),
+                                fieldWithPath("processDocumentations[].statisticalProgram.id").description("Id of Statistical Program being documented").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].statisticalProgram.name").description("Name of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainer").description("Maintainer of Process for statistical program, usually the responsible DIVISION agent").type(JsonFieldType.OBJECT),
+                                fieldWithPath("processDocumentations[].maintainer.id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].maintainer.name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainer.type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainer.link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
+
+
 
                         ))).andReturn();
     }
@@ -418,7 +465,31 @@ public class ApiReferentialClosedControllerTest {
                                 fieldWithPath("legislativeReferences[].version").description("Version of legislative reference").type(JsonFieldType.STRING),
                                 fieldWithPath("legislativeReferences[].link").description("Client link of legislative reference").type(JsonFieldType.STRING),
                                 fieldWithPath("legislativeReferences[].approval").description("First approval date of the legislative reference").type(JsonFieldType.STRING),
-                                fieldWithPath("legislativeReferences[].number").description("Number of the legislative reference").type(JsonFieldType.NUMBER)
+                                fieldWithPath("legislativeReferences[].number").description("Number of the legislative reference").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[]").description("List of process (GSBPM sub-phases) documentations").type(JsonFieldType.ARRAY),
+                                fieldWithPath("processDocumentations[].id").description("Id of process documentation").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].description").description("Description of process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].frequency").description("Frequency of process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].link").description("Client link of process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction").description("Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.OBJECT),
+                                fieldWithPath("processDocumentations[].businessFunction.id").description("Id of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].businessFunction.name").description("Name of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction.link").description("Link of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction.localId").description("Local id of Business Function (GSBPM sub-phase number) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].businessFunction.name").description("Name of Business Function (GSBPM sub-phase) being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram").description("Statistical Program being documented").type(JsonFieldType.OBJECT),
+                                fieldWithPath("processDocumentations[].statisticalProgram.id").description("Id of Statistical Program being documented").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].statisticalProgram.name").description("Name of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainer").description("Maintainer of Process for statistical program, usually the responsible DIVISION agent").type(JsonFieldType.OBJECT),
+                                fieldWithPath("processDocumentations[].maintainer.id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].maintainer.name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainer.type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainer.link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
+
+
 
                         ))).andReturn();
     }

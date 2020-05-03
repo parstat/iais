@@ -63,7 +63,7 @@ public class StatisticalProgramDTO extends LinkableIdentifiableArtefactDTO {
 
     @JsonProperty
     @JsonView(Views.Extended.class)
-    private DTOList<ProcessDocumentationMiniDTO> processDocumentationMinis;
+    private DTOList<ProcessDocumentationMiniDTO> processDocumentations;
 
     public StatisticalProgramDTO() {
         super();
@@ -161,11 +161,11 @@ public class StatisticalProgramDTO extends LinkableIdentifiableArtefactDTO {
         this.legislativeReferences = legislativeReferences;
     }
 
-    public DTOList<ProcessDocumentationMiniDTO> getProcessDocumentationMinis() {
-        return processDocumentationMinis;
+    public DTOList<ProcessDocumentationMiniDTO> getProcessDocumentations() {
+        return processDocumentations;
     }
 
-    public void setProcessDocumentationMinis(final DTOList<ProcessDocumentationMiniDTO> processDocumentationMinis) {
-        this.processDocumentationMinis = processDocumentationMinis;
+    public void setProcessDocumentations(final DTOList<ProcessDocumentationMiniDTO> processDocumentations) {
+        this.processDocumentations = processDocumentations;
     }
 }
