@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.program.standard.UpdateStatisticalStandardEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.standard.UpdateStatisticalStandardEvent;
 
 public class UpdateStatisticalStandardCommand extends AbstractCommand<UpdateStatisticalStandardEvent> {
 

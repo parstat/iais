@@ -1,7 +1,7 @@
 package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard;
 
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.program.standard.DeleteStatisticalStandardEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.standard.DeleteStatisticalStandardEvent;
 
 public class DeleteStatisticalStandardCommand extends AbstractCommand<DeleteStatisticalStandardEvent> {
 

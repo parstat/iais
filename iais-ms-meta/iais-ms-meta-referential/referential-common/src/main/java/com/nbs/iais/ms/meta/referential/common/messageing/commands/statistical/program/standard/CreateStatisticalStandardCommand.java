@@ -3,8 +3,7 @@ package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-
-import com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.program.standard.CreateStatisticalStandardEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.standard.CreateStatisticalStandardEvent;
 
 import java.time.LocalDateTime;
 
