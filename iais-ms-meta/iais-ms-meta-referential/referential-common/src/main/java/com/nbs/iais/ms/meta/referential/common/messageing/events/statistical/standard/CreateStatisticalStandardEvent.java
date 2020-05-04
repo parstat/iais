@@ -1,4 +1,4 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.program.standard;
+package com.nbs.iais.ms.meta.referential.common.messageing.events.statistical.standard;
 
 import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
 import com.nbs.iais.ms.common.messaging.events.abstracts.AbstractEvent;

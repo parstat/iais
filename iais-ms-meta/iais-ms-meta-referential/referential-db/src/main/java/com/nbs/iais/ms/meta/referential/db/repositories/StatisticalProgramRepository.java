@@ -1,6 +1,7 @@
 package com.nbs.iais.ms.meta.referential.db.repositories;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
+import com.nbs.iais.ms.common.enums.ProgramStatus;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import org.springframework.data.jpa.repository.Query;
@@ -66,5 +67,18 @@ public interface StatisticalProgramRepository extends CrudRepository<Statistical
     @Query("SELECT sp FROM StatisticalProgram sp INNER JOIN sp.acronym n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:acronym%")
     Iterable<StatisticalProgramEntity> findAllByAcronymInLanguageContaining(@Param(value = "language") String language,
                                                                            @Param(value = "acronym") String acronym);
+
+    /**
+     * @param programStatus to search by status
+     * @return Iterable<StatisticalProgramEntity>
+     */
+    Iterable<StatisticalProgramEntity> findAllByProgramStatus(ProgramStatus programStatus);
+
+    /**
+     * @param creator to search by creator
+     * @return Iterable<StatisticalProgramEntity>
+     */
+    Iterable<StatisticalProgramEntity> findAllByCreator(Long creator);
+
 
     }

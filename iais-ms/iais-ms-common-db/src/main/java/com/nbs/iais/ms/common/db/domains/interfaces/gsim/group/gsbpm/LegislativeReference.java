@@ -10,9 +10,9 @@ public interface LegislativeReference extends MultiLanguageLinkableDomain{
     
     void setLegislativeType(LegislativeType type);
     
-    int geNumber();
+    Integer geNumber();
     
-    void setNumber(int number);
+    void setNumber(Integer number);
 
     LocalDateTime getApprovalDate();
     

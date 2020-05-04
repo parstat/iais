@@ -1,6 +1,7 @@
 package com.nbs.iais.ms.meta.referential.db.repository;
 
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.repository.tests.RepositoryTest;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
@@ -82,6 +83,24 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
         Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByAcronymInLanguageContaining(Language.ENG.getShortName(), "ron");
+        Assert.assertTrue(statisticalProgram.iterator().hasNext());
+    }
+
+    @Test
+    public void testFindAllByProgramStatus() {
+        final StatisticalProgramEntity toSave = saveStatisticaProgram();
+        final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
+
+        Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByProgramStatus(saved.getProgramStatus());
+        Assert.assertTrue(statisticalProgram.iterator().hasNext());
+    }
+
+    @Test
+    public void testFindAllByCreator() {
+        final StatisticalProgramEntity toSave = saveStatisticaProgram();
+        final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
+
+        Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByCreator(saved.getCreator());
         Assert.assertTrue(statisticalProgram.iterator().hasNext());
     }
 

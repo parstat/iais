@@ -34,7 +34,7 @@ public class LegislativeReferenceEntity extends AbstractIdentifiableArtefact imp
     private LegislativeType type;
 
     @Column(name = "law_no")
-    private int number;
+    private Integer number;
 
     @Column(name = "approval_date")
     private LocalDateTime approvalDate;
@@ -105,12 +105,12 @@ public class LegislativeReferenceEntity extends AbstractIdentifiableArtefact imp
     }
 
     @Override
-    public int geNumber() {
+    public Integer geNumber() {
         return number;
     }
 
     @Override
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
