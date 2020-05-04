@@ -23,6 +23,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
@@ -203,6 +205,34 @@ public class ApiReferentialClosed extends AbstractController {
 
 	}
 
+	
+	/**
+	 * API method to add an existent statistical standard to a statistical program 
+	 *
+	 * @param id              id of the statistical program 
+	 * @param standard_id     id of the statistical standard to add
+	 * @param jwt              token in the header of the request
+	 
+	 * @param language         to present the returned DTO
+	 * @return StatisticalProgramDTO (the update survey)
+	 */
+	@JsonView(Views.Extended.class)
+	@PatchMapping("/statistical/programs/{id}/standards/{standard_id}")
+	public StatisticalProgramDTO addStatisticalProgramStandard(@RequestHeader(name = "jwt-auth") final String jwt,
+		 		@PathVariable(name = "id") final Long id,
+		 		@PathVariable(name = "standard_id") final Long standardId,
+		 		@RequestParam(name = "language", required = false) final String language) {
+
+		final AddStatisticalProgramStandardCommand command = AddStatisticalProgramStandardCommand.create(jwt, id, standardId,
+				Language.getLanguage(language));
+
+		return sendCommand(command, "referential").getEvent().getData();
+
+	}
+
+	
+	
+	
 	/**
 	 * Method to delete a statistical program
 	 * 
@@ -435,7 +465,7 @@ public class ApiReferentialClosed extends AbstractController {
 	}
 
 	/**
-	 * FIXME FRancesco
+	 * Method to update an legislative reference
 	 * 
 	 * @param jwt              authorization token
 	 * @param id               of the legislative reference
@@ -477,7 +507,7 @@ public class ApiReferentialClosed extends AbstractController {
 	}
 
 	/**
-	 * FIXME Francesco Method to delete an legislative reference
+	 * Method to delete an legislative reference
 	 * 
 	 * @param jwt authorization token
 	 * @param id  of legislative reference to delete
@@ -492,6 +522,31 @@ public class ApiReferentialClosed extends AbstractController {
 
 		return sendCommand(command, "referential").getEvent().getData();
 	}
+	
+	/**
+	 * API method to add an existent legislative reference to a statistical program 
+	 *
+	 * @param id              id of the statistical program 
+	 * @param standard_id     id of the legislative reference to add
+	 * @param jwt              token in the header of the request
+	 
+	 * @param language         to present the returned DTr
+	 * @return StatisticalProgramDTO (the update survey)
+	 */
+	@JsonView(Views.Extended.class)
+	@PatchMapping("/statistical/programs/{id}/legislative/{legislative_id}")
+	public StatisticalProgramDTO addStatisticalProgramLegislativeReference(@RequestHeader(name = "jwt-auth") final String jwt,
+		 		@PathVariable(name = "id") final Long id,
+		 		@PathVariable(name = "legislative_id") final Long legislativeId,
+		 		@RequestParam(name = "language", required = false) final String language) {
+
+		final AddStatisticalProgramLegislativeReferenceCommand command = AddStatisticalProgramLegislativeReferenceCommand.create(jwt, id, legislativeId,
+				Language.getLanguage(language));
+
+		return sendCommand(command, "referential").getEvent().getData();
+
+	}
+
 
 	/**
 	 * Method to create a business function currently this method supports only
