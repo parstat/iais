@@ -2,10 +2,13 @@ package com.nbs.iais.ms.meta.referential.db.config;
 
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.DeleteStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.UpdateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.DeleteAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
@@ -13,6 +16,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgent
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferenceQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferencesQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardsQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
@@ -96,7 +101,13 @@ public class ApplicationConfig {
 								sf -> sf.<GetStatisticalStandardsQuery>handle((p, h) -> queryReferentialService.getStatisticalStandards(p)))
 						.subFlowMapping(GetStatisticalStandardQuery.class,
 								sf -> sf.<GetStatisticalStandardQuery>handle((p, h) -> queryReferentialService.getStatisticalStandard(p)))
+						//Legislative Reference S
+						.subFlowMapping(GetLegislativeReferencesQuery.class,
+								sf -> sf.<GetLegislativeReferencesQuery>handle((p, h) -> queryReferentialService.getLegislativeReferences(p)))
+						.subFlowMapping(GetLegislativeReferenceQuery.class,
+								sf -> sf.<GetLegislativeReferenceQuery>handle((p, h) -> queryReferentialService.getLegislativeReference(p)))
 
+				
 				).get();
 	}
 
@@ -133,6 +144,13 @@ public class ApplicationConfig {
 								sf -> sf.<UpdateStatisticalStandardCommand>handle((p, h) -> commandReferentialService.updateStatisticalStandard(p)))
 						.subFlowMapping(DeleteStatisticalStandardCommand.class,
 								sf -> sf.<DeleteStatisticalStandardCommand>handle((p, h) -> commandReferentialService.deleteStatisticalStandard(p)))
+						//Legislative Refence
+						.subFlowMapping(CreateLegislativeReferenceCommand.class,
+								sf -> sf.<CreateLegislativeReferenceCommand>handle((p, h) -> commandReferentialService.createLegislativeReference(p)))
+						.subFlowMapping(UpdateLegislativeReferenceCommand.class,
+								sf -> sf.<UpdateLegislativeReferenceCommand>handle((p, h) -> commandReferentialService.updateLegislativeReference(p)))
+						.subFlowMapping(DeleteLegislativeReferenceCommand.class,
+								sf -> sf.<DeleteLegislativeReferenceCommand>handle((p, h) -> commandReferentialService.deleteLegislativeReference(p)))
 					
 						//Business Function
 						.subFlowMapping(CreateBusinessFunctionCommand.class,

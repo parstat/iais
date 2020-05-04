@@ -1,4 +1,4 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard;
+package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard;
 
 import java.time.LocalDateTime;
 

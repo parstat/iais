@@ -5,11 +5,13 @@ import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.AgentDTO;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
+import com.nbs.iais.ms.common.dto.impl.LegislativeReferenceDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
+import com.nbs.iais.ms.common.enums.LegislativeType;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 import com.nbs.iais.ms.common.utils.StringTools;
@@ -18,13 +20,16 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.DeleteA
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.DeleteStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.UpdateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -385,6 +390,98 @@ public class ApiReferentialClosed extends AbstractController {
 		return sendCommand(command, "referential").getEvent().getData();
 	}
 
+	/**
+	 *  FIXME FRancesco
+	 * @param jwt              authorization token
+	 * @param name             of the legislative reference in selected language
+	 * @param type             of legislative reference: CLASSIFICATIONS, CONCEPTS,
+	 *                         DEFINITIONS, METHODOLOGIES, PROCEDURES,
+	 *                         RECOMMENDATIONS, FRAMEWORK
+	 * @param description      of the legislative reference in the selected language
+	 * @param localId          of the legislative reference 
+	 * @param version          first version of agent (default 1.0)
+	 * @param versionDate      of the agent (default now())
+	 * @param versionRationale reason of the first version of agent (default 'First
+	 *                         Version')
+	 * @param language         selected
+	 * @return LegislativeReferenceDTO
+	 */
+	@JsonView(Views.Extended.class)
+	@PostMapping("/legislative/references")
+	public LegislativeReferenceDTO createLegislativeReference(@RequestHeader(name = "jwt-auth") final String jwt,
+			@RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "type", required = false) final LegislativeType type,
+			@RequestParam(name = "description", required = false) final String description,
+			@RequestParam(name = "local_id") final String localId,
+			@RequestParam(name = "number", required = false) final Integer number,
+			@RequestParam(name = "approvalDate", required = false) final LocalDateTime approvalDate,
+			@RequestParam(name = "version", required = false) final String version,
+			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final CreateLegislativeReferenceCommand command = CreateLegislativeReferenceCommand.create(jwt, name, description,
+				localId, number,approvalDate,type, version, versionDate, versionRationale, Language.getLanguage(language));
+		return sendCommand(command, "referential").getEvent().getData();
+
+	}
+	 
+	/**  FIXME FRancesco
+	 * @param jwt         authorization token
+	 * @param id          of the legislative reference
+	 * @param name        of the legislative reference in selected language
+	 * @param type             of legislative reference: CLASSIFICATIONS, CONCEPTS,
+	 *                         DEFINITIONS, METHODOLOGIES, PROCEDURES,
+	 *                         RECOMMENDATIONS, FRAMEWORK
+	 * @param description      of the legislative reference in the selected language
+	 * @param localId          of the legislative reference 
+	 * @param version          first version of agent (default 1.0)
+	 * @param versionDate      of the agent (default now())
+	 * @param versionRationale reason of the first version of agent (default 'First
+	 *                         Version')
+	 * @param language         selected
+	 * @return LegislativeReferenceDTO
+	 */
+	@JsonView(Views.Extended.class)
+	@PatchMapping("/legislative/references/{id}")
+	public LegislativeReferenceDTO updateLegislativeReference(@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id, @RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "type", required = false) final LegislativeType type,
+			@RequestParam(name = "description", required = false) final String description,
+			@RequestParam(name = "local_id", required = false) final String localId,
+			@RequestParam(name = "number", required = false) final Integer number,
+			@RequestParam(name = "approvalDate", required = false) final LocalDateTime approvalDate,
+			@RequestParam(name = "version", required = false) final String version,
+			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final UpdateLegislativeReferenceCommand command = UpdateLegislativeReferenceCommand.create(jwt, id, name,
+				description, number,approvalDate,type, localId, version, versionDate, versionRationale, Language.getLanguage(language));
+		return sendCommand(command, "referential").getEvent().getData();
+
+	}
+
+	/**
+	 * FIXME Francesco Method to delete an legislative reference
+	 * 
+	 * @param jwt authorization token
+	 * @param id  of legislative reference to delete
+	 * @return DTOBoolean true if the agent has been deleted
+	 */
+	@JsonView(Views.Extended.class)
+	@DeleteMapping("/legislative/references/{id}")
+	public DTOBoolean deleteLegislativeReference(@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id) {
+
+		final DeleteLegislativeReferenceCommand command = DeleteLegislativeReferenceCommand.create(jwt, id);
+
+		return sendCommand(command, "referential").getEvent().getData();
+	}
+
+	
+	
+	
 	/**
 	 * Method to create a business function currently this method supports only
 	 * adding the current version of GSBPM sub-phases 5.1

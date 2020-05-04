@@ -4,14 +4,17 @@ import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.UpdateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
@@ -265,5 +268,71 @@ public class CommandTranslator {
 			statisticalStandard.setVersionRationale(command.getVersionRationale());
 		}
 		return statisticalStandard;
+	}
+	
+	public static LegislativeReferenceEntity translate(final CreateLegislativeReferenceCommand command) {
+
+		final LegislativeReferenceEntity legislativeReference = new LegislativeReferenceEntity();
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			legislativeReference.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			legislativeReference.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			legislativeReference.setLocalId(command.getLocalId());
+		}
+
+		legislativeReference.setNumber(command.getNumber());
+		legislativeReference.setApprovalDate(command.getApprovalDate());
+		legislativeReference.setVersion(command.getVersion());
+		
+		legislativeReference.setLegislativeType(command.getType());
+
+		legislativeReference.setVersion(command.getVersion());
+		legislativeReference.setVersionDate(LocalDateTime.now());
+		legislativeReference.setVersionRationale(command.getVersionRationale());
+
+		return legislativeReference;
+	}
+
+	public static LegislativeReferenceEntity translate(final UpdateLegislativeReferenceCommand command,
+			LegislativeReferenceEntity legislativeReference) {
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			legislativeReference.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			legislativeReference.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			legislativeReference.setLocalId(command.getLocalId());
+		}
+		if (command.getType() != null) {
+			legislativeReference.setLegislativeType(command.getType());
+		}
+		if (command.getNumber() != null) {
+			legislativeReference.setNumber(command.getNumber());
+		}
+		
+		if (command.getApprovalDate() != null) {
+			legislativeReference.setApprovalDate(command.getApprovalDate());
+		}
+		
+		if (StringTools.isNotEmpty(command.getVersion())) {
+			legislativeReference.setVersion(command.getVersion());
+		}
+		if (command.getVersionDate() != null) {
+			legislativeReference.setVersionDate(command.getVersionDate());
+		}
+		if (command.getVersionRationale() != null) {
+			legislativeReference.setVersionRationale(command.getVersionRationale());
+		}
+		return legislativeReference;
 	}
 }

@@ -6,14 +6,19 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgent
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferenceQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferencesQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardsQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramsQuery;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.LegislativeReferenceRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +45,9 @@ public class QueryReferentialService {
 	
 	@Autowired
 	private StatisticalStandardReferenceRepository statisticalStandardReferenceRepository;
+	
+	@Autowired
+	private LegislativeReferenceRepository legislativeReferenceRepository;
 
 
 	/**
@@ -218,4 +226,37 @@ public class QueryReferentialService {
 			return query;
 		}
 
+		
+		/**  FIXME FRANCESCO
+		 * Method to get all legislative references or many legislative references filtered by type, name  valued
+		 * 
+		 * @param query to request
+		 * @return GetLegislativeReferencesQuery with the DTOList of requested legislative references
+		 */
+		public GetLegislativeReferencesQuery getLegislativeReferences(final GetLegislativeReferencesQuery query) {
+
+			final List<LegislativeReferenceEntity> references =  legislativeReferenceRepository.findAllOrBySelectedNameAndType(query.getType(),
+					 query.getName(), query.getLanguage().getShortName());
+			Translator.translateLegislativeReferences(references, query.getLanguage()).ifPresent(query.getRead()::setData);
+			
+			return query;
+		}
+
+		/**  FIXME FRANCESCO
+		 * Method to get a single legislative references by id or localId
+		 * 
+		 * @param query to request
+		 * @return GetLegislativeReferenceQuery including requested  legislative references dto in the read
+		 */
+		public GetLegislativeReferenceQuery getLegislativeReference(final GetLegislativeReferenceQuery query) {
+			if (query.getId() != null) {
+				legislativeReferenceRepository.findById(query.getId()).flatMap(ss -> translate(ss, query.getLanguage()))
+						.ifPresent(query.getRead()::setData);
+			}
+		 if (StringTools.isNotEmpty(query.getLocalId())) {
+			 legislativeReferenceRepository.findByLocalId(query.getLocalId()).flatMap(ss -> translate(ss, query.getLanguage()))
+						.ifPresent(query.getRead()::setData);
+			}
+			return query;
+		}	
 }

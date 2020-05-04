@@ -4,16 +4,20 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.AgentDTO;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
+import com.nbs.iais.ms.common.dto.impl.LegislativeReferenceDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
+import com.nbs.iais.ms.common.enums.LegislativeType;
 import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionsQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferenceQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferencesQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardsQuery;
 
@@ -337,4 +341,62 @@ public class ApiReferentialOpen extends AbstractController {
 	}
 
 
+	/** FIXME FRancesco
+	 * Method to get many statistical standards in the selected language
+	 * @param name the name to search the statistical standards
+	 * @param type the type of Statistical Standard: CLASSIFICATIONS, CONCEPTS,
+	 *                          DEFINITIONS, METHODOLOGIES, PROCEDURES,
+	 *                         RECOMMENDATIONS, FRAMEWORK
+	 * @param language the language to present the returned DTO (en, ro, ru)
+	 * @return a list of filtered statistical standards in the selected language
+	 * all statistical standards if no filter parameter has been provided
+	 */
+	@JsonView(Views.Extended.class)
+	@GetMapping("/legislative/references")
+	public DTOList<LegislativeReferenceDTO> getLegislativeReferencesQuery(
+			@RequestParam(name = "type", required = false) final LegislativeType type,
+			@RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "number", required = false) final Integer number,
+			@RequestParam(name = "language") final String language) {
+
+		final GetLegislativeReferencesQuery getLegislativeReferencesQuery = GetLegislativeReferencesQuery.create(type,name,number, Language.getLanguage(language));
+		return sendQuery(getLegislativeReferencesQuery, "referential").getRead().getData();
+
+	}
+	
+
+
+	/**  FIXME FRancesco
+	 * Method to get the legislative reference by id
+	 * @param id the id of the legislative reference
+	 * @param language the language to present the returned DTO (en, ro, ru)
+	 * @return LegislativeReferenceDTO in the selected language
+	 */
+	@JsonView(Views.Extended.class)
+	@GetMapping("/legislative/references/{id}")
+	public LegislativeReferenceDTO getLegislativeReferenceQuery(@PathVariable(name = "id") final Long id,
+			@RequestParam(name = "language") final String language) {
+
+		final GetLegislativeReferenceQuery getLegislativeReferenceQuery = GetLegislativeReferenceQuery.create(id);
+		getLegislativeReferenceQuery.setLanguage(Language.getLanguage(language));
+		return sendQuery(getLegislativeReferenceQuery, "referential").getRead().getData();
+	}
+	
+	/**   FIXME FRancesco
+	 *  FIXME it required unique local_Id
+	 * Method to get the agent by legislative references
+	 * @param localId the local id of the legislative references
+	 * @param language the language to present the returned DTO (en, ro, ru)
+	 * @return LegislativeReferenceDTO in the selected language
+	 */
+	@JsonView(Views.Extended.class)
+	@GetMapping("/legislative/references/localid/{localId}")
+	public LegislativeReferenceDTO getLegislativeReferenceQueryByLocalId(@PathVariable(name = "localId") final String localId,
+			@RequestParam(name = "language") final String language) {
+
+		final GetLegislativeReferenceQuery getLegislativeReferenceQuery = GetLegislativeReferenceQuery.create();
+		getLegislativeReferenceQuery.setLocalId(localId);
+		getLegislativeReferenceQuery.setLanguage(Language.getLanguage(language));
+		return sendQuery(getLegislativeReferenceQuery, "referential").getRead().getData();
+	}
 }

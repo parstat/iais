@@ -1,4 +1,4 @@
-package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard;
+package com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard;
 
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.StatisticalStandardType;

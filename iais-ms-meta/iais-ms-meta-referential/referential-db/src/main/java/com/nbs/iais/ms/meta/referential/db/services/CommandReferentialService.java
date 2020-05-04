@@ -10,10 +10,13 @@ import com.nbs.iais.ms.common.exceptions.AuthorizationException;
 import com.nbs.iais.ms.common.exceptions.EntityException;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.CreateStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.DeleteStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.standard.UpdateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.DeleteAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
@@ -515,4 +518,78 @@ public class CommandReferentialService {
 		return command;
 	}
 
+	/** FIXME FRANCESCO
+	 * Method to create an legislative reference
+	 * 
+	 * @param command to execute
+	 * @return CreateLegislativeReferenceCommand including the dto of
+	 *         LegislativeReference in the event
+	 * @throws EntityException when the command includes a parent that can not be
+	 *                         found
+	 */
+	public CreateLegislativeReferenceCommand createLegislativeReference(final CreateLegislativeReferenceCommand command)
+			throws AuthorizationException, EntityException {
+
+		final LegislativeReferenceEntity referenceEntity = legislativeReferenceRepository
+				.save(CommandTranslator.translate(command));
+
+		Translator.translate(referenceEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+		return command;
+	}
+
+	/**FIXME FRANCESCO
+	 * Method to update a LegislativeReference
+	 * 
+	 * @param command to execute
+	 * @return UpdateLegislativeReferenceCommand including the dto of updated entity
+	 *         in the event
+	 */
+	public UpdateLegislativeReferenceCommand updateLegislativeReference(final UpdateLegislativeReferenceCommand command)
+			throws AuthorizationException {
+
+		if (command.getId() != null) {
+			legislativeReferenceRepository.findById(command.getId()).ifPresentOrElse(reference -> {
+				CommandTranslator.translate(command, reference);
+
+				Translator.translate(legislativeReferenceRepository.save(reference), command.getLanguage())
+						.ifPresent(command.getEvent()::setData);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.LEGISLATIVE_REFERENCE_NOT_FOUND);
+			});
+
+		}
+
+		return command;
+	}
+
+	/** FIXME FRANCESCO
+	 * Method to delete an legislative reference
+	 * 
+	 * @param command to execute
+	 * @return DTOBoolean
+	 * @throws reference_REFERENCE_NOT_FOUND when the legislative reference can not be
+	 *                                      found
+	 */
+
+	public DeleteLegislativeReferenceCommand deleteLegislativeReference(final DeleteLegislativeReferenceCommand command)
+			throws AuthorizationException {
+
+		try {
+			final LegislativeReferenceEntity referenceEntity = legislativeReferenceRepository
+					.findById(command.getId())
+					.orElseThrow(() -> new EntityException(ExceptionCodes.LEGISLATIVE_REFERENCE_NOT_FOUND));
+
+			legislativeReferenceRepository.delete(referenceEntity);
+		} catch (Exception e) {
+			LOG.debug("Error deleting agent: " + e.getMessage());
+			command.getEvent().setData(DTOBoolean.FAIL);
+			return command;
+		}
+
+		command.getEvent().setData(DTOBoolean.TRUE);
+
+		return command;
+	}
+
+	
 }
