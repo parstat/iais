@@ -4,6 +4,10 @@ info:
     description: Http gateway of iais
     version: 1.0.0
 
+spring:
+  jpa:
+    open-in-view: false
+
 server:
   port: 8080
 iais:
@@ -31,8 +35,8 @@ ribbon:
 
 security:
   ribbon:
-    listOfServers: iais-ms-security-api:8080
+    listOfServers: localhost:8081
 
 referential:
   ribbon:
-    listOfServers: iais-ms-referential-api:8080
+    listOfServers: localhost:8082
