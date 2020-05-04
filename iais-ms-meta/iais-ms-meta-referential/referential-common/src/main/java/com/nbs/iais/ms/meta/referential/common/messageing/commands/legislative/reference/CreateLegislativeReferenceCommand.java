@@ -17,6 +17,9 @@ public class CreateLegislativeReferenceCommand extends AbstractCommand<CreateLeg
 
 
     private LocalDateTime approvalDate;
+    
+	private String link;
+    
 	/**
 	 * The legislative reference name in selected language
 	 */
@@ -56,7 +59,7 @@ public class CreateLegislativeReferenceCommand extends AbstractCommand<CreateLeg
 	}
 
 	private CreateLegislativeReferenceCommand(final String jwt, final String name, final String description,
-			final String localId,final Integer number, final LocalDateTime approvalDate, final LegislativeType type, final String version,
+			final String localId,final Integer number, final LocalDateTime approvalDate,final String link, final LegislativeType type, final String version,
 			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 		super(new CreateLegislativeReferenceEvent());
 		setJwt(jwt);
@@ -64,6 +67,7 @@ public class CreateLegislativeReferenceCommand extends AbstractCommand<CreateLeg
 		this.description = description;
 		this.number = number;
 		this.approvalDate = approvalDate;
+		this.setLink(link);
 		this.localId = localId;
 		if (version != null)
 			this.version = version;
@@ -78,10 +82,10 @@ public class CreateLegislativeReferenceCommand extends AbstractCommand<CreateLeg
  
 
 	public static CreateLegislativeReferenceCommand create(final String jwt, final String name, final String description,
-			final String localId,final Integer number, final LocalDateTime approvalDate, final LegislativeType type, final String version,
+			final String localId,final Integer number, final LocalDateTime approvalDate, final String link, final LegislativeType type, final String version,
 			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 
-		return new CreateLegislativeReferenceCommand(jwt, name, description, localId,number,approvalDate, type, version, versionDate,
+		return new CreateLegislativeReferenceCommand(jwt, name, description, localId,number,approvalDate,link, type, version, versionDate,
 				versionRationale, language);
 
 	}
@@ -156,6 +160,14 @@ public class CreateLegislativeReferenceCommand extends AbstractCommand<CreateLeg
 
 	public LegislativeType getType() {
 		return type;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 }

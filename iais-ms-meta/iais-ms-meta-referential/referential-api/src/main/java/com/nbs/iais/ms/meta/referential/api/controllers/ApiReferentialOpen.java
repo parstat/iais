@@ -31,22 +31,27 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.pr
 
 /**
  * All API method in this controller does not require being registered
- * <p>Open methods</p>
+ * <p>
+ * Open methods
+ * </p>
  */
 @RestController
 @RequestMapping(value = "/api/v1/referential", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiReferentialOpen extends AbstractController {
 
-
 	/**
 	 * Method to get statistical programs (survey) by different filters
-	 * @param name the name to search the statistical surveys
-	 *             if this parameter has value the other filter parameters will be ignored
-	 * @param maintainer the division id, to get all statistical surveys by division id
-	 * @param language the language to present the DTOs (en, ro, ru)
-	 *                 also the query will search only in the selected language name of the statistical survey
-	 * @return List of all  Surveys in selected language if not parameter provided or will return only filtered
-	 * surveys
+	 * 
+	 * @param name       the name to search the statistical surveys if this
+	 *                   parameter has value the other filter parameters will be
+	 *                   ignored
+	 * @param maintainer the division id, to get all statistical surveys by division
+	 *                   id
+	 * @param language   the language to present the DTOs (en, ro, ru) also the
+	 *                   query will search only in the selected language name of the
+	 *                   statistical survey
+	 * @return List of all Surveys in selected language if not parameter provided or
+	 *         will return only filtered surveys
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs")
@@ -55,21 +60,23 @@ public class ApiReferentialOpen extends AbstractController {
 			@RequestParam(name = "maintainer", required = false) final Long maintainer,
 			@RequestParam(name = "language") final String language) {
 
-		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create(name, maintainer, Language.getLanguage(language));
+		final GetStatisticalProgramsQuery getStatisticalProgramsQuery = GetStatisticalProgramsQuery.create(name,
+				maintainer, Language.getLanguage(language));
 		return sendQuery(getStatisticalProgramsQuery, "referential").getRead().getData();
 
 	}
 
 	/**
 	 * Method to get a statistical program (survey) by id
-	 * @param id the id of the requested statistical program (survey)
+	 * 
+	 * @param id       the id of the requested statistical program (survey)
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return StatisticalProgramDTO (the requested survey presented in the selected language)
+	 * @return StatisticalProgramDTO (the requested survey presented in the selected
+	 *         language)
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs/{id}")
-	public StatisticalProgramDTO getStatisticalProgram(
-			@PathVariable(name = "id") final Long id,
+	public StatisticalProgramDTO getStatisticalProgram(@PathVariable(name = "id") final Long id,
 			@RequestParam(name = "language") final String language) {
 
 		final GetStatisticalProgramQuery getStatisticalProcessQuery = GetStatisticalProgramQuery.create(id,
@@ -79,29 +86,32 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get a statistical program (survey) by local id and version
-	 * @param localId local id of the requested statistical program (survey)
-	 * @param version the version of the statistical program (survey)
+	 * 
+	 * @param localId  local id of the requested statistical program (survey)
+	 * @param version  the version of the statistical program (survey)
 	 * @param language to present the returned DTO (en, ro, ru)
-	 * @return StatisticalProgramDTO (the requested survey presented in the selected language)
+	 * @return StatisticalProgramDTO (the requested survey presented in the selected
+	 *         language)
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs/{local_id}/versions/{version}")
-	public StatisticalProgramDTO getStatisticalProgramByVersion(
-			@PathVariable(name = "local_id") final String localId,
+	public StatisticalProgramDTO getStatisticalProgramByVersion(@PathVariable(name = "local_id") final String localId,
 			@PathVariable(name = "version") final String version,
 			@RequestParam(name = "language") final String language) {
 
-		final GetStatisticalProgramQuery getStatisticalProcessQuery = GetStatisticalProgramQuery.create(localId, version,
-				Language.getLanguage(language));
+		final GetStatisticalProgramQuery getStatisticalProcessQuery = GetStatisticalProgramQuery.create(localId,
+				version, Language.getLanguage(language));
 
 		return sendQuery(getStatisticalProcessQuery, "referential").getRead().getData();
 	}
 
 	/**
 	 * Method to get latest versions of a statistical program (survey)
-	 * @param localId the local id of the statistical program (survey)
+	 * 
+	 * @param localId  the local id of the statistical program (survey)
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return StatisticalProgramDTO (the latest versions of the survey presented in the selected language)
+	 * @return StatisticalProgramDTO (the latest versions of the survey presented in
+	 *         the selected language)
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs/{local_id}/latest")
@@ -117,9 +127,11 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get all versions of a statistical program (survey)
-	 * @param localId of the statistical program (survey)
+	 * 
+	 * @param localId  of the statistical program (survey)
 	 * @param language to present the returned DTO (en, ro, ru)
-	 * @return (the requested versions of the survey presented in the selected language)
+	 * @return (the requested versions of the survey presented in the selected
+	 *         language)
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs/{local_id}/versions")
@@ -135,14 +147,15 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get a business function (gsbpm sub-phase) by id
-	 * @param id sub-phase id
+	 * 
+	 * @param id       sub-phase id
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return BusinessFunctionDTO (the requested gsbpm sub-phase in the selected language)
+	 * @return BusinessFunctionDTO (the requested gsbpm sub-phase in the selected
+	 *         language)
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions/{id}")
-	public BusinessFunctionDTO getBusinessFunction(
-			@PathVariable(name = "id") final Long id,
+	public BusinessFunctionDTO getBusinessFunction(@PathVariable(name = "id") final Long id,
 			@RequestParam(name = "language") final String language) {
 
 		final GetBusinessFunctionQuery getBusinessFunctionQuery = GetBusinessFunctionQuery.create(id,
@@ -153,37 +166,43 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get a business function (gsbpm sub-phase) by local id and version
-	 * <p> Sub-phase of gsbpm can have different version, current is 5.1
-	 * if the user is interested in another version can use this method </p>
-	 * @param localId the id of sub-phase
-	 * @param version version of sub-phase (default 5.1)
+	 * <p>
+	 * Sub-phase of gsbpm can have different version, current is 5.1 if the user is
+	 * interested in another version can use this method
+	 * </p>
+	 * 
+	 * @param localId  the id of sub-phase
+	 * @param version  version of sub-phase (default 5.1)
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return BusinessFunctionDTO (gsbpm sub-phase in the requested language)
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions/sub-phase/{localId}/versions/{version}")
-	public BusinessFunctionDTO getBusinessFunction(
-			@PathVariable(name = "sub_phase") final String localId,
+	public BusinessFunctionDTO getBusinessFunction(@PathVariable(name = "sub_phase") final String localId,
 			@PathVariable(name = "version") final String version,
 			@RequestParam(name = "language") final String language) {
 
-		final GetBusinessFunctionQuery getBusinessFunctionQuery = GetBusinessFunctionQuery.create(localId,
-					version, Language.getLanguage(language));
+		final GetBusinessFunctionQuery getBusinessFunctionQuery = GetBusinessFunctionQuery.create(localId, version,
+				Language.getLanguage(language));
 		return sendQuery(getBusinessFunctionQuery, "referential").getRead().getData();
 	}
 
 	/**
-	 * FIXME FLORIAN
-	 * Method to get the current version of gsbpm sub-phse (business function)
-	 * <p>Current version is hardcoded to 5.1 method should be changed to get always the latest version</p>
-	 * @param localId the id of gsbpm sub-phase
+	 * FIXME FLORIAN Method to get the current version of gsbpm sub-phse (business
+	 * function)
+	 * <p>
+	 * Current version is hardcoded to 5.1 method should be changed to get always
+	 * the latest version
+	 * </p>
+	 * 
+	 * @param localId  the id of gsbpm sub-phase
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return BusinessFunctionDTO the requested business function (gsbpm sub-phase) in the selected language
+	 * @return BusinessFunctionDTO the requested business function (gsbpm sub-phase)
+	 *         in the selected language
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions/sub-phase/{localId}")
-	public BusinessFunctionDTO getBusinessFunction(
-			@PathVariable(name = "localId") final String localId,
+	public BusinessFunctionDTO getBusinessFunction(@PathVariable(name = "localId") final String localId,
 			@RequestParam(name = "language") final String language) {
 
 		final GetBusinessFunctionQuery getBusinessFunctionQuery = GetBusinessFunctionQuery.create(localId,
@@ -193,8 +212,9 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get business functions using different filters
-	 * @param name the string to search on the name of the selected language
-	 * @param phase to get all business function of this phase
+	 * 
+	 * @param name     the string to search on the name of the selected language
+	 * @param phase    to get all business function of this phase
 	 * @param language the selected language to return the result
 	 * @return a list of BusinessFunctionDTO in the selected language
 	 */
@@ -205,37 +225,39 @@ public class ApiReferentialOpen extends AbstractController {
 			@RequestParam(name = "phase", required = false) final int phase,
 			@RequestParam(name = "language") final String language) {
 
-		final GetBusinessFunctionsQuery query = GetBusinessFunctionsQuery.create(name, phase,null, Language.getLanguage(language));
+		final GetBusinessFunctionsQuery query = GetBusinessFunctionsQuery.create(name, phase, null,
+				Language.getLanguage(language));
 
 		return sendQuery(query, "referential").getRead().getData();
 	}
 
 	/**
 	 * Method to get many agents in the selected language
-	 * @param name the name to search the agents
-	 * @param type the type of agent: DIVISION, ORGANIZATION, DEPARTMENT, INDIVIDUAL
-	 * @param parent the agent id to return all children
+	 * 
+	 * @param name     the name to search the agents
+	 * @param type     the type of agent: DIVISION, ORGANIZATION, DEPARTMENT,
+	 *                 INDIVIDUAL
+	 * @param parent   the agent id to return all children
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return a list of filtered agents in the selected language
-	 * all agents if no filter parameter has been provided
+	 * @return a list of filtered agents in the selected language all agents if no
+	 *         filter parameter has been provided
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/agents")
-	public DTOList<AgentDTO> getAgentsQuery(
-			@RequestParam(name = "type", required = false) final AgentType type,
+	public DTOList<AgentDTO> getAgentsQuery(@RequestParam(name = "type", required = false) final AgentType type,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "parent", required = false) final Long parent,
 			@RequestParam(name = "language") final String language) {
 
-		final GetAgentsQuery getAgentsQuery = GetAgentsQuery.create(type,name,parent, Language.getLanguage(language));
+		final GetAgentsQuery getAgentsQuery = GetAgentsQuery.create(type, name, parent, Language.getLanguage(language));
 		return sendQuery(getAgentsQuery, "referential").getRead().getData();
 
 	}
-	
-	
+
 	/**
 	 * Method to get the agent by id
-	 * @param id the id of the agent
+	 * 
+	 * @param id       the id of the agent
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return AgentDTO in the selected language
 	 */
@@ -247,11 +269,11 @@ public class ApiReferentialOpen extends AbstractController {
 		final GetAgentQuery getAgentQuery = GetAgentQuery.create(id, Language.getLanguage(language));
 		return sendQuery(getAgentQuery, "referential").getRead().getData();
 	}
-	
+
 	/**
-	 * FIXME not sure wee need this method
-	 * Method to get the agent by localId
-	 * @param localId the local id of the agent
+	 * FIXME not sure wee need this method Method to get the agent by localId
+	 * 
+	 * @param localId  the local id of the agent
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return AgentDTO in the selected language
 	 */
@@ -265,11 +287,12 @@ public class ApiReferentialOpen extends AbstractController {
 		getAgentQuery.setLanguage(Language.getLanguage(language));
 		return sendQuery(getAgentQuery, "referential").getRead().getData();
 	}
-	
+
 	/**
-	 * FIXME not sure this method should be open (the user requesting this info must be ADMIN or self)
-	 * Method to get the agent by account
-	 * @param account id of registered account that is mapped with an agent
+	 * FIXME not sure this method should be open (the user requesting this info must
+	 * be ADMIN or self) Method to get the agent by account
+	 * 
+	 * @param account  id of registered account that is mapped with an agent
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return AgentDTO in the selected language
 	 */
@@ -286,13 +309,14 @@ public class ApiReferentialOpen extends AbstractController {
 
 	/**
 	 * Method to get many statistical standards in the selected language
-	 * @param name the name to search the statistical standards
-	 * @param type the type of Statistical Standard: CLASSIFICATIONS, CONCEPTS,
-	 *                          DEFINITIONS, METHODOLOGIES, PROCEDURES,
-	 *                         RECOMMENDATIONS, FRAMEWORK
+	 * 
+	 * @param name     the name to search the statistical standards
+	 * @param type     the type of Statistical Standard: CLASSIFICATIONS, CONCEPTS,
+	 *                 DEFINITIONS, METHODOLOGIES, PROCEDURES, RECOMMENDATIONS,
+	 *                 FRAMEWORK
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return a list of filtered statistical standards in the selected language
-	 * all statistical standards if no filter parameter has been provided
+	 * @return a list of filtered statistical standards in the selected language all
+	 *         statistical standards if no filter parameter has been provided
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/standards")
@@ -301,15 +325,16 @@ public class ApiReferentialOpen extends AbstractController {
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "language") final String language) {
 
-		final GetStatisticalStandardsQuery getStatisticalStandardsQuery = GetStatisticalStandardsQuery.create(type,name, Language.getLanguage(language));
+		final GetStatisticalStandardsQuery getStatisticalStandardsQuery = GetStatisticalStandardsQuery.create(type,
+				name, Language.getLanguage(language));
 		return sendQuery(getStatisticalStandardsQuery, "referential").getRead().getData();
 
 	}
-	
 
 	/**
 	 * Method to get the statistical standards by id
-	 * @param id the id of the statistical standards
+	 * 
+	 * @param id       the id of the statistical standards
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return StatisticalStandardDTO in the selected language
 	 */
@@ -322,16 +347,19 @@ public class ApiReferentialOpen extends AbstractController {
 		getStatisticalStandardQuery.setLanguage(Language.getLanguage(language));
 		return sendQuery(getStatisticalStandardQuery, "referential").getRead().getData();
 	}
-	
-	/**  FIXME it required unique local_Id
-	 * Method to get the agent by statistical standards
-	 * @param localId the local id of the statistical standards
+
+	/**
+	 * FIXME it required unique local_Id Method to get the agent by statistical
+	 * standards
+	 * 
+	 * @param localId  the local id of the statistical standards
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return StatisticalStandardDTO in the selected language
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/standards/localid/{localId}")
-	public StatisticalStandardDTO getStatisticalStandardQueryByLocalId(@PathVariable(name = "localId") final String localId,
+	public StatisticalStandardDTO getStatisticalStandardQueryByLocalId(
+			@PathVariable(name = "localId") final String localId,
 			@RequestParam(name = "language") final String language) {
 
 		final GetStatisticalStandardQuery getStatisticalStandardQuery = GetStatisticalStandardQuery.create();
@@ -340,16 +368,16 @@ public class ApiReferentialOpen extends AbstractController {
 		return sendQuery(getStatisticalStandardQuery, "referential").getRead().getData();
 	}
 
-
-	/** FIXME FRancesco
-	 * Method to get many statistical standards in the selected language
-	 * @param name the name to search the statistical standards
-	 * @param type the type of Statistical Standard: CLASSIFICATIONS, CONCEPTS,
-	 *                          DEFINITIONS, METHODOLOGIES, PROCEDURES,
-	 *                         RECOMMENDATIONS, FRAMEWORK
+	/**
+	 * Method to get many legislative references in the selected
+	 * language
+	 * 
+	 * @param name     the name to search the legislative references
+	 * @param type     the type of legislative references:REGULATION, LAW, CODE,
+	 *                 GOVERNMENTAL_DECISION, AMENDMENT
+	 * @param number   the number to search the legislative references            
 	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return a list of filtered statistical standards in the selected language
-	 * all statistical standards if no filter parameter has been provided
+	 * @return a list of filtered legislative references in the selected language
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/legislative/references")
@@ -359,16 +387,16 @@ public class ApiReferentialOpen extends AbstractController {
 			@RequestParam(name = "number", required = false) final Integer number,
 			@RequestParam(name = "language") final String language) {
 
-		final GetLegislativeReferencesQuery getLegislativeReferencesQuery = GetLegislativeReferencesQuery.create(type,name,number, Language.getLanguage(language));
+		final GetLegislativeReferencesQuery getLegislativeReferencesQuery = GetLegislativeReferencesQuery.create(type,
+				name, number, Language.getLanguage(language));
 		return sendQuery(getLegislativeReferencesQuery, "referential").getRead().getData();
 
 	}
-	
 
-
-	/**  FIXME FRancesco
-	 * Method to get the legislative reference by id
-	 * @param id the id of the legislative reference
+	/**
+	 *  Method to get the legislative reference by id
+	 * 
+	 * @param id       the id of the legislative reference
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return LegislativeReferenceDTO in the selected language
 	 */
@@ -381,17 +409,18 @@ public class ApiReferentialOpen extends AbstractController {
 		getLegislativeReferenceQuery.setLanguage(Language.getLanguage(language));
 		return sendQuery(getLegislativeReferenceQuery, "referential").getRead().getData();
 	}
-	
-	/**   FIXME FRancesco
-	 *  FIXME it required unique local_Id
-	 * Method to get the agent by legislative references
-	 * @param localId the local id of the legislative references
+
+	/**
+	 *  Method to get the legislative reference by localId
+	 * 
+	 * @param localId  the local id of the legislative references
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return LegislativeReferenceDTO in the selected language
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/legislative/references/localid/{localId}")
-	public LegislativeReferenceDTO getLegislativeReferenceQueryByLocalId(@PathVariable(name = "localId") final String localId,
+	public LegislativeReferenceDTO getLegislativeReferenceQueryByLocalId(
+			@PathVariable(name = "localId") final String localId,
 			@RequestParam(name = "language") final String language) {
 
 		final GetLegislativeReferenceQuery getLegislativeReferenceQuery = GetLegislativeReferenceQuery.create();

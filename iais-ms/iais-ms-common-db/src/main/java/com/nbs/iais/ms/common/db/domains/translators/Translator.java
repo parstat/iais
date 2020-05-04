@@ -32,8 +32,8 @@ public class Translator {
 		accountDTO.setRole(account.getRole());
 		accountDTO.setStatus(account.getStatus());
 		accountDTO.setName(account.getName());
+	    accountDTO.setEmail(account.getEmail());
 		accountDTO.setLink("/accounts/" + account.getId().toString());
-		accountDTO.setEmail(account.getEmail());
 		return Optional.of(accountDTO);
 
 	}
@@ -249,6 +249,7 @@ public class Translator {
 		legislativeReferenceDTO.setNumber(legislativeReference.geNumber());
 		legislativeReferenceDTO.setName(legislativeReference.getName(language));
 		legislativeReferenceDTO.setDescription(legislativeReference.getDescription(language));
+		legislativeReferenceDTO.setExternaLink(legislativeReference.getLink(language));
 		legislativeReferenceDTO.setType(legislativeReference.getLegislativeType());
 		legislativeReferenceDTO.setLocalId(legislativeReference.getLocalId());
 		legislativeReferenceDTO.setVersion(legislativeReference.getVersion());

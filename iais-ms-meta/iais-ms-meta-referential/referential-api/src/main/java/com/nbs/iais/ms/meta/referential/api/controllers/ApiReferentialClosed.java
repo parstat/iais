@@ -306,6 +306,7 @@ public class ApiReferentialClosed extends AbstractController {
 	}
 
 	/**
+	 * Method to create a statistical standard
 	 * 
 	 * @param jwt              authorization token
 	 * @param name             of the Statistical Standard in selected language
@@ -313,7 +314,7 @@ public class ApiReferentialClosed extends AbstractController {
 	 *                         DEFINITIONS, METHODOLOGIES, PROCEDURES,
 	 *                         RECOMMENDATIONS, FRAMEWORK
 	 * @param description      of the Statistical Standard in the selected language
-	 * @param localId          of the Statistical Standard 
+	 * @param localId          of the Statistical Standard
 	 * @param version          first version of agent (default 1.0)
 	 * @param versionDate      of the agent (default now())
 	 * @param versionRationale reason of the first version of agent (default 'First
@@ -340,14 +341,16 @@ public class ApiReferentialClosed extends AbstractController {
 	}
 
 	/**
-	 * @param jwt         authorization token
-	 * @param id          of the Statistical Standard
-	 * @param name        of the Statistical Standard in selected language
+	 * Method to update a statistical standard
+	 * 
+	 * @param jwt              authorization token
+	 * @param id               of the Statistical Standard
+	 * @param name             of the Statistical Standard in selected language
 	 * @param type             of Statistical Standard: CLASSIFICATIONS, CONCEPTS,
 	 *                         DEFINITIONS, METHODOLOGIES, PROCEDURES,
 	 *                         RECOMMENDATIONS, FRAMEWORK
 	 * @param description      of the Statistical Standard in the selected language
-	 * @param localId          of the Statistical Standard 
+	 * @param localId          of the Statistical Standard
 	 * @param version          first version of agent (default 1.0)
 	 * @param versionDate      of the agent (default now())
 	 * @param versionRationale reason of the first version of agent (default 'First
@@ -374,7 +377,7 @@ public class ApiReferentialClosed extends AbstractController {
 	}
 
 	/**
-	 * FIXME Francesco Method to delete an Statistical Standard
+	 * Method to delete an Statistical Standard
 	 * 
 	 * @param jwt authorization token
 	 * @param id  of Statistical Standard to delete
@@ -391,14 +394,17 @@ public class ApiReferentialClosed extends AbstractController {
 	}
 
 	/**
-	 *  FIXME FRancesco
+	 * Method to create a legislative reference
+	 * 
 	 * @param jwt              authorization token
 	 * @param name             of the legislative reference in selected language
-	 * @param type             of legislative reference: CLASSIFICATIONS, CONCEPTS,
-	 *                         DEFINITIONS, METHODOLOGIES, PROCEDURES,
-	 *                         RECOMMENDATIONS, FRAMEWORK
+	 * @param type             of legislative reference: REGULATION, LAW, CODE,
+	 *                         GOVERNMENTAL_DECISION, AMENDMENT,
 	 * @param description      of the legislative reference in the selected language
-	 * @param localId          of the legislative reference 
+	 * @param local_Id          of the legislative reference
+	 * @param number          of the legislative reference
+	 * @param approvalDate    of the legislative reference
+	 * @param link            of the legislative reference
 	 * @param version          first version of agent (default 1.0)
 	 * @param versionDate      of the agent (default now())
 	 * @param versionRationale reason of the first version of agent (default 'First
@@ -415,26 +421,32 @@ public class ApiReferentialClosed extends AbstractController {
 			@RequestParam(name = "local_id") final String localId,
 			@RequestParam(name = "number", required = false) final Integer number,
 			@RequestParam(name = "approvalDate", required = false) final LocalDateTime approvalDate,
+			@RequestParam(name = "link", required = false) final String link,
 			@RequestParam(name = "version", required = false) final String version,
 			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "language", required = false) final String language) {
 
-		final CreateLegislativeReferenceCommand command = CreateLegislativeReferenceCommand.create(jwt, name, description,
-				localId, number,approvalDate,type, version, versionDate, versionRationale, Language.getLanguage(language));
+		final CreateLegislativeReferenceCommand command = CreateLegislativeReferenceCommand.create(jwt, name,
+				description, localId, number, approvalDate,link, type, version, versionDate, versionRationale,
+				Language.getLanguage(language));
 		return sendCommand(command, "referential").getEvent().getData();
 
 	}
-	 
-	/**  FIXME FRancesco
-	 * @param jwt         authorization token
-	 * @param id          of the legislative reference
-	 * @param name        of the legislative reference in selected language
-	 * @param type             of legislative reference: CLASSIFICATIONS, CONCEPTS,
-	 *                         DEFINITIONS, METHODOLOGIES, PROCEDURES,
-	 *                         RECOMMENDATIONS, FRAMEWORK
+
+	/**
+	 * FIXME FRancesco
+	 * 
+	 * @param jwt              authorization token
+	 * @param id               of the legislative reference
+	 * @param name             of the legislative reference in selected language
+	 * @param type             of legislative reference: REGULATION, LAW, CODE,
+	 *                         GOVERNMENTAL_DECISION, AMENDMENT,
 	 * @param description      of the legislative reference in the selected language
-	 * @param localId          of the legislative reference 
+	 * @param local_Id          of the legislative reference
+	 * @param number          of the legislative reference
+	 * @param approvalDate    of the legislative reference
+	 * @param link            of the legislative reference
 	 * @param version          first version of agent (default 1.0)
 	 * @param versionDate      of the agent (default now())
 	 * @param versionRationale reason of the first version of agent (default 'First
@@ -451,13 +463,15 @@ public class ApiReferentialClosed extends AbstractController {
 			@RequestParam(name = "local_id", required = false) final String localId,
 			@RequestParam(name = "number", required = false) final Integer number,
 			@RequestParam(name = "approvalDate", required = false) final LocalDateTime approvalDate,
+			@RequestParam(name = "link", required = false) final String link,
 			@RequestParam(name = "version", required = false) final String version,
 			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final UpdateLegislativeReferenceCommand command = UpdateLegislativeReferenceCommand.create(jwt, id, name,
-				description, number,approvalDate,type, localId, version, versionDate, versionRationale, Language.getLanguage(language));
+				description, number, approvalDate,link, type, localId, version, versionDate, versionRationale,
+				Language.getLanguage(language));
 		return sendCommand(command, "referential").getEvent().getData();
 
 	}
@@ -479,9 +493,6 @@ public class ApiReferentialClosed extends AbstractController {
 		return sendCommand(command, "referential").getEvent().getData();
 	}
 
-	
-	
-	
 	/**
 	 * Method to create a business function currently this method supports only
 	 * adding the current version of GSBPM sub-phases 5.1

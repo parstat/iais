@@ -39,7 +39,7 @@ public class CommandTranslator {
 		if (StringTools.isNotEmpty(command.getDescription())) {
 			statisticalProgram.setDescription(command.getDescription(), command.getLanguage());
 		}
-
+		
 		if (StringTools.isNotEmpty(command.getLocalId())) {
 			statisticalProgram.setLocalId(command.getLocalId());
 		}
@@ -286,6 +286,10 @@ public class CommandTranslator {
 			legislativeReference.setLocalId(command.getLocalId());
 		}
 
+		if (StringTools.isNotEmpty(command.getLink())) {
+			legislativeReference.setLink(command.getLink(), command.getLanguage());
+		}
+
 		legislativeReference.setNumber(command.getNumber());
 		legislativeReference.setApprovalDate(command.getApprovalDate());
 		legislativeReference.setVersion(command.getVersion());
@@ -308,6 +312,10 @@ public class CommandTranslator {
 
 		if (StringTools.isNotEmpty(command.getDescription())) {
 			legislativeReference.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLink())) {
+			legislativeReference.setLink(command.getLink(), command.getLanguage());
 		}
 
 		if (StringTools.isNotEmpty(command.getLocalId())) {

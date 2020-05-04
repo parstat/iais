@@ -518,14 +518,12 @@ public class CommandReferentialService {
 		return command;
 	}
 
-	/** FIXME FRANCESCO
+	/**
 	 * Method to create an legislative reference
 	 * 
 	 * @param command to execute
-	 * @return CreateLegislativeReferenceCommand including the dto of
-	 *         LegislativeReference in the event
-	 * @throws EntityException when the command includes a parent that can not be
-	 *                         found
+	 * @return CreateLegislativeReferenceCommand including the dto of  LegislativeReference in the event
+	
 	 */
 	public CreateLegislativeReferenceCommand createLegislativeReference(final CreateLegislativeReferenceCommand command)
 			throws AuthorizationException, EntityException {
@@ -537,12 +535,13 @@ public class CommandReferentialService {
 		return command;
 	}
 
-	/**FIXME FRANCESCO
+	/**
 	 * Method to update a LegislativeReference
 	 * 
 	 * @param command to execute
 	 * @return UpdateLegislativeReferenceCommand including the dto of updated entity
 	 *         in the event
+	 * @throws LEGISLATIVE_REFERENCE_NOT_FOUND when the legislative reference can not be found
 	 */
 	public UpdateLegislativeReferenceCommand updateLegislativeReference(final UpdateLegislativeReferenceCommand command)
 			throws AuthorizationException {
@@ -562,13 +561,12 @@ public class CommandReferentialService {
 		return command;
 	}
 
-	/** FIXME FRANCESCO
+	/** 
 	 * Method to delete an legislative reference
 	 * 
 	 * @param command to execute
 	 * @return DTOBoolean
-	 * @throws reference_REFERENCE_NOT_FOUND when the legislative reference can not be
-	 *                                      found
+	 * @throws LEGISLATIVE_REFERENCE_NOT_FOUND when the legislative reference can not be found
 	 */
 
 	public DeleteLegislativeReferenceCommand deleteLegislativeReference(final DeleteLegislativeReferenceCommand command)

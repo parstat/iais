@@ -25,6 +25,11 @@ public class LegislativeReferenceDTO extends LinkableIdentifiableArtefactDTO {
     @JsonProperty
     @JsonView(Views.Extended.class)
     private LegislativeType type;
+    
+    
+    @JsonProperty
+    @JsonView(Views.Extended.class)
+    private String externaLink;
 
 
     public LegislativeReferenceDTO() {
@@ -58,4 +63,14 @@ public class LegislativeReferenceDTO extends LinkableIdentifiableArtefactDTO {
     public void setType(final LegislativeType type) {
         this.type = type;
     }
+
+	public String getExternaLink() {
+		return externaLink;
+	}
+
+	public void setExternaLink(String externaLink) {
+		this.externaLink = externaLink;
+	}
+
+	 
 }
