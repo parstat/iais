@@ -247,7 +247,7 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/agents")
-	public DTOList<AgentDTO> getAgentsQuery(
+	public DTOList<AgentDTO> getAgents(
 			@RequestParam(name = "type", required = false) final AgentType type,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "parent", required = false) final Long parent,

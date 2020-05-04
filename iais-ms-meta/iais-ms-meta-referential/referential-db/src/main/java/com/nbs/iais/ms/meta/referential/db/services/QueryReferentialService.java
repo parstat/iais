@@ -1,6 +1,7 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
+import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
@@ -67,12 +68,13 @@ public class QueryReferentialService {
 		if(StringTools.isNotEmpty(query.getName())) {
 			final Iterable<StatisticalProgramEntity> sp = statisticalProgramRepository
 					.findAllByNameInLanguageContaining(query.getLanguage().getShortName(), query.getName());
-
 			translate(sp, query.getLanguage()).ifPresent(query.getRead()::setData);
 			return query;
 		}
 		if(query.getMaintainer() != null) {
-			//TODO add a repository method here
+			agentRepository.findById(query.getMaintainer()).flatMap(agent ->
+					translate(statisticalProgramRepository.findAllByAgentInRole(agent, RoleType.MAINTAINER),
+					query.getLanguage())).ifPresent(query.getRead()::setData);
 			return query;
 		}
 		//return all if no parameter has been provided to the query

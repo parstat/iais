@@ -1,7 +1,9 @@
 package com.nbs.iais.ms.meta.referential.db.repositories;
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
+import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import org.springframework.data.jpa.repository.Query;
@@ -80,5 +82,13 @@ public interface StatisticalProgramRepository extends CrudRepository<Statistical
      */
     Iterable<StatisticalProgramEntity> findAllByCreator(Long creator);
 
+    /**
+     * Repository method to find all statistical programs where an agent has a role
+     * @param agent to get the statistical programs of
+     * @param role the role of the agent in the survey
+     * @return Iterable<StatisticalProgramEntity>
+     */
+    @Query("SELECT sp FROM StatisticalProgram sp INNER JOIN sp.administrators a WHERE  a.role = :role AND a.agent = :agent")
+    Iterable<StatisticalProgramEntity> findAllByAgentInRole(Agent agent, RoleType role);
 
-    }
+}
