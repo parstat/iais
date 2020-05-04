@@ -187,6 +187,12 @@ public class CommandReferentialService {
 
 	}
 
+	/**
+	 * Method to delete a statistical program by id
+	 * @param command the command to execute
+	 * @return DeleteStatisticalProgramCommand including the DTOBoolean
+	 * @throws AuthorizationException when the user has no rights to delete
+	 */
 	public DeleteStatisticalProgramCommand deleteStatisticalProgram(final DeleteStatisticalProgramCommand command)
 			throws AuthorizationException {
 
@@ -418,7 +424,7 @@ public class CommandReferentialService {
 	 * 
 	 * @param command to execute
 	 * @return DTOBoolean
-	 * @throws AGENT_NOT_FOUND when the agent can not be found
+	 * @throws AuthorizationException AGENT_NOT_FOUND when the agent can not be found
 	 */
 	@Transactional
 	public DeleteAgentCommand deleteAgent(final DeleteAgentCommand command) throws AuthorizationException {
@@ -494,12 +500,12 @@ public class CommandReferentialService {
 	 * 
 	 * @param command to execute
 	 * @return DTOBoolean
-	 * @throws STANDARD_REFERENCE_NOT_FOUND when the Statistical Standard can not be
+	 * @throws EntityException STANDARD_REFERENCE_NOT_FOUND when the Statistical Standard can not be
 	 *                                      found
 	 */
 
 	public DeleteStatisticalStandardCommand deleteStatisticalStandard(final DeleteStatisticalStandardCommand command)
-			throws AuthorizationException {
+			throws AuthorizationException, EntityException {
 
 		try {
 			final StatisticalStandardReferenceEntity standardEntity = statisticalStandardReferenceRepository
@@ -541,10 +547,10 @@ public class CommandReferentialService {
 	 * @param command to execute
 	 * @return UpdateLegislativeReferenceCommand including the dto of updated entity
 	 *         in the event
-	 * @throws LEGISLATIVE_REFERENCE_NOT_FOUND when the legislative reference can not be found
+	 * @throws EntityException LEGISLATIVE_REFERENCE_NOT_FOUND when the legislative reference can not be found
 	 */
 	public UpdateLegislativeReferenceCommand updateLegislativeReference(final UpdateLegislativeReferenceCommand command)
-			throws AuthorizationException {
+			throws AuthorizationException, EntityException {
 
 		if (command.getId() != null) {
 			legislativeReferenceRepository.findById(command.getId()).ifPresentOrElse(reference -> {
@@ -566,11 +572,11 @@ public class CommandReferentialService {
 	 * 
 	 * @param command to execute
 	 * @return DTOBoolean
-	 * @throws LEGISLATIVE_REFERENCE_NOT_FOUND when the legislative reference can not be found
+	 * @throws EntityException LEGISLATIVE_REFERENCE_NOT_FOUND when the legislative reference can not be found
 	 */
 
 	public DeleteLegislativeReferenceCommand deleteLegislativeReference(final DeleteLegislativeReferenceCommand command)
-			throws AuthorizationException {
+			throws AuthorizationException, EntityException {
 
 		try {
 			final LegislativeReferenceEntity referenceEntity = legislativeReferenceRepository
