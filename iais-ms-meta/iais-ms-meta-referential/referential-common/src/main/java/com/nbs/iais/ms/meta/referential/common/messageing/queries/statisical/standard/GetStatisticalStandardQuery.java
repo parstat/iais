@@ -12,6 +12,8 @@ public class GetStatisticalStandardQuery extends AbstractQuery<GetStatisticalSta
 	private Long id;
 	
 	private String localId;
+
+	//FIXME add String version (localId + version) are unique
 	
     private GetStatisticalStandardQuery() {
 		super(new GetStatisticalStandardRead());
