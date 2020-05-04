@@ -78,16 +78,10 @@ public class AgentRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    public void testFindAllOrBySelectedNameAndTypeAndParent() {
+    public void testFindByName() {
         final AgentEntity parent = agentRepository.save(saveAgent("Parent", AgentType.ORGANIZATION));
-        final AgentEntity child1 = agentRepository.save(saveAgent("Child1", AgentType.DIVISION));
-        child1.setParent(parent);
-        agentRepository.save(child1);
-        final AgentEntity child2 = agentRepository.save(saveAgent("Child2", AgentType.DIVISION));
-        child2.setParent(parent);
-        agentRepository.save(child2);
 
-        Iterable<AgentEntity> agent = agentRepository.findAllOrBySelectedNameAndTypeAndParent(AgentType.DIVISION, parent, "Child2", Language.ENG.getShortName());
+        Iterable<AgentEntity> agent = agentRepository.findAllByNameInLanguageContaining(Language.ENG.getShortName(), "Parent");
         Assert.assertTrue(agent.iterator().hasNext());
     }
 

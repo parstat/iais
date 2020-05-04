@@ -163,11 +163,27 @@ public class QueryReferentialService {
 		 * @return GetAgentsQuery with the DTOList of requested agents
 		 */
 		public GetAgentsQuery getAgents(final GetAgentsQuery query) {
-			final AgentEntity parent = (query.getParent() == null ? null
-					: agentRepository.findById(query.getParent()).orElse(null));
-			final Iterable<AgentEntity> agents = agentRepository.findAllOrBySelectedNameAndTypeAndParent(query.getAgentType(),
-					parent, query.getName(), query.getLanguage().getShortName());
-			translateAgents(agents, query.getLanguage()).ifPresent(query.getRead()::setData);
+
+			if(StringTools.isNotEmpty(query.getName())) {
+				translateAgents(agentRepository.findAllByNameInLanguageContaining(query.getLanguage().getShortName(), query.getName()),
+						query.getLanguage()).ifPresent(query.getRead()::setData);
+				return query;
+			}
+			if(query.getAgentType() != null) {
+				translateAgents(agentRepository.findByType(query.getAgentType()), query.getLanguage())
+						.ifPresent(query.getRead()::setData);
+				return query;
+			}
+
+			if(query.getParent() != null) {
+				agentRepository.findById(query.getParent()).flatMap(parent ->
+						translateAgents(agentRepository.findByParent(parent), query.getLanguage()))
+						.ifPresent(query.getRead()::setData);
+				return query;
+			}
+
+			translateAgents(agentRepository.findAll(), query.getLanguage()).ifPresent(query.getRead()::setData);
+
 			return query;
 		}
 
