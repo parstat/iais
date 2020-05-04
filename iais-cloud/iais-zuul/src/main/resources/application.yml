@@ -8,6 +8,16 @@ spring:
   jpa:
     open-in-view: false
 
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 100000
+
+
 server:
   port: 8080
 iais:
@@ -32,11 +42,12 @@ zuul:
 ribbon:
   eureka:
     enabled: false
+  ReadTimeout: 100000
 
 security:
   ribbon:
-    listOfServers: localhost:8081
+    listOfServers: iais-ms-security-api:8080
 
 referential:
   ribbon:
-    listOfServers: localhost:8082
+    listOfServers: iais-referential-api:8080

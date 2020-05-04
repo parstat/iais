@@ -1,9 +1,9 @@
 server:
-  port: 8082
+  port: 8080
 spring:
   datasource:
     password: postgres
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=iais_meta
+    url: jdbc:postgresql://iais-postgres:5432/postgres?currentSchema=iais_meta
     username: postgres
   jackson:
     serialization:
