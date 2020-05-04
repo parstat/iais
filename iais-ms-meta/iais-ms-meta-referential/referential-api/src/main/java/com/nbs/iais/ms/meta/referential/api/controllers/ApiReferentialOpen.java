@@ -75,7 +75,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs/{id}")
-	public StatisticalProgramDTO getStatisticalProgram(@PathVariable(name = "id") final Long id,
+	public StatisticalProgramDTO getStatisticalProgram(
+			@PathVariable(name = "id") final Long id,
 			@RequestParam(name = "language") final String language) {
 
 		final GetStatisticalProgramQuery getStatisticalProcessQuery = GetStatisticalProgramQuery.create(id,
@@ -94,7 +95,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/programs/{local_id}/versions/{version}")
-	public StatisticalProgramDTO getStatisticalProgramByVersion(@PathVariable(name = "local_id") final String localId,
+	public StatisticalProgramDTO getStatisticalProgramByVersion(
+			@PathVariable(name = "local_id") final String localId,
 			@PathVariable(name = "version") final String version,
 			@RequestParam(name = "language") final String language) {
 
@@ -154,7 +156,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions/{id}")
-	public BusinessFunctionDTO getBusinessFunction(@PathVariable(name = "id") final Long id,
+	public BusinessFunctionDTO getBusinessFunction(
+			@PathVariable(name = "id") final Long id,
 			@RequestParam(name = "language") final String language) {
 
 		final GetBusinessFunctionQuery getBusinessFunctionQuery = GetBusinessFunctionQuery.create(id,
@@ -177,7 +180,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions/sub-phase/{localId}/versions/{version}")
-	public BusinessFunctionDTO getBusinessFunction(@PathVariable(name = "sub_phase") final String localId,
+	public BusinessFunctionDTO getBusinessFunction(
+			@PathVariable(name = "sub_phase") final String localId,
 			@PathVariable(name = "version") final String version,
 			@RequestParam(name = "language") final String language) {
 
@@ -187,8 +191,7 @@ public class ApiReferentialOpen extends AbstractController {
 	}
 
 	/**
-	 * FIXME FLORIAN Method to get the current version of gsbpm sub-phse (business
-	 * function)
+	 * Method to get the current version of GSBPM sub-phase
 	 * <p>
 	 * Current version is hardcoded to 5.1 method should be changed to get always
 	 * the latest version
@@ -201,7 +204,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/business/functions/sub-phase/{localId}")
-	public BusinessFunctionDTO getBusinessFunction(@PathVariable(name = "localId") final String localId,
+	public BusinessFunctionDTO getBusinessFunction(
+			@PathVariable(name = "localId") final String localId,
 			@RequestParam(name = "language") final String language) {
 
 		final GetBusinessFunctionQuery getBusinessFunctionQuery = GetBusinessFunctionQuery.create(localId,
@@ -243,7 +247,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/agents")
-	public DTOList<AgentDTO> getAgentsQuery(@RequestParam(name = "type", required = false) final AgentType type,
+	public DTOList<AgentDTO> getAgentsQuery(
+			@RequestParam(name = "type", required = false) final AgentType type,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "parent", required = false) final Long parent,
 			@RequestParam(name = "language") final String language) {
@@ -262,7 +267,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/agents/{id}")
-	public AgentDTO getAgentQuery(@PathVariable(name = "id") final Long id,
+	public AgentDTO getAgentQuery(
+			@PathVariable(name = "id") final Long id,
 			@RequestParam(name = "language") final String language) {
 
 		final GetAgentQuery getAgentQuery = GetAgentQuery.create(id, Language.getLanguage(language));
@@ -278,7 +284,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/agents/localid/{localId}")
-	public AgentDTO getAgentQueryByLocalId(@PathVariable(name = "localId") final String localId,
+	public AgentDTO getAgentQueryByLocalId(
+			@PathVariable(name = "localId") final String localId,
 			@RequestParam(name = "language") final String language) {
 
 		final GetAgentQuery getAgentQuery = GetAgentQuery.create();
@@ -297,7 +304,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/agents/account/{account}")
-	public AgentDTO getAgentQueryByAccount(@PathVariable(name = "account") final Long account,
+	public AgentDTO getAgentQueryByAccount(
+			@PathVariable(name = "account") final Long account,
 			@RequestParam(name = "language") final String language) {
 
 		final GetAgentQuery getAgentQuery = GetAgentQuery.create();
@@ -339,7 +347,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/statistical/standards/{id}")
-	public StatisticalStandardDTO getStatisticalStandardQuery(@PathVariable(name = "id") final Long id,
+	public StatisticalStandardDTO getStatisticalStandardQuery(
+			@PathVariable(name = "id") final Long id,
 			@RequestParam(name = "language") final String language) {
 
 		final GetStatisticalStandardQuery getStatisticalStandardQuery = GetStatisticalStandardQuery.create(id);
@@ -348,8 +357,7 @@ public class ApiReferentialOpen extends AbstractController {
 	}
 
 	/**
-	 * FIXME it required unique local_Id Method to get the agent by statistical
-	 * standards
+	 * FIXME combine it with version or remove, I don't think is currently needed
 	 * 
 	 * @param localId  the local id of the statistical standards
 	 * @param language the language to present the returned DTO (en, ro, ru)
@@ -401,7 +409,8 @@ public class ApiReferentialOpen extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@GetMapping("/legislative/references/{id}")
-	public LegislativeReferenceDTO getLegislativeReferenceQuery(@PathVariable(name = "id") final Long id,
+	public LegislativeReferenceDTO getLegislativeReferenceQuery(
+			@PathVariable(name = "id") final Long id,
 			@RequestParam(name = "language") final String language) {
 
 		final GetLegislativeReferenceQuery getLegislativeReferenceQuery = GetLegislativeReferenceQuery.create(id);

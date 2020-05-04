@@ -194,13 +194,13 @@ public class QueryReferentialService {
 		
 
 		/** 
-		 * Method to get all statistical standards or many statistical standards filtered by type, name  valued
+		 * Method to get all statistical standards or many statistical standards filtered by type, name  values
 		 * 
 		 * @param query to request
 		 * @return GetStatisticalStandardsQuery with the DTOList of requested statistical standards
 		 */
 		public GetStatisticalStandardsQuery getStatisticalStandards(final GetStatisticalStandardsQuery query) {
-
+			//FIXME if filter is combined and not exclusive keep it like this, else divide in two
 			final List<StatisticalStandardReferenceEntity> standards =  statisticalStandardReferenceRepository.findAllOrBySelectedNameAndType(query.getType(),
 					 query.getName(), query.getLanguage().getShortName());
 			Translator.translateStatisticalStandards(standards, query.getLanguage()).ifPresent(query.getRead()::setData);
@@ -219,6 +219,7 @@ public class QueryReferentialService {
 				statisticalStandardReferenceRepository.findById(query.getId()).flatMap(ss -> translate(ss, query.getLanguage()))
 						.ifPresent(query.getRead()::setData);
 			}
+			//FIXME combine it with version or just remove it
 		 if (StringTools.isNotEmpty(query.getLocalId())) {
 			 statisticalStandardReferenceRepository.findByLocalId(query.getLocalId()).flatMap(ss -> translate(ss, query.getLanguage()))
 						.ifPresent(query.getRead()::setData);

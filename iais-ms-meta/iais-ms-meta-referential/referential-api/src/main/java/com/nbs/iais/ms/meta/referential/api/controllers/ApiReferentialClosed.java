@@ -69,7 +69,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/statistical/programs/{local_id}")
-	public StatisticalProgramDTO creteStatisticalProgram(@RequestHeader(name = "jwt-auth") final String jwt,
+	public StatisticalProgramDTO creteStatisticalProgram(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "acronym", required = false) final String acronym,
 			@RequestParam(name = "description", required = false) final String description,
@@ -134,7 +135,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/statistical/programs/{local_id}/versions/{version}")
-	public StatisticalProgramDTO addStatisticalProgramVersion(@RequestHeader(name = "jwt-auth") final String jwt,
+	public StatisticalProgramDTO addStatisticalProgramVersion(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "acronym", required = false) final String acronym,
 			@RequestParam(name = "description", required = false) final String description,
@@ -183,7 +185,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PatchMapping("/statistical/programs/{id}")
-	public StatisticalProgramDTO updateStatisticalProgram(@RequestHeader(name = "jwt-auth") final String jwt,
+	public StatisticalProgramDTO updateStatisticalProgram(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "acronym", required = false) final String acronym,
 			@RequestParam(name = "description", required = false) final String description,
@@ -209,30 +212,27 @@ public class ApiReferentialClosed extends AbstractController {
 	/**
 	 * API method to add an existent statistical standard to a statistical program 
 	 *
-	 * @param id              id of the statistical program 
-	 * @param standard_id     id of the statistical standard to add
-	 * @param jwt              token in the header of the request
-	 
-	 * @param language         to present the returned DTO
+	 * @param id       id of the statistical program
+	 * @param standard id of the statistical standard to add
+	 * @param jwt      token in the header of the request
+	 * @param language to present the returned DTO
 	 * @return StatisticalProgramDTO (the update survey)
 	 */
 	@JsonView(Views.Extended.class)
-	@PatchMapping("/statistical/programs/{id}/standards/{standard_id}")
-	public StatisticalProgramDTO addStatisticalProgramStandard(@RequestHeader(name = "jwt-auth") final String jwt,
-		 		@PathVariable(name = "id") final Long id,
-		 		@PathVariable(name = "standard_id") final Long standardId,
-		 		@RequestParam(name = "language", required = false) final String language) {
+	@PutMapping("/statistical/programs/{id}/standards/{standard}")
+	public StatisticalProgramDTO addStatisticalProgramStandard(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "standard") final Long standard,
+			@RequestParam(name = "language", required = false) final String language) {
 
-		final AddStatisticalProgramStandardCommand command = AddStatisticalProgramStandardCommand.create(jwt, id, standardId,
+		final AddStatisticalProgramStandardCommand command = AddStatisticalProgramStandardCommand.create(jwt, id, standard,
 				Language.getLanguage(language));
 
 		return sendCommand(command, "referential").getEvent().getData();
 
 	}
 
-	
-	
-	
 	/**
 	 * Method to delete a statistical program
 	 * 
@@ -242,7 +242,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/statistical/programs/{id}")
-	public DTOBoolean deleteStatisticalProgram(@RequestHeader(name = "jwt-auth") final String jwt,
+	public DTOBoolean deleteStatisticalProgram(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id) {
 
 		final DeleteStatisticalProgramCommand command = DeleteStatisticalProgramCommand.create(jwt, id);
@@ -300,7 +301,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PatchMapping("/agents/{id}")
-	public AgentDTO updateAgent(@RequestHeader(name = "jwt-auth") final String jwt,
+	public AgentDTO updateAgent(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id, @RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "type", required = false) final AgentType type,
 			@RequestParam(name = "description", required = false) final String description,
@@ -327,7 +329,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/agents/{id}")
-	public DTOBoolean deleteAgent(@RequestHeader(name = "jwt-auth") final String jwt,
+	public DTOBoolean deleteAgent(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id) {
 
 		final DeleteAgentCommand command = DeleteAgentCommand.create(jwt, id);
@@ -354,7 +357,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PostMapping("/statistical/standards")
-	public StatisticalStandardDTO createStatisticalStandard(@RequestHeader(name = "jwt-auth") final String jwt,
+	public StatisticalStandardDTO createStatisticalStandard(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "type", required = false) final StatisticalStandardType type,
 			@RequestParam(name = "description", required = false) final String description,
@@ -390,8 +394,10 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PatchMapping("/statistical/standards/{id}")
-	public StatisticalStandardDTO updateStatisticalStandard(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @RequestParam(name = "name", required = false) final String name,
+	public StatisticalStandardDTO updateStatisticalStandard(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "type", required = false) final StatisticalStandardType type,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id", required = false) final String localId,
@@ -415,7 +421,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/statistical/standards/{id}")
-	public DTOBoolean deleteStatisticalStandard(@RequestHeader(name = "jwt-auth") final String jwt,
+	public DTOBoolean deleteStatisticalStandard(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id) {
 
 		final DeleteStatisticalStandardCommand command = DeleteStatisticalStandardCommand.create(jwt, id);
@@ -431,10 +438,10 @@ public class ApiReferentialClosed extends AbstractController {
 	 * @param type             of legislative reference: REGULATION, LAW, CODE,
 	 *                         GOVERNMENTAL_DECISION, AMENDMENT,
 	 * @param description      of the legislative reference in the selected language
-	 * @param local_Id          of the legislative reference
-	 * @param number          of the legislative reference
-	 * @param approvalDate    of the legislative reference
-	 * @param link            of the legislative reference
+	 * @param localId          of the legislative reference
+	 * @param number           of the legislative reference
+	 * @param approvalDate     of the legislative reference
+	 * @param link             of the legislative reference
 	 * @param version          first version of agent (default 1.0)
 	 * @param versionDate      of the agent (default now())
 	 * @param versionRationale reason of the first version of agent (default 'First
@@ -444,7 +451,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PostMapping("/legislative/references")
-	public LegislativeReferenceDTO createLegislativeReference(@RequestHeader(name = "jwt-auth") final String jwt,
+	public LegislativeReferenceDTO createLegislativeReference(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "type", required = false) final LegislativeType type,
 			@RequestParam(name = "description", required = false) final String description,
@@ -473,10 +481,10 @@ public class ApiReferentialClosed extends AbstractController {
 	 * @param type             of legislative reference: REGULATION, LAW, CODE,
 	 *                         GOVERNMENTAL_DECISION, AMENDMENT,
 	 * @param description      of the legislative reference in the selected language
-	 * @param local_Id          of the legislative reference
-	 * @param number          of the legislative reference
-	 * @param approvalDate    of the legislative reference
-	 * @param link            of the legislative reference
+	 * @param localId          of the legislative reference
+	 * @param number           of the legislative reference
+	 * @param approvalDate     of the legislative reference
+	 * @param link             of the legislative reference
 	 * @param version          first version of agent (default 1.0)
 	 * @param versionDate      of the agent (default now())
 	 * @param versionRationale reason of the first version of agent (default 'First
@@ -486,8 +494,10 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PatchMapping("/legislative/references/{id}")
-	public LegislativeReferenceDTO updateLegislativeReference(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @RequestParam(name = "name", required = false) final String name,
+	public LegislativeReferenceDTO updateLegislativeReference(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "type", required = false) final LegislativeType type,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id", required = false) final String localId,
@@ -515,7 +525,8 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/legislative/references/{id}")
-	public DTOBoolean deleteLegislativeReference(@RequestHeader(name = "jwt-auth") final String jwt,
+	public DTOBoolean deleteLegislativeReference(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id) {
 
 		final DeleteLegislativeReferenceCommand command = DeleteLegislativeReferenceCommand.create(jwt, id);
@@ -527,20 +538,20 @@ public class ApiReferentialClosed extends AbstractController {
 	 * API method to add an existent legislative reference to a statistical program 
 	 *
 	 * @param id              id of the statistical program 
-	 * @param standard_id     id of the legislative reference to add
-	 * @param jwt              token in the header of the request
-	 
-	 * @param language         to present the returned DTr
+	 * @param legislative     id of the legislative reference to add
+	 * @param jwt             token in the header of the request
+	 * @param language        to present the returned DTr
 	 * @return StatisticalProgramDTO (the update survey)
 	 */
 	@JsonView(Views.Extended.class)
-	@PatchMapping("/statistical/programs/{id}/legislative/{legislative_id}")
-	public StatisticalProgramDTO addStatisticalProgramLegislativeReference(@RequestHeader(name = "jwt-auth") final String jwt,
-		 		@PathVariable(name = "id") final Long id,
-		 		@PathVariable(name = "legislative_id") final Long legislativeId,
-		 		@RequestParam(name = "language", required = false) final String language) {
+	@PutMapping("/statistical/programs/{id}/legislative/{legislative}")
+	public StatisticalProgramDTO addStatisticalProgramLegislativeReference(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "legislative") final Long legislative,
+			@RequestParam(name = "language", required = false) final String language) {
 
-		final AddStatisticalProgramLegislativeReferenceCommand command = AddStatisticalProgramLegislativeReferenceCommand.create(jwt, id, legislativeId,
+		final AddStatisticalProgramLegislativeReferenceCommand command = AddStatisticalProgramLegislativeReferenceCommand.create(jwt, id, legislative,
 				Language.getLanguage(language));
 
 		return sendCommand(command, "referential").getEvent().getData();
@@ -564,8 +575,10 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Secure.class)
 	@PutMapping("/business/functions/{local_id}")
-	public BusinessFunctionDTO createBusinessFunction(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "local_id") final String localId, @RequestParam(name = "name") final String name,
+	public BusinessFunctionDTO createBusinessFunction(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "local_id") final String localId,
+			@RequestParam(name = "name") final String name,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "language") final String language) {
 
@@ -590,8 +603,10 @@ public class ApiReferentialClosed extends AbstractController {
 	 */
 	@JsonView(Views.Secure.class)
 	@PatchMapping("/business/functions/{id}")
-	public BusinessFunctionDTO updateBusinessFunction(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @RequestParam(name = "name") final String name,
+	public BusinessFunctionDTO updateBusinessFunction(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@RequestParam(name = "name") final String name,
 			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "description", required = false) final String description,
