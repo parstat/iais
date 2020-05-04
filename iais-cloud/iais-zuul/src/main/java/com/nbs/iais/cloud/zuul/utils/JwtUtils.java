@@ -23,8 +23,8 @@ public class JwtUtils {
                 .withClaim("user", id)
                 .withClaim("name", name)
                 .withClaim("email", email)
-                .withClaim("role", role)
-                .withExpiresAt(Date.from(Instant.now().plusSeconds(3600))).sign(Algorithm.HMAC256(secret));
+                .withClaim("role", role).sign(Algorithm.HMAC256(secret));
+                //.withExpiresAt(Date.from(Instant.now().plusSeconds(3600)))
     }
 
     public static DecodedJWT verifyJwt(final String token, final String secret) throws JWTVerificationException {

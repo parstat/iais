@@ -23,7 +23,7 @@ public class AccountDTO extends LinkableEntityDTO {
     private String username;
 
     @JsonProperty
-    @JsonView(Views.Secure.class)
+    @JsonView(Views.Personal.class)
     private String email;
 
     @JsonProperty
@@ -31,6 +31,7 @@ public class AccountDTO extends LinkableEntityDTO {
     private AccountRole role;
 
     @JsonProperty
+    @JsonView(Views.Secure.class)
     private AccountStatus status;
 
     public AccountDTO() {

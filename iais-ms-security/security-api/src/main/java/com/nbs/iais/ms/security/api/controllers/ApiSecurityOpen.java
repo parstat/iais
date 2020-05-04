@@ -34,6 +34,7 @@ public class ApiSecurityOpen extends AbstractController {
      * @param password of the user
      * @return AccountDTO
      */
+    @JsonView(Views.Personal.class)
     @PostMapping(value = "/signin")
     public AccountDTO signin(
             @RequestParam(name = "username") final String username,

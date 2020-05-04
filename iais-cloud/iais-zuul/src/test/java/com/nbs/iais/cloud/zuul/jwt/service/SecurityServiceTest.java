@@ -43,6 +43,7 @@ public class SecurityServiceTest {
                 "    \"name\": \"Florian Nika\",\n" +
                 "    \"username\": \"florian\",\n" +
                 "    \"role\": \"USER\",\n" +
+                "    \"email\": \"florian.nika@parstat.md\",\n" +
                 "    \"status\": \"ACTIVE\"\n" +
                 "}");
 

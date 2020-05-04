@@ -106,6 +106,7 @@ public class JwtSigninFilterTest {
                 "    \"id\": \"60fa3ee5-c886-4f44-89ec-495b27ef9876\",\n" +
                 "    \"name\": \"Florian Nika\",\n" +
                 "    \"username\": \"florian\",\n" +
+                "    \"email\": \"florian.nika@parstat.md\",\n" +
                 "    \"role\": \"USER\",\n" +
                 "    \"status\": \"ACTIVE\"\n" +
                 "}";

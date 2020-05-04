@@ -61,7 +61,7 @@ public class CommandSecurityService {
             throw new SignupException(ExceptionCodes.USER_LOCKED);
         }
 
-        if(passwordEncoder.matches(account.getPassword(), rawPassword)) {
+        if(passwordEncoder.matches(rawPassword, account.getPassword())) {
             resetFailedSignins(account);
         } else {
             account.setSigninFails(account.getSigninFails() + 1);

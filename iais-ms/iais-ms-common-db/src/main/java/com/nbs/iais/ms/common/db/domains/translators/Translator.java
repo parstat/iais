@@ -33,6 +33,7 @@ public class Translator {
 		accountDTO.setStatus(account.getStatus());
 		accountDTO.setName(account.getName());
 		accountDTO.setLink("/accounts/" + account.getId().toString());
+		accountDTO.setEmail(account.getEmail());
 		return Optional.of(accountDTO);
 
 	}
