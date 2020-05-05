@@ -356,24 +356,6 @@ public class ApiReferentialOpen extends AbstractController {
 		return sendQuery(getStatisticalStandardQuery, "referential").getRead().getData();
 	}
 
-	/**
-	 * FIXME combine it with version or remove, I don't think is currently needed
-	 * 
-	 * @param localId  the local id of the statistical standards
-	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return StatisticalStandardDTO in the selected language
-	 */
-	@JsonView(Views.Extended.class)
-	@GetMapping("/statistical/standards/localid/{localId}")
-	public StatisticalStandardDTO getStatisticalStandardQueryByLocalId(
-			@PathVariable(name = "localId") final String localId,
-			@RequestParam(name = "language") final String language) {
-
-		final GetStatisticalStandardQuery getStatisticalStandardQuery = GetStatisticalStandardQuery.create();
-		getStatisticalStandardQuery.setLocalId(localId);
-		getStatisticalStandardQuery.setLanguage(Language.getLanguage(language));
-		return sendQuery(getStatisticalStandardQuery, "referential").getRead().getData();
-	}
 
 	/**
 	 * Method to get many legislative references in the selected
@@ -418,22 +400,4 @@ public class ApiReferentialOpen extends AbstractController {
 		return sendQuery(getLegislativeReferenceQuery, "referential").getRead().getData();
 	}
 
-	/**
-	 *  Method to get the legislative reference by localId
-	 * 
-	 * @param localId  the local id of the legislative references
-	 * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return LegislativeReferenceDTO in the selected language
-	 */
-	@JsonView(Views.Extended.class)
-	@GetMapping("/legislative/references/localid/{localId}")
-	public LegislativeReferenceDTO getLegislativeReferenceQueryByLocalId(
-			@PathVariable(name = "localId") final String localId,
-			@RequestParam(name = "language") final String language) {
-
-		final GetLegislativeReferenceQuery getLegislativeReferenceQuery = GetLegislativeReferenceQuery.create();
-		getLegislativeReferenceQuery.setLocalId(localId);
-		getLegislativeReferenceQuery.setLanguage(Language.getLanguage(language));
-		return sendQuery(getLegislativeReferenceQuery, "referential").getRead().getData();
-	}
 }
