@@ -1,9 +1,6 @@
 package com.nbs.iais.ms.common.utils;
 
 import com.nbs.iais.ms.common.exceptions.SystemSetupException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -12,7 +9,6 @@ import java.util.Base64;
 
 public class StringTools {
 
-    private final static Logger LOG = LogManager.getLogger(StringTools.class);
 
     public static String uniqueString() {
 
@@ -31,7 +27,6 @@ public class StringTools {
 
             return hexEncode(result);
         } catch (final NoSuchAlgorithmException e) {
-            LOG.error("No such algorithm exception", e);
             throw new SystemSetupException("Missing algorithm sha");
         }
     }
@@ -44,7 +39,6 @@ public class StringTools {
 
             return hexEncode(result);
         } catch (final NoSuchAlgorithmException e) {
-            LOG.error("No such algorithm exception", e);
             throw new SystemSetupException("Missing algorithm sha");
         }
     }
@@ -69,7 +63,6 @@ public class StringTools {
             final byte[] result = sha.digest(str.getBytes());
             return hexEncode(result);
         } catch (final NoSuchAlgorithmException e) {
-            LOG.error("No such algrithm exception", e);
             throw new SystemSetupException("Missing algorithm sha");
         }
 
@@ -99,7 +92,7 @@ public class StringTools {
         if (text == null) {
             return 0d;
         }
-        return Double.valueOf(text);
+        return Double.parseDouble(text);
     }
 
 

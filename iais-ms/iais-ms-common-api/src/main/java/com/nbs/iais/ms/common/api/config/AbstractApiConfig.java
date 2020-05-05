@@ -14,7 +14,7 @@ import java.util.Collections;
 public abstract class AbstractApiConfig {
 
     @Bean
-    public FilterRegistrationBean<CorsFilter> corssFilter() {
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
