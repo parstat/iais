@@ -14,6 +14,8 @@ import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
 import com.nbs.iais.ms.security.common.messageing.queries.IsAuthenticatedQuery;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ import java.util.List;
 
 @Service
 public class QuerySecurityService {
+
+    private static Logger LOG = LoggerFactory.getLogger(QuerySecurityService.class);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -40,6 +44,7 @@ public class QuerySecurityService {
         if(StringTools.isNotEmpty(query.getName())) {
             Translator.translate(accountRepository.findAllByNameContainingAndStatusIn(query.getName(), statuses))
                     .ifPresent(query.getRead()::setData);
+            LOG.debug("Returning GetAccountsQuery: {}", query.toString());
             return query;
         }
 

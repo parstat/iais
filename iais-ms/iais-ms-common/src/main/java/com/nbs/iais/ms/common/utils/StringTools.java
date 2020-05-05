@@ -9,7 +9,6 @@ import java.util.Base64;
 
 public class StringTools {
 
-
     public static String uniqueString() {
 
         try {

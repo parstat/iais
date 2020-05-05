@@ -1,18 +1,18 @@
 package com.nbs.iais.ms.security.api.controllers;
 
-import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
-import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.security.common.messageing.commands.ChangePasswordCommand;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountQuery;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/v1/closed/security", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiSecurityClosed extends AbstractController {
 
+    private static Logger LOG = LoggerFactory.getLogger(ApiSecurityClosed.class);
     /**
      * Method to get account by their status
      * @param jwt on the header of the request
@@ -40,6 +41,7 @@ public class ApiSecurityClosed extends AbstractController {
         getAccountsQuery.setLanguage(language);
         getAccountsQuery.setClosed(true);
 
+        LOG.debug("Sending GetAccountsQuery: {}", getAccountsQuery.toString());
         return sendQuery(getAccountsQuery, "security").getRead().getData();
     }
 

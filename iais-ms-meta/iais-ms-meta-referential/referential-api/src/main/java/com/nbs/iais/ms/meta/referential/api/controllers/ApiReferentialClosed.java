@@ -33,6 +33,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.s
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +44,7 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/api/v1/close/referential", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiReferentialClosed extends AbstractController {
 
+	private static Logger LOG = LoggerFactory.getLogger(ApiReferentialClosed.class);
 	/**
 	 * API method to create a statistical program
 	 *
@@ -105,6 +108,8 @@ public class ApiReferentialClosed extends AbstractController {
 		if (StringTools.isNotEmpty(versionRationale)) {
 			command.setVersionRationale(versionRationale);
 		}
+
+		LOG.debug("Sending CreateStatisticalProgramCommand: {}", command.toString());
 		return sendCommand(command, "referential").getEvent().getData();
 
 	}
