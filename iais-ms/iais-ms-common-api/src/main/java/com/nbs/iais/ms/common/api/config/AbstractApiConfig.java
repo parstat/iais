@@ -14,14 +14,14 @@ import java.util.Collections;
 public abstract class AbstractApiConfig {
 
     @Bean
-    public FilterRegistrationBean corssFilter() {
+    public FilterRegistrationBean<CorsFilter> corssFilter() {
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
-
+        config.addAllowedOrigin("http://localhost:8090");
         config.setAllowedMethods(Arrays.asList(RequestMethod.GET.name(),
                 RequestMethod.POST.name(),
                 RequestMethod.OPTIONS.name(),
