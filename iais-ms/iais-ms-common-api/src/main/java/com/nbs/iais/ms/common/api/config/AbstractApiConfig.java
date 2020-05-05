@@ -26,7 +26,8 @@ public abstract class AbstractApiConfig {
                 RequestMethod.POST.name(),
                 RequestMethod.OPTIONS.name(),
                 RequestMethod.DELETE.name(),
-                RequestMethod.PUT.name()));
+                RequestMethod.PUT.name(),
+                RequestMethod.PATCH.name()));
         config.setExposedHeaders(Collections.singletonList("jwt-auth"));
         config.setAllowedHeaders(Collections.singletonList("jwt-auth"));
         config.addAllowedHeader("*");
