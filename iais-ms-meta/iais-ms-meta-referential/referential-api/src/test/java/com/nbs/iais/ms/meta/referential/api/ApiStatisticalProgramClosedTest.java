@@ -4,7 +4,7 @@ import com.nbs.iais.ms.common.api.messaging.gateway.IAISGateway;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
-import com.nbs.iais.ms.meta.referential.api.controllers.ApiReferentialClosed;
+import com.nbs.iais.ms.meta.referential.api.controllers.ApiStatisticalProgramClosed;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
@@ -41,9 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ApiReferentialClosed.class)
+@WebMvcTest(ApiStatisticalProgramClosed.class)
 @AutoConfigureRestDocs
-public class ApiReferentialClosedControllerTest {
+public class ApiStatisticalProgramClosedTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -512,7 +512,7 @@ public class ApiReferentialClosedControllerTest {
     }
 
     @Test
-    public void deleteUpdateStatisticalProgram() throws Exception{
+    public void documentDeleteStatisticalProgram() throws Exception{
         final String jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpc3MiOiJpYWlzIiwibmFtZSI6IkZsb3JpYW4gTmlrYSIsImV4cCI6MTU4NjE4MzUwNSwiaWF0IjoxNTg2MTc5OTA1LCJ1c2VyIjoxfQ.xs5EaJie5DsmrUBRoUSHysKUoKXuuuKJ-8YPGIk1OqU";
         final DeleteStatisticalProgramCommand command = DeleteStatisticalProgramCommand.create(jwt, 1L);
         command.getEvent().setData(DTOBoolean.TRUE);
