@@ -1,23 +1,36 @@
 package com.nbs.iais.ms.meta.referential.db.repository;
 
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.repository.tests.RepositoryTest;
+import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
+import com.nbs.iais.ms.common.enums.RoleType;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentInRoleEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
+import com.nbs.iais.ms.meta.referential.db.repositories.AgentInRoleRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
+import org.codehaus.groovy.transform.sc.transformers.StaticCompilationTransformer;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class StatisticalProgramRepositoryTest extends RepositoryTest {
 
     @Autowired
     private StatisticalProgramRepository statisticalProgramRepository;
+    @Autowired
+    private AgentRepository agentRepository;
+    @Autowired
+    private AgentInRoleRepository agentInRoleRepository;
 
     @Test
     public void testSaveStatisticalProgram() {
@@ -104,6 +117,19 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         Assert.assertTrue(statisticalProgram.iterator().hasNext());
     }
 
+    @Test
+    public void testFindAllByAgentInRole() {
+        final StatisticalProgramEntity toSave = saveStatisticaProgram();
+        final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
+        final AgentEntity parent = agentRepository.save(saveAgent("Parent", AgentType.DIVISION));
+        final AgentInRole agentInRole = agentInRoleRepository.save(saveAgentInRole(parent));
+        saved.getAdministrators().add(agentInRole);
+
+        Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByAgentInRole(parent, RoleType.MAINTAINER);
+        Assert.assertTrue(statisticalProgram.iterator().hasNext());
+
+    }
+
     private StatisticalProgramEntity saveStatisticaProgram(){
         final StatisticalProgramEntity toSave = new StatisticalProgramEntity();
         toSave.setName("Name", Language.ENG);
@@ -123,6 +149,23 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         toSave.setVersionDate(LocalDateTime.now());
         toSave.setCreatedTimestamp(Instant.now());
         toSave.setCreator(1L);
+        return toSave;
+    }
+    private AgentEntity saveAgent(String englishName, AgentType type) {
+        final AgentEntity toSave = new AgentEntity();
+        toSave.setName(englishName, Language.ENG);
+        toSave.setDescription("Description", Language.ENG);
+        toSave.setType(type);
+        toSave.setLocalId("001");
+        toSave.setVersion("1.0");
+        toSave.setVersionDate(LocalDateTime.now());
+
+        return toSave;
+    }
+    private AgentInRoleEntity saveAgentInRole(AgentEntity agent) {
+        final AgentInRoleEntity toSave = new AgentInRoleEntity();
+        toSave.setAgent(agent);
+        toSave.setRole(RoleType.MAINTAINER);
         return toSave;
     }
  }
