@@ -21,7 +21,7 @@ public class SecurityTools {
      * We
      *
      * @param string the string to check
-     * @return True if it is secure
+     * @return True if it is not secure
      */
     public static boolean isNotSecure(final String string) {
 

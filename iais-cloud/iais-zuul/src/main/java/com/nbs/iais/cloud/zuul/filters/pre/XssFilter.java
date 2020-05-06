@@ -54,9 +54,9 @@ public class XssFilter extends ZuulFilter {
             InputStream in = (InputStream) context.get("requestEntity");
             final HttpServletRequest request = context.getRequest();
             // check for xss injections in requestUri or query string
-            if ((request.getRequestURI() != null && !SecurityTools.isSecure(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8)))
-                    || (request.getQueryString() != null && !SecurityTools.isSecure(URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8)))
-                    || (request.getRequestURL() != null && !SecurityTools.isSecure(request.getRequestURL().toString()))) {
+            if ((request.getRequestURI() != null && SecurityTools.isNotSecure(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8)))
+                    || (request.getQueryString() != null && SecurityTools.isNotSecure(URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8)))
+                    || (request.getRequestURL() != null && SecurityTools.isNotSecure(request.getRequestURL().toString()))) {
                 ZuulUtils.stopRequest(context, HttpStatus.FORBIDDEN, jwtHeaderName);
                 return null;
             }
@@ -65,10 +65,10 @@ public class XssFilter extends ZuulFilter {
                 in = request.getInputStream();
             }
             if (in != null) {
-                final String body = StreamUtils.copyToString(in, Charset.forName("UTF-8"));
+                final String body = StreamUtils.copyToString(in, StandardCharsets.UTF_8);
                 // body = "request body modified via set('requestEntity'): "+ body;
                 // check body content for xss injections
-                if (!SecurityTools.isSecure(body)) {
+                if (SecurityTools.isNotSecure(body)) {
                     ZuulUtils.stopRequest(context, HttpStatus.FORBIDDEN, jwtHeaderName);
                     return null;
                 }
@@ -79,7 +79,7 @@ public class XssFilter extends ZuulFilter {
             if (contextQueryParams != null && contextQueryParams.size() > 0) {
                 for (final Map.Entry<String, List<String>> entry : contextQueryParams.entrySet()) {
                     for (final String param : entry.getValue()) {
-                        if (!SecurityTools.isSecure(param)) {
+                        if (SecurityTools.isNotSecure(param)) {
                             ZuulUtils.stopRequest(context, HttpStatus.FORBIDDEN, jwtHeaderName);
                             return null;
                         }
@@ -92,7 +92,7 @@ public class XssFilter extends ZuulFilter {
             if (parameters != null && parameters.size() > 0) {
                 for (final Map.Entry<String, String[]> entry : parameters.entrySet()) {
                     for (final String param : entry.getValue()) {
-                        if (!SecurityTools.isSecure(param)) {
+                        if (SecurityTools.isNotSecure(param)) {
                             ZuulUtils.stopRequest(context, HttpStatus.FORBIDDEN, jwtHeaderName);
                             return null;
                         }
