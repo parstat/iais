@@ -49,10 +49,4 @@ public abstract class AbstractIaisException extends RuntimeException implements 
         this.type = type;
     }
 
-    @Override
-    public String getMessage() {
-
-        return StringTools.isEmpty(super.getMessage()) ? getType().toString() : super.getMessage();
-
-    }
 }

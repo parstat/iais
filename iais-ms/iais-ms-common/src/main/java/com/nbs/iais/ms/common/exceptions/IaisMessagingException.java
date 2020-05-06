@@ -8,6 +8,4 @@ public interface IaisMessagingException extends IaisException {
 
     void setCorrelationId(UUID correlationId);
 
-    String getMessage();
-
 }
