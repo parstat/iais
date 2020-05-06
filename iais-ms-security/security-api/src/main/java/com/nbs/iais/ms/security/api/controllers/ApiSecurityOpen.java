@@ -1,6 +1,5 @@
 package com.nbs.iais.ms.security.api.controllers;
 
-import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.Views;
@@ -16,6 +15,8 @@ import com.nbs.iais.ms.security.common.messageing.commands.SignupCommand;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountQuery;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
 import com.nbs.iais.ms.security.db.services.CommandSecurityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api/v1/security", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiSecurityOpen extends AbstractController {
+
+    private static Logger LOG = LoggerFactory.getLogger(ApiSecurityOpen.class);
 
     @Autowired
     private CommandSecurityService commandSecurityService;
@@ -45,6 +48,8 @@ public class ApiSecurityOpen extends AbstractController {
 
         final SigninCommand signinCommand = SigninCommand.create(username, password);
         signinCommand.setClosed(false);
+
+        LOG.debug("Sending SigninCommand for user: {}", signinCommand.getUsername());
 
         return sendCommand(signinCommand, "security").getEvent().getData();
     }

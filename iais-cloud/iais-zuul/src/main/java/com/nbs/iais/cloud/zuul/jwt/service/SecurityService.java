@@ -11,8 +11,8 @@ import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.utils.StringTools;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ import java.util.UUID;
 @Service
 public class SecurityService {
 
-    private final static Logger LOG = LogManager.getLogger(SecurityService.class);
+    private final static Logger LOG = LoggerFactory.getLogger(SecurityService.class);
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -36,7 +36,7 @@ public class SecurityService {
 
     public String verifyJwt(final String jwt) throws JWTVerificationException {
         final String secret = tokenRepository
-                .getToken(JwtUtils.getJwtPrivateKey(JWT.decode(jwt).getClaim("user").asString()))
+                .getToken(JwtUtils.getJwtPrivateKey(String.valueOf(JWT.decode(jwt).getClaim("user").asLong())))
                 .getSecret();
         return JwtUtils.verifyJwt(jwt, secret).getClaim("user").asString();
     }

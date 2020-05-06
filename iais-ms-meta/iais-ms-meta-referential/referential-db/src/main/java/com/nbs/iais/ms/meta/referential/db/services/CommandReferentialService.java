@@ -23,8 +23,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateA
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 import com.nbs.iais.ms.meta.referential.db.repositories.*;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ import javax.transaction.Transactional;
 @Service
 public class CommandReferentialService {
 
-	private final static Logger LOG = LogManager.getLogger(CommandReferentialService.class);
+	private final static Logger LOG = LoggerFactory.getLogger(CommandReferentialService.class);
 
 	@Autowired
 	private StatisticalProgramRepository statisticalProgramRepository;

@@ -9,8 +9,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootApplication(exclude = {
@@ -25,7 +23,7 @@ public class ZuulApplication {
     }
 
 
-    @Order
+    @Order(0)
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -14,19 +14,20 @@ import java.util.Collections;
 public abstract class AbstractApiConfig {
 
     @Bean
-    public FilterRegistrationBean corssFilter() {
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
-
+        config.addAllowedOrigin("http://localhost:8090");
         config.setAllowedMethods(Arrays.asList(RequestMethod.GET.name(),
                 RequestMethod.POST.name(),
                 RequestMethod.OPTIONS.name(),
                 RequestMethod.DELETE.name(),
-                RequestMethod.PUT.name()));
+                RequestMethod.PUT.name(),
+                RequestMethod.PATCH.name()));
         config.setExposedHeaders(Collections.singletonList("jwt-auth"));
         config.setAllowedHeaders(Collections.singletonList("jwt-auth"));
         config.addAllowedHeader("*");

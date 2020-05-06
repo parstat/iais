@@ -13,7 +13,6 @@ import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.PhaseName;
 import com.nbs.iais.ms.common.enums.RoleType;
 
-
 import java.util.Collection;
 import java.util.Optional;
 
@@ -32,7 +31,7 @@ public class Translator {
 		accountDTO.setRole(account.getRole());
 		accountDTO.setStatus(account.getStatus());
 		accountDTO.setName(account.getName());
-	    accountDTO.setEmail(account.getEmail());
+		accountDTO.setEmail(account.getEmail());
 		accountDTO.setLink("/accounts/" + account.getId().toString());
 		return Optional.of(accountDTO);
 
@@ -117,13 +116,13 @@ public class Translator {
 		statisticalProgramDTO.setLink("/statistical/programs/" + statisticalProgram.getId());
 		statisticalProgramDTO.setBudget(statisticalProgram.getBudget());
 		statisticalProgram.getAdministrators().forEach(agentInRole -> {
-			if(agentInRole.getRole() == RoleType.OWNER) {
+			if (agentInRole.getRole() == RoleType.OWNER) {
 				translateMini(agentInRole.getAgent(), language).ifPresent(statisticalProgramDTO::setOwner);
 			}
-			if(agentInRole.getRole() == RoleType.MAINTAINER) {
+			if (agentInRole.getRole() == RoleType.MAINTAINER) {
 				translateMini(agentInRole.getAgent(), language).ifPresent(statisticalProgramDTO::setMaintainer);
 			}
-			if(agentInRole.getRole() == RoleType.CONTACT) {
+			if (agentInRole.getRole() == RoleType.CONTACT) {
 				translateMini(agentInRole.getAgent(), language).ifPresent(statisticalProgramDTO::setContact);
 			}
 		});
@@ -133,7 +132,6 @@ public class Translator {
 
 		translateStatisticalStandards(statisticalProgram.getStatisticalStandardReferences(), language)
 				.ifPresent(statisticalProgramDTO::setStatisticalStandards);
-
 
 		return Optional.of(statisticalProgramDTO);
 	}
@@ -162,7 +160,7 @@ public class Translator {
 
 	public static Optional<AgentMiniDTO> translateMini(final Agent agent, final Language language) {
 
-		if(agent == null) {
+		if (agent == null) {
 			return Optional.empty();
 		}
 		AgentMiniDTO agentMiniDTO = new AgentMiniDTO(agent.getId());
@@ -221,30 +219,29 @@ public class Translator {
 		return Optional.of(statisticalStandardDTO);
 	}
 
-	public static <SS extends StatisticalStandardReference> Optional<DTOList<StatisticalStandardDTO>> translateStatisticalStandards(final Collection<SS> statisticalStandards, final Language language) {
+	public static <SS extends StatisticalStandardReference> Optional<DTOList<StatisticalStandardDTO>> translateStatisticalStandards(
+			final Iterable<SS> statisticalStandards, final Language language) {
 
-		if(statisticalStandards == null || statisticalStandards.size() == 0) {
+		if (statisticalStandards == null || !statisticalStandards.iterator().hasNext()) {
 			return Optional.empty();
 		}
 
 		final DTOList<StatisticalStandardDTO> statisticalStandardDTOS = DTOList.empty(StatisticalStandardDTO.class);
 
-		statisticalStandards.forEach(ss -> translate(ss, language)
-				.ifPresent(statisticalStandardDTOS::add));
+		statisticalStandards.forEach(ss -> translate(ss, language).ifPresent(statisticalStandardDTOS::add));
 
 		return Optional.of(statisticalStandardDTOS);
 	}
 
+	public static <LR extends LegislativeReference> Optional<LegislativeReferenceDTO> translate(
+			final LR legislativeReference, final Language language) {
 
-
-	public static <LR extends LegislativeReference> Optional<LegislativeReferenceDTO> translate(final LR legislativeReference,
-																					  final Language language) {
-
-		if(legislativeReference == null) {
+		if (legislativeReference == null) {
 			return Optional.empty();
 		}
 
-		final LegislativeReferenceDTO legislativeReferenceDTO = new LegislativeReferenceDTO(legislativeReference.getId());
+		final LegislativeReferenceDTO legislativeReferenceDTO = new LegislativeReferenceDTO(
+				legislativeReference.getId());
 		legislativeReferenceDTO.setApproval(legislativeReference.getApprovalDate());
 		legislativeReferenceDTO.setNumber(legislativeReference.geNumber());
 		legislativeReferenceDTO.setName(legislativeReference.getName(language));
@@ -261,15 +258,15 @@ public class Translator {
 	}
 
 	public static <LR extends LegislativeReference> Optional<DTOList<LegislativeReferenceDTO>> translateLegislativeReferences(
-			final Collection<LR> legislativeReferences, final Language language) {
-		if(legislativeReferences == null || legislativeReferences.size() == 0) {
+			final Iterable<LR> legislativeReferences, final Language language) {
+
+		if (legislativeReferences == null || !legislativeReferences.iterator().hasNext()) {
 			return Optional.empty();
 		}
 
 		final DTOList<LegislativeReferenceDTO> legislativeReferenceDTOS = DTOList.empty(LegislativeReferenceDTO.class);
 
-		legislativeReferences.forEach(lr ->
-			translate(lr, language).ifPresent(legislativeReferenceDTOS::add));
+		legislativeReferences.forEach(lr -> translate(lr, language).ifPresent(legislativeReferenceDTOS::add));
 
 		return Optional.of(legislativeReferenceDTOS);
 	}

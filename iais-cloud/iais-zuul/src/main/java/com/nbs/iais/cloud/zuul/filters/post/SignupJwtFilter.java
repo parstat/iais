@@ -3,8 +3,8 @@ package com.nbs.iais.cloud.zuul.filters.post;
 import com.nbs.iais.cloud.zuul.jwt.service.SecurityService;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -13,7 +13,6 @@ import org.springframework.util.StreamUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SEND_RESPONSE_FILTER_ORDER;
@@ -21,7 +20,7 @@ import static org.springframework.util.ReflectionUtils.rethrowRuntimeException;
 
 public class SignupJwtFilter extends ZuulFilter {
 
-    private final static Logger LOG = LogManager.getLogger(SignupJwtFilter.class);
+    private final static Logger LOG = LoggerFactory.getLogger(SignupJwtFilter.class);
 
     @Value("${iais.jwt.header.name}")
     private final String jwtHeaderName = "jwt-auth";

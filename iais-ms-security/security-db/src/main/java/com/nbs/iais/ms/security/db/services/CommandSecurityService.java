@@ -13,6 +13,8 @@ import com.nbs.iais.ms.security.common.messageing.commands.*;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
 import com.nbs.iais.ms.security.db.utils.CommandTranslator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import java.time.Instant;
 
 @Service
 public class CommandSecurityService {
+
+    private static Logger LOG = LoggerFactory.getLogger(CommandSecurityService.class);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -43,6 +47,8 @@ public class CommandSecurityService {
 
         accountRepository.save(account);
         Translator.translate(account).ifPresent(signinCommand.getEvent()::setData);
+
+        LOG.debug("Returning SigninCommand: {}", signinCommand);
         return signinCommand;
     }
 
