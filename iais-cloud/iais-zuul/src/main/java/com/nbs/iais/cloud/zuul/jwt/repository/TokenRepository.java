@@ -1,18 +1,16 @@
 package com.nbs.iais.cloud.zuul.jwt.repository;
 
 import com.nbs.iais.cloud.zuul.jwt.model.PrivateJwt;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class TokenRepository  {
 
-    private final static Logger LOG = LogManager.getLogger(TokenRepository.class);
+    private final static Logger LOG = LoggerFactory.getLogger(TokenRepository.class);
 
     private final Cache tokenCache;
 
