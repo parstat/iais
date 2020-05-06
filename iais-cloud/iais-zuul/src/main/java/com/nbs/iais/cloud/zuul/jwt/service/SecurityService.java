@@ -36,7 +36,7 @@ public class SecurityService {
 
     public String verifyJwt(final String jwt) throws JWTVerificationException {
         final String secret = tokenRepository
-                .getToken(JwtUtils.getJwtPrivateKey(JWT.decode(jwt).getClaim("user").asString()))
+                .getToken(JwtUtils.getJwtPrivateKey(String.valueOf(JWT.decode(jwt).getClaim("user").asLong())))
                 .getSecret();
         return JwtUtils.verifyJwt(jwt, secret).getClaim("user").asString();
     }

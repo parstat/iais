@@ -50,7 +50,9 @@ public class SecurityServiceTest {
         Assert.assertTrue(jwtOptional.isPresent());
         final String jwt = jwtOptional.get();
         final String name = JWT.decode(jwt).getClaim("name").asString();
+        final Long id = JWT.decode(jwt).getClaim("user").asLong();
         Assert.assertEquals("Florian Nika",name);
+        Assert.assertEquals(1L, (long) id);
     }
 
 }
