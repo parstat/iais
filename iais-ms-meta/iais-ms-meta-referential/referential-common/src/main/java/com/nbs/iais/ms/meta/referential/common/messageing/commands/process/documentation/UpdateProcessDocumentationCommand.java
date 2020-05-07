@@ -34,10 +34,6 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 	 */
 	private String version;
 
-	private Long businessFunction;
-
-	private Long statisticalProgram;
-
 	private Long owner;
 
 	private Frequency frequency;
@@ -62,7 +58,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 
 	private UpdateProcessDocumentationCommand(final String jwt, final Long id, final String name,
 			final String description, final String localId, final String version, final LocalDateTime versionDate,
-			final String versionRationale, final Long businessFunction, final Long statisticalProgram, final Long owner,
+			final String versionRationale, final Long owner,
 			final Frequency frequency, final Long maintainer, final String nextSubPhase, final Language language) {
 		super(new UpdateProcessDocumentationEvent());
 		this.setId(id);
@@ -74,8 +70,6 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		if (versionDate != null)
 			this.versionDate = versionDate;
 		this.versionRationale = versionRationale;
-		this.businessFunction = businessFunction;
-		this.statisticalProgram = statisticalProgram;
 		this.owner = owner;
 		this.frequency = frequency;
 		this.maintainer = maintainer;
@@ -87,11 +81,11 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 
 	public static UpdateProcessDocumentationCommand create(final String jwt, final Long id, final String name,
 			final String description, final String localId, final String version, final LocalDateTime versionDate,
-			final String versionRationale, final Long businessFunction, final Long statisticalProgram, final Long owner,
+			final String versionRationale, final Long owner,
 			final Frequency frequency, final Long maintainer, final String nextSubPhase, final Language language) {
 
 		return new UpdateProcessDocumentationCommand(jwt, id, name, description, localId, version, versionDate,
-				versionRationale, businessFunction, statisticalProgram, owner, frequency, maintainer, nextSubPhase,
+				versionRationale, owner, frequency, maintainer, nextSubPhase,
 				language);
 
 	}
@@ -126,22 +120,6 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getBusinessFunction() {
-		return businessFunction;
-	}
-
-	public void setBusinessFunction(Long businessFunction) {
-		this.businessFunction = businessFunction;
-	}
-
-	public Long getStatisticalProgram() {
-		return statisticalProgram;
-	}
-
-	public void setStatisticalProgram(Long statisticalProgram) {
-		this.statisticalProgram = statisticalProgram;
 	}
 
 	public Long getOwner() {

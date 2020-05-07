@@ -371,6 +371,7 @@ public class CommandTranslator {
 		processDocumentation.setVersionDate(LocalDateTime.now());
 		processDocumentation.setVersionRationale(command.getVersionRationale());
 
+
 		return processDocumentation;
 	}
 

@@ -502,7 +502,7 @@ public class CommandReferentialService {
 	}
 
 	/**
-	 * Method to delete an Statistical Standard
+	 * Method to delete a Statistical Standard
 	 * 
 	 * @param command to execute
 	 * @return DTOBoolean
@@ -612,24 +612,22 @@ public class CommandReferentialService {
 	public CreateProcessDocumentationCommand createProcessDocumentation(final CreateProcessDocumentationCommand command)
 			throws AuthorizationException, EntityException {
 
-		final ProcessDocumentationEntity processDocumentationEntity = processDocumentationReferenceRepository.save(CommandTranslator.translate(command));
+		final BusinessFunctionEntity businessFunctionEntity = businessFunctionRepository
+				.findById(command.getBusinessFunction()).orElseThrow(() ->
+						new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND));
 
-		if (command.getBusinessFunction() != null) {
-			businessFunctionRepository.findById(command.getBusinessFunction()).ifPresentOrElse(businessFunction -> {
-				processDocumentationEntity.setBusinessFunction(businessFunction);
-				processDocumentationReferenceRepository.save(processDocumentationEntity);
-			}, () -> {
-				throw new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND);
-			});
-		}
-		if (command.getStatisticalProgram() != null) {
-			statisticalProgramRepository.findById(command.getStatisticalProgram()).ifPresentOrElse(statisticalProgram -> {
-				processDocumentationEntity.setStatisticalProgram(statisticalProgram);
-				processDocumentationReferenceRepository.save(processDocumentationEntity);
-			}, () -> {
-				throw new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND);
-			});
-		}
+		final StatisticalProgramEntity statisticalProgramEntity = statisticalProgramRepository
+				.findById(command.getStatisticalProgram()).orElseThrow(() ->
+						new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND));
+
+		final ProcessDocumentationEntity processDocumentationEntity = CommandTranslator.translate(command);
+
+		processDocumentationEntity.setBusinessFunction(businessFunctionEntity);
+		processDocumentationEntity.setStatisticalProgram(statisticalProgramEntity);
+
+		processDocumentationReferenceRepository.save(processDocumentationEntity);
+
+
 		if (command.getOwner() != null) {
 			agentRepository.findById(command.getOwner()).ifPresent(agent -> {
 				addAdministrator(processDocumentationEntity, agent, RoleType.OWNER);
