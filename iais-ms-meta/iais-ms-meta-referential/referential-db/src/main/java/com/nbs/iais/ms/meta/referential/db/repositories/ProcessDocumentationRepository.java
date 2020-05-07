@@ -14,7 +14,30 @@ import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEnti
 public interface ProcessDocumentationRepository extends CrudRepository<ProcessDocumentationEntity, Long> {
 
 
+	/**
+	 * Method to get all Process Documentations of a statistical program (including different versions)
+	 * @param sp Statistical Program
+	 * @return Iterable<ProcessDocumentationEntity> all process documentation of a statistical program
+	 */
+	Iterable<ProcessDocumentationEntity> findAllByStatisticalProgram(StatisticalProgram sp);
+
+	/**
+	 * Method to get all versions of Process documentation of a statistical program for a single business function
+	 * @param sp Statistical Program
+	 * @param bf Business Function
+	 * @return Iterable<ProcessDocumentationEntity> all version of a process documentation
+	 */
+	Iterable<ProcessDocumentationEntity> findAllByStatisticalProgramAndBusinessFunction(StatisticalProgram sp,
+																						BusinessFunction bf);
+
+	/**
+	 * Method to check if a PorcessDcoumentation already exists for a statistical program process
+	 * @param sp Statistical Program
+	 * @param bf Business Function
+	 * @return boolean true if the process documentation already exist
+	 */
 	boolean existsByStatisticalProgramAndBusinessFunction(StatisticalProgram sp, BusinessFunction bf);
+
 	/**
 	 * Method to get ProcessDocumentationEntity by frequency
 	 * 
