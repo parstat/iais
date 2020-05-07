@@ -62,7 +62,7 @@ public class CommandReferentialService {
 	AdministrativeDetailsRepository administrativeDetailsRepository;
 	
 	@Autowired
-	private ProcessDocumentationReferenceRepository processDocumentationReferenceRepository;
+	private ProcessDocumentationRepository processDocumentationRepository;
 
 	/**
 	 * Method to create a statistical program
@@ -612,25 +612,30 @@ public class CommandReferentialService {
 	public CreateProcessDocumentationCommand createProcessDocumentation(final CreateProcessDocumentationCommand command)
 			throws AuthorizationException, EntityException {
 
-		final BusinessFunctionEntity businessFunctionEntity = businessFunctionRepository
+		final BusinessFunctionEntity businessFunction = businessFunctionRepository
 				.findById(command.getBusinessFunction()).orElseThrow(() ->
 						new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND));
 
-		final StatisticalProgramEntity statisticalProgramEntity = statisticalProgramRepository
+		final StatisticalProgramEntity statisticalProgram = statisticalProgramRepository
 				.findById(command.getStatisticalProgram()).orElseThrow(() ->
 						new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND));
 
+		if(processDocumentationRepository.existsByStatisticalProgramAndBusinessFunction(statisticalProgram,
+				businessFunction)) {
+			throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_EXISTS);
+		}
+
 		final ProcessDocumentationEntity processDocumentationEntity = CommandTranslator.translate(command);
 
-		processDocumentationEntity.setBusinessFunction(businessFunctionEntity);
-		processDocumentationEntity.setStatisticalProgram(statisticalProgramEntity);
+		processDocumentationEntity.setBusinessFunction(businessFunction);
+		processDocumentationEntity.setStatisticalProgram(statisticalProgram);
 
-		processDocumentationReferenceRepository.save(processDocumentationEntity);
+		processDocumentationRepository.save(processDocumentationEntity);
 
 		if (command.getMaintainer() != null) {
 			agentRepository.findById(command.getMaintainer()).ifPresent(agent -> {
 				addAdministrator(processDocumentationEntity, agent, RoleType.MAINTAINER);
-				processDocumentationReferenceRepository.save(processDocumentationEntity);
+				processDocumentationRepository.save(processDocumentationEntity);
 			});
 		}
 		Translator.translate(processDocumentationEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
@@ -660,11 +665,11 @@ public class CommandReferentialService {
 	public UpdateProcessDocumentationCommand updateProcessDocumentation(final UpdateProcessDocumentationCommand command) throws AuthorizationException {
 
 		if (command.getId() != null) {
-			processDocumentationReferenceRepository.findById(command.getId()).ifPresentOrElse(processDocumentation -> {
+			processDocumentationRepository.findById(command.getId()).ifPresentOrElse(processDocumentation -> {
 				CommandTranslator.translate(command, processDocumentation);
 
 			 // TODO fields 
-				Translator.translate(processDocumentationReferenceRepository.save(processDocumentation), command.getLanguage())
+				Translator.translate(processDocumentationRepository.save(processDocumentation), command.getLanguage())
 						.ifPresent(command.getEvent()::setData);
 			}, () -> {
 				throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
@@ -685,12 +690,12 @@ public class CommandReferentialService {
 	public DeleteProcessDocumentationCommand deleteProcessDocumentation(final DeleteProcessDocumentationCommand command) throws AuthorizationException {
 
 		try {
-			final ProcessDocumentationEntity processDocumentationToDelete = processDocumentationReferenceRepository.findById(command.getId())
+			final ProcessDocumentationEntity processDocumentationToDelete = processDocumentationRepository.findById(command.getId())
 					.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_EXISTS));
 
 			 //Todo Relationship
 
-			processDocumentationReferenceRepository.delete(processDocumentationToDelete);
+			processDocumentationRepository.delete(processDocumentationToDelete);
 		} catch (Exception e) {
 			LOG.debug("Error deleting process documentation: " + e.getMessage());
 			command.getEvent().setData(DTOBoolean.FAIL);

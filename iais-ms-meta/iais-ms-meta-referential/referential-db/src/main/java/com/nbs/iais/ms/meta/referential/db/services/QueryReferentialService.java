@@ -25,7 +25,7 @@ import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.LegislativeReferenceRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentationReferenceRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentationRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalStandardReferenceRepository;
 
@@ -48,7 +48,7 @@ public class QueryReferentialService {
 	private LegislativeReferenceRepository legislativeReferenceRepository;
 	
 	@Autowired
-	private ProcessDocumentationReferenceRepository processDocumentationReferenceRepository;
+	private ProcessDocumentationRepository processDocumentationRepository;
 
 	/**
 	 * Method to get many statistical programs
@@ -309,17 +309,17 @@ public class QueryReferentialService {
 	public GetProcessDocumentationsQuery getProcessDocumentations(final GetProcessDocumentationsQuery query) {
 
 		if (StringTools.isNotEmpty(query.getName())) {
-			Translator.translateProcessDocumentations(processDocumentationReferenceRepository
+			Translator.translateProcessDocumentations(processDocumentationRepository
 					.findAllByNameInLanguageContaining(query.getLanguage().getShortName(), query.getName()),
 					query.getLanguage()).ifPresent(query.getRead()::setData);
 			return query;
 		}
 		if (query.getFrequency() != null) {
-			Translator.translateProcessDocumentations(processDocumentationReferenceRepository.findByFrequency(query.getFrequency()),
+			Translator.translateProcessDocumentations(processDocumentationRepository.findByFrequency(query.getFrequency()),
 					query.getLanguage()).ifPresent(query.getRead()::setData);
 			return query;
 		}
-		Translator.translateProcessDocumentations(processDocumentationReferenceRepository.findAll(), query.getLanguage())
+		Translator.translateProcessDocumentations(processDocumentationRepository.findAll(), query.getLanguage())
 				.ifPresent(query.getRead()::setData);
 
 		return query;
@@ -334,7 +334,7 @@ public class QueryReferentialService {
 	 */
 	public GetProcessDocumentationQuery getProcessDocumentation(final GetProcessDocumentationQuery query) {
 
-		processDocumentationReferenceRepository.findById(query.getId()).flatMap(ss -> translate(ss, query.getLanguage()))
+		processDocumentationRepository.findById(query.getId()).flatMap(ss -> translate(ss, query.getLanguage()))
 				.ifPresent(query.getRead()::setData);
 
 		return query;
