@@ -45,8 +45,6 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 
 	private Long statisticalProgram;
 
-	private Long owner;
-
 	private Frequency frequency;
 
 	private Long maintainer;
@@ -59,7 +57,7 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 
 	private CreateProcessDocumentationCommand(final String jwt, final String name, final String description,
 			final String localId, final String version, final LocalDateTime versionDate, final String versionRationale,
-			final Long businessFunction, final Long statisticalProgram, final Long owner, final Frequency frequency,
+			final Long businessFunction, final Long statisticalProgram, final Frequency frequency,
 			final Long maintainer, final String nextSubPhase, final Language language) {
 		super(new CreateProcessDocumentationEvent());
 		setJwt(jwt);
@@ -74,7 +72,6 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 			this.versionRationale = versionRationale;
 		this.businessFunction = businessFunction;
 		this.statisticalProgram = statisticalProgram;
-		this. owner =  owner;
 		this.frequency = frequency;
 		this.maintainer = maintainer;
 		this.nextSubPhase = nextSubPhase;
@@ -84,11 +81,11 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 
 	public static CreateProcessDocumentationCommand create(final String jwt, final String name,
 			final String description, final String localId, final String version, final LocalDateTime versionDate,
-			final String versionRationale, final Long businessFunction, final Long statisticalProgram, final Long owner,
+			final String versionRationale, final Long businessFunction, final Long statisticalProgram,
 			final Frequency frequency, final Long maintainer, final String nextSubPhase, final Language language) {
 
 		return new CreateProcessDocumentationCommand(jwt, name, description, localId, version, versionDate,
-				versionRationale, businessFunction, statisticalProgram, owner, frequency, maintainer, nextSubPhase,
+				versionRationale, businessFunction, statisticalProgram, frequency, maintainer, nextSubPhase,
 				language);
 	}
 
@@ -154,14 +151,6 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 
 	public void setStatisticalProgram(Long statisticalProgram) {
 		this.statisticalProgram = statisticalProgram;
-	}
-
-	public Long getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Long owner) {
-		this.owner = owner;
 	}
 
 	public Frequency getFrequency() {

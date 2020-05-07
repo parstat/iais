@@ -38,7 +38,6 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 *                         Version')
 	 * @param businessFunction of the process documentation
 	 * @param statisticalProgram  of the process documentation
-	 * @param owner          of the process documentation
 	 * @param frequency      of the process documentation
 	 * @param maintainer     of the process documentation
 	 * @param nextSubPhase   of the process documentation
@@ -46,7 +45,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @return ProcessDocumentationDTO
 	 */
 	@JsonView(Views.Extended.class)
-	@PutMapping("/statistical/program/{statistical_program}/business/function/{business_function}")
+	@PutMapping("/program/{statistical_program}/function/{business_function}")
 	public ProcessDocumentationDTO createProcessDocumentation(
 			@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
@@ -57,14 +56,13 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "business_function") final Long businessFunction,
 			@PathVariable(name = "statistical_program") final Long statisticalProgram,
-			@RequestParam(name = "owner", required = false) final Long owner,
 			@RequestParam(name = "frequency", required = false) final Frequency frequency,
 			@RequestParam(name = "maintainer", required = false) final Long maintainer,
 			@RequestParam(name = "nextSubPhase", required = false) final String nextSubPhase,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final CreateProcessDocumentationCommand command = CreateProcessDocumentationCommand.create(jwt, name, description,
-				localId, version, versionDate, versionRationale, businessFunction, statisticalProgram, owner, frequency, maintainer, nextSubPhase ,Language.getLanguage(language));
+				localId, version, versionDate, versionRationale, businessFunction, statisticalProgram, frequency, maintainer, nextSubPhase ,Language.getLanguage(language));
 		return sendCommand(command, "process_documentation").getEvent().getData();
 
 	}

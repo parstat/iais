@@ -627,14 +627,6 @@ public class CommandReferentialService {
 
 		processDocumentationReferenceRepository.save(processDocumentationEntity);
 
-
-		if (command.getOwner() != null) {
-			agentRepository.findById(command.getOwner()).ifPresent(agent -> {
-				addAdministrator(processDocumentationEntity, agent, RoleType.OWNER);
-				processDocumentationReferenceRepository.save(processDocumentationEntity);
-			});
-		}
-
 		if (command.getMaintainer() != null) {
 			agentRepository.findById(command.getMaintainer()).ifPresent(agent -> {
 				addAdministrator(processDocumentationEntity, agent, RoleType.MAINTAINER);
