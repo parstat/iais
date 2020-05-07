@@ -1,26 +1,29 @@
 package com.nbs.iais.ms.meta.referential.db.utils;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+
 import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.utils.StringTools;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
 
 public class CommandTranslator {
 
@@ -39,7 +42,7 @@ public class CommandTranslator {
 		if (StringTools.isNotEmpty(command.getDescription())) {
 			statisticalProgram.setDescription(command.getDescription(), command.getLanguage());
 		}
-		
+
 		if (StringTools.isNotEmpty(command.getLocalId())) {
 			statisticalProgram.setLocalId(command.getLocalId());
 		}
@@ -269,7 +272,7 @@ public class CommandTranslator {
 		}
 		return statisticalStandard;
 	}
-	
+
 	public static LegislativeReferenceEntity translate(final CreateLegislativeReferenceCommand command) {
 
 		final LegislativeReferenceEntity legislativeReference = new LegislativeReferenceEntity();
@@ -293,7 +296,7 @@ public class CommandTranslator {
 		legislativeReference.setNumber(command.getNumber());
 		legislativeReference.setApprovalDate(command.getApprovalDate());
 		legislativeReference.setVersion(command.getVersion());
-		
+
 		legislativeReference.setLegislativeType(command.getType());
 
 		legislativeReference.setVersion(command.getVersion());
@@ -327,11 +330,11 @@ public class CommandTranslator {
 		if (command.getNumber() != null) {
 			legislativeReference.setNumber(command.getNumber());
 		}
-		
+
 		if (command.getApprovalDate() != null) {
 			legislativeReference.setApprovalDate(command.getApprovalDate());
 		}
-		
+
 		if (StringTools.isNotEmpty(command.getVersion())) {
 			legislativeReference.setVersion(command.getVersion());
 		}
@@ -342,5 +345,62 @@ public class CommandTranslator {
 			legislativeReference.setVersionRationale(command.getVersionRationale());
 		}
 		return legislativeReference;
+	}
+
+	public static ProcessDocumentationEntity translate(final CreateProcessDocumentationCommand command) {
+
+		final ProcessDocumentationEntity processDocumentation = new ProcessDocumentationEntity();
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processDocumentation.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processDocumentation.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processDocumentation.setLocalId(command.getLocalId());
+		}
+
+		if (command.getFrequency() != null) {
+			processDocumentation.setFrequency(command.getFrequency());
+		}
+		
+		processDocumentation.setVersion(command.getVersion());
+		processDocumentation.setVersionDate(LocalDateTime.now());
+		processDocumentation.setVersionRationale(command.getVersionRationale());
+
+		return processDocumentation;
+	}
+
+	public static ProcessDocumentationEntity translate(final UpdateProcessDocumentationCommand command,
+			ProcessDocumentationEntity processDocumentation) {
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processDocumentation.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processDocumentation.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processDocumentation.setLocalId(command.getLocalId());
+		}
+		if (StringTools.isNotEmpty(command.getVersion())) {
+			processDocumentation.setVersion(command.getVersion());
+		}
+		if (command.getVersionDate() != null) {
+			processDocumentation.setVersionDate(command.getVersionDate());
+		}
+		if (command.getVersionRationale() != null) {
+			processDocumentation.setVersionRationale(command.getVersionRationale());
+		}
+		if (command.getFrequency() != null) {
+			processDocumentation.setFrequency(command.getFrequency());
+		}
+
+		return processDocumentation;
 	}
 }

@@ -13,6 +13,9 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.DeleteProcessDocumentationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
@@ -57,6 +60,9 @@ public class CommandReferentialService {
 
 	@Autowired
 	AdministrativeDetailsRepository administrativeDetailsRepository;
+	
+	@Autowired
+	private ProcessDocumentationReferenceRepository processDocumentationReferenceRepository;
 
 	/**
 	 * Method to create a statistical program
@@ -595,5 +601,117 @@ public class CommandReferentialService {
 		return command;
 	}
 
+	/**
+	 * Method to create an process documentation
+	 * 
+	 * @param command to execute
+	 * @return CreateProcessDocumentationCommand including the dto of process documentation in the event
+	 * @throws EntityException when the command includes a parent that can not be
+	 *                         found
+	 */
+	public CreateProcessDocumentationCommand createProcessDocumentation(final CreateProcessDocumentationCommand command)
+			throws AuthorizationException, EntityException {
+
+		final ProcessDocumentationEntity processDocumentationEntity = processDocumentationReferenceRepository.save(CommandTranslator.translate(command));
+
+		if (command.getBusinessFunction() != null) {
+			businessFunctionRepository.findById(command.getBusinessFunction()).ifPresentOrElse(businessFunction -> {
+				processDocumentationEntity.setBusinessFunction(businessFunction);
+				processDocumentationReferenceRepository.save(processDocumentationEntity);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND);
+			});
+		}
+		if (command.getStatisticalProgram() != null) {
+			statisticalProgramRepository.findById(command.getStatisticalProgram()).ifPresentOrElse(statisticalProgram -> {
+				processDocumentationEntity.setStatisticalProgram(statisticalProgram);
+				processDocumentationReferenceRepository.save(processDocumentationEntity);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND);
+			});
+		}
+		if (command.getOwner() != null) {
+			agentRepository.findById(command.getOwner()).ifPresent(agent -> {
+				addAdministrator(processDocumentationEntity, agent, RoleType.OWNER);
+				processDocumentationReferenceRepository.save(processDocumentationEntity);
+			});
+		}
+
+		if (command.getMaintainer() != null) {
+			agentRepository.findById(command.getMaintainer()).ifPresent(agent -> {
+				addAdministrator(processDocumentationEntity, agent, RoleType.MAINTAINER);
+				processDocumentationReferenceRepository.save(processDocumentationEntity);
+			});
+		}
+		Translator.translate(processDocumentationEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+		return command;
+	}
+
+	private void addAdministrator(final ProcessDocumentationEntity pd, final AgentEntity agent, final RoleType type) {
+		agentInRoleRepository.findByAgentAndRole(agent, type)
+				.ifPresentOrElse(agentInRole -> pd.getAdministrators().add(agentInRole), () -> {
+					final AgentInRoleEntity agentInRole = new AgentInRoleEntity();
+					agentInRole.setAgent(agent);
+					agentInRole.setRole(type);
+
+					pd.getAdministrators().add(agentInRoleRepository.save(agentInRole));
+				});
+
+	}
+	
+	
+	/**
+	 * Method to update an process documentation usually to add name and description in other
+	 * languages
+	 * 
+	 * @param command to execute
+	 * @return UpdateProcessDocumentationCommand including the dto of updated process documentation in the event
+	 */
+	public UpdateProcessDocumentationCommand updateProcessDocumentation(final UpdateProcessDocumentationCommand command) throws AuthorizationException {
+
+		if (command.getId() != null) {
+			processDocumentationReferenceRepository.findById(command.getId()).ifPresentOrElse(processDocumentation -> {
+				CommandTranslator.translate(command, processDocumentation);
+
+			 // TODO fields 
+				Translator.translate(processDocumentationReferenceRepository.save(processDocumentation), command.getLanguage())
+						.ifPresent(command.getEvent()::setData);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
+			});
+
+		}
+		return command;
+	}
+
+	/**
+	 * Method to delete an process documentation
+	 * 
+	 * @param command to execute
+	 * @return DTOBoolean
+	 * @throws AuthorizationException AGENT_NOT_FOUND when the process documentation can not be found
+	 */
+	@Transactional
+	public DeleteProcessDocumentationCommand deleteProcessDocumentation(final DeleteProcessDocumentationCommand command) throws AuthorizationException {
+
+		try {
+			final ProcessDocumentationEntity processDocumentationToDelete = processDocumentationReferenceRepository.findById(command.getId())
+					.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_EXISTS));
+
+			 //Todo Relationship
+
+			processDocumentationReferenceRepository.delete(processDocumentationToDelete);
+		} catch (Exception e) {
+			LOG.debug("Error deleting process documentation: " + e.getMessage());
+			command.getEvent().setData(DTOBoolean.FAIL);
+			return command;
+		}
+
+		command.getEvent().setData(DTOBoolean.TRUE);
+
+		return command;
+	}	
+	
+	
 	
 }

@@ -5,6 +5,9 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.DeleteProcessDocumentationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
@@ -18,6 +21,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.funct
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferenceQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferencesQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.process.documentation.GetProcessDocumentationQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.process.documentation.GetProcessDocumentationsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardsQuery;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
@@ -106,8 +111,12 @@ public class ApplicationConfig {
 								sf -> sf.<GetLegislativeReferencesQuery>handle((p, h) -> queryReferentialService.getLegislativeReferences(p)))
 						.subFlowMapping(GetLegislativeReferenceQuery.class,
 								sf -> sf.<GetLegislativeReferenceQuery>handle((p, h) -> queryReferentialService.getLegislativeReference(p)))
-
-				
+                     	//Process Documentation
+						.subFlowMapping(GetProcessDocumentationsQuery.class,
+								sf -> sf.<GetProcessDocumentationsQuery>handle((p, h) -> queryReferentialService.getProcessDocumentations(p)))
+						.subFlowMapping(GetProcessDocumentationQuery.class,
+								sf -> sf.<GetProcessDocumentationQuery>handle((p, h) -> queryReferentialService.getProcessDocumentation(p)))
+					
 				).get();
 	}
 
@@ -151,7 +160,14 @@ public class ApplicationConfig {
 								sf -> sf.<UpdateLegislativeReferenceCommand>handle((p, h) -> commandReferentialService.updateLegislativeReference(p)))
 						.subFlowMapping(DeleteLegislativeReferenceCommand.class,
 								sf -> sf.<DeleteLegislativeReferenceCommand>handle((p, h) -> commandReferentialService.deleteLegislativeReference(p)))
-					
+						//Process Documentation
+						.subFlowMapping(CreateProcessDocumentationCommand.class,
+								sf -> sf.<CreateProcessDocumentationCommand>handle((p, h) -> commandReferentialService.createProcessDocumentation(p)))
+						.subFlowMapping(UpdateProcessDocumentationCommand.class,
+								sf -> sf.<UpdateProcessDocumentationCommand>handle((p, h) -> commandReferentialService.updateProcessDocumentation(p)))
+						.subFlowMapping(DeleteProcessDocumentationCommand.class,
+								sf -> sf.<DeleteProcessDocumentationCommand>handle((p, h) -> commandReferentialService.deleteProcessDocumentation(p)))
+						
 						//Business Function
 						.subFlowMapping(CreateBusinessFunctionCommand.class,
 								sf -> sf.<CreateBusinessFunctionCommand>handle((p, h) -> commandReferentialService.createBusinessFunction(p)))

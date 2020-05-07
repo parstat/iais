@@ -13,6 +13,8 @@ import com.nbs.iais.ms.common.enums.Frequency;
 import com.nbs.iais.ms.common.enums.Language;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "ProcessDocumentation")
@@ -35,34 +37,34 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
     @JoinTable(name = "pd_agent_in_role",
             joinColumns = @JoinColumn(name = "pd_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
-    private List<AgentInRole> administrators;
+    private List<AgentInRole> administrators= new ArrayList<>();
 
     @ManyToMany(targetEntity = ProcessMethodEntity.class)
     @JoinTable(name = "process_documentation_methods",
             joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "method_id", referencedColumnName = "id" ))
-    private List<ProcessMethod> processMethods;
+    private List<ProcessMethod> processMethods= new ArrayList<>();
 
     @ManyToMany(targetEntity =StatisticalStandardReferenceEntity.class)
     @JoinTable(name = "process_documentation_standards",
             joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "standard_id", referencedColumnName = "id" ))
-    private List<StatisticalStandardReference> standardsUsed;
+    private List<StatisticalStandardReference> standardsUsed= new ArrayList<>();
 
     @OneToMany(targetEntity = ProcessQualityEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
     //@JoinTable(name = "process_documentation_quality_indicators",
     //        joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
     //        inverseJoinColumns = @JoinColumn(name = "quality_indicator_id", referencedColumnName = "id" ))
-    private List<ProcessQuality> processQualityList;
+    private List<ProcessQuality> processQualityList= new ArrayList<>();
 
     @OneToMany(targetEntity = ProcessInputSpecificationEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
-    private List<ProcessInputSpecification> processInputSpecifications;
+    private List<ProcessInputSpecification> processInputSpecifications= new ArrayList<>();
 
     @OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
-    private List<ProcessOutputSpecification> processOutputSpecifications;
+    private List<ProcessOutputSpecification> processOutputSpecifications= new ArrayList<>();
 
     @OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
-    private List<ProcessDocument> processDocuments;
+    private List<ProcessDocument> processDocuments= new ArrayList<>();
 
     @OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")

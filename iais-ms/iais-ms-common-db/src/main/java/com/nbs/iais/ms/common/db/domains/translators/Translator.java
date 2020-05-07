@@ -1,20 +1,26 @@
 package com.nbs.iais.ms.common.db.domains.translators;
 
+import java.util.Optional;
+
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.security.Account;
-import com.nbs.iais.ms.common.dto.impl.*;
+import com.nbs.iais.ms.common.dto.impl.AccountDTO;
+import com.nbs.iais.ms.common.dto.impl.AgentDTO;
+import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
+import com.nbs.iais.ms.common.dto.impl.LegislativeReferenceDTO;
+import com.nbs.iais.ms.common.dto.impl.ProcessDocumentationDTO;
+import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
+import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.PhaseName;
 import com.nbs.iais.ms.common.enums.RoleType;
-
-import java.util.Collection;
-import java.util.Optional;
 
 public class Translator {
 
@@ -270,4 +276,38 @@ public class Translator {
 
 		return Optional.of(legislativeReferenceDTOS);
 	}
+	
+	public static <SS extends ProcessDocumentation> Optional<ProcessDocumentationDTO> translate(
+			final SS processDocumentation, final Language language) {
+
+		if (processDocumentation == null) {
+			return Optional.empty();
+		}
+
+		final ProcessDocumentationDTO processDocumentationDTO = new ProcessDocumentationDTO(processDocumentation.getId());
+		processDocumentationDTO.setName(processDocumentation.getName(language));
+		processDocumentationDTO.setDescription(processDocumentation.getDescription(language));
+
+		processDocumentationDTO.setLocalId(processDocumentation.getLocalId());
+		processDocumentationDTO.setVersion(processDocumentation.getVersion());
+		processDocumentationDTO.setVersionDate(processDocumentation.getVersionDate());
+		processDocumentationDTO.setVersionRationale(processDocumentation.getVersionRationale());
+
+		return Optional.of(processDocumentationDTO);
+	}
+
+	public static <SS extends ProcessDocumentation> Optional<DTOList<ProcessDocumentationDTO>> translateProcessDocumentations(
+			final Iterable<SS> processDocumentations, final Language language) {
+
+		if (processDocumentations == null || !processDocumentations.iterator().hasNext()) {
+			return Optional.empty();
+		}
+
+		final DTOList<ProcessDocumentationDTO> processDocumentationDTOS = DTOList.empty(ProcessDocumentationDTO.class);
+
+		processDocumentations.forEach(ss -> translate(ss, language).ifPresent(processDocumentationDTOS::add));
+
+		return Optional.of(processDocumentationDTOS);
+	}
+	
 }
