@@ -19,8 +19,8 @@ public class AddProcessDocumentationOutputCommand extends AbstractCommand<AddPro
                                                  final Long outputSpecification, final Language language) {
 
         super(new AddProcessDocumentationOutputEvent());
-        this.processDocumentation = processDocumentation;
-        this.outputSpecification = outputSpecification;
+        this.setProcessDocumentation(processDocumentation);
+        this.setOutputSpecification(outputSpecification);
         setJwt(jwt);
         setLanguage(language);
 
@@ -32,19 +32,21 @@ public class AddProcessDocumentationOutputCommand extends AbstractCommand<AddPro
         return new AddProcessDocumentationOutputCommand(jwt, processDocumentation, outputSpecification, language);
     }
 
-    public Long getStatisticalProgram() {
-        return processDocumentation;
-    }
+	public Long getProcessDocumentation() {
+		return processDocumentation;
+	}
 
-    public void setStatisticalProgram(final Long processDocumentation) {
-        this.processDocumentation = processDocumentation;
-    }
+	public void setProcessDocumentation(Long processDocumentation) {
+		this.processDocumentation = processDocumentation;
+	}
 
-    public Long getOutputSpecification() {
-        return outputSpecification;
-    }
+	public Long getOutputSpecification() {
+		return outputSpecification;
+	}
 
-    public void setOutputSpecification(final Long outputSpecification) {
-        this.outputSpecification = outputSpecification;
-    }
+	public void setOutputSpecification(Long outputSpecification) {
+		this.outputSpecification = outputSpecification;
+	}
+
+  
 }

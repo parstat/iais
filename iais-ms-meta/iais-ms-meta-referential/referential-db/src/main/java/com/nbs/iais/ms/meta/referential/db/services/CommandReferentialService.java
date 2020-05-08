@@ -1,5 +1,14 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
+import java.time.Instant;
+
+import javax.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
@@ -8,32 +17,60 @@ import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.common.exceptions.AuthorizationException;
 import com.nbs.iais.ms.common.exceptions.EntityException;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.DeleteAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationInputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationMethodCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.DeleteProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.DeleteAgentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
-import com.nbs.iais.ms.meta.referential.db.repositories.*;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentInRoleEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessInputSpecificationEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessMethodEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessOutputSpecificationEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessQualityEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
+import com.nbs.iais.ms.meta.referential.db.repositories.AdministrativeDetailsRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.AgentInRoleRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.LegislativeReferenceRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentationRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.ProcessInputSpecificationRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.ProcessMethodRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.ProcessOutputSpecificationRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.ProcessQualityRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalStandardReferenceRepository;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.Instant;
-
-import javax.transaction.Transactional;
 
 @Service
 public class CommandReferentialService {
@@ -63,7 +100,23 @@ public class CommandReferentialService {
 	
 	@Autowired
 	private ProcessDocumentationRepository processDocumentationRepository;
+	
+	@Autowired
+	private ProcessDocumentRepository processDocumentRepository;
 
+	@Autowired
+	private ProcessInputSpecificationRepository processInputSpecificationRepository;
+	
+	@Autowired
+	private ProcessOutputSpecificationRepository processOutputSpecificationRepository;
+	
+	@Autowired
+	private ProcessMethodRepository processMethodRepository;
+	
+	@Autowired
+	private ProcessQualityRepository processQualityRepository;
+	
+	
 	/**
 	 * Method to create a statistical program
 	 * 
@@ -280,7 +333,7 @@ public class CommandReferentialService {
 	 * 
 	 * @param command to execute
 	 * @return AddStatisticalProgramStandardCommand including statistical program
-	 *         dto in the evnet
+	 *         dto in the event
 	 * @throws EntityException when statistical program or statistical standard not
 	 *                         found
 	 */
@@ -708,5 +761,176 @@ public class CommandReferentialService {
 	}	
 	
 	
+	/**
+	 * Method to add a statistical standard to process documentation
+	 * 
+	 * @param command to execute
+	 * @return AddProcessDocumentationStandardCommand including  process documentation
+	 *         dto in the event
+	 * @throws EntityException when  process documentation or statistical standard not
+	 *                         found
+	 */
+	public AddProcessDocumentationStandardCommand addProcessDocumentationStandardCommand(
+			final AddProcessDocumentationStandardCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final StatisticalStandardReferenceEntity sr = statisticalStandardReferenceRepository
+				.findById(command.getStatisticalStandardReference())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
+
+		pd.getStandardsUsed().add(sr);
+	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+	
+	/**
+	 * Method to add a process document to process documentation
+	 * 
+	 * @param command to execute
+	 * @return AddProcessDocumentationDocumentCommand including  process documentation
+	 *         dto in the event
+	 * @throws EntityException when  process documentation or  process document not
+	 *                         found
+	 */
+	public AddProcessDocumentationDocumentCommand addProcessDocumentationDocumentCommand(
+			final AddProcessDocumentationDocumentCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final ProcessDocumentEntity pDocument = processDocumentRepository
+				.findById(command.getProcessDocument())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENT_NOT_FOUND));
+
+		pd.getProcessDocuments().add(pDocument);
+	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+
+	/**
+	 * Method to add a input specification to process documentation
+	 * 
+	 * @param command to execute
+	 * @return AddProcessDocumentationInputCommand including  process documentation
+	 *         dto in the event
+	 * @throws EntityException when  process documentation or input specification not
+	 *                         found
+	 */
+	public AddProcessDocumentationInputCommand addProcessDocumentationInputCommand(
+			final AddProcessDocumentationInputCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final ProcessInputSpecificationEntity input = processInputSpecificationRepository
+				.findById(command.getInputSpecification())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND));
+
+		pd.getProcessInputs().add(input);
+	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+
+	/**
+	 * Method to add a output specification to process documentation
+	 * 
+	 * @param command to execute
+	 * @return AddProcessDocumentationOutputCommand including  process documentation
+	 *         dto in the event
+	 * @throws EntityException when  process documentation or output specification not
+	 *                         found
+	 */
+	public AddProcessDocumentationOutputCommand addProcessDocumentationOutputCommand(
+			final AddProcessDocumentationOutputCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final ProcessOutputSpecificationEntity output = processOutputSpecificationRepository
+				.findById(command.getOutputSpecification())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND));
+
+		pd.getProcessOutputs().add(output);
+	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+
+	/**
+	 * Method to add a process method to process documentation
+	 * 
+	 * @param command to execute
+	 * @return AddProcessDocumentationDocumentCommand including  process documentation
+	 *         dto in the event
+	 * @throws EntityException when  process documentation or process method not
+	 *                         found
+	 */
+	public AddProcessDocumentationMethodCommand addProcessDocumentationMethodCommand(
+			final AddProcessDocumentationMethodCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final ProcessMethodEntity method = processMethodRepository
+				.findById(command.getProcessMethod())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_METHOD_NOT_FOUND));
+
+		pd.getProcessMethods().add(method);
+	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+
+	
+
+	/**
+	 * Quality to add a process quality to process documentation
+	 * 
+	 * @param command to execute
+	 * @return AddProcessDocumentationDocumentCommand including  process documentation
+	 *         dto in the event
+	 * @throws EntityException when  process documentation or process quality not
+	 *                         found
+	 */
+	public AddProcessDocumentationQualityCommand addProcessDocumentationQualityCommand(
+			final AddProcessDocumentationQualityCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final ProcessQualityEntity quality = processQualityRepository
+				.findById(command.getProcessQuality())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_QUALITY_NOT_FOUND));
+
+		pd.getProcessQualityIndicators().add(quality);
+	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+	
+
+	/** FIXME
+	 * Version to add a process version to process documentation
+	 * 
+	 * @param command to execute
+	 * @return AddProcessDocumentationDocumentCommand including  process documentation
+	 *         dto in the event
+	 * @throws EntityException when  process documentation or process version not
+	 *                         found
+	 */
+	public AddProcessDocumentationVersionCommand addProcessDocumentationVersionCommand(
+			final AddProcessDocumentationVersionCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		//TODO
+
+		return command;
+	}
 	
 }

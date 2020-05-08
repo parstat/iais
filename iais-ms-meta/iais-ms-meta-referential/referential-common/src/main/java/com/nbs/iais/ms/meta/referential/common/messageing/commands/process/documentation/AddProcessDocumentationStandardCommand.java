@@ -19,7 +19,7 @@ public class AddProcessDocumentationStandardCommand extends AbstractCommand<AddP
                                                  final Long statisticalStandardReference, final Language language) {
 
         super(new AddProcessDocumentationStandardEvent());
-        this.processDocumentation = processDocumentation;
+        this.setProcessDocumentation(processDocumentation);
         this.statisticalStandardReference = statisticalStandardReference;
         setJwt(jwt);
         setLanguage(language);
@@ -32,13 +32,6 @@ public class AddProcessDocumentationStandardCommand extends AbstractCommand<AddP
         return new AddProcessDocumentationStandardCommand(jwt, processDocumentation, statisticalStandardReference, language);
     }
 
-    public Long getStatisticalProgram() {
-        return processDocumentation;
-    }
-
-    public void setStatisticalProgram(final Long processDocumentation) {
-        this.processDocumentation = processDocumentation;
-    }
 
     public Long getStatisticalStandardReference() {
         return statisticalStandardReference;
@@ -47,4 +40,12 @@ public class AddProcessDocumentationStandardCommand extends AbstractCommand<AddP
     public void setStatisticalStandardReference(final Long statisticalStandardReference) {
         this.statisticalStandardReference = statisticalStandardReference;
     }
+
+	public Long getProcessDocumentation() {
+		return processDocumentation;
+	}
+
+	public void setProcessDocumentation(Long processDocumentation) {
+		this.processDocumentation = processDocumentation;
+	}
 }

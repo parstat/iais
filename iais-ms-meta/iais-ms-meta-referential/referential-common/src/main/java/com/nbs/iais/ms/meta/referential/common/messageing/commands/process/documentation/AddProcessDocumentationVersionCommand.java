@@ -19,8 +19,8 @@ public class AddProcessDocumentationVersionCommand extends AbstractCommand<AddPr
                                                  final Long processVersion, final Language language) {
 
         super(new AddProcessDocumentationVersionEvent());
-        this.processDocumentation = processDocumentation;
-        this.processVersion = processVersion;
+        this.setProcessDocumentation(processDocumentation);
+        this.setProcessVersion(processVersion);
         setJwt(jwt);
         setLanguage(language);
 
@@ -32,19 +32,21 @@ public class AddProcessDocumentationVersionCommand extends AbstractCommand<AddPr
         return new AddProcessDocumentationVersionCommand(jwt, processDocumentation, processVersion, language);
     }
 
-    public Long getStatisticalProgram() {
-        return processDocumentation;
-    }
+	public Long getProcessDocumentation() {
+		return processDocumentation;
+	}
 
-    public void setStatisticalProgram(final Long processDocumentation) {
-        this.processDocumentation = processDocumentation;
-    }
+	public void setProcessDocumentation(Long processDocumentation) {
+		this.processDocumentation = processDocumentation;
+	}
 
-    public Long getProcessVersion() {
-        return processVersion;
-    }
+	public Long getProcessVersion() {
+		return processVersion;
+	}
 
-    public void setProcessVersion(final Long processVersion) {
-        this.processVersion = processVersion;
-    }
+	public void setProcessVersion(Long processVersion) {
+		this.processVersion = processVersion;
+	}
+
+    
 }

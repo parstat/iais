@@ -19,8 +19,8 @@ public class AddProcessDocumentationInputCommand extends AbstractCommand<AddProc
                                                  final Long inputSpecification, final Language language) {
 
         super(new AddProcesDocumentationInputEvent());
-        this.processDocumentation = processDocumentation;
-        this.inputSpecification = inputSpecification;
+        this.setProcessDocumentation(processDocumentation);
+        this.setInputSpecification(inputSpecification);
         setJwt(jwt);
         setLanguage(language);
 
@@ -32,19 +32,22 @@ public class AddProcessDocumentationInputCommand extends AbstractCommand<AddProc
         return new AddProcessDocumentationInputCommand(jwt, processDocumentation, inputSpecification, language);
     }
 
-    public Long getStatisticalProgram() {
-        return processDocumentation;
-    }
+	public Long getProcessDocumentation() {
+		return processDocumentation;
+	}
 
-    public void setStatisticalProgram(final Long processDocumentation) {
-        this.processDocumentation = processDocumentation;
-    }
+	public void setProcessDocumentation(Long processDocumentation) {
+		this.processDocumentation = processDocumentation;
+	}
 
-    public Long getStatisticalStandardReference() {
-        return inputSpecification;
-    }
+	public Long getInputSpecification() {
+		return inputSpecification;
+	}
 
-    public void setStatisticalStandardReference(final Long statisticalStandardReference) {
-        this.inputSpecification = statisticalStandardReference;
-    }
+	public void setInputSpecification(Long inputSpecification) {
+		this.inputSpecification = inputSpecification;
+	}
+
+   
+    
 }

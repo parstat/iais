@@ -19,8 +19,8 @@ public class AddProcessDocumentationQualityCommand extends AbstractCommand<AddPr
                                                  final Long processQuality, final Language language) {
 
         super(new AddProcessDocumentationQualityEvent());
-        this.processDocumentation = processDocumentation;
-        this.processQuality = processQuality;
+        this.setProcessDocumentation(processDocumentation);
+        this.setProcessQuality(processQuality);
         setJwt(jwt);
         setLanguage(language);
 
@@ -32,19 +32,21 @@ public class AddProcessDocumentationQualityCommand extends AbstractCommand<AddPr
         return new AddProcessDocumentationQualityCommand(jwt, processDocumentation, processQuality, language);
     }
 
-    public Long getStatisticalProgram() {
-        return processDocumentation;
-    }
+	public Long getProcessDocumentation() {
+		return processDocumentation;
+	}
 
-    public void setStatisticalProgram(final Long processDocumentation) {
-        this.processDocumentation = processDocumentation;
-    }
+	public void setProcessDocumentation(Long processDocumentation) {
+		this.processDocumentation = processDocumentation;
+	}
 
-    public Long getProcessQuality() {
-        return processQuality;
-    }
+	public Long getProcessQuality() {
+		return processQuality;
+	}
 
-    public void setProcessQuality(final Long processQuality) {
-        this.processQuality = processQuality;
-    }
+	public void setProcessQuality(Long processQuality) {
+		this.processQuality = processQuality;
+	}
+
+
 }

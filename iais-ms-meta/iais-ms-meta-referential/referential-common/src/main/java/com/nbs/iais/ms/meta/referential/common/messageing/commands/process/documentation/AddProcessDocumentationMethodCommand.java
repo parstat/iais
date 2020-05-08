@@ -19,8 +19,8 @@ public class AddProcessDocumentationMethodCommand extends AbstractCommand<AddPro
                                                  final Long processMethod, final Language language) {
 
         super(new AddProcessDocumentationMethodEvent());
-        this.processDocumentation = processDocumentation;
-        this.processMethod = processMethod;
+        this.setProcessDocumentation(processDocumentation);
+        this.setProcessMethod(processMethod);
         setJwt(jwt);
         setLanguage(language);
 
@@ -32,19 +32,21 @@ public class AddProcessDocumentationMethodCommand extends AbstractCommand<AddPro
         return new AddProcessDocumentationMethodCommand(jwt, processDocumentation, processMethod, language);
     }
 
-    public Long getStatisticalProgram() {
-        return processDocumentation;
-    }
+	public Long getProcessDocumentation() {
+		return processDocumentation;
+	}
 
-    public void setStatisticalProgram(final Long processDocumentation) {
-        this.processDocumentation = processDocumentation;
-    }
+	public void setProcessDocumentation(Long processDocumentation) {
+		this.processDocumentation = processDocumentation;
+	}
 
-    public Long getProcessMethod() {
-        return processMethod;
-    }
+	public Long getProcessMethod() {
+		return processMethod;
+	}
 
-    public void setProcessMethod(final Long processMethod) {
-        this.processMethod = processMethod;
-    }
+	public void setProcessMethod(Long processMethod) {
+		this.processMethod = processMethod;
+	}
+
+   
 }
