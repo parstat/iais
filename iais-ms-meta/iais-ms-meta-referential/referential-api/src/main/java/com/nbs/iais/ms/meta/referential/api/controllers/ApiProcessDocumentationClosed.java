@@ -54,7 +54,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 			@RequestParam(name = "version", required = false) final String version,
 			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
-			@RequestParam(name = "business_function") final Long businessFunction,
+			@PathVariable(name = "business_function") final Long businessFunction,
 			@PathVariable(name = "statistical_program") final Long statisticalProgram,
 			@RequestParam(name = "frequency", required = false) final Frequency frequency,
 			@RequestParam(name = "maintainer", required = false) final Long maintainer,
