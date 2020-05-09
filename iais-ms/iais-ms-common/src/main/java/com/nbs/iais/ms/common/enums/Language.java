@@ -51,7 +51,7 @@ public enum Language {
     }
 
     public static Language getDefault() {
-        return Language.ROM;
+        return Language.ENG;
     }
 
 }

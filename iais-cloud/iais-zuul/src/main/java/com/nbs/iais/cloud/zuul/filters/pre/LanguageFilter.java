@@ -58,7 +58,7 @@ public class LanguageFilter extends ZuulFilter {
             params = new HashMap<>();
         }
         params.putIfAbsent("language",
-                new ArrayList<>(Collections.singletonList(Language.ENG.toString())));
+                new ArrayList<>(Collections.singletonList(Language.ENG.getShortName())));
         context.setRequestQueryParams(params);
         return null;
     }

@@ -51,7 +51,7 @@ public class AgentRepositoryTest extends RepositoryTest {
         final AgentEntity toSave = saveAgent();
         final AgentEntity saved = agentRepository.save(toSave);
 
-        Iterable<AgentEntity> agent = agentRepository.findByIdIn(Arrays.asList(1L,2L,3L));
+        Iterable<AgentEntity> agent = agentRepository.findByIdIn(Arrays.asList(saved.getId(),2L,3L));
         Assert.assertTrue(agent.iterator().hasNext());
     }
 
