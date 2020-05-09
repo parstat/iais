@@ -1,6 +1,6 @@
 package com.nbs.iais.ms.security.db.config;
 
-import com.nbs.iais.ms.common.exceptions.ChangePasswordException;
+import com.nbs.iais.ms.common.messaging.channels.Channels;
 import com.nbs.iais.ms.security.common.messageing.commands.*;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountQuery;
 import com.nbs.iais.ms.security.common.messageing.queries.GetAccountsQuery;
@@ -65,12 +65,12 @@ public class ApplicationConfig {
                         .get();
     }
 
-    @Bean
+    @Bean(name = Channels.QUERY_INPUT)
     public DirectChannel queryInput() {
         return new DirectChannel();
     }
 
-    @Bean
+    @Bean(name = Channels.COMMAND_INPUT)
     public DirectChannel commandInput() {
         return new DirectChannel();
     }
