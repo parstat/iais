@@ -39,3 +39,35 @@ include::{snippets}/get-agents/curl-request.adoc[]
 include::{snippets}/get-agents/response-fields.adoc[]
 ===== Response Example
 include::{snippets}/get-agents/http-response.adoc[]
+
+[[resources-create-agent]]
+=== Create Agent
+==== Request
+include::{snippets}/create-agent/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-agent/request-body.adoc[]
+===== Request parameters
+include::{snippets}/create-agent/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/create-agent/curl-request.adoc[]
+==== Response
+include::{snippets}/create-agent/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-agent/http-response.adoc[]
+
+[[resources-update-agent]]
+=== Update Agent
+==== Request
+include::{snippets}/update-agent/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-agent/request-body.adoc[]
+===== Path parameters
+include::{snippets}/update-agent/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/update-agent/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/update-agent/curl-request.adoc[]
+==== Response
+include::{snippets}/update-agent/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-agent/http-response.adoc[]
