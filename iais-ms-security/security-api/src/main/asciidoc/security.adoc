@@ -1,0 +1,39 @@
+= IAIS API Guide: Account
+:revnumber: {iais.version}
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-signin]]
+== APIs
+=== Signin
+==== Request
+include::{snippets}/signin/http-request.adoc[]
+===== Request Body
+include::{snippets}/signin/request-body.adoc[]
+===== Request parameters
+include::{snippets}/signin/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/signin/curl-request.adoc[]
+==== Response
+include::{snippets}/signin/response-fields.adoc[]
+===== Response Example
+include::{snippets}/signin/http-response.adoc[]
+
+[[resources-signup]]
+=== Signup
+==== Request
+include::{snippets}/signup/http-request.adoc[]
+===== Request Body
+include::{snippets}/signup/request-body.adoc[]
+===== Request parameters
+include::{snippets}/signup/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/signup/curl-request.adoc[]
+==== Response
+include::{snippets}/signup/response-fields.adoc[]
+===== Response Example
+include::{snippets}/signup/http-response.adoc[]

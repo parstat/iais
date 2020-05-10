@@ -28,8 +28,6 @@ public class ApiSecurityOpen extends AbstractController {
 
     private static Logger LOG = LoggerFactory.getLogger(ApiSecurityOpen.class);
 
-    @Autowired
-    private CommandSecurityService commandSecurityService;
 
     /**
      * Post method to do signin
