@@ -82,6 +82,56 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 
 	}
 
+	
+	/**
+	 * Method to create a new version of a process documentation
+	 * 
+	 * @param jwt                authorization token
+	 * @param name               of the process documentation in selected language
+	 * @param description        of the process documentation in the selected
+	 *                           language
+	 * @param localId            of the process documentation
+	 * @param version            first version of process documentation (default
+	 *                           1.0)
+	 * @param versionDate        of the process documentation (default now())
+	 * @param versionRationale   reason of the first version of process
+	 *                           documentation (default 'First Version')
+	 * @param businessFunction   of the process documentation
+	 * @param statisticalProgram of the process documentation
+	 * @param frequency          of the process documentation
+	 * @param maintainer         of the process documentation
+	 * @param nextSubPhase       of the process documentation
+	 * @param language           selected
+	 * @return ProcessDocumentationDTO
+	 */
+	@JsonView(Views.Extended.class)
+	@PutMapping("/program/{statistical_program}/functions/{business_function}/versions/{version}")
+	public ProcessDocumentationDTO addProcessDocumentationVersion(@RequestHeader(name = "jwt-auth") final String jwt,
+			@RequestParam(name = "name", required = false) final String name,
+			@RequestParam(name = "description", required = false) final String description,
+			@RequestParam(name = "local_id", required = false) final String localId,
+			@PathVariable(name = "version", required = false) final String version,
+			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
+			@RequestParam(name = "previousVersion") final String previousVersion,
+			@PathVariable(name = "business_function") final Long businessFunction,
+			@PathVariable(name = "statistical_program") final Long statisticalProgram,
+			@RequestParam(name = "frequency", required = false) final Frequency frequency,
+			@RequestParam(name = "maintainer", required = false) final Long maintainer,
+			@RequestParam(name = "nextSubPhase", required = false) final String nextSubPhase,
+			@RequestParam(name = "language", required = false) final String language) {
+		
+
+
+		final AddProcessDocumentationVersionCommand command = AddProcessDocumentationVersionCommand.create(jwt, name,
+				description, localId, version, versionDate, versionRationale,previousVersion, businessFunction, statisticalProgram,
+				frequency, maintainer, nextSubPhase, Language.getLanguage(language));
+		return sendCommand(command, "process_documentation").getEvent().getData();
+
+	}
+	
+	
+	
 	/**
 	 * Method to update a statistical standard
 	 * 
@@ -274,27 +324,5 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 		return sendCommand(command, "process_documentation").getEvent().getData();
 
 	}
-
-	/**
-	 * API version to add an existent process version to a process documentation
-	 *
-	 * @param id       id of the process documentation
-	 * @param version  id of the process version to add
-	 * @param jwt      token in the header of the request
-	 * @param language to present the returned DTO
-	 * @return ProcessDocumentationDTO (the update process documentation)
-	 */
-	@JsonView(Views.Extended.class)
-	@PutMapping("/{id}/version/{version}")
-	public ProcessDocumentationDTO addProcessDocumentationVersion(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @PathVariable(name = "version") final Long version,
-			@RequestParam(name = "language", required = false) final String language) {
-
-		final AddProcessDocumentationVersionCommand command = AddProcessDocumentationVersionCommand.create(jwt, id,
-				version, Language.getLanguage(language));
-
-		return sendCommand(command, "process_documentation").getEvent().getData();
-
-	}
-
+ 
 }

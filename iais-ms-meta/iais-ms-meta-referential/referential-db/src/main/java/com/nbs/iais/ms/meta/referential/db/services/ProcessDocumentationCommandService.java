@@ -60,9 +60,6 @@ public class ProcessDocumentationCommandService {
 	private AgentRepository agentRepository;
 
 	@Autowired
-	private LegislativeReferenceRepository legislativeReferenceRepository;
-
-	@Autowired
 	private StatisticalStandardReferenceRepository statisticalStandardReferenceRepository;
 
 	@Autowired
@@ -73,28 +70,28 @@ public class ProcessDocumentationCommandService {
 
 	@Autowired
 	private ProcessDocumentationRepository processDocumentationRepository;
-	
+
 	@Autowired
 	private ProcessDocumentRepository processDocumentRepository;
 
 	@Autowired
 	private ProcessInputSpecificationRepository processInputSpecificationRepository;
-	
+
 	@Autowired
 	private ProcessOutputSpecificationRepository processOutputSpecificationRepository;
-	
+
 	@Autowired
 	private ProcessMethodRepository processMethodRepository;
-	
+
 	@Autowired
 	private ProcessQualityRepository processQualityRepository;
-
 
 	/**
 	 * Method to create an process documentation
 	 * 
 	 * @param command to execute
-	 * @return CreateProcessDocumentationCommand including the dto of process documentation in the event
+	 * @return CreateProcessDocumentationCommand including the dto of process
+	 *         documentation in the event
 	 * @throws EntityException when the command includes a parent that can not be
 	 *                         found
 	 */
@@ -102,14 +99,14 @@ public class ProcessDocumentationCommandService {
 			throws AuthorizationException, EntityException {
 
 		final BusinessFunctionEntity businessFunction = businessFunctionRepository
-				.findById(command.getBusinessFunction()).orElseThrow(() ->
-						new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND));
+				.findById(command.getBusinessFunction())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND));
 
 		final StatisticalProgramEntity statisticalProgram = statisticalProgramRepository
-				.findById(command.getStatisticalProgram()).orElseThrow(() ->
-						new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND));
+				.findById(command.getStatisticalProgram())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND));
 
-		if(processDocumentationRepository.existsByStatisticalProgramAndBusinessFunction(statisticalProgram,
+		if (processDocumentationRepository.existsByStatisticalProgramAndBusinessFunction(statisticalProgram,
 				businessFunction)) {
 			throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_EXISTS);
 		}
@@ -142,22 +139,23 @@ public class ProcessDocumentationCommandService {
 				});
 
 	}
-	
-	
+
 	/**
-	 * Method to update an process documentation usually to add name and description in other
-	 * languages
+	 * Method to update an process documentation usually to add name and description
+	 * in other languages
 	 * 
 	 * @param command to execute
-	 * @return UpdateProcessDocumentationCommand including the dto of updated process documentation in the event
+	 * @return UpdateProcessDocumentationCommand including the dto of updated
+	 *         process documentation in the event
 	 */
-	public UpdateProcessDocumentationCommand updateProcessDocumentation(final UpdateProcessDocumentationCommand command) throws AuthorizationException {
+	public UpdateProcessDocumentationCommand updateProcessDocumentation(final UpdateProcessDocumentationCommand command)
+			throws AuthorizationException {
 
 		if (command.getId() != null) {
 			processDocumentationRepository.findById(command.getId()).ifPresentOrElse(processDocumentation -> {
 				CommandTranslator.translate(command, processDocumentation);
 
-			 // TODO fields 
+				// TODO fields
 				Translator.translate(processDocumentationRepository.save(processDocumentation), command.getLanguage())
 						.ifPresent(command.getEvent()::setData);
 			}, () -> {
@@ -173,16 +171,19 @@ public class ProcessDocumentationCommandService {
 	 * 
 	 * @param command to execute
 	 * @return DTOBoolean
-	 * @throws AuthorizationException AGENT_NOT_FOUND when the process documentation can not be found
+	 * @throws AuthorizationException AGENT_NOT_FOUND when the process documentation
+	 *                                can not be found
 	 */
 	@Transactional
-	public DeleteProcessDocumentationCommand deleteProcessDocumentation(final DeleteProcessDocumentationCommand command) throws AuthorizationException {
+	public DeleteProcessDocumentationCommand deleteProcessDocumentation(final DeleteProcessDocumentationCommand command)
+			throws AuthorizationException {
 
 		try {
-			final ProcessDocumentationEntity processDocumentationToDelete = processDocumentationRepository.findById(command.getId())
+			final ProcessDocumentationEntity processDocumentationToDelete = processDocumentationRepository
+					.findById(command.getId())
 					.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_EXISTS));
 
-			 //Todo Relationship
+			// Todo Relationship
 
 			processDocumentationRepository.delete(processDocumentationToDelete);
 		} catch (Exception e) {
@@ -194,17 +195,16 @@ public class ProcessDocumentationCommandService {
 		command.getEvent().setData(DTOBoolean.TRUE);
 
 		return command;
-	}	
-	
-	
+	}
+
 	/**
 	 * Method to add a statistical standard to process documentation
 	 * 
 	 * @param command to execute
-	 * @return AddProcessDocumentationStandardCommand including  process documentation
-	 *         dto in the event
-	 * @throws EntityException when  process documentation or statistical standard not
-	 *                         found
+	 * @return AddProcessDocumentationStandardCommand including process
+	 *         documentation dto in the event
+	 * @throws EntityException when process documentation or statistical standard
+	 *                         not found
 	 */
 	public AddProcessDocumentationStandardCommand addProcessDocumentationStandardCommand(
 			final AddProcessDocumentationStandardCommand command) throws EntityException {
@@ -216,19 +216,19 @@ public class ProcessDocumentationCommandService {
 				.orElseThrow(() -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
 
 		pd.getStandardsUsed().add(sr);
-	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
 				.ifPresent(command.getEvent()::setData);
 
 		return command;
 	}
-	
+
 	/**
 	 * Method to add a process document to process documentation
 	 * 
 	 * @param command to execute
-	 * @return AddProcessDocumentationDocumentCommand including  process documentation
-	 *         dto in the event
-	 * @throws EntityException when  process documentation or  process document not
+	 * @return AddProcessDocumentationDocumentCommand including process
+	 *         documentation dto in the event
+	 * @throws EntityException when process documentation or process document not
 	 *                         found
 	 */
 	public AddProcessDocumentationDocumentCommand addProcessDocumentationDocumentCommand(
@@ -236,12 +236,11 @@ public class ProcessDocumentationCommandService {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
 
-		final ProcessDocumentEntity pDocument = processDocumentRepository
-				.findById(command.getProcessDocument())
+		final ProcessDocumentEntity pDocument = processDocumentRepository.findById(command.getProcessDocument())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENT_NOT_FOUND));
 
 		pd.getProcessDocuments().add(pDocument);
-	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
 				.ifPresent(command.getEvent()::setData);
 
 		return command;
@@ -251,9 +250,9 @@ public class ProcessDocumentationCommandService {
 	 * Method to add a input specification to process documentation
 	 * 
 	 * @param command to execute
-	 * @return AddProcessDocumentationInputCommand including  process documentation
+	 * @return AddProcessDocumentationInputCommand including process documentation
 	 *         dto in the event
-	 * @throws EntityException when  process documentation or input specification not
+	 * @throws EntityException when process documentation or input specification not
 	 *                         found
 	 */
 	public AddProcessDocumentationInputCommand addProcessDocumentationInputCommand(
@@ -266,7 +265,7 @@ public class ProcessDocumentationCommandService {
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND));
 
 		pd.getProcessInputs().add(input);
-	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
 				.ifPresent(command.getEvent()::setData);
 
 		return command;
@@ -276,10 +275,10 @@ public class ProcessDocumentationCommandService {
 	 * Method to add a output specification to process documentation
 	 * 
 	 * @param command to execute
-	 * @return AddProcessDocumentationOutputCommand including  process documentation
+	 * @return AddProcessDocumentationOutputCommand including process documentation
 	 *         dto in the event
-	 * @throws EntityException when  process documentation or output specification not
-	 *                         found
+	 * @throws EntityException when process documentation or output specification
+	 *                         not found
 	 */
 	public AddProcessDocumentationOutputCommand addProcessDocumentationOutputCommand(
 			final AddProcessDocumentationOutputCommand command) throws EntityException {
@@ -291,7 +290,7 @@ public class ProcessDocumentationCommandService {
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND));
 
 		pd.getProcessOutputs().add(output);
-	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
 				.ifPresent(command.getEvent()::setData);
 
 		return command;
@@ -301,9 +300,9 @@ public class ProcessDocumentationCommandService {
 	 * Method to add a process method to process documentation
 	 * 
 	 * @param command to execute
-	 * @return AddProcessDocumentationDocumentCommand including  process documentation
-	 *         dto in the event
-	 * @throws EntityException when  process documentation or process method not
+	 * @return AddProcessDocumentationDocumentCommand including process
+	 *         documentation dto in the event
+	 * @throws EntityException when process documentation or process method not
 	 *                         found
 	 */
 	public AddProcessDocumentationMethodCommand addProcessDocumentationMethodCommand(
@@ -311,26 +310,23 @@ public class ProcessDocumentationCommandService {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
 
-		final ProcessMethodEntity method = processMethodRepository
-				.findById(command.getProcessMethod())
+		final ProcessMethodEntity method = processMethodRepository.findById(command.getProcessMethod())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_METHOD_NOT_FOUND));
 
 		pd.getProcessMethods().add(method);
-	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
 				.ifPresent(command.getEvent()::setData);
 
 		return command;
 	}
 
-	
-
 	/**
 	 * Quality to add a process quality to process documentation
 	 * 
 	 * @param command to execute
-	 * @return AddProcessDocumentationDocumentCommand including  process documentation
-	 *         dto in the event
-	 * @throws EntityException when  process documentation or process quality not
+	 * @return AddProcessDocumentationDocumentCommand including process
+	 *         documentation dto in the event
+	 * @throws EntityException when process documentation or process quality not
 	 *                         found
 	 */
 	public AddProcessDocumentationQualityCommand addProcessDocumentationQualityCommand(
@@ -338,35 +334,61 @@ public class ProcessDocumentationCommandService {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
 
-		final ProcessQualityEntity quality = processQualityRepository
-				.findById(command.getProcessQuality())
+		final ProcessQualityEntity quality = processQualityRepository.findById(command.getProcessQuality())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_QUALITY_NOT_FOUND));
 
 		pd.getProcessQualityIndicators().add(quality);
-	 	Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
 				.ifPresent(command.getEvent()::setData);
 
 		return command;
 	}
-	
 
-	/** FIXME
-	 * Version to add a process version to process documentation
+	/**
+	 * Version to add a new process version to process documentation
 	 * 
 	 * @param command to execute
-	 * @return AddProcessDocumentationDocumentCommand including  process documentation
-	 *         dto in the event
-	 * @throws EntityException when  process documentation or process version not
+	 * @return AddProcessDocumentationDocumentCommand including process
+	 *         documentation dto in the event
+	 * @throws EntityException when process documentation or process version not
 	 *                         found
 	 */
 	public AddProcessDocumentationVersionCommand addProcessDocumentationVersionCommand(
 			final AddProcessDocumentationVersionCommand command) throws EntityException {
-		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
-				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
 
-		//TODO
+		final BusinessFunctionEntity businessFunction = businessFunctionRepository
+				.findById(command.getBusinessFunction())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND));
 
+		final StatisticalProgramEntity statisticalProgram = statisticalProgramRepository
+				.findById(command.getStatisticalProgram())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND));
+
+		if (!processDocumentationRepository.existsByStatisticalProgramAndBusinessFunction(statisticalProgram,
+				businessFunction)) {
+			throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
+		}
+
+		if (processDocumentationRepository.existsByStatisticalProgramAndBusinessFunctionAndVersion(statisticalProgram,
+				businessFunction,command.getVersion())) {
+			throw new EntityException(ExceptionCodes.VERSION_EXIST);
+		}
+		
+		final ProcessDocumentationEntity processDocumentationEntity = CommandTranslator.translate(command);
+
+		processDocumentationEntity.setBusinessFunction(businessFunction);
+		processDocumentationEntity.setStatisticalProgram(statisticalProgram);
+
+		processDocumentationRepository.save(processDocumentationEntity);
+
+		if (command.getMaintainer() != null) {
+			agentRepository.findById(command.getMaintainer()).ifPresent(agent -> {
+				addAdministrator(processDocumentationEntity, agent, RoleType.MAINTAINER);
+				processDocumentationRepository.save(processDocumentationEntity);
+			});
+		}
+		Translator.translate(processDocumentationEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
 		return command;
 	}
-	
+
 }
