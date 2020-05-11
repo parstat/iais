@@ -4,16 +4,26 @@ import java.util.Optional;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessInputSpecification;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessMethod;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessOutputSpecification;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocument;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQuality;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.security.Account;
 import com.nbs.iais.ms.common.dto.impl.AccountDTO;
 import com.nbs.iais.ms.common.dto.impl.AgentDTO;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.impl.LegislativeReferenceDTO;
+import com.nbs.iais.ms.common.dto.impl.ProcessDocumentDTO;
 import com.nbs.iais.ms.common.dto.impl.ProcessDocumentationDTO;
+import com.nbs.iais.ms.common.dto.impl.ProcessInputSpecificationDTO;
+import com.nbs.iais.ms.common.dto.impl.ProcessMethodDTO;
+import com.nbs.iais.ms.common.dto.impl.ProcessOutputSpecificationDTO;
+import com.nbs.iais.ms.common.dto.impl.ProcessQualityDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
@@ -283,6 +293,112 @@ public class Translator {
 		return Optional.of(legislativeReferenceDTOS);
 	}
 
+	public static <LR extends ProcessDocument> Optional<ProcessDocumentDTO> translate(final LR processDocument,
+			final Language language) {
+
+		if (processDocument == null) {
+			return Optional.empty();
+		}
+
+		final ProcessDocumentDTO processDocumentDTO = new ProcessDocumentDTO(processDocument.getId());
+
+		processDocumentDTO.setName(processDocument.getName(language));
+		processDocumentDTO.setDescription(processDocument.getDescription(language));
+
+		processDocumentDTO.setMediaType(processDocument.getMediaType());
+		processDocumentDTO.setLocalId(processDocument.getLocalId());
+		processDocumentDTO.setVersion(processDocument.getVersion());
+		processDocumentDTO.setVersionDate(processDocument.getVersionDate());
+		processDocumentDTO.setVersionRationale(processDocument.getVersionRationale());
+		processDocumentDTO.setLink("/process/documents/" + processDocument.getId().toString());
+
+		return Optional.of(processDocumentDTO);
+	}
+
+	public static <PD extends ProcessDocument> Optional<DTOList<ProcessDocumentDTO>> translateProcessDocuments(
+			final Iterable<PD> processDocuments, final Language language) {
+
+		if (processDocuments == null || !processDocuments.iterator().hasNext()) {
+			return Optional.empty();
+		}
+
+		final DTOList<ProcessDocumentDTO> processDocumentDTOS = DTOList.empty(ProcessDocumentDTO.class);
+
+		processDocuments.forEach(pd -> translate(pd, language).ifPresent(processDocumentDTOS::add));
+
+		return Optional.of(processDocumentDTOS);
+	}
+
+	public static <LR extends ProcessMethod> Optional<ProcessMethodDTO> translate(final LR processMethod,
+			final Language language) {
+
+		if (processMethod == null) {
+			return Optional.empty();
+		}
+
+		final ProcessMethodDTO processMethodDTO = new ProcessMethodDTO(processMethod.getId());
+
+		processMethodDTO.setName(processMethod.getName(language));
+		processMethodDTO.setDescription(processMethod.getDescription(language));
+
+		processMethodDTO.setLocalId(processMethod.getLocalId());
+		processMethodDTO.setVersion(processMethod.getVersion());
+		processMethodDTO.setVersionDate(processMethod.getVersionDate());
+		processMethodDTO.setVersionRationale(processMethod.getVersionRationale());
+
+		return Optional.of(processMethodDTO);
+	}
+
+	public static <PD extends ProcessMethod> Optional<DTOList<ProcessMethodDTO>> translateProcessMethods(
+			final Iterable<PD> processMethods, final Language language) {
+
+		if (processMethods == null || !processMethods.iterator().hasNext()) {
+			return Optional.empty();
+		}
+
+		final DTOList<ProcessMethodDTO> processMethodDTOS = DTOList.empty(ProcessMethodDTO.class);
+
+		processMethods.forEach(pd -> translate(pd, language).ifPresent(processMethodDTOS::add));
+
+		return Optional.of(processMethodDTOS);
+	}
+
+	public static <LR extends ProcessQuality> Optional<ProcessQualityDTO> translate(final LR processQuality,
+			final Language language) {
+
+		if (processQuality == null) {
+			return Optional.empty();
+		}
+
+		final ProcessQualityDTO processQualityDTO = new ProcessQualityDTO(processQuality.getId());
+
+		processQualityDTO.setName(processQuality.getName(language));
+		processQualityDTO.setDescription(processQuality.getDescription(language));
+
+		processQualityDTO.setType(processQuality.getQualityType());
+		processQualityDTO.setLocalId(processQuality.getLocalId());
+		processQualityDTO.setVersion(processQuality.getVersion());
+		processQualityDTO.setVersionDate(processQuality.getVersionDate());
+		processQualityDTO.setVersionRationale(processQuality.getVersionRationale());
+
+		return Optional.of(processQualityDTO);
+	}
+
+	public static <PQ extends ProcessQuality> Optional<DTOList<ProcessQualityDTO>> translateProcessQualities(
+			final Iterable<PQ> processQualitys, final Language language) {
+
+		if (processQualitys == null || !processQualitys.iterator().hasNext()) {
+			return Optional.empty();
+		}
+
+		final DTOList<ProcessQualityDTO> processQualityDTOS = DTOList.empty(ProcessQualityDTO.class);
+
+		processQualitys.forEach(pq -> translate(pq, language).ifPresent(processQualityDTOS::add));
+
+		return Optional.of(processQualityDTOS);
+	}
+
+  
 	public static <SS extends ProcessDocumentation> Optional<ProcessDocumentationDTO> translate(
 			final SS processDocumentation, final Language language) {
 
@@ -294,14 +410,126 @@ public class Translator {
 				processDocumentation.getId());
 		processDocumentationDTO.setName(processDocumentation.getName(language));
 		processDocumentationDTO.setDescription(processDocumentation.getDescription(language));
-
 		processDocumentationDTO.setLocalId(processDocumentation.getLocalId());
 		processDocumentationDTO.setVersion(processDocumentation.getVersion());
 		processDocumentationDTO.setVersionDate(processDocumentation.getVersionDate());
 		processDocumentationDTO.setVersionRationale(processDocumentation.getVersionRationale());
+
+		processDocumentationDTO.setFrequency(processDocumentation.getFrequency());
+
+		processDocumentation.getAdministrators().forEach(agentInRole -> {
+
+			if (agentInRole.getRole() == RoleType.OWNER) {
+				translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationDTO::setOwner);
+			}
+			if (agentInRole.getRole() == RoleType.MAINTAINER) {
+				translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationDTO::setMaintainer);
+			}
+
+		});
+
+		translateMini(processDocumentation.getBusinessFunction(), language)
+				.ifPresent(processDocumentationDTO::setBusinessFunction);
+
+		translateMini(processDocumentation.getStatisticalProgram(), language)
+				.ifPresent(processDocumentationDTO::setStatisticalProgram);
+		
+		translateStatisticalStandards(processDocumentation.getStandardsUsed(), language)
+		.ifPresent(processDocumentationDTO::setStandards);
+
+
+		translateProcessDocuments(processDocumentation.getProcessDocuments(), language)
+				.ifPresent(processDocumentationDTO::setDocuments);
+
+		translateProcessMethods(processDocumentation.getProcessMethods(), language)
+				.ifPresent(processDocumentationDTO::setProcessMethods);
+
+		translateProcessQualities(processDocumentation.getProcessQualityIndicators(), language)
+				.ifPresent(processDocumentationDTO::setProcessQualityList);
+		
+		translateInputSpecifications(processDocumentation.getProcessInputs(), language)
+		.ifPresent(processDocumentationDTO::setProcessInputSpecifications);
+		
+		translateOutputSpecifications(processDocumentation.getProcessOutputs(), language)
+		.ifPresent(processDocumentationDTO::setProcessOutputSpecifications);
+		
+		
+		
+
 		return Optional.of(processDocumentationDTO);
 	}
 
+	public static <PI extends ProcessInputSpecification> Optional<ProcessInputSpecificationDTO> translate(final PI processInputSpecification,
+			final Language language) {
+
+		if (processInputSpecification == null) {
+			return Optional.empty();
+		}
+
+		final ProcessInputSpecificationDTO processInputSpecificationDTO = new ProcessInputSpecificationDTO(processInputSpecification.getId());
+
+		processInputSpecificationDTO.setName(processInputSpecification.getName(language));
+		processInputSpecificationDTO.setDescription(processInputSpecification.getDescription(language));
+
+		processInputSpecificationDTO.setProcessInputTypes(processInputSpecification.getProcessInputTypes());
+		processInputSpecificationDTO.setLocalId(processInputSpecification.getLocalId());
+		processInputSpecificationDTO.setVersion(processInputSpecification.getVersion());
+		processInputSpecificationDTO.setVersionDate(processInputSpecification.getVersionDate());
+		processInputSpecificationDTO.setVersionRationale(processInputSpecification.getVersionRationale());
+	
+		return Optional.of(processInputSpecificationDTO);
+	}
+
+	public static <PI extends ProcessInputSpecification> Optional<DTOList<ProcessInputSpecificationDTO>> translateInputSpecifications(
+			final Iterable<PI> processInputSpecifications, final Language language) {
+
+		if (processInputSpecifications == null || !processInputSpecifications.iterator().hasNext()) {
+			return Optional.empty();
+		}
+
+		final DTOList<ProcessInputSpecificationDTO> processInputSpecificationDTOS = DTOList.empty(ProcessInputSpecificationDTO.class);
+
+		processInputSpecifications.forEach(pi -> translate(pi, language).ifPresent(processInputSpecificationDTOS::add));
+
+		return Optional.of(processInputSpecificationDTOS);
+	}
+	
+
+	public static <PO extends ProcessOutputSpecification> Optional<ProcessOutputSpecificationDTO> translate(final PO processOutputSpecification,
+			final Language language) {
+
+		if (processOutputSpecification == null) {
+			return Optional.empty();
+		}
+
+		final ProcessOutputSpecificationDTO processOutputSpecificationDTO = new ProcessOutputSpecificationDTO(processOutputSpecification.getId());
+
+		processOutputSpecificationDTO.setName(processOutputSpecification.getName(language));
+		processOutputSpecificationDTO.setDescription(processOutputSpecification.getDescription(language));
+
+		processOutputSpecificationDTO.setProcessOutputTypes(processOutputSpecification.getProcessOutputTypes());
+		processOutputSpecificationDTO.setLocalId(processOutputSpecification.getLocalId());
+		processOutputSpecificationDTO.setVersion(processOutputSpecification.getVersion());
+		processOutputSpecificationDTO.setVersionDate(processOutputSpecification.getVersionDate());
+		processOutputSpecificationDTO.setVersionRationale(processOutputSpecification.getVersionRationale());
+	
+		return Optional.of(processOutputSpecificationDTO);
+	}
+
+	public static <PO extends ProcessOutputSpecification> Optional<DTOList<ProcessOutputSpecificationDTO>> translateOutputSpecifications(
+			final Iterable<PO> processOutputSpecifications, final Language language) {
+
+		if (processOutputSpecifications == null || !processOutputSpecifications.iterator().hasNext()) {
+			return Optional.empty();
+		}
+
+		final DTOList<ProcessOutputSpecificationDTO> processOutputSpecificationDTOS = DTOList.empty(ProcessOutputSpecificationDTO.class);
+
+		processOutputSpecifications.forEach(po -> translate(po, language).ifPresent(processOutputSpecificationDTOS::add));
+
+		return Optional.of(processOutputSpecificationDTOS);
+	}
+	
 	public static <SS extends ProcessDocumentation> Optional<DTOList<ProcessDocumentationDTO>> translateProcessDocumentations(
 			final Iterable<SS> processDocumentations, final Language language) {
 
@@ -331,8 +559,8 @@ public class Translator {
 		processDocumentationMiniDTO.setLink("/process/documentations/" + processDocumentation.getId());
 		processDocumentationMiniDTO
 				.setBusinessFunction(translateMini(processDocumentation.getBusinessFunction(), language).orElse(null));
-		processDocumentationMiniDTO
-				.setStatisticalProgram(translateMini(processDocumentation.getStatisticalProgram(), language).orElse(null));
+		processDocumentationMiniDTO.setStatisticalProgram(
+				translateMini(processDocumentation.getStatisticalProgram(), language).orElse(null));
 
 		processDocumentation.getAdministrators().forEach(agentInRole -> {
 

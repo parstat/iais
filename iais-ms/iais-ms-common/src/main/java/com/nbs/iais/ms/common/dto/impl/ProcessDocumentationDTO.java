@@ -63,6 +63,10 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
     @JsonProperty
     @JsonView(Views.Basic.class)
     private DTOList<ProcessDocumentDTO> documents;
+    
+    @JsonProperty
+    @JsonView(Views.Basic.class)
+    private DTOList<StatisticalStandardDTO> standards;
 
     public ProcessDocumentationDTO() {
         super();
@@ -167,4 +171,12 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
     public void setDocuments(DTOList<ProcessDocumentDTO> documents) {
         this.documents = documents;
     }
+
+	public DTOList<StatisticalStandardDTO> getStandards() {
+		return standards;
+	}
+
+	public void setStandards(DTOList<StatisticalStandardDTO> standards) {
+		this.standards = standards;
+	}
 }

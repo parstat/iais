@@ -46,21 +46,16 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.pr
 public class ApiProcessDocumentationOpen extends AbstractController {
 
 	/**
-	 * Method to get many process documentations in the selected language
+	 * Method to get all many process documentations in the selected language
 	 * 
-	 * @param name     the name to search the process documentations
-	  * @param language the language to present the returned DTO (en, ro, ru)
-	 * @return a list of filtered s in the selected language all
-	 *         process documentations if no filter parameter has been provided
+	 * @param language the language to present the returned DTO (en, ro, ru)
+	 * @return a list of all  process documentations
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@GetMapping
-	public DTOList<ProcessDocumentationDTO> getProcessDocumentationsQuery(
-			@RequestParam(name = "name", required = false) final String name,
-			@RequestParam(name = "frequency", required = false) final Frequency frequency,
-			@RequestParam(name = "language") final String language) {
+	public DTOList<ProcessDocumentationDTO> getProcessDocumentationsQuery(@RequestParam(name = "language") final String language) {
 
-		final GetProcessDocumentationsQuery getProcessDocumentationsQuery = GetProcessDocumentationsQuery.create(name,frequency, Language.getLanguage(language));
+		final GetProcessDocumentationsQuery getProcessDocumentationsQuery = GetProcessDocumentationsQuery.create(Language.getLanguage(language));
 		return sendQuery(getProcessDocumentationsQuery, "referential").getRead().getData();
 
 	}
@@ -72,7 +67,7 @@ public class ApiProcessDocumentationOpen extends AbstractController {
 	 * @param language the language to present the returned DTO (en, ro, ru)
 	 * @return ProcessDocumentationDTO in the selected language
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@GetMapping("/{id}")
 	public ProcessDocumentationDTO getProcessDocumentationQuery(
 			@PathVariable(name = "id") final Long id,
