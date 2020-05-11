@@ -11,7 +11,6 @@ services:
     - "5432:5432"
     hostname: iais-postgres
 
-
   iais-zuul:
     networks:
       - iais-network
@@ -53,7 +52,7 @@ services:
     image: parstat.azurecr.io/iais-frontend
     hostname: iais-frontend
     ports:
-      - "8090:8090"
+      - "80:8090"
     logging:
       driver: "json-file"
       options:
