@@ -9,6 +9,10 @@ public class AddProcessDocumentationInputCommand extends AbstractCommand<AddProc
     private static final long serialVersionUID = 22200L;
 
     private Long processDocumentation;
+    //FIXME This command should contain all fields to create a new incput specification
+    //name
+    //description
+    //...
     private Long inputSpecification;
 
     private AddProcessDocumentationInputCommand() {

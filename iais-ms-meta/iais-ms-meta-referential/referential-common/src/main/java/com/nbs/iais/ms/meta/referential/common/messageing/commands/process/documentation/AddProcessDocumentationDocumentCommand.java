@@ -9,6 +9,12 @@ public class AddProcessDocumentationDocumentCommand extends AbstractCommand<AddP
     private static final long serialVersionUID = 22200L;
 
     private Long processDocumentation;
+    //FIXME this command should inlcude all fields to create a new document
+    //name
+    //description
+    //document type
+    //link
+    //...
     private Long processDocument;
 
     private AddProcessDocumentationDocumentCommand() {

@@ -24,6 +24,7 @@ public class MultiLanguageTextEntity extends AbstractMultiLanguageText {
         addText(language, text);
     }
 
+    @Override
     public Map<String, String> getMap() {
         return map;
     }

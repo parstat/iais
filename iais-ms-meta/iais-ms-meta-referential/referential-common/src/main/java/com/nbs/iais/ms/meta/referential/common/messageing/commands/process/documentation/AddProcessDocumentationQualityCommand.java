@@ -4,11 +4,17 @@ import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.events.process.documentation.AddProcessDocumentationQualityEvent;
 
+
 public class AddProcessDocumentationQualityCommand extends AbstractCommand<AddProcessDocumentationQualityEvent> {
 
     private static final long serialVersionUID = 22200L;
 
     private Long processDocumentation;
+
+    //FIXME this command should always create a new ProcessQuality thus all fields of the domain should be included
+    //name
+    //description
+    //...
     private Long processQuality;
 
     private AddProcessDocumentationQualityCommand() {

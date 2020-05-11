@@ -37,7 +37,6 @@ import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardRefer
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentInRoleRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.LegislativeReferenceRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentationRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessInputSpecificationRepository;
@@ -134,7 +133,6 @@ public class ProcessDocumentationCommandService {
 					final AgentInRoleEntity agentInRole = new AgentInRoleEntity();
 					agentInRole.setAgent(agent);
 					agentInRole.setRole(type);
-
 					pd.getAdministrators().add(agentInRoleRepository.save(agentInRole));
 				});
 
@@ -215,7 +213,9 @@ public class ProcessDocumentationCommandService {
 				.findById(command.getStatisticalStandardReference())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
 
-		pd.getStandardsUsed().add(sr);
+		if(!pd.getStandardsUsed().contains(sr)) { //add only if not present
+			pd.getStandardsUsed().add(sr);
+		}
 		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
 				.ifPresent(command.getEvent()::setData);
 
@@ -223,6 +223,7 @@ public class ProcessDocumentationCommandService {
 	}
 
 	/**
+	 *  FIXME oneToMany it is better that this command should create also the output
 	 * Method to add a process document to process documentation
 	 * 
 	 * @param command to execute
@@ -239,7 +240,9 @@ public class ProcessDocumentationCommandService {
 		final ProcessDocumentEntity pDocument = processDocumentRepository.findById(command.getProcessDocument())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENT_NOT_FOUND));
 
-		pd.getProcessDocuments().add(pDocument);
+		if(!pd.getProcessDocuments().contains(pDocument)) {//added if not present
+			pd.getProcessDocuments().add(pDocument);
+		}
 		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
 				.ifPresent(command.getEvent()::setData);
 
@@ -247,6 +250,7 @@ public class ProcessDocumentationCommandService {
 	}
 
 	/**
+	 * FIXME oneToMany it is better that this command should create also the output
 	 * Method to add a input specification to process documentation
 	 * 
 	 * @param command to execute
@@ -272,6 +276,7 @@ public class ProcessDocumentationCommandService {
 	}
 
 	/**
+	 * FIXME oneToMany it is better that this command should create also the output
 	 * Method to add a output specification to process documentation
 	 * 
 	 * @param command to execute
@@ -313,7 +318,9 @@ public class ProcessDocumentationCommandService {
 		final ProcessMethodEntity method = processMethodRepository.findById(command.getProcessMethod())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_METHOD_NOT_FOUND));
 
-		pd.getProcessMethods().add(method);
+		if(!pd.getProcessMethods().contains(method)) {
+			pd.getProcessMethods().add(method);
+		}
 		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
 				.ifPresent(command.getEvent()::setData);
 
@@ -321,6 +328,7 @@ public class ProcessDocumentationCommandService {
 	}
 
 	/**
+	 * FIXME This is a oneToMany relation and it is better to create the document directly when this command is executed
 	 * Quality to add a process quality to process documentation
 	 * 
 	 * @param command to execute
@@ -364,30 +372,27 @@ public class ProcessDocumentationCommandService {
 				.findById(command.getStatisticalProgram())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND));
 
-		if (!processDocumentationRepository.existsByStatisticalProgramAndBusinessFunction(statisticalProgram,
-				businessFunction)) {
-			throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
-		}
+		//Getting the current version (latest version)
+		final ProcessDocumentationEntity currentVersion = processDocumentationRepository
+				.findAllTopByStatisticalProgramAndBusinessFunctionOrderByVersionDateDesc(statisticalProgram,
+						businessFunction).orElseThrow(() ->
+						new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
 
-		if (processDocumentationRepository.existsByStatisticalProgramAndBusinessFunctionAndVersion(statisticalProgram,
-				businessFunction,command.getVersion())) {
-			throw new EntityException(ExceptionCodes.VERSION_EXIST);
-		}
-		
-		final ProcessDocumentationEntity processDocumentationEntity = CommandTranslator.translate(command);
+		final ProcessDocumentationEntity processDocumentation = CommandTranslator.translate(command,
+				currentVersion);
 
-		processDocumentationEntity.setBusinessFunction(businessFunction);
-		processDocumentationEntity.setStatisticalProgram(statisticalProgram);
+		processDocumentation.setStatisticalProgram(statisticalProgram);
+		processDocumentation.setBusinessFunction(businessFunction);
 
-		processDocumentationRepository.save(processDocumentationEntity);
+		processDocumentationRepository.save(processDocumentation);
 
 		if (command.getMaintainer() != null) {
 			agentRepository.findById(command.getMaintainer()).ifPresent(agent -> {
-				addAdministrator(processDocumentationEntity, agent, RoleType.MAINTAINER);
-				processDocumentationRepository.save(processDocumentationEntity);
+				addAdministrator(processDocumentation, agent, RoleType.MAINTAINER);
+				processDocumentationRepository.save(processDocumentation);
 			});
 		}
-		Translator.translate(processDocumentationEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+		Translator.translate(processDocumentation, command.getLanguage()).ifPresent(command.getEvent()::setData);
 		return command;
 	}
 

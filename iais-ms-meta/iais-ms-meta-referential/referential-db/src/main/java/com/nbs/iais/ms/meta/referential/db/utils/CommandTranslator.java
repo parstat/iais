@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 import com.auth0.jwt.JWT;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
+import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
@@ -25,6 +27,8 @@ import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEnti
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
+
+import javax.accessibility.AccessibleBundle;
 
 public class CommandTranslator {
 
@@ -375,16 +379,24 @@ public class CommandTranslator {
 		return processDocumentation;
 	}
 
-	public static ProcessDocumentationEntity translate(final AddProcessDocumentationVersionCommand command) {
+	public static ProcessDocumentationEntity translate(final AddProcessDocumentationVersionCommand command,
+													   final ProcessDocumentationEntity currentVersion) {
 
 		final ProcessDocumentationEntity processDocumentation = new ProcessDocumentationEntity();
 
 		if (StringTools.isNotEmpty(command.getName())) {
 			processDocumentation.setName(command.getName(), command.getLanguage());
+		} else {
+			currentVersion.getName().getMap().forEach((language, text) ->
+				processDocumentation.setName(text, Language.getLanguage(language)));
+
 		}
 
 		if (StringTools.isNotEmpty(command.getDescription())) {
 			processDocumentation.setDescription(command.getDescription(), command.getLanguage());
+		} else {
+			currentVersion.getDescription().getMap().forEach((language, text) ->
+					processDocumentation.setDescription(text, Language.getLanguage(language)));
 		}
 
 		if (StringTools.isNotEmpty(command.getLocalId())) {
@@ -393,6 +405,8 @@ public class CommandTranslator {
 
 		if (command.getFrequency() != null) {
 			processDocumentation.setFrequency(command.getFrequency());
+		} else {
+			processDocumentation.setFrequency(currentVersion.getFrequency());
 		}
 
 		processDocumentation.setVersion(command.getVersion());

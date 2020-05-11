@@ -40,22 +40,30 @@ public class AddProcessDocumentationVersionCommand extends AbstractCommand<AddPr
 	 * Date of the version Default current time
 	 */
 	private LocalDateTime versionDate = LocalDateTime.now();
-	
-	/**
-	 *  Previous  Version
-	 */
-	private String previousVersion;
-	
-	
 
+	/**
+	 * Business Function
+	 */
 	private Long businessFunction;
 
+	/**
+	 * Statistical Program
+	 */
 	private Long statisticalProgram;
 
+	/**
+	 * Frequency
+	 */
 	private Frequency frequency;
 
+	/**
+	 * Maintainer
+	 */
 	private Long maintainer;
 
+	/**
+	 * Next sub-phase
+	 */
 	private String nextSubPhase;
 
 	private AddProcessDocumentationVersionCommand() {
@@ -63,7 +71,7 @@ public class AddProcessDocumentationVersionCommand extends AbstractCommand<AddPr
 	}
 
 	private AddProcessDocumentationVersionCommand(final String jwt, final String name, final String description,
-			final String localId, final String version, final LocalDateTime versionDate, final String versionRationale,final String previousVersion,
+			final String localId, final String version, final LocalDateTime versionDate, final String versionRationale,
 			final Long businessFunction, final Long statisticalProgram, final Frequency frequency,
 			final Long maintainer, final String nextSubPhase, final Language language) {
 		super(new AddProcessDocumentationVersionEvent());
@@ -75,7 +83,6 @@ public class AddProcessDocumentationVersionCommand extends AbstractCommand<AddPr
 		if (versionDate != null)
 			this.versionDate = versionDate;
 		this.versionRationale = versionRationale;
-		this.setPreviousVersion(previousVersion);
 		this.businessFunction = businessFunction;
 		this.statisticalProgram = statisticalProgram;
 		this.frequency = frequency;
@@ -87,11 +94,11 @@ public class AddProcessDocumentationVersionCommand extends AbstractCommand<AddPr
 
 	public static AddProcessDocumentationVersionCommand create(final String jwt, final String name,
 			final String description, final String localId, final String version, final LocalDateTime versionDate,
-			final String versionRationale,final String previousVersion, final Long businessFunction, final Long statisticalProgram,
+			final String versionRationale, final Long businessFunction, final Long statisticalProgram,
 			final Frequency frequency, final Long maintainer, final String nextSubPhase, final Language language) {
 
 		return new AddProcessDocumentationVersionCommand(jwt, name, description, localId, version, versionDate,
-				versionRationale, previousVersion,businessFunction, statisticalProgram, frequency, maintainer, nextSubPhase, language);
+				versionRationale, businessFunction, statisticalProgram, frequency, maintainer, nextSubPhase, language);
 	}
 
 	public String getName() {
@@ -180,14 +187,6 @@ public class AddProcessDocumentationVersionCommand extends AbstractCommand<AddPr
 
 	public void setNextSubPhase(String nextSubPhase) {
 		this.nextSubPhase = nextSubPhase;
-	}
-
-	public String getPreviousVersion() {
-		return previousVersion;
-	}
-
-	public void setPreviousVersion(String previousVersion) {
-		this.previousVersion = previousVersion;
 	}
 
 }

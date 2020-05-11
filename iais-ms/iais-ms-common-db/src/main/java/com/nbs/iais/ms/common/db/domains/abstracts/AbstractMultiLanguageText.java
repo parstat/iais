@@ -14,8 +14,6 @@ public abstract class AbstractMultiLanguageText extends AbstractDomainObject imp
     public AbstractMultiLanguageText(String lang, String text) {
     }
 
-    protected abstract Map<String, String> getMap();
-
     @Override
     public void addText(String lang, String text) {
         getMap().put(lang, text);

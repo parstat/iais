@@ -2,6 +2,7 @@ package com.nbs.iais.ms.meta.referential.db.repositories;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.nbs.iais.ms.common.enums.Frequency;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
+
+import java.util.Optional;
 
 @Repository
 public interface ProcessDocumentationRepository extends CrudRepository<ProcessDocumentationEntity, Long> {
@@ -31,6 +34,15 @@ public interface ProcessDocumentationRepository extends CrudRepository<ProcessDo
 																						BusinessFunction bf);
 
 	/**
+	 * Find the latest version of Process documentation
+	 * @param sp The statistical program
+	 * @param bf The business function
+	 * @return Optional<ProcessDocumentationEntity>
+	 */
+	Optional<ProcessDocumentationEntity> findAllTopByStatisticalProgramAndBusinessFunctionOrderByVersionDateDesc(
+			StatisticalProgram sp, BusinessFunction bf);
+
+	/**
 	 * Method to check if a PorcessDcoumentation already exists for a statistical program process
 	 * @param sp Statistical Program
 	 * @param bf Business Function
@@ -40,23 +52,13 @@ public interface ProcessDocumentationRepository extends CrudRepository<ProcessDo
 	
 	
 	/**
-	 * Method to check if a PorcessDocumentation already exists for a statistical program process , business function and version
+	 * Method to check if a ProcessDocumentation already exists for a statistical program process , business function and version
 	 * @param sp Statistical Program
 	 * @param bf Business Function
-	 * @param version  
+	 * @param version  Version of ProcessDocumentation
 	 * @return boolean true if the process documentation already exist
 	 */
 	boolean existsByStatisticalProgramAndBusinessFunctionAndVersion(StatisticalProgram sp, BusinessFunction bf,String version);
-
-	/**
-	 * Method to get ProcessDocumentationEntity by frequency
-	 * 
-	 * @param frequency The frequency of ProcessDocumentation ( DAILY, WEEKLY,
-	 *                  MONTHLY, QUARTERLY, SEMIYEARLY, YEARLY, DECENNIAL)
-	 * 
-	 * @return Iterable<ProcessDocumentationEntity>
-	 */
-	Iterable<ProcessDocumentationEntity> findByFrequency(Frequency frequency);
 
 	/**
 	 * Method to search by name in the selected language
