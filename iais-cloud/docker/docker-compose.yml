@@ -6,7 +6,7 @@ services:
   iais-postgres:
     networks:
       - iais-network
-    image: iais-postgres:latest
+    image: parstat.azurecr.io/iais-postgres:latest
     ports:
     - "5432:5432"
     hostname: iais-postgres
@@ -15,7 +15,7 @@ services:
   iais-zuul:
     networks:
       - iais-network
-    image: iais-zuul:latest
+    image: parstat.azurecr.io/iais-zuul:latest
     ports:
       - "8080:8080"
     hostname: iais-zuul
@@ -28,7 +28,7 @@ services:
   iais-referential-api:
     networks:
       - iais-network
-    image: iais-referential-api
+    image: parstat.azurecr.io/iais-referential-api
     hostname: iais-referential-api
     logging:
       driver: "json-file"
@@ -40,7 +40,7 @@ services:
   iais-ms-security-api:
     networks:
       - iais-network
-    image: iais-ms-security-api
+    image: parstat.azurecr.io/iais-ms-security-api
     hostname: iais-ms-security-api
     logging:
       driver: "json-file"
@@ -48,3 +48,17 @@ services:
         max-size: "300K"
         max-file: "1"
     restart: always
+
+  iais-frontend:
+    image: parstat.azurecr.io/iais-frontend
+    hostname: iais-frontend
+    ports:
+      - "8090:8090"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "300K"
+        max-file: "1"
+    restart: always
+
+

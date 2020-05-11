@@ -89,8 +89,11 @@
                 <version>2.2.0</version>
                 <configuration>
                     <to>
-                        <image>iais-ms-security-api</image>
+                        <image>parstat.azurecr.io/iais-ms-security-api</image>
                     </to>
+                    <from>
+                        <image>mcr.microsoft.com/java/jre:11u7-zulu-alpine</image>
+                    </from>
                 </configuration>
             </plugin>
         </plugins>
