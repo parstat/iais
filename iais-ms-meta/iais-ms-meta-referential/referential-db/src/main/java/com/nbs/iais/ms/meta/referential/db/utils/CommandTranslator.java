@@ -11,6 +11,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
@@ -366,11 +367,41 @@ public class CommandTranslator {
 		if (command.getFrequency() != null) {
 			processDocumentation.setFrequency(command.getFrequency());
 		}
-		
+
 		processDocumentation.setVersion(command.getVersion());
 		processDocumentation.setVersionDate(LocalDateTime.now());
 		processDocumentation.setVersionRationale(command.getVersionRationale());
 
+		return processDocumentation;
+	}
+
+	public static ProcessDocumentationEntity translate(final AddProcessDocumentationVersionCommand command) {
+
+		final ProcessDocumentationEntity processDocumentation = new ProcessDocumentationEntity();
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processDocumentation.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processDocumentation.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processDocumentation.setLocalId(command.getLocalId());
+		}
+
+		if (command.getFrequency() != null) {
+			processDocumentation.setFrequency(command.getFrequency());
+		}
+
+		processDocumentation.setVersion(command.getVersion());
+		if (command.getVersionDate() != null) {
+			processDocumentation.setVersionDate(command.getVersionDate());
+		}
+		if (StringTools.isNotEmpty(command.getVersionRationale())) {
+			processDocumentation.setVersionRationale(command.getVersionRationale());
+		}
 
 		return processDocumentation;
 	}

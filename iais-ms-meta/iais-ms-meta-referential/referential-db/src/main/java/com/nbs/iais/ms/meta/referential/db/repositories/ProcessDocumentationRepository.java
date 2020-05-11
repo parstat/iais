@@ -37,6 +37,16 @@ public interface ProcessDocumentationRepository extends CrudRepository<ProcessDo
 	 * @return boolean true if the process documentation already exist
 	 */
 	boolean existsByStatisticalProgramAndBusinessFunction(StatisticalProgram sp, BusinessFunction bf);
+	
+	
+	/**
+	 * Method to check if a PorcessDocumentation already exists for a statistical program process , business function and version
+	 * @param sp Statistical Program
+	 * @param bf Business Function
+	 * @param version  
+	 * @return boolean true if the process documentation already exist
+	 */
+	boolean existsByStatisticalProgramAndBusinessFunctionAndVersion(StatisticalProgram sp, BusinessFunction bf,String version);
 
 	/**
 	 * Method to get ProcessDocumentationEntity by frequency
