@@ -17,6 +17,9 @@ import com.nbs.iais.ms.common.dto.impl.ProcessDocumentationDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.BusinessFunctionMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.ProcessDocumentationMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.StatisticalProgramMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.PhaseName;
@@ -138,6 +141,9 @@ public class Translator {
 
 		translateStatisticalStandards(statisticalProgram.getStatisticalStandardReferences(), language)
 				.ifPresent(statisticalProgramDTO::setStatisticalStandards);
+
+		translateProcessDocumentationsMini(statisticalProgram.getProcessDocumentations(), language)
+				.ifPresent(statisticalProgramDTO::setProcessDocumentations);
 
 		return Optional.of(statisticalProgramDTO);
 	}
@@ -276,7 +282,7 @@ public class Translator {
 
 		return Optional.of(legislativeReferenceDTOS);
 	}
-	
+
 	public static <SS extends ProcessDocumentation> Optional<ProcessDocumentationDTO> translate(
 			final SS processDocumentation, final Language language) {
 
@@ -284,7 +290,8 @@ public class Translator {
 			return Optional.empty();
 		}
 
-		final ProcessDocumentationDTO processDocumentationDTO = new ProcessDocumentationDTO(processDocumentation.getId());
+		final ProcessDocumentationDTO processDocumentationDTO = new ProcessDocumentationDTO(
+				processDocumentation.getId());
 		processDocumentationDTO.setName(processDocumentation.getName(language));
 		processDocumentationDTO.setDescription(processDocumentation.getDescription(language));
 
@@ -292,7 +299,6 @@ public class Translator {
 		processDocumentationDTO.setVersion(processDocumentation.getVersion());
 		processDocumentationDTO.setVersionDate(processDocumentation.getVersionDate());
 		processDocumentationDTO.setVersionRationale(processDocumentation.getVersionRationale());
-
 		return Optional.of(processDocumentationDTO);
 	}
 
@@ -309,5 +315,78 @@ public class Translator {
 
 		return Optional.of(processDocumentationDTOS);
 	}
-	
+
+	public static <SS extends ProcessDocumentation> Optional<ProcessDocumentationMiniDTO> translateMini(
+			final SS processDocumentation, final Language language) {
+
+		if (processDocumentation == null) {
+			return Optional.empty();
+		}
+
+		final ProcessDocumentationMiniDTO processDocumentationMiniDTO = new ProcessDocumentationMiniDTO(
+				processDocumentation.getId());
+		processDocumentationMiniDTO.setName(processDocumentation.getName(language));
+		processDocumentationMiniDTO.setDescription(processDocumentation.getDescription(language));
+		processDocumentationMiniDTO.setFrequency(processDocumentation.getFrequency());
+		processDocumentationMiniDTO.setLink("/process/documentations/" + processDocumentation.getId());
+		processDocumentationMiniDTO
+				.setBusinessFunction(translateMini(processDocumentation.getBusinessFunction(), language).orElse(null));
+		processDocumentationMiniDTO
+				.setStatisticalProgram(translateMini(processDocumentation.getStatisticalProgram(), language).orElse(null));
+
+		processDocumentation.getAdministrators().forEach(agentInRole -> {
+
+			if (agentInRole.getRole() == RoleType.MAINTAINER) {
+				translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationMiniDTO::setMaintainer);
+			}
+
+		});
+
+		return Optional.of(processDocumentationMiniDTO);
+	}
+
+	public static <SS extends StatisticalProgram> Optional<StatisticalProgramMiniDTO> translateMini(
+			final SS statisticalProgram, final Language language) {
+
+		if (statisticalProgram == null) {
+			return Optional.empty();
+		}
+
+		final StatisticalProgramMiniDTO statisticalProgramMiniDTO = new StatisticalProgramMiniDTO(
+				statisticalProgram.getId());
+		statisticalProgramMiniDTO.setName(statisticalProgram.getName(language));
+		statisticalProgramMiniDTO.setDescription(statisticalProgram.getDescription(language));
+		statisticalProgramMiniDTO.setAcronym(statisticalProgram.getAcronym(language));
+		statisticalProgramMiniDTO.setLink("/statistical/programs/" + statisticalProgram.getId());
+		return Optional.of(statisticalProgramMiniDTO);
+	}
+
+	public static <SS extends BusinessFunction> Optional<BusinessFunctionMiniDTO> translateMini(
+			final SS businessFunction, final Language language) {
+
+		if (businessFunction == null) {
+			return Optional.empty();
+		}
+
+		final BusinessFunctionMiniDTO businessFunctionMiniDTO = new BusinessFunctionMiniDTO(businessFunction.getId());
+		businessFunctionMiniDTO.setName(businessFunction.getName(language));
+		businessFunctionMiniDTO.setLocalId(businessFunction.getLocalId());
+		businessFunctionMiniDTO.setLink("/business/programs/" + businessFunction.getId());
+		return Optional.of(businessFunctionMiniDTO);
+	}
+
+	public static <SS extends ProcessDocumentation> Optional<DTOList<ProcessDocumentationMiniDTO>> translateProcessDocumentationsMini(
+			final Iterable<SS> processDocumentations, final Language language) {
+
+		if (processDocumentations == null || !processDocumentations.iterator().hasNext()) {
+			return Optional.empty();
+		}
+
+		final DTOList<ProcessDocumentationMiniDTO> processDocumentationMiniDTOS = DTOList
+				.empty(ProcessDocumentationMiniDTO.class);
+
+		processDocumentations.forEach(ss -> translateMini(ss, language).ifPresent(processDocumentationMiniDTOS::add));
+
+		return Optional.of(processDocumentationMiniDTOS);
+	}
 }
