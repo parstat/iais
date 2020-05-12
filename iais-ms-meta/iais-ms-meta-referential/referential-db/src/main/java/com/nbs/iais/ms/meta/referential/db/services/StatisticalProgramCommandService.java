@@ -1,6 +1,7 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
 import com.auth0.jwt.JWT;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.AccountRole;
@@ -15,6 +16,7 @@ import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -224,6 +226,33 @@ public class StatisticalProgramCommandService {
     }
 
     /**
+     * Method to remove an administrator from statistical survey
+     * @param command The command to execute
+     * @return RemoveStatisticalProgramAdministratorCommand with true if removed
+     */
+    public RemoveStatisticalProgramAdministratorCommand removeStatisticalProgramAdministrator(
+            final RemoveStatisticalProgramAdministratorCommand command) {
+
+        statisticalProgramRepository.findById(command.getStatisticalProgramId()).ifPresentOrElse(statisticalProgram -> {
+
+            final AgentEntity agent = agentRepository.findById(command.getAgentId()).orElseThrow(() ->
+                    new EntityException(ExceptionCodes.AGENT_NOT_FOUND));
+
+            final AgentInRole agentInRole = agentInRoleRepository.findByAgentAndRole(agent, command.getRoleType()).orElseThrow(() ->
+                    new EntityException(ExceptionCodes.ROLE_NOT_FOUND));
+
+            statisticalProgram.getAdministrators().remove(agentInRole);
+            statisticalProgramRepository.save(statisticalProgram);
+            command.getEvent().setData(DTOBoolean.TRUE);
+
+        }, () -> {
+            throw  new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND);
+        });
+
+        return command;
+    }
+
+    /**
      * Method to add a legislative reference to the statistical program
      *
      * @param command to execute
@@ -249,6 +278,32 @@ public class StatisticalProgramCommandService {
                 .ifPresent(command.getEvent()::setData);
 
         return command;
+    }
+
+
+    /**
+     * Method to remove a legislative reference from statistical program
+     * @param command The command to execute
+     * @return RemoveStatisticalProgramLegislativeReferenceCommand
+     */
+    public RemoveStatisticalProgramLegislativeReferenceCommand removeStatisticalProgramLegislativeReference(
+            final RemoveStatisticalProgramLegislativeReferenceCommand command) {
+
+        statisticalProgramRepository.findById(command.getStatisticalProgramId()).ifPresentOrElse(statisticalProgram -> {
+            final LegislativeReferenceEntity legislativeReference = legislativeReferenceRepository.findById(
+                    command.getLegislativeReferenceId()).orElseThrow(() ->
+                    new EntityException(ExceptionCodes.LEGISLATIVE_REFERENCE_NOT_FOUND));
+
+            statisticalProgram.getLegislativeReference().remove(legislativeReference);
+
+            statisticalProgramRepository.save(statisticalProgram);
+            command.getEvent().setData(DTOBoolean.TRUE);
+        }, () -> {
+            throw new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND);
+        });
+
+        return command;
+
     }
 
     /**
@@ -277,6 +332,34 @@ public class StatisticalProgramCommandService {
 
         return command;
     }
+
+    /**
+     * Method to remove statistical standard from statistical program
+     * @param command The command to execute
+     * @return RemoveStatisticalProgramStandardCommand with value true if success
+     */
+    public RemoveStatisticalProgramStandardCommand removeStatisticalProgramStandard(
+            final RemoveStatisticalProgramStandardCommand command) {
+
+        statisticalProgramRepository.findById(command.getStatisticalProgramId()).ifPresentOrElse(statisticalProgram -> {
+
+            final StatisticalStandardReferenceEntity statisticalStandardReference =
+                    statisticalStandardReferenceRepository.findById(command.getStatisticalStandardId()).orElseThrow(()
+                            -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
+
+            statisticalProgram.getStatisticalStandardReferences().remove(statisticalStandardReference);
+            statisticalProgramRepository.save(statisticalProgram);
+            command.getEvent().setData(DTOBoolean.TRUE);
+
+        }, () -> {
+
+            throw new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND);
+
+        });
+
+        return command;
+    }
+
 
     private void auditingChanges(StatisticalProgramEntity sp, String jwt) {
         final Long accountId = JWT.decode(jwt).getClaim("user").asLong();

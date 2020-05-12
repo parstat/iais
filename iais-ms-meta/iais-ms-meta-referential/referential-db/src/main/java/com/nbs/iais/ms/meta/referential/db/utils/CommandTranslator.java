@@ -76,20 +76,22 @@ public class CommandTranslator {
 		if (StringTools.isNotEmpty(command.getName())) {
 			statisticalProgram.setName(command.getName(), command.getLanguage());
 		} else {
-			statisticalProgram.setName(previousVersion.getName(command.getLanguage()), command.getLanguage());
+			previousVersion.getName().getMap().forEach((language, text) ->
+					statisticalProgram.setName(text, Language.getLanguage(language)));
 		}
 
 		if (StringTools.isNotEmpty(command.getAcronym())) {
 			statisticalProgram.setAcronym(command.getAcronym(), command.getLanguage());
 		} else {
-			statisticalProgram.setAcronym(previousVersion.getAcronym(command.getLanguage()), command.getLanguage());
+			previousVersion.getAcronym().getMap().forEach((language, text) ->
+					statisticalProgram.setAcronym(text, Language.getLanguage(language)));
 		}
 
 		if (StringTools.isNotEmpty(command.getDescription())) {
 			statisticalProgram.setDescription(command.getDescription(), command.getLanguage());
 		} else {
-			statisticalProgram.setDescription(previousVersion.getDescription(command.getLanguage()),
-					command.getLanguage());
+			previousVersion.getDescription().getMap().forEach((language, text) ->
+					statisticalProgram.setDescription(text, Language.getLanguage(language)));
 		}
 
 		if (StringTools.isNotEmpty(command.getLocalId())) {
@@ -105,7 +107,6 @@ public class CommandTranslator {
 		statisticalProgram.setVersion(command.getVersion());
 		statisticalProgram.setVersionDate(command.getVersionDate());
 		statisticalProgram.setVersionRationale(command.getVersionRationale());
-		statisticalProgram.setProgramStatus(command.getStatus());
 		statisticalProgram.setCreator(JWT.decode(command.getJwt()).getClaim("user").asLong());
 		statisticalProgram.setCreatedTimestamp(Instant.now());
 

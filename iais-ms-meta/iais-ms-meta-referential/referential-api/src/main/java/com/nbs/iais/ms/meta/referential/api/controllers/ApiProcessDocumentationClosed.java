@@ -105,7 +105,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @return ProcessDocumentationDTO
 	 */
 	@JsonView(Views.Extended.class)
-	@PutMapping("/program/{statistical_program}/functions/{business_function}/versions/{version}")
+	@PutMapping("/program/{statistical_program}/function/{business_function}/version/{version}")
 	public ProcessDocumentationDTO addProcessDocumentationVersion(@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "description", required = false) final String description,
@@ -113,7 +113,6 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 			@PathVariable(name = "version", required = false) final String version,
 			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
-			@RequestParam(name = "previousVersion") final String previousVersion,
 			@PathVariable(name = "business_function") final Long businessFunction,
 			@PathVariable(name = "statistical_program") final Long statisticalProgram,
 			@RequestParam(name = "frequency", required = false) final Frequency frequency,
@@ -124,7 +123,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 
 
 		final AddProcessDocumentationVersionCommand command = AddProcessDocumentationVersionCommand.create(jwt, name,
-				description, localId, version, versionDate, versionRationale,previousVersion, businessFunction, statisticalProgram,
+				description, localId, version, versionDate, versionRationale, businessFunction, statisticalProgram,
 				frequency, maintainer, nextSubPhase, Language.getLanguage(language));
 		return sendCommand(command, "process_documentation").getEvent().getData();
 
@@ -238,7 +237,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * API method to add an existent input specification to a process documentation
 	 *
 	 * @param id                  id of the process documentation
-	 * @param input_specification id of the input specification to add
+	 * @param inputSpecification id of the input specification to add
 	 * @param jwt                 token in the header of the request
 	 * @param language            to present the returned DTO
 	 * @return ProcessDocumentationDTO (the update process documentation)
@@ -284,7 +283,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * API method to add an existent output specification to a process documentation
 	 *
 	 * @param id                   id of the process documentation
-	 * @param output_specification id of the output specification to add
+	 * @param outputSpecification  id of the output specification to add
 	 * @param jwt                  token in the header of the request
 	 * @param language             to present the returned DTO
 	 * @return ProcessDocumentationDTO (the update process documentation)

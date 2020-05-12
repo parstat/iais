@@ -136,8 +136,11 @@ public class ApplicationConfig {
 						.channelMapping(AddStatisticalProgramVersionCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 						.channelMapping(UpdateStatisticalProgramCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 						.channelMapping(AddStatisticalProgramAdministratorCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+						.channelMapping(RemoveStatisticalProgramAdministratorCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 						.channelMapping(AddStatisticalProgramStandardCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+						.channelMapping(RemoveStatisticalProgramStandardCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 						.channelMapping(AddStatisticalProgramLegislativeReferenceCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+						.channelMapping(RemoveStatisticalProgramLegislativeReferenceCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 						.channelMapping(CreateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT)
 						.channelMapping(UpdateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT))
 				.get();
@@ -229,19 +232,35 @@ public class ApplicationConfig {
 		return IntegrationFlows.from(statisticalProgramCommandInput())
 				.<Object, Class<?>>route(Object::getClass, rs -> rs
 						.subFlowMapping(CreateStatisticalProgramCommand.class,
-								sf -> sf.<CreateStatisticalProgramCommand>handle((p, h) -> statisticalProgramCommandService.createStatisticalProgram(p)))
+								sf -> sf.<CreateStatisticalProgramCommand>handle((p, h) ->
+										statisticalProgramCommandService.createStatisticalProgram(p)))
 						.subFlowMapping(UpdateStatisticalProgramCommand.class,
-								sf -> sf.<UpdateStatisticalProgramCommand>handle((p, h) -> statisticalProgramCommandService.updateStatisticalProgram(p)))
+								sf -> sf.<UpdateStatisticalProgramCommand>handle((p, h) ->
+										statisticalProgramCommandService.updateStatisticalProgram(p)))
 						.subFlowMapping(DeleteStatisticalProgramCommand.class,
-								sf -> sf.<DeleteStatisticalProgramCommand>handle((p, h) -> statisticalProgramCommandService.deleteStatisticalProgram(p)))
+								sf -> sf.<DeleteStatisticalProgramCommand>handle((p, h) ->
+										statisticalProgramCommandService.deleteStatisticalProgram(p)))
 						.subFlowMapping(AddStatisticalProgramAdministratorCommand.class,
-								sf -> sf.<AddStatisticalProgramAdministratorCommand>handle((p, h) -> statisticalProgramCommandService.addStatisticalProgramAdministrator(p)))
+								sf -> sf.<AddStatisticalProgramAdministratorCommand>handle((p, h) ->
+										statisticalProgramCommandService.addStatisticalProgramAdministrator(p)))
+						.subFlowMapping(RemoveStatisticalProgramAdministratorCommand.class,
+								sf -> sf.<RemoveStatisticalProgramAdministratorCommand>handle((p, h) ->
+										statisticalProgramCommandService.removeStatisticalProgramAdministrator(p)))
 						.subFlowMapping(AddStatisticalProgramLegislativeReferenceCommand.class,
-								sf -> sf.<AddStatisticalProgramLegislativeReferenceCommand>handle((p, h) -> statisticalProgramCommandService.addStatisticalProgramLegislativeReference(p)))
+								sf -> sf.<AddStatisticalProgramLegislativeReferenceCommand>handle((p, h) ->
+										statisticalProgramCommandService.addStatisticalProgramLegislativeReference(p)))
+						.subFlowMapping(RemoveStatisticalProgramLegislativeReferenceCommand.class,
+								sf -> sf.<RemoveStatisticalProgramLegislativeReferenceCommand>handle((p, h) ->
+										statisticalProgramCommandService.removeStatisticalProgramLegislativeReference(p)))
 						.subFlowMapping(AddStatisticalProgramStandardCommand.class,
-								sf -> sf.<AddStatisticalProgramStandardCommand>handle((p, h) -> statisticalProgramCommandService.addStatisticalProgramStandard(p)))
+								sf -> sf.<AddStatisticalProgramStandardCommand>handle((p, h) ->
+										statisticalProgramCommandService.addStatisticalProgramStandard(p)))
+						.subFlowMapping(RemoveStatisticalProgramStandardCommand.class,
+								sf -> sf.<RemoveStatisticalProgramStandardCommand>handle((p, h) ->
+										statisticalProgramCommandService.removeStatisticalProgramStandard(p)))
 						.subFlowMapping(AddStatisticalProgramVersionCommand.class,
-								sf -> sf.<AddStatisticalProgramVersionCommand>handle((p, h) -> statisticalProgramCommandService.addStatisticalProgramVersion(p)))
+								sf -> sf.<AddStatisticalProgramVersionCommand>handle((p, h) ->
+										statisticalProgramCommandService.addStatisticalProgramVersion(p)))
 				).get();
 	}
 

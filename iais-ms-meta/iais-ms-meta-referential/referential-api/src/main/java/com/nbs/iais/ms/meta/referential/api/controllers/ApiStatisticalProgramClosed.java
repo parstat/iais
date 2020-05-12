@@ -2,18 +2,15 @@ package com.nbs.iais.ms.meta.referential.api.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Role;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
+import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.common.utils.StringTools;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -221,6 +218,30 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 	}
 
 	/**
+	 * API method to remove an existent statistical standard to a statistical program
+	 *
+	 * @param id       id of the statistical program
+	 * @param standard id of the statistical standard to add
+	 * @param jwt      token in the header of the request
+	 * @param language to present the returned DTO
+	 * @return DTOBoolean True if removed
+	 */
+	@JsonView(Views.Extended.class)
+	@DeleteMapping("/{id}/standards/{standard}")
+	public DTOBoolean removeStatisticalProgramStandard(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "standard") final Long standard,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final RemoveStatisticalProgramStandardCommand command = RemoveStatisticalProgramStandardCommand.create(jwt, id, standard,
+				Language.getLanguage(language));
+
+		return sendCommand(command, "statistical_program").getEvent().getData();
+
+	}
+
+	/**
 	 * Method to delete a statistical program
 	 * 
 	 * @param jwt authorization token, only ADMIN and ROOT can delete currently
@@ -260,6 +281,100 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 				Language.getLanguage(language));
 
 		return sendCommand(command, "statistical_program").getEvent().getData();
+
+	}
+
+	/**
+	 * API method to remove legislative reference from a statistical program
+	 *
+	 * @param id              id of the statistical program
+	 * @param legislative     id of the legislative reference to add
+	 * @param jwt             token in the header of the request
+	 * @param language        to present the returned DTr
+	 * @return DTOBoolean TRUE if deleted
+	 */
+	@JsonView(Views.Extended.class)
+	@DeleteMapping("/{id}/legislative/{legislative}")
+	public DTOBoolean removeStatisticalProgramLegislativeReference(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "legislative") final Long legislative,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final RemoveStatisticalProgramLegislativeReferenceCommand command = RemoveStatisticalProgramLegislativeReferenceCommand.create(jwt, id, legislative,
+				Language.getLanguage(language));
+
+		return sendCommand(command, "statistical_program").getEvent().getData();
+
+	}
+
+	/**
+	 * Method to remove a maintainer (usually a DIVISION) from statistical program
+	 * @param jwt Authentication token
+	 * @param id The id of the statistical program
+	 * @param agent The id of the DIVISION to remove as maintainer
+	 * @param language The language to use
+	 * @return DTOBoolean TRUE if maintainer removed
+	 */
+	@JsonView(Views.Extended.class)
+	@DeleteMapping("/{id}/maintainer/{agent}")
+	public DTOBoolean removeStatisticalProgramMaintainer(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "agent") final Long agent,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final RemoveStatisticalProgramAdministratorCommand command = RemoveStatisticalProgramAdministratorCommand
+				.create(jwt, id, agent, RoleType.MAINTAINER, Language.getLanguage(language));
+
+		return sendCommand(command ,"statistical_program").getEvent().getData();
+
+	}
+
+	/**
+	 * Method to remove a owner (usually a ORGANIZATION) from statistical program
+	 * @param jwt Authentication token
+	 * @param id The id of the statistical program
+	 * @param agent The id of the ORGANIZATION to remove as maintainer
+	 * @param language The language to use
+	 * @return DTOBoolean TRUE if owner removed
+	 */
+	@JsonView(Views.Extended.class)
+	@DeleteMapping("/{id}/owner/{agent}")
+	public DTOBoolean removeStatisticalProgramOwner(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "agent") final Long agent,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final RemoveStatisticalProgramAdministratorCommand command = RemoveStatisticalProgramAdministratorCommand
+				.create(jwt, id, agent, RoleType.OWNER, Language.getLanguage(language));
+
+		return sendCommand(command ,"statistical_program").getEvent().getData();
+
+	}
+
+
+	/**
+	 * Method to remove a owner (usually a CONTACT) from statistical program
+	 * @param jwt Authentication token
+	 * @param id The id of the statistical program
+	 * @param agent The id of the CONTACT to remove as maintainer
+	 * @param language The language to use
+	 * @return DTOBoolean TRUE if CONTACT removed
+	 */
+	@JsonView(Views.Extended.class)
+	@DeleteMapping("/{id}/contact/{agent}")
+	public DTOBoolean removeStatisticalProgramContact(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "agent") final Long agent,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final RemoveStatisticalProgramAdministratorCommand command = RemoveStatisticalProgramAdministratorCommand
+				.create(jwt, id, agent, RoleType.CONTACT, Language.getLanguage(language));
+
+		return sendCommand(command ,"statistical_program").getEvent().getData();
 
 	}
 
