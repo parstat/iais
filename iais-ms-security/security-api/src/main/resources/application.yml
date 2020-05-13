@@ -19,3 +19,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
         globally_quoted_identifiers: true
+
+---
+spring:
+  profiles: local
+  datasource:
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=iais_security
+    username: postgres
