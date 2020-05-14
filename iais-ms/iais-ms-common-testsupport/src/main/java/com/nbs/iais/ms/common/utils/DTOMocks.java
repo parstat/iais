@@ -27,6 +27,7 @@ public class DTOMocks {
         agentMiniDTO.setName("Organization");
         agentMiniDTO.setType(AgentType.ORGANIZATION);
         agentMiniDTO.setLink("/agents/1");
+
         return agentMiniDTO;
     }
 
@@ -76,6 +77,7 @@ public class DTOMocks {
         agentDTO.setDescription("description");
         agentDTO.setLink("/agents/" + agentDTO.getId().toString());
         agentDTO.setParent(agentMini());
+        agentDTO.setLocalId("DPAI");
         return agentDTO;
     }
 

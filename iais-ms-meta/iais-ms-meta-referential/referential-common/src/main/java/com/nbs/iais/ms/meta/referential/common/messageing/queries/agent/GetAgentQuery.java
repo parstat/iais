@@ -26,6 +26,12 @@ public class GetAgentQuery extends AbstractQuery<GetAgentRead> {
     	this.id = id;
 	}
 
+	private GetAgentQuery(final String localId, final Language language) {
+    	super(new GetAgentRead());
+    	setLanguage(language);
+    	this.localId = localId;
+	}
+
 	public static GetAgentQuery create() {
 	        return new GetAgentQuery();
     }
@@ -33,6 +39,8 @@ public class GetAgentQuery extends AbstractQuery<GetAgentRead> {
 	public static GetAgentQuery create(final Long id, final Language language) {
 		return new GetAgentQuery(id, language);
 	}
+
+	public static GetAgentQuery create(final String localId, final Language language) { return new GetAgentQuery(localId, language);}
 
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
