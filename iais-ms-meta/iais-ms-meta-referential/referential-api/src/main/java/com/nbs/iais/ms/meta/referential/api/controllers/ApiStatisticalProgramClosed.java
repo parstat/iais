@@ -1,8 +1,21 @@
 package com.nbs.iais.ms.meta.referential.api.controllers;
 
+import java.time.LocalDateTime;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Role;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
@@ -10,14 +23,15 @@ import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.common.utils.StringTools;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.RemoveStatisticalProgramAdministratorCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.RemoveStatisticalProgramLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.RemoveStatisticalProgramStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 
 @RestController
 @RequestMapping(value = "/api/v1/close/referential/statistical/programs", produces = MediaType.APPLICATION_JSON_VALUE)

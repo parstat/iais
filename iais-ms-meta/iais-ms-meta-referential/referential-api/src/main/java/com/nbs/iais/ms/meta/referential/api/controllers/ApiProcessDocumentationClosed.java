@@ -36,8 +36,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.docum
 @RequestMapping(value = "/api/v1/close/referential/process/documentations", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiProcessDocumentationClosed extends AbstractController {
 
-	private static Logger LOG = LoggerFactory.getLogger(ApiProcessDocumentationClosed.class);
-
+ 
 	/**
 	 * Method to create a process documentation
 	 * 

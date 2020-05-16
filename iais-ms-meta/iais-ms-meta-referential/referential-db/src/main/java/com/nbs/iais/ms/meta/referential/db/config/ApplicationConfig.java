@@ -1,18 +1,66 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.config.EnableIntegration;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.dsl.Pollers;
+import org.springframework.integration.scheduling.PollerMetadata;
+import org.springframework.messaging.MessageChannel;
+
+import com.nbs.iais.ms.common.messaging.channels.Channels;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.DeleteAgentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.*;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.CreateProcessDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.DeleteProcessDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.UpdateProcessDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationInputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationMethodCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationVersionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.DeleteProcessDocumentationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.AddInputSpecificationTypeCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.CreateInputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.DeleteInputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.RemoveInputSpecificationTypeCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.UpdateInputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.AddOutputSpecificationTypeCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.CreateOutputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.DeleteOutputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.RemoveOutputSpecificationTypeCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.CreateProcessQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.DeleteProcessQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.UpdateProcessQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.RemoveStatisticalProgramAdministratorCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.RemoveStatisticalProgramLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.RemoveStatisticalProgramStandardCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.DeleteAgentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
@@ -23,28 +71,46 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.process.docume
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.process.documentation.GetProcessDocumentationsQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statisical.standard.GetStatisticalStandardsQuery;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramsQuery;
-import com.nbs.iais.ms.meta.referential.db.repositories.*;
-import com.nbs.iais.ms.meta.referential.db.services.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import org.springframework.integration.channel.DirectChannel;
-import org.springframework.integration.config.EnableIntegration;
-import org.springframework.integration.dsl.IntegrationFlow;
-import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.Pollers;
-import org.springframework.integration.scheduling.PollerMetadata;
-import org.springframework.messaging.MessageChannel;
-import com.nbs.iais.ms.common.messaging.channels.Channels;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.program.GetStatisticalProgramsQuery;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.AdministrativeDetailsEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentInRoleEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessServiceEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ChangeEventEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.MultiLanguageTextEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessInputSpecificationEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessMethodEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessOutputSpecificationEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessQualityEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
+import com.nbs.iais.ms.meta.referential.db.repositories.AgentInRoleRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.LegislativeReferenceRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
+import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalStandardReferenceRepository;
+import com.nbs.iais.ms.meta.referential.db.services.AgentCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.AgentQueryService;
+import com.nbs.iais.ms.meta.referential.db.services.BusinessFunctionCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.BusinessFunctionQueryService;
+import com.nbs.iais.ms.meta.referential.db.services.LegislativeReferenceCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.LegislativeReferenceQueryService;
+import com.nbs.iais.ms.meta.referential.db.services.ProcessDocumentCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.ProcessDocumentationCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.ProcessDocumentationQueryService;
+import com.nbs.iais.ms.meta.referential.db.services.ProcessInputSpecificationCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.ProcessOutputSpecificationCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.ProcessQualityCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.StatisticalProgramCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.StatisticalProgramQueryService;
+import com.nbs.iais.ms.meta.referential.db.services.StatisticalStandardCommandService;
+import com.nbs.iais.ms.meta.referential.db.services.StatisticalStandardQueryService;
 
 @Configuration
 @EnableAutoConfiguration
@@ -142,8 +208,26 @@ public class ApplicationConfig {
 						.channelMapping(AddStatisticalProgramLegislativeReferenceCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 						.channelMapping(RemoveStatisticalProgramLegislativeReferenceCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 						.channelMapping(CreateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT)
-						.channelMapping(UpdateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT))
-				.get();
+						.channelMapping(UpdateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT)
+				        .channelMapping(CreateProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
+				        .channelMapping(UpdateProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
+				        .channelMapping(DeleteProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
+				        .channelMapping(CreateProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
+				        .channelMapping(UpdateProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
+				        .channelMapping(DeleteProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
+				        .channelMapping(CreateInputSpecificationCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				        .channelMapping(UpdateInputSpecificationCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				        .channelMapping(DeleteInputSpecificationCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				        .channelMapping(AddInputSpecificationTypeCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				        .channelMapping(RemoveInputSpecificationTypeCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				        .channelMapping(CreateOutputSpecificationCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				        .channelMapping(UpdateOutputSpecificationCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				        .channelMapping(DeleteOutputSpecificationCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				        .channelMapping(AddOutputSpecificationTypeCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				        .channelMapping(RemoveOutputSpecificationTypeCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+
+
+				).get();
 	}
 
 
@@ -303,6 +387,65 @@ public class ApplicationConfig {
 	}
 
 
+	@Bean
+	public IntegrationFlow processDocumentCommandIntegrationFlow(final ProcessDocumentCommandService processDocumentCommandService) {
+		return IntegrationFlows.from(processDocumentCommandInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+						.subFlowMapping(CreateProcessDocumentCommand.class,
+								sf -> sf.<CreateProcessDocumentCommand>handle((p, h) -> processDocumentCommandService.createProcessDocument(p)))
+						.subFlowMapping(UpdateProcessDocumentCommand.class,
+								sf -> sf.<UpdateProcessDocumentCommand>handle((p, h) -> processDocumentCommandService.updateProcessDocument(p)))
+						.subFlowMapping(DeleteProcessDocumentCommand.class,
+								sf -> sf.<DeleteProcessDocumentCommand>handle((p, h) -> processDocumentCommandService.deleteProcessDocument(p)))
+				).get();
+	}
+
+	@Bean
+	public IntegrationFlow processQualityCommandIntegrationFlow(final ProcessQualityCommandService processQualityCommandService) {
+		return IntegrationFlows.from(processQualityCommandInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+						.subFlowMapping(CreateProcessQualityCommand.class,
+								sf -> sf.<CreateProcessQualityCommand>handle((p, h) -> processQualityCommandService.createProcessQuality(p)))
+						.subFlowMapping(UpdateProcessQualityCommand.class,
+								sf -> sf.<UpdateProcessQualityCommand>handle((p, h) -> processQualityCommandService.updateProcessQuality(p)))
+						.subFlowMapping(DeleteProcessQualityCommand.class,
+								sf -> sf.<DeleteProcessQualityCommand>handle((p, h) -> processQualityCommandService.deleteProcessQuality(p)))
+				).get();
+	}
+	
+	@Bean
+	public IntegrationFlow processInputSpecificationCommandIntegrationFlow(final ProcessInputSpecificationCommandService processInputSpecificationCommandService) {
+		return IntegrationFlows.from(processInputSpecificationCommandInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+						.subFlowMapping(CreateInputSpecificationCommand.class,
+								sf -> sf.<CreateInputSpecificationCommand>handle((p, h) -> processInputSpecificationCommandService.createProcessInputSpecification(p)))
+						.subFlowMapping(UpdateInputSpecificationCommand.class,
+								sf -> sf.<UpdateInputSpecificationCommand>handle((p, h) -> processInputSpecificationCommandService.updateProcessInputSpecification(p)))
+						.subFlowMapping(AddInputSpecificationTypeCommand.class,
+								sf -> sf.<AddInputSpecificationTypeCommand>handle((p, h) -> processInputSpecificationCommandService.addInputSpecificationTypeCommand(p)))
+						.subFlowMapping(RemoveInputSpecificationTypeCommand.class,
+								sf -> sf.<RemoveInputSpecificationTypeCommand>handle((p, h) -> processInputSpecificationCommandService.removeInputSpecificationTypeCommand(p)))
+						.subFlowMapping(DeleteInputSpecificationCommand.class,
+								sf -> sf.<DeleteInputSpecificationCommand>handle((p, h) -> processInputSpecificationCommandService.deleteProcessInputSpecification(p)))
+			).get();
+	}
+	
+	@Bean
+	public IntegrationFlow processOutputSpecificationCommandIntegrationFlow(final ProcessOutputSpecificationCommandService processOutputSpecificationCommandService) {
+		return IntegrationFlows.from(processOutputSpecificationCommandInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+						.subFlowMapping(CreateOutputSpecificationCommand.class,
+								sf -> sf.<CreateOutputSpecificationCommand>handle((p, h) -> processOutputSpecificationCommandService.createProcessOutputSpecification(p)))
+						.subFlowMapping(UpdateOutputSpecificationCommand.class,
+								sf -> sf.<UpdateOutputSpecificationCommand>handle((p, h) -> processOutputSpecificationCommandService.updateProcessOutputSpecification(p)))
+						.subFlowMapping(AddOutputSpecificationTypeCommand.class,
+								sf -> sf.<AddOutputSpecificationTypeCommand>handle((p, h) -> processOutputSpecificationCommandService.addOutputSpecificationTypeCommand(p)))
+						.subFlowMapping(RemoveOutputSpecificationTypeCommand.class,
+								sf -> sf.<RemoveOutputSpecificationTypeCommand>handle((p, h) -> processOutputSpecificationCommandService.removeOutputSpecificationTypeCommand(p)))
+						.subFlowMapping(DeleteOutputSpecificationCommand.class,
+								sf -> sf.<DeleteOutputSpecificationCommand>handle((p, h) -> processOutputSpecificationCommandService.deleteProcessOutputSpecification(p)))
+			).get();
+	}
 	@Bean(name = Channels.QUERY_INPUT)
 	public MessageChannel queryInput() {
 		return new DirectChannel();
@@ -374,6 +517,47 @@ public class ApplicationConfig {
 		return new DirectChannel();
 	}
 
+	@Bean(name = Channels.PROCESS_DOCUMENT_QUERY_INPUT)
+	public MessageChannel processDocumentQueryInput() {
+		return new DirectChannel();
+	}
+
+	@Bean(name = Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
+	public MessageChannel processDocumentCommandInput() {
+		return new DirectChannel();
+	}
+
+
+	@Bean(name = Channels.PROCESS_QUALITY_QUERY_INPUT)
+	public MessageChannel processQualityQueryInput() {
+		return new DirectChannel();
+	}
+
+	@Bean(name = Channels.PROCESS_QUALITY_COMMAND_INPUT)
+	public MessageChannel processQualityCommandInput() {
+		return new DirectChannel();
+	}
+	
+	@Bean(name = Channels.PROCESS_INPUT_SPECIFICATION_QUERY_INPUT)
+	public MessageChannel processInputSpecificationQueryInput() {
+		return new DirectChannel();
+	}
+
+	@Bean(name = Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+	public MessageChannel processInputSpecificationCommandInput() {
+		return new DirectChannel();
+	}
+
+	
+	@Bean(name = Channels.PROCESS_OUTPUT_SPECIFICATION_QUERY_INPUT)
+	public MessageChannel processOutputSpecificationQueryInput() {
+		return new DirectChannel();
+	}
+
+	@Bean(name = Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+	public MessageChannel processOutputSpecificationCommandInput() {
+		return new DirectChannel();
+	}
 
 
 	@Bean(name = PollerMetadata.DEFAULT_POLLER)

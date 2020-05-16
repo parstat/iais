@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 import com.auth0.jwt.JWT;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateAgentCommand;
@@ -13,9 +12,17 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.CreateProcessDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.UpdateProcessDocumentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.CreateInputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.UpdateInputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.CreateOutputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.CreateProcessQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.UpdateProcessQualityCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
@@ -24,11 +31,14 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.s
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessInputSpecificationEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessOutputSpecificationEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessQualityEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
 
-import javax.accessibility.AccessibleBundle;
 
 public class CommandTranslator {
 
@@ -449,5 +459,211 @@ public class CommandTranslator {
 		}
 
 		return processDocumentation;
+	}
+	
+	public static ProcessDocumentEntity translate(final CreateProcessDocumentCommand command) {
+
+		final ProcessDocumentEntity processDocument = new ProcessDocumentEntity();
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processDocument.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processDocument.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processDocument.setLocalId(command.getLocalId());
+		}
+   
+		processDocument.setMediaType(command.getType());
+
+		processDocument.setVersion(command.getVersion());
+		processDocument.setVersionDate(LocalDateTime.now());
+		processDocument.setVersionRationale(command.getVersionRationale());
+
+		return processDocument;
+	}
+
+	public static ProcessDocumentEntity translate(final UpdateProcessDocumentCommand command,
+			ProcessDocumentEntity processDocument) {
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processDocument.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processDocument.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processDocument.setLocalId(command.getLocalId());
+		}
+		if (command.getType() != null) {
+			processDocument.setMediaType(command.getType());
+		}
+		if (StringTools.isNotEmpty(command.getVersion())) {
+			processDocument.setVersion(command.getVersion());
+		}
+		if (command.getVersionDate() != null) {
+			processDocument.setVersionDate(command.getVersionDate());
+		}
+		if (command.getVersionRationale() != null) {
+			processDocument.setVersionRationale(command.getVersionRationale());
+		}
+		return processDocument;
+	}
+	
+	public static ProcessQualityEntity translate(final CreateProcessQualityCommand command) {
+
+		final ProcessQualityEntity processQuality = new ProcessQualityEntity();
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processQuality.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processQuality.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processQuality.setLocalId(command.getLocalId());
+		}
+   
+		processQuality.setQualityType(command.getType());
+
+		processQuality.setVersion(command.getVersion());
+		processQuality.setVersionDate(LocalDateTime.now());
+		processQuality.setVersionRationale(command.getVersionRationale());
+
+		return processQuality;
+	}
+
+	public static ProcessQualityEntity translate(final UpdateProcessQualityCommand command,
+			ProcessQualityEntity processQuality) {
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processQuality.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processQuality.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processQuality.setLocalId(command.getLocalId());
+		}
+		if (command.getType() != null) {
+			processQuality.setQualityType(command.getType());
+		}
+		if (StringTools.isNotEmpty(command.getVersion())) {
+			processQuality.setVersion(command.getVersion());
+		}
+		if (command.getVersionDate() != null) {
+			processQuality.setVersionDate(command.getVersionDate());
+		}
+		if (command.getVersionRationale() != null) {
+			processQuality.setVersionRationale(command.getVersionRationale());
+		}
+		return processQuality;
+	}
+	
+	public static ProcessInputSpecificationEntity translate(final CreateInputSpecificationCommand command) {
+
+		final ProcessInputSpecificationEntity processInputSpecification = new ProcessInputSpecificationEntity();
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processInputSpecification.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processInputSpecification.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processInputSpecification.setLocalId(command.getLocalId());
+		}
+    	processInputSpecification.setVersion(command.getVersion());
+		processInputSpecification.setVersionDate(LocalDateTime.now());
+		processInputSpecification.setVersionRationale(command.getVersionRationale());
+
+		return processInputSpecification;
+	}
+
+	public static ProcessInputSpecificationEntity translate(final UpdateInputSpecificationCommand command,
+			ProcessInputSpecificationEntity processInputSpecification) {
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processInputSpecification.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processInputSpecification.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processInputSpecification.setLocalId(command.getLocalId());
+		}
+	 	if (StringTools.isNotEmpty(command.getVersion())) {
+			processInputSpecification.setVersion(command.getVersion());
+		}
+		if (command.getVersionDate() != null) {
+			processInputSpecification.setVersionDate(command.getVersionDate());
+		}
+		if (command.getVersionRationale() != null) {
+			processInputSpecification.setVersionRationale(command.getVersionRationale());
+		}
+		return processInputSpecification;
+	}
+	
+	public static ProcessOutputSpecificationEntity translate(final CreateOutputSpecificationCommand command) {
+
+		final ProcessOutputSpecificationEntity processOutputSpecification = new ProcessOutputSpecificationEntity();
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processOutputSpecification.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processOutputSpecification.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processOutputSpecification.setLocalId(command.getLocalId());
+		}
+   
+		processOutputSpecification.setVersion(command.getVersion());
+		processOutputSpecification.setVersionDate(LocalDateTime.now());
+		processOutputSpecification.setVersionRationale(command.getVersionRationale());
+
+		return processOutputSpecification;
+	}
+
+	public static ProcessOutputSpecificationEntity translate(final UpdateOutputSpecificationCommand command,
+			ProcessOutputSpecificationEntity processOutputSpecification) {
+
+		if (StringTools.isNotEmpty(command.getName())) {
+			processOutputSpecification.setName(command.getName(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getDescription())) {
+			processOutputSpecification.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if (StringTools.isNotEmpty(command.getLocalId())) {
+			processOutputSpecification.setLocalId(command.getLocalId());
+		}
+	
+		if (StringTools.isNotEmpty(command.getVersion())) {
+			processOutputSpecification.setVersion(command.getVersion());
+		}
+		if (command.getVersionDate() != null) {
+			processOutputSpecification.setVersionDate(command.getVersionDate());
+		}
+		if (command.getVersionRationale() != null) {
+			processOutputSpecification.setVersionRationale(command.getVersionRationale());
+		}
+		return processOutputSpecification;
 	}
 }

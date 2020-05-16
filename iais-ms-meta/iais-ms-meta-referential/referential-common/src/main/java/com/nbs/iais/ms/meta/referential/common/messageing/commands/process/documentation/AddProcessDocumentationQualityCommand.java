@@ -11,10 +11,7 @@ public class AddProcessDocumentationQualityCommand extends AbstractCommand<AddPr
 
     private Long processDocumentation;
 
-    //FIXME this command should always create a new ProcessQuality thus all fields of the domain should be included
-    //name
-    //description
-    //...
+   
     private Long processQuality;
 
     private AddProcessDocumentationQualityCommand() {

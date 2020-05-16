@@ -15,9 +15,7 @@ import static com.nbs.iais.ms.common.db.domains.translators.Translator.translate
 @Service
 public class StatisticalStandardQueryService {
 
-    private final static Logger LOG = LoggerFactory.getLogger(ProcessDocumentationCommandService.class);
-
-    @Autowired
+      @Autowired
     private StatisticalStandardReferenceRepository statisticalStandardReferenceRepository;
 
     /**

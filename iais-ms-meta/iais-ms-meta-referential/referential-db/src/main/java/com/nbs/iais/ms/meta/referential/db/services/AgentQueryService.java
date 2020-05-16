@@ -1,23 +1,21 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
+import static com.nbs.iais.ms.common.db.domains.translators.Translator.translate;
+import static com.nbs.iais.ms.common.db.domains.translators.Translator.translateAgents;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgentsQuery;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import static com.nbs.iais.ms.common.db.domains.translators.Translator.translate;
-import static com.nbs.iais.ms.common.db.domains.translators.Translator.translateAgents;
 
 
 @Service
 public class AgentQueryService {
 
-    private final static Logger LOG = LoggerFactory.getLogger(ProcessDocumentationCommandService.class);
-
+   
     @Autowired
     private AgentRepository agentRepository;
 

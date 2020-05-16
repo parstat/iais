@@ -1,22 +1,19 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
 
+import static com.nbs.iais.ms.common.db.domains.translators.Translator.translate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferenceQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference.GetLegislativeReferencesQuery;
 import com.nbs.iais.ms.meta.referential.db.repositories.LegislativeReferenceRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import static com.nbs.iais.ms.common.db.domains.translators.Translator.translate;
 
 @Service
 public class LegislativeReferenceQueryService {
-
-    private final static Logger LOG = LoggerFactory.getLogger(ProcessDocumentationCommandService.class);
 
     @Autowired
     private LegislativeReferenceRepository legislativeReferenceRepository;
