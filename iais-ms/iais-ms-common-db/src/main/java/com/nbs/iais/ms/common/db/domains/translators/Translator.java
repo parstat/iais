@@ -304,7 +304,7 @@ public class Translator {
 
 		processDocumentDTO.setName(processDocument.getName(language));
 		processDocumentDTO.setDescription(processDocument.getDescription(language));
-
+		processDocumentDTO.setExternaLink(processDocument.getLink(language));
 		processDocumentDTO.setMediaType(processDocument.getMediaType());
 		processDocumentDTO.setLocalId(processDocument.getLocalId());
 		processDocumentDTO.setVersion(processDocument.getVersion());

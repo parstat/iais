@@ -44,7 +44,7 @@ public class ProcessDocumentCommandService {
 
 			ProcessDocumentEntity documentEntity = CommandTranslator.translate(command);
 			documentEntity.setProcessDocumentation(documentation);
-			documentEntity = processDocumentRepository.save(CommandTranslator.translate(command));
+			documentEntity = processDocumentRepository.save(documentEntity);
 			documentation.getProcessDocuments().add(documentEntity);
 			processDocumentationRepository.save(documentation);
 

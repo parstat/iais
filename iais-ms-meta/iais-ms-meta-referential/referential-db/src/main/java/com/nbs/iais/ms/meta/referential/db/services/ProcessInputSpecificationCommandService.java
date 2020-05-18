@@ -46,9 +46,7 @@ public class ProcessInputSpecificationCommandService {
 
 			ProcessInputSpecificationEntity InputSpecificationEntity = CommandTranslator.translate(command);
 			InputSpecificationEntity.setProcessDocumentation(documentation);
-			InputSpecificationEntity = processInputSpecificationRepository.save(CommandTranslator.translate(command));
-			documentation.getProcessInputs().add(InputSpecificationEntity);
-			processDocumentationRepository.save(documentation);
+			InputSpecificationEntity = processInputSpecificationRepository.save(InputSpecificationEntity);
 
 			Translator.translate(InputSpecificationEntity, command.getLanguage())
 					.ifPresent(command.getEvent()::setData);
@@ -125,8 +123,8 @@ public class ProcessInputSpecificationCommandService {
 	 * Method to remove a type to a ProcessInputSpecification
 	 *
 	 * @param command to execute
-	 * @return RemoveInputSpecificationTypeCommand including the dto of updated entity
-	 *         in the event
+	 * @return RemoveInputSpecificationTypeCommand including the dto of updated
+	 *         entity in the event
 	 * @throws EntityException PROCESS_INPUT_SPECIFICATION__NOT_FOUND when the
 	 *                         Process InputSpecification can not be found
 	 */
@@ -154,7 +152,6 @@ public class ProcessInputSpecificationCommandService {
 		return command;
 	}
 
-	
 	/**
 	 * Method to delete a Process InputSpecification
 	 *

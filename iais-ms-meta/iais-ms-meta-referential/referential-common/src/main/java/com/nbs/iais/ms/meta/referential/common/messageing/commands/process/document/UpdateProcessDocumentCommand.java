@@ -19,6 +19,11 @@ public class UpdateProcessDocumentCommand extends AbstractCommand<UpdateProcessD
 	 * ProcessDocument name in selected language
 	 */
 	private String name;
+	
+	/**
+	 * ProcessDocument link in selected language
+	 */
+	private String link;
 
 	/**
 	 * Description of the ProcessDocument in the selected language
@@ -85,7 +90,7 @@ public class UpdateProcessDocumentCommand extends AbstractCommand<UpdateProcessD
 	}
 
 	private UpdateProcessDocumentCommand(final String jwt, final Long id, final String name, final String description,
-			final MediaType type, final String localId, final String version, final LocalDateTime versionDate,
+			final MediaType type, final String localId, final String link, final String version, final LocalDateTime versionDate,
 			final String versionRationale, final Language language) {
 		super(new UpdateProcessDocumentEvent());
 		this.setId(id);
@@ -97,16 +102,17 @@ public class UpdateProcessDocumentCommand extends AbstractCommand<UpdateProcessD
 		if (versionDate != null)
 			this.versionDate = versionDate;
 		this.versionRationale = versionRationale;
+		setLink(link);
 		setLanguage(language);
 		setClosed(true);
 		setJwt(jwt);
 	}
 
 	public static UpdateProcessDocumentCommand create(final String jwt, final Long id, final String name,
-			final String description, final MediaType type, final String localId, final String version,
+			final String description, final MediaType type, final String localId,final String link, final String version,
 			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 
-		return new UpdateProcessDocumentCommand(jwt, id, name, description, type, localId, version, versionDate,
+		return new UpdateProcessDocumentCommand(jwt, id, name, description, type, localId,link, version, versionDate,
 				versionRationale, language);
 
 	}
@@ -149,5 +155,13 @@ public class UpdateProcessDocumentCommand extends AbstractCommand<UpdateProcessD
 
 	public void setType(MediaType type) {
 		this.type = type;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 }

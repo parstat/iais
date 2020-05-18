@@ -20,6 +20,12 @@ public class CreateProcessDocumentCommand extends AbstractCommand<CreateProcessD
 	 * The process document name in selected language
 	 */
 	private String name;
+	
+	/**
+	 * The process document link in selected language
+	 */
+	private String link;
+
 
 	/**
 	 * Description of the process document in the selected language
@@ -55,7 +61,7 @@ public class CreateProcessDocumentCommand extends AbstractCommand<CreateProcessD
 	}
 
 	private CreateProcessDocumentCommand(final String jwt, final Long processDocumentation, final String name,
-			final String description, final String localId, final MediaType type, final String version,
+			final String description, final String localId,final String link, final MediaType type, final String version,
 			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 		super(new CreateProcessDocumentEvent());
 		setJwt(jwt);
@@ -70,6 +76,7 @@ public class CreateProcessDocumentCommand extends AbstractCommand<CreateProcessD
 		if (versionRationale != null)
 			this.versionRationale = versionRationale;
 		this.type = type;
+		setLink(link);
 		setLanguage(language);
 		setClosed(true);
 	}
@@ -83,11 +90,11 @@ public class CreateProcessDocumentCommand extends AbstractCommand<CreateProcessD
 	}
 
 	public static CreateProcessDocumentCommand create(final String jwt, final Long processDocumentation,
-			final String name, final String description, final String localId, final MediaType type,
+			final String name, final String description, final String localId, final String link, final MediaType type,
 			final String version, final LocalDateTime versionDate, final String versionRationale,
 			final Language language) {
 
-		return new CreateProcessDocumentCommand(jwt, processDocumentation, name, description, localId, type, version,
+		return new CreateProcessDocumentCommand(jwt, processDocumentation, name, description, localId,link, type, version,
 				versionDate, versionRationale, language);
 
 	}
@@ -146,6 +153,14 @@ public class CreateProcessDocumentCommand extends AbstractCommand<CreateProcessD
 
 	public void setProcessDocumentation(Long processDocumentation) {
 		this.processDocumentation = processDocumentation;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 }

@@ -15,6 +15,10 @@ public class ProcessDocumentDTO extends LinkableIdentifiableArtefactDTO {
     @JsonProperty
     @JsonView(Views.Minimal.class)
     private MediaType mediaType;
+    
+    @JsonProperty
+    @JsonView(Views.Extended.class)
+    private String externaLink;
 
     public ProcessDocumentDTO() {
         super();
@@ -31,4 +35,12 @@ public class ProcessDocumentDTO extends LinkableIdentifiableArtefactDTO {
     public void setMediaType(final MediaType mediaType) {
         this.mediaType = mediaType;
     }
+
+	public String getExternaLink() {
+		return externaLink;
+	}
+
+	public void setExternaLink(String externaLink) {
+		this.externaLink = externaLink;
+	}
 }

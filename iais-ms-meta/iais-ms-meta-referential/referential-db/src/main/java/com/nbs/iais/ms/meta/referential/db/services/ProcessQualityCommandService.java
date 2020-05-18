@@ -42,13 +42,11 @@ public class ProcessQualityCommandService {
 
 		processDocumentationRepository.findById(command.getProcessDocumentation()).ifPresentOrElse(documentation -> {
 
-			ProcessQualityEntity QualityEntity = CommandTranslator.translate(command);
-			QualityEntity.setProcessDocumentation(documentation);
-			QualityEntity = processQualityRepository.save(CommandTranslator.translate(command));
-			documentation.getProcessQualityIndicators().add(QualityEntity);
-			processDocumentationRepository.save(documentation);
-
-			Translator.translate(QualityEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+			ProcessQualityEntity qualityEntity = CommandTranslator.translate(command);
+			qualityEntity.setProcessDocumentation(documentation);
+			qualityEntity = processQualityRepository.save(qualityEntity);
+			 
+			Translator.translate(qualityEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
 
 		}, () -> {
 			throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
