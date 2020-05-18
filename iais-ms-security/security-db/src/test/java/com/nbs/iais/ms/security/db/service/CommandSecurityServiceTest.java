@@ -72,7 +72,7 @@ public class CommandSecurityServiceTest extends ServiceTest {
         //verify
         verify(accountRepository).findByUsername(eq(signinCommand.getUsername()));
         verify(passwordEncoder).matches(eq(signinCommand.getPassword()),
-                ArgumentMatchers.eq(accountEntity.getPassword()));
+                eq(accountEntity.getPassword()));
     }
 
     @Test
