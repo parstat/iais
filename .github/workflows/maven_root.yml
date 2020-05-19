@@ -34,3 +34,11 @@ jobs:
       env:
         REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
       run: mvn compile jib:build --file ./iais-cloud/iais-zuul/pom.xml
+    - name: Install SSH key
+    - uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.parstat_key }}
+        name: id_rsa # optional
+        known_hosts: iais.francecentral.cloudapp.azure.com
+    - name: stack deploy
+      run: ssh parstat@iais.francecentral.cloudapp.azure.com 'cd iais | docker stack deploy --compose-file docker-compose.yml --with-registry-auth iais'
