@@ -92,7 +92,7 @@
                         <image>parstat.azurecr.io/iais-ms-security-api</image>
                         <auth>
                             <username>parstat</username>
-                            <password>g=WF3peMMOd9De4kiKUtCfO4QsHSYZPS</password>
+                            <password>${env.REGISTRY_PASSWORD}</password>
                         </auth>
                     </to>
                     <from>
