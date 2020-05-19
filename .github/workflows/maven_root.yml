@@ -22,3 +22,5 @@ jobs:
         java-version: 11
     - name: Build with Maven
       run: mvn clean install --file pom.xml
+    - name: Build docker image of referential api with maven jib plugin
+      run: mvn compile jib:build --file ./iais-ms-meta/iais-ms-meta-referential/referential-api/pom.xml
