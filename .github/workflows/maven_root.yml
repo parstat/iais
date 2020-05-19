@@ -37,4 +37,4 @@ jobs:
     - name: Stack deploy
       env: 
         PARSTAT_KEY: ${{ secrets.parstat_key }}
-      run: mkdir -p $HOME/.ssh && chmod 0700 $HOME/.ssh  && touch $HOME/.ssh/authorized_keys && echo $PARSTAT_KEY > $HOME/.ssh/authorized_keys && ssh parstat@iais.francecentral.cloudapp.azure.com/ 'cd iais &&  docker stack deploy --compose-file docker-compose.yml --with-registry-auth iais'
+      run: mkdir -p $HOME/.ssh && chmod 0700 $HOME/.ssh  && touch $HOME/.ssh/authorized_keys && echo $PARSTAT_KEY > $HOME/.ssh/authorized_keys && ssh -o "StrictHostKeyChecking no" parstat@iais.francecentral.cloudapp.azure.com 'cd iais &&  docker stack deploy --compose-file docker-compose.yml --with-registry-auth iais'
