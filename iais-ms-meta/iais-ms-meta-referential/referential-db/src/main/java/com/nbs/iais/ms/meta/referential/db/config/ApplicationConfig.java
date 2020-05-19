@@ -152,30 +152,37 @@ public class ApplicationConfig {
 	@Bean
 	public IntegrationFlow queryIntegrationFlow() {
 		return IntegrationFlows.from(queryInput()).<Object, Class<?>>route(Object::getClass,
-				rs -> rs.channelMapping(GetAgentQuery.class, Channels.AGENT_QUERY_INPUT)
+				rs -> rs
+						//AGENT
+						.channelMapping(GetAgentQuery.class, Channels.AGENT_QUERY_INPUT)
 						.channelMapping(GetAgentsQuery.class, Channels.AGENT_QUERY_INPUT)
+						//BUSINESS FUNCTION
 						.channelMapping(GetBusinessFunctionQuery.class, Channels.BUSINESS_FUNCTION_QUERY_INPUT)
 						.channelMapping(GetBusinessFunctionsQuery.class, Channels.BUSINESS_FUNCTION_QUERY_INPUT)
+						//LEGISLATIVE REFERENCE
 						.channelMapping(GetLegislativeReferenceQuery.class, Channels.LEGISLATIVE_REFERENCE_QUERY_INPUT)
 						.channelMapping(GetLegislativeReferencesQuery.class, Channels.LEGISLATIVE_REFERENCE_QUERY_INPUT)
+						//PROCESS DOCUMENTATION
 						.channelMapping(GetProcessDocumentationQuery.class, Channels.PROCESS_DOCUMENTATION_QUERY_INPUT)
 						.channelMapping(GetProcessDocumentationsQuery.class, Channels.PROCESS_DOCUMENTATION_QUERY_INPUT)
+						//STATISTICAL PROGRAM
 						.channelMapping(GetStatisticalProgramQuery.class, Channels.STATISTICAL_PROGRAM_QUERY_INPUT)
 						.channelMapping(GetStatisticalProgramsQuery.class, Channels.STATISTICAL_PROGRAM_QUERY_INPUT)
+						//STATISTICAL STANDARD
 						.channelMapping(GetStatisticalStandardQuery.class, Channels.STATISTICAL_STANDARD_QUERY_INPUT)
 						.channelMapping(GetStatisticalStandardsQuery.class, Channels.STATISTICAL_STANDARD_QUERY_INPUT)
+						//PROCESS DOCUMENTATION DOCUMENT
 						.channelMapping(GetProcessDocumentQuery.class, Channels.PROCESS_DOCUMENT_QUERY_INPUT)
 						.channelMapping(GetProcessDocumentsQuery.class, Channels.PROCESS_DOCUMENT_QUERY_INPUT)
+						//PROCESS DOCUMENTATION QUALITY
 						.channelMapping(GetProcessQualityQuery.class, Channels.PROCESS_QUALITY_QUERY_INPUT)
 						.channelMapping(GetProcessQualitiesQuery.class, Channels.PROCESS_QUALITY_QUERY_INPUT)
-						.channelMapping(GetProcessInputSpecificationQuery.class,
-								Channels.PROCESS_INPUT_SPECIFICATION_QUERY_INPUT)
-						.channelMapping(GetProcessInputSpecificationsQuery.class,
-								Channels.PROCESS_INPUT_SPECIFICATION_QUERY_INPUT)
-						.channelMapping(GetProcessOutputSpecificationQuery.class,
-								Channels.PROCESS_OUTPUT_SPECIFICATION_QUERY_INPUT)
-						.channelMapping(GetProcessOutputSpecificationsQuery.class,
-								Channels.PROCESS_OUTPUT_SPECIFICATION_QUERY_INPUT)
+						//PROCESS INPUT SPECIFICATION
+						.channelMapping(GetProcessInputSpecificationQuery.class, Channels.PROCESS_INPUT_SPECIFICATION_QUERY_INPUT)
+						.channelMapping(GetProcessInputSpecificationsQuery.class, Channels.PROCESS_INPUT_SPECIFICATION_QUERY_INPUT)
+						//PROCESS OUTPUT SPECIFICATION
+						.channelMapping(GetProcessOutputSpecificationQuery.class, Channels.PROCESS_OUTPUT_SPECIFICATION_QUERY_INPUT)
+						.channelMapping(GetProcessOutputSpecificationsQuery.class, Channels.PROCESS_OUTPUT_SPECIFICATION_QUERY_INPUT)
 
 		).get();
 	}
@@ -183,70 +190,59 @@ public class ApplicationConfig {
 	@Bean
 	public IntegrationFlow commandIntegrationFlow() {
 		return IntegrationFlows.from(commandInput()).<Object, Class<?>>route(Object::getClass, rs -> rs
+				//AGENT
 				.channelMapping(CreateAgentCommand.class, Channels.AGENT_COMMAND_INPUT)
 				.channelMapping(UpdateAgentCommand.class, Channels.AGENT_COMMAND_INPUT)
 				.channelMapping(DeleteAgentCommand.class, Channels.AGENT_COMMAND_INPUT)
+				//BUSINESS FUNCTION
 				.channelMapping(CreateBusinessFunctionCommand.class, Channels.BUSINESS_FUNCTION_COMMAND_INPUT)
 				.channelMapping(UpdateBusinessFunctionCommand.class, Channels.BUSINESS_FUNCTION_COMMAND_INPUT)
+				//LEGISLATIVE REFERENCE
 				.channelMapping(CreateLegislativeReferenceCommand.class, Channels.LEGISLATIVE_REFERENCE_COMMAND_INPUT)
 				.channelMapping(UpdateLegislativeReferenceCommand.class, Channels.LEGISLATIVE_REFERENCE_COMMAND_INPUT)
+				//PROCESS DOCUMENTATION
 				.channelMapping(CreateProcessDocumentationCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(UpdateProcessDocumentationCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
-				.channelMapping(AddProcessDocumentationDocumentCommand.class,
-						Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
-				.channelMapping(AddProcessDocumentationMethodCommand.class,
-						Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationDocumentCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationMethodCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationInputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
-				.channelMapping(AddProcessDocumentationOutputCommand.class,
-						Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
-				.channelMapping(AddProcessDocumentationStandardCommand.class,
-						Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
-				.channelMapping(AddProcessDocumentationQualityCommand.class,
-						Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
-				.channelMapping(AddProcessDocumentationVersionCommand.class,
-						Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationOutputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationStandardCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationQualityCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationVersionCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				//STATISTICAL PROGRAM
 				.channelMapping(CreateStatisticalProgramCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 				.channelMapping(AddStatisticalProgramVersionCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 				.channelMapping(UpdateStatisticalProgramCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
-				.channelMapping(AddStatisticalProgramAdministratorCommand.class,
-						Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
-				.channelMapping(RemoveStatisticalProgramAdministratorCommand.class,
-						Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+				.channelMapping(DeleteStatisticalProgramCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+				.channelMapping(AddStatisticalProgramAdministratorCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+				.channelMapping(RemoveStatisticalProgramAdministratorCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 				.channelMapping(AddStatisticalProgramStandardCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
-				.channelMapping(RemoveStatisticalProgramStandardCommand.class,
-						Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
-				.channelMapping(AddStatisticalProgramLegislativeReferenceCommand.class,
-						Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
-				.channelMapping(RemoveStatisticalProgramLegislativeReferenceCommand.class,
-						Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+				.channelMapping(RemoveStatisticalProgramStandardCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+				.channelMapping(AddStatisticalProgramLegislativeReferenceCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+				.channelMapping(RemoveStatisticalProgramLegislativeReferenceCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
+				//STATISTICAL STANDARD
 				.channelMapping(CreateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT)
 				.channelMapping(UpdateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT)
+				//PROCESS DOCUMENT
 				.channelMapping(CreateProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
 				.channelMapping(UpdateProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
 				.channelMapping(DeleteProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
 				.channelMapping(CreateProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
 				.channelMapping(UpdateProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
 				.channelMapping(DeleteProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
-				.channelMapping(CreateInputSpecificationCommand.class,
-						Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(UpdateInputSpecificationCommand.class,
-						Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(DeleteInputSpecificationCommand.class,
-						Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(AddInputSpecificationTypeCommand.class,
-						Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(RemoveInputSpecificationTypeCommand.class,
-						Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(CreateOutputSpecificationCommand.class,
-						Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(UpdateOutputSpecificationCommand.class,
-						Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(DeleteOutputSpecificationCommand.class,
-						Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(AddOutputSpecificationTypeCommand.class,
-						Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(RemoveOutputSpecificationTypeCommand.class,
-						Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				//STATISTICAL INPUT SPECIFICATION
+				.channelMapping(CreateInputSpecificationCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(UpdateInputSpecificationCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(DeleteInputSpecificationCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(AddInputSpecificationTypeCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(RemoveInputSpecificationTypeCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
+				//STATISTICAL OUTPUT SPECIFICATION
+				.channelMapping(CreateOutputSpecificationCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(UpdateOutputSpecificationCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(DeleteOutputSpecificationCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(AddOutputSpecificationTypeCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(RemoveOutputSpecificationTypeCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
 
 		).get();
 	}
