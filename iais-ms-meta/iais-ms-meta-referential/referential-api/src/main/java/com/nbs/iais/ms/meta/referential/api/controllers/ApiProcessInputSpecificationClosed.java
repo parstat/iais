@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -111,7 +112,7 @@ public class ApiProcessInputSpecificationClosed extends AbstractController {
 	 * @return InputSpecificationDTO
 	 */
 	@JsonView(Views.Extended.class)
-	@PatchMapping("/{id}/add/type/{type}")
+	@PutMapping("/{id}/type/{type}")
 	public ProcessInputSpecificationDTO addInputSpecificationType(@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id, @PathVariable(name = "type") final ProcessInputType type,
 			@RequestParam(name = "language", required = false) final String language) {
@@ -134,7 +135,7 @@ public class ApiProcessInputSpecificationClosed extends AbstractController {
 	 * @return InputSpecificationDTO
 	 */
 	@JsonView(Views.Extended.class)
-	@PatchMapping("/{id}/remove/type/{type}")
+	@DeleteMapping("/{id}/type/{type}")
 	public ProcessInputSpecificationDTO removeInputSpecificationType(@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id, @PathVariable(name = "type") final ProcessInputType type,
 			@RequestParam(name = "language", required = false) final String language) {

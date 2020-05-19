@@ -105,6 +105,10 @@
 				<configuration>
 					<to>
 						<image>parstat.azurecr.io/iais-referential-api</image>
+						<auth>
+							<username>parstat</username>
+							<password>${env.REGISTRY_PASSWORD}</password>
+						</auth>
 					</to>
 					<from>
 						<image>mcr.microsoft.com/java/jre:11u7-zulu-alpine</image>

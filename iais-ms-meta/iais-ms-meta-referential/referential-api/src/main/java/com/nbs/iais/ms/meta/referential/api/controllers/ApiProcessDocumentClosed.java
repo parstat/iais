@@ -32,6 +32,7 @@ public class ApiProcessDocumentClosed extends AbstractController {
 	 * @param jwt                  authorization token
 	 * @param processDocumentation id of the process documentation
 	 * @param name                 of the process document in selected language
+	 * @param link                 of the process document
 	 * @param type                 of process document: APPLICATION_PDF,
 	 *                             APPLICATION_ZIP, APPLICATION_JSON,
 	 *                             APPLICATION_DOC, APPLICATION_DOCX,
@@ -52,17 +53,18 @@ public class ApiProcessDocumentClosed extends AbstractController {
 	@PostMapping("/{processDocumentation}")
 	public ProcessDocumentDTO createProcessDocument(@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "processDocumentation") final Long processDocumentation,
-			@RequestParam(name = "name", required = false) final String name,
-			@RequestParam(name = "type", required = false) final MediaType type,
+			@RequestParam(name = "name") final String name,
+			@RequestParam(name = "type") final MediaType type,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id") final String localId,
+			@RequestParam(name = "link", required = false) final String link,
 			@RequestParam(name = "version", required = false) final String version,
 			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final CreateProcessDocumentCommand command = CreateProcessDocumentCommand.create(jwt, processDocumentation,
-				name, description, localId, type, version, versionDate, versionRationale,
+				name, description, localId, link,type, version, versionDate, versionRationale,
 				Language.getLanguage(language));
 		return sendCommand(command, "process_documents").getEvent().getData();
 
@@ -74,6 +76,8 @@ public class ApiProcessDocumentClosed extends AbstractController {
 	 * @param jwt              authorization token
 	 * @param id               of the process document
 	 * @param name             of the process document in selected language
+	 * @param link             of the process document in selected language
+	 * 
 	 * @param type             of process document: APPLICATION_PDF,
 	 *                         APPLICATION_ZIP, APPLICATION_JSON, APPLICATION_DOC,
 	 *                         APPLICATION_DOCX, APPLICATION_PPT, APPLICATION_PPTX,
@@ -96,13 +100,14 @@ public class ApiProcessDocumentClosed extends AbstractController {
 			@RequestParam(name = "type", required = false) final MediaType type,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id", required = false) final String localId,
+			@RequestParam(name = "link", required = false) final String link,
 			@RequestParam(name = "version", required = false) final String version,
 			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final UpdateProcessDocumentCommand command = UpdateProcessDocumentCommand.create(jwt, id, name, description,
-				type, localId, version, versionDate, versionRationale, Language.getLanguage(language));
+				type, localId, link,version, versionDate, versionRationale, Language.getLanguage(language));
 		return sendCommand(command, "process_documents").getEvent().getData();
 
 	}

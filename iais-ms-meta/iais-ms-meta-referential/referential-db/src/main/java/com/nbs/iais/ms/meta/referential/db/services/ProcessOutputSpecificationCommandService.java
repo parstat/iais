@@ -44,13 +44,10 @@ public class ProcessOutputSpecificationCommandService {
 
 		processDocumentationRepository.findById(command.getProcessDocumentation()).ifPresentOrElse(documentation -> {
 
-			ProcessOutputSpecificationEntity OutputSpecificationEntity = CommandTranslator.translate(command);
-			OutputSpecificationEntity.setProcessDocumentation(documentation);
-			OutputSpecificationEntity = processOutputSpecificationRepository.save(CommandTranslator.translate(command));
-			documentation.getProcessOutputs().add(OutputSpecificationEntity);
-			processDocumentationRepository.save(documentation);
-
-			Translator.translate(OutputSpecificationEntity, command.getLanguage())
+			ProcessOutputSpecificationEntity outputSpecificationEntity = CommandTranslator.translate(command);
+			outputSpecificationEntity.setProcessDocumentation(documentation);
+			outputSpecificationEntity = processOutputSpecificationRepository.save(outputSpecificationEntity);
+			Translator.translate(outputSpecificationEntity, command.getLanguage())
 					.ifPresent(command.getEvent()::setData);
 
 		}, () -> {
@@ -76,9 +73,8 @@ public class ProcessOutputSpecificationCommandService {
 			processOutputSpecificationRepository.findById(command.getId()).ifPresentOrElse(OutputSpecification -> {
 				CommandTranslator.translate(command, OutputSpecification);
 
-				Translator
-						.translate(processOutputSpecificationRepository.save(OutputSpecification), command.getLanguage())
-						.ifPresent(command.getEvent()::setData);
+				Translator.translate(processOutputSpecificationRepository.save(OutputSpecification),
+						command.getLanguage()).ifPresent(command.getEvent()::setData);
 			}, () -> {
 				throw new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION__NOT_FOUND);
 			});
@@ -125,8 +121,8 @@ public class ProcessOutputSpecificationCommandService {
 	 * Method to remove a type to a ProcessOutputSpecification
 	 *
 	 * @param command to execute
-	 * @return RemoveOutputSpecificationTypeCommand including the dto of updated entity
-	 *         in the event
+	 * @return RemoveOutputSpecificationTypeCommand including the dto of updated
+	 *         entity in the event
 	 * @throws EntityException PROCESS_OUTPUT_SPECIFICATION__NOT_FOUND when the
 	 *                         Process OutputSpecification can not be found
 	 */
@@ -154,7 +150,6 @@ public class ProcessOutputSpecificationCommandService {
 		return command;
 	}
 
-	
 	/**
 	 * Method to delete a Process OutputSpecification
 	 *

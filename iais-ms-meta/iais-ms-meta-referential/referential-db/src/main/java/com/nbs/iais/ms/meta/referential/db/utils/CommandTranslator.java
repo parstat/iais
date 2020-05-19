@@ -476,7 +476,10 @@ public class CommandTranslator {
 		if (StringTools.isNotEmpty(command.getLocalId())) {
 			processDocument.setLocalId(command.getLocalId());
 		}
-   
+		if (StringTools.isNotEmpty(command.getLink())) {
+			processDocument.setLink(command.getLink(), command.getLanguage());
+		}
+
 		processDocument.setMediaType(command.getType());
 
 		processDocument.setVersion(command.getVersion());
@@ -496,7 +499,9 @@ public class CommandTranslator {
 		if (StringTools.isNotEmpty(command.getDescription())) {
 			processDocument.setDescription(command.getDescription(), command.getLanguage());
 		}
-
+		if (StringTools.isNotEmpty(command.getLink())) {
+			processDocument.setLink(command.getLink(), command.getLanguage());
+		}
 		if (StringTools.isNotEmpty(command.getLocalId())) {
 			processDocument.setLocalId(command.getLocalId());
 		}
