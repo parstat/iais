@@ -8,16 +8,13 @@ import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
 import com.nbs.iais.ms.meta.referential.db.services.StatisticalProgramQueryService;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -31,7 +28,7 @@ public class StatisticalProgramQueryServiceTest extends ServiceTest {
     private StatisticalProgramQueryService service;
 
     @Test
-    public void getStatisticalProgramTest() {
+    public void getStatisticalProgramByIdTest() {
 
         //Setup
         final GetStatisticalProgramQuery query = GetStatisticalProgramQuery.create(1L, Language.ENG);

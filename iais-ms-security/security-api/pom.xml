@@ -90,6 +90,10 @@
                 <configuration>
                     <to>
                         <image>parstat.azurecr.io/iais-ms-security-api</image>
+                        <auth>
+                            <username>parstat</username>
+                            <password>g=WF3peMMOd9De4kiKUtCfO4QsHSYZPS</password>
+                        </auth>
                     </to>
                     <from>
                         <image>mcr.microsoft.com/java/jre:11u7-zulu-alpine</image>
