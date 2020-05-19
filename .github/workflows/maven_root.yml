@@ -24,3 +24,7 @@ jobs:
       run: mvn clean install --file pom.xml
     - name: Build docker image of referential api with maven jib plugin
       run: mvn compile jib:build --file ./iais-ms-meta/iais-ms-meta-referential/referential-api/pom.xml
+    - name: Build docker image of security api with maven jib plugin
+      run: mvn compile jib:build --file ./iais-ms-security/security-api/pom.xml
+    - name: Build docker image of zuul with maven jib plugin
+      run: mvn compile jib:build --file ./iais-cloud/iais-zuul/pom.xml
