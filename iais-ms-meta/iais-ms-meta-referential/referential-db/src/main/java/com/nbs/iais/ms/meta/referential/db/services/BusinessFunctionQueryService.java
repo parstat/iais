@@ -46,14 +46,18 @@ public class BusinessFunctionQueryService {
                     .translateBusinessFunctions(businessFunctionRepository.findAllByNameInLanguageContaining(
                             query.getLanguage().getShortName(), query.getName()), query.getLanguage())
                     .ifPresent(query.getRead()::setData);
+            return query;
         }
 
         if (query.getPhase() > 0 && query.getPhase() <= 8) {
             Translator.translateBusinessFunctions(
                     businessFunctionRepository.findAllByLocalIdStartingWith(String.valueOf(query.getPhase())),
                     query.getLanguage()).ifPresent(query.getRead()::setData);
+            return query;
         }
 
+        Translator.translateBusinessFunctions(businessFunctionRepository.findAll(), query.getLanguage())
+                .ifPresent(query.getRead()::setData);
         return query;
     }
 }
