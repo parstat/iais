@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -48,6 +49,46 @@ public class StatisticalProgramQueryServiceTest extends ServiceTest {
     }
 
     @Test
+    public void getStatisticalProgramByLocalIdAndVersionTest() {
+
+        //Setup
+        final GetStatisticalProgramQuery query = GetStatisticalProgramQuery.create("local_id", "1.0", Language.ENG);
+
+        final StatisticalProgramEntity statisticalProgram = new StatisticalProgramEntity();
+        statisticalProgram.setId(1L);
+        statisticalProgram.setName("Name", Language.ENG);
+        statisticalProgram.setDescription("Description", Language.ENG);
+
+        Mockito.when(statisticalProgramRepository.findByLocalIdAndVersion(eq(query.getLocalId()), eq(query.getVersion()))).thenReturn(Optional.of(statisticalProgram));
+
+        //Call
+        service.getStatisticalProgram(query);
+
+        //Verify
+        verify(statisticalProgramRepository).findByLocalIdAndVersion(eq(query.getLocalId()), eq(query.getVersion()));
+    }
+
+    @Test
+    public void getLatestStatisticalProgramVersionTest() {
+
+        //Setup
+        final GetStatisticalProgramQuery query = GetStatisticalProgramQuery.create("local_id", Language.ENG);
+
+        final StatisticalProgramEntity statisticalProgram = new StatisticalProgramEntity();
+        statisticalProgram.setId(1L);
+        statisticalProgram.setName("Name", Language.ENG);
+        statisticalProgram.setDescription("Description", Language.ENG);
+
+        Mockito.when(statisticalProgramRepository.findAllTopByLocalIdOrderByVersionDateDesc(eq(query.getLocalId()))).thenReturn(Optional.of(statisticalProgram));
+
+        //Call
+        service.getStatisticalProgram(query);
+
+        //Verify
+        verify(statisticalProgramRepository).findAllTopByLocalIdOrderByVersionDateDesc(eq(query.getLocalId()));
+    }
+
+    @Test
     public void getAllStatisticalProgramsTest() {
 
         //Setup
@@ -65,5 +106,47 @@ public class StatisticalProgramQueryServiceTest extends ServiceTest {
 
         //Verify
         verify(statisticalProgramRepository).findAll();
+    }
+
+    @Test
+    public void getAllVersionOfStatisticalProgramsTest() {
+
+        //Setup
+        final GetStatisticalProgramsQuery query = GetStatisticalProgramsQuery.create(Language.ENG);
+        query.setLocalId("lfs");
+        final StatisticalProgramEntity statisticalProgram = new StatisticalProgramEntity();
+        statisticalProgram.setId(1L);
+        statisticalProgram.setName("Name", Language.ENG);
+        statisticalProgram.setDescription("Description", Language.ENG);
+
+        Mockito.when(statisticalProgramRepository.findAllByLocalId(query.getLocalId()))
+                .thenReturn(Collections.singletonList(statisticalProgram));
+
+        //Call
+        service.getStatisticalPrograms(query);
+
+        //Verify
+        verify(statisticalProgramRepository).findAllByLocalId(query.getLocalId());
+    }
+
+    @Test
+    public void getAllStatisticalProgramsByNameTest() {
+
+        //Setup
+        final GetStatisticalProgramsQuery query = GetStatisticalProgramsQuery.create(Language.ENG);
+        query.setName("Labor");
+        final StatisticalProgramEntity statisticalProgram = new StatisticalProgramEntity();
+        statisticalProgram.setId(1L);
+        statisticalProgram.setName("Name", Language.ENG);
+        statisticalProgram.setDescription("Description", Language.ENG);
+
+        Mockito.when(statisticalProgramRepository.findAllByNameInLanguageContaining(eq(query.getLanguage().getShortName()), eq(query.getName())))
+                .thenReturn(Collections.singletonList(statisticalProgram));
+
+        //Call
+        service.getStatisticalPrograms(query);
+
+        //Verify
+        verify(statisticalProgramRepository).findAllByNameInLanguageContaining(eq(query.getLanguage().getShortName()), eq(query.getName()));
     }
 }
