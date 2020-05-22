@@ -42,6 +42,10 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 	@JoinTable(name = "process_documentation_standards", joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "standard_id", referencedColumnName = "id"))
 	private List<StatisticalStandardReference> standardsUsed = new ArrayList<>();
 
+	@ManyToMany(targetEntity = BusinessServiceEntity.class)
+	@JoinTable(name = "process_documentation_services", joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
+	private List<BusinessService> businessServices = new ArrayList<>();
+
 	@OneToMany(targetEntity = ProcessQualityEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
 	// @JoinTable(name = "process_documentation_quality_indicators",
 	// joinColumns = @JoinColumn(name = "process_documentation_id",
@@ -155,12 +159,12 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 
 	@Override
 	public List<BusinessService> getBusinessServices() {
-		return null;
+		return businessServices;
 	}
 
 	@Override
 	public void setBusinessServices(final List<BusinessService> businessServices) {
-
+		this.businessServices = businessServices;
 	}
 
 	@Override
