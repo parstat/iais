@@ -89,16 +89,6 @@ public class BusinessServiceEntity extends AbstractIdentifiableArtefact implemen
     }
 
     @Override
-    public List<ProcessDesign> getProcessDesignUses() {
-        return null;
-    }
-
-    @Override
-    public void setProcessDesignUses(List<ProcessDesign> processDesignUses) {
-
-    }
-
-    @Override
     public MultilingualText getName() {
         return name;
     }

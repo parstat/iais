@@ -12,7 +12,7 @@ public interface ProcessDocumentRepository extends CrudRepository<ProcessDocumen
 	
 	/**
 	 * Method to get all Process Documents of a process documentation
-	 * @param sp ProcessDocumentation
+	 * @param processDocumentation ProcessDocumentation
 	 * @return Iterable<ProcessDocumentEntity> all Process Documents of a process documentation
 	 */
 	 Iterable<ProcessDocumentEntity> findByProcessDocumentation(ProcessDocumentation processDocumentation) ;

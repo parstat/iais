@@ -26,9 +26,9 @@ public interface BusinessService extends IdentifiableArtefact {
 
     //void setProcessDesignImplements(List<ProcessDesign> processDesignImplements);
 
-    List<ProcessDesign> getProcessDesignUses();
+    //List<ProcessDesign> getProcessDesignUses();
 
-    void setProcessDesignUses(List<ProcessDesign> processDesignUses);
+    //void setProcessDesignUses(List<ProcessDesign> processDesignUses);
 
     //List<ProcessStep> getProcessStepsPerforms();
 

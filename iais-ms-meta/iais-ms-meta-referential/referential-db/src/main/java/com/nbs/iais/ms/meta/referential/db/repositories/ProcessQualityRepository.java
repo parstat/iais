@@ -11,7 +11,7 @@ public interface ProcessQualityRepository extends CrudRepository<ProcessQualityE
 
 	/**
 	 * Method to get all Process quality of a process documentation
-	 * @param sp ProcessDocumentation
+	 * @param processDocumentation ProcessDocumentation
 	 * @return Iterable<ProcessQualityEntity> all Process quality of a process documentation
 	 */
 	 Iterable<ProcessQualityEntity> findByProcessDocumentation(ProcessDocumentation processDocumentation) ;

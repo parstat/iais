@@ -5,11 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.abstracts.IdentifiableArtefactDTO;
+import com.nbs.iais.ms.common.dto.abstracts.LinkableIdentifiableArtefactDTO;
 
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BusinessServiceDTO extends IdentifiableArtefactDTO {
+public class BusinessServiceDTO extends LinkableIdentifiableArtefactDTO {
 
     private static final long serialVersionUID = 2864464354903875090L;
 

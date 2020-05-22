@@ -24,6 +24,10 @@ public interface Channels {
 
     String BUSINESS_FUNCTION_COMMAND_INPUT = "business.function.command.input";
 
+    String BUSINESS_SERVICE_QUERY_INPUT = "business.service.query.input";
+
+    String BUSINESS_SERVICE_COMMAND_INPUT = "business.service.command.input";
+
     String STATISTICAL_PROGRAM_QUERY_INPUT = "statistical.program.query.input";
 
     String STATISTICAL_PROGRAM_COMMAND_INPUT = "statistical.program.command.input";

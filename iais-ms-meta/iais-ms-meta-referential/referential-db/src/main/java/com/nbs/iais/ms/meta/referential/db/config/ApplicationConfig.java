@@ -1,5 +1,7 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.service.*;
+import com.nbs.iais.ms.meta.referential.db.services.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -103,26 +105,6 @@ import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionReposito
 import com.nbs.iais.ms.meta.referential.db.repositories.LegislativeReferenceRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalStandardReferenceRepository;
-import com.nbs.iais.ms.meta.referential.db.services.AgentCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.AgentQueryService;
-import com.nbs.iais.ms.meta.referential.db.services.BusinessFunctionCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.BusinessFunctionQueryService;
-import com.nbs.iais.ms.meta.referential.db.services.LegislativeReferenceCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.LegislativeReferenceQueryService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessDocumentCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessDocumentQueryService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessDocumentationCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessDocumentationQueryService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessInputSpecificationCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessInputSpecificationQueryService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessOutputSpecificationCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessOutputSpecificationQueryService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessQualityCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.ProcessQualityQueryService;
-import com.nbs.iais.ms.meta.referential.db.services.StatisticalProgramCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.StatisticalProgramQueryService;
-import com.nbs.iais.ms.meta.referential.db.services.StatisticalStandardCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.StatisticalStandardQueryService;
 
 @Configuration
 @EnableAutoConfiguration
@@ -159,6 +141,7 @@ public class ApplicationConfig {
 						//BUSINESS FUNCTION
 						.channelMapping(GetBusinessFunctionQuery.class, Channels.BUSINESS_FUNCTION_QUERY_INPUT)
 						.channelMapping(GetBusinessFunctionsQuery.class, Channels.BUSINESS_FUNCTION_QUERY_INPUT)
+						//BUSINESS SERVICE
 						//LEGISLATIVE REFERENCE
 						.channelMapping(GetLegislativeReferenceQuery.class, Channels.LEGISLATIVE_REFERENCE_QUERY_INPUT)
 						.channelMapping(GetLegislativeReferencesQuery.class, Channels.LEGISLATIVE_REFERENCE_QUERY_INPUT)
@@ -197,6 +180,12 @@ public class ApplicationConfig {
 				//BUSINESS FUNCTION
 				.channelMapping(CreateBusinessFunctionCommand.class, Channels.BUSINESS_FUNCTION_COMMAND_INPUT)
 				.channelMapping(UpdateBusinessFunctionCommand.class, Channels.BUSINESS_FUNCTION_COMMAND_INPUT)
+				//BUSINESS SERVICE
+				.channelMapping(CreateBusinessServiceCommand.class, Channels.BUSINESS_SERVICE_COMMAND_INPUT)
+				.channelMapping(UpdateBusinessServiceCommand.class, Channels.BUSINESS_SERVICE_COMMAND_INPUT)
+				.channelMapping(DeleteBusinessServiceCommand.class, Channels.BUSINESS_SERVICE_COMMAND_INPUT)
+				.channelMapping(AddBusinessServiceInterfaceCommand.class, Channels.BUSINESS_SERVICE_COMMAND_INPUT)
+				.channelMapping(RemoveBusinessServiceInterfaceCommand.class, Channels.BUSINESS_SERVICE_COMMAND_INPUT)
 				//LEGISLATIVE REFERENCE
 				.channelMapping(CreateLegislativeReferenceCommand.class, Channels.LEGISLATIVE_REFERENCE_COMMAND_INPUT)
 				.channelMapping(UpdateLegislativeReferenceCommand.class, Channels.LEGISLATIVE_REFERENCE_COMMAND_INPUT)
@@ -300,6 +289,35 @@ public class ApplicationConfig {
 										sf -> sf.<UpdateBusinessFunctionCommand>handle(
 												(p, h) -> businessFunctionCommandService.updateBusinessFunction(p))))
 				.get();
+	}
+
+	@Bean
+	public IntegrationFlow businessServiceCommandIntegrationFlow(
+			final BusinessServiceCommandService businessServiceCommandService) {
+
+		return IntegrationFlows.from(businessServiceCommandInput())
+				.<Object, Class<?>>route(
+						Object::getClass, rs -> rs
+								.subFlowMapping(CreateBusinessServiceCommand.class,
+										sf -> sf.<CreateBusinessServiceCommand>handle((p, h)
+												-> businessServiceCommandService.createBusinessService(p)))
+
+								.subFlowMapping(UpdateBusinessServiceCommand.class,
+										sf -> sf.<UpdateBusinessServiceCommand>handle((p, h)
+												-> businessServiceCommandService.updateBusinessService(p)))
+
+								.subFlowMapping(DeleteBusinessServiceCommand.class,
+										sf -> sf.<DeleteBusinessServiceCommand>handle((p, h)
+												-> businessServiceCommandService.deleteBusinessService(p)))
+
+								.subFlowMapping(AddBusinessServiceInterfaceCommand.class,
+										sf -> sf.<AddBusinessServiceInterfaceCommand>handle((p, h) -> businessServiceCommandService.addBusinessServiceInterface(p)))
+								.subFlowMapping(RemoveBusinessServiceInterfaceCommand.class,
+										sf -> sf.<RemoveBusinessServiceInterfaceCommand>handle((p, h) -> businessServiceCommandService.removeBusinessServiceInterface(p))))
+
+
+						.get();
+
 	}
 
 	@Bean
@@ -624,6 +642,11 @@ public class ApplicationConfig {
 
 	@Bean(name = Channels.BUSINESS_FUNCTION_COMMAND_INPUT)
 	public MessageChannel businessFunctionCommandInput() {
+		return new DirectChannel();
+	}
+
+	@Bean(name = Channels.BUSINESS_SERVICE_COMMAND_INPUT)
+	public MessageChannel businessServiceCommandInput() {
 		return new DirectChannel();
 	}
 

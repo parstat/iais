@@ -1,31 +1,17 @@
 package com.nbs.iais.ms.common.db.domains.translators;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.BusinessFunction;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessInputSpecification;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessMethod;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessOutputSpecification;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.StatisticalProgram;
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.LegislativeReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocument;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessQuality;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.common.db.domains.interfaces.security.Account;
-import com.nbs.iais.ms.common.dto.impl.AccountDTO;
-import com.nbs.iais.ms.common.dto.impl.AgentDTO;
-import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
-import com.nbs.iais.ms.common.dto.impl.LegislativeReferenceDTO;
-import com.nbs.iais.ms.common.dto.impl.ProcessDocumentDTO;
-import com.nbs.iais.ms.common.dto.impl.ProcessDocumentationDTO;
-import com.nbs.iais.ms.common.dto.impl.ProcessInputSpecificationDTO;
-import com.nbs.iais.ms.common.dto.impl.ProcessMethodDTO;
-import com.nbs.iais.ms.common.dto.impl.ProcessOutputSpecificationDTO;
-import com.nbs.iais.ms.common.dto.impl.ProcessQualityDTO;
-import com.nbs.iais.ms.common.dto.impl.StatisticalProgramDTO;
-import com.nbs.iais.ms.common.dto.impl.StatisticalStandardDTO;
+import com.nbs.iais.ms.common.dto.impl.*;
 import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.BusinessFunctionMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.ProcessDocumentationMiniDTO;
@@ -111,6 +97,29 @@ public class Translator {
 		final DTOList<BusinessFunctionDTO> businessFunctionDTOS = DTOList.empty(BusinessFunctionDTO.class);
 		businessFunctions.forEach(bf -> translate(bf, language).ifPresent(businessFunctionDTOS::add));
 		return Optional.of(businessFunctionDTOS);
+	}
+
+	public static <BS extends BusinessService> Optional<BusinessServiceDTO> translate(final BS businessService,
+																					  final Language language) {
+
+		if(businessService == null) {
+			return Optional.empty();
+		}
+
+		final BusinessServiceDTO businessServiceDTO = new BusinessServiceDTO(businessService.getId());
+
+		businessServiceDTO.setName(businessService.getName(language));
+		businessServiceDTO.setDescription(businessService.getDescription(language));
+		businessServiceDTO.setLocalId(businessService.getLocalId());
+		businessServiceDTO.setVersion(businessService.getVersion());
+		businessServiceDTO.setVersionDate(businessService.getVersionDate());
+		businessServiceDTO.setVersionRationale(businessService.getVersionRationale());
+		businessServiceDTO.setLink("/business/service/" + businessService.getId().toString());
+		businessServiceDTO.setInterfaces(new ArrayList<>());
+		businessService.getServiceInterfaces().forEach(serviceInterface ->
+				businessServiceDTO.getInterfaces().add(serviceInterface));
+
+		return Optional.of(businessServiceDTO);
 	}
 
 	public static <SP extends StatisticalProgram> Optional<StatisticalProgramDTO> translate(final SP statisticalProgram,

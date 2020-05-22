@@ -7,12 +7,6 @@ import com.nbs.iais.ms.meta.referential.common.messageing.events.agent.CreateAge
 
 public class CreateAgentCommand extends AbstractCommand<CreateAgentEvent> {
 
-	//FIXME
-	//Remove children and administrative details
-	//AdministrativeDetail not in use currently, is for later
-	//Children can be found using parent id
-	// i.e get all agents that has a selected parent
-	//DONE
 	private static final long serialVersionUID = 2600L;
 
 	/**
@@ -48,11 +42,6 @@ public class CreateAgentCommand extends AbstractCommand<CreateAgentEvent> {
 	 * Account id
 	 */
 	private Long account;
-
-	/**
-	 * administrativeDetails id
-	 */
-	private Long administrativeDetails;
 
 	private CreateAgentCommand() {
 		super(new CreateAgentEvent());

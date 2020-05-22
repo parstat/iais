@@ -10,6 +10,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.CreateA
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateAgentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.service.CreateBusinessServiceCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.service.UpdateBusinessServiceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.CreateProcessDocumentCommand;
@@ -28,16 +30,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.p
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessInputSpecificationEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessOutputSpecificationEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessQualityEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
 
 
 public class CommandTranslator {
@@ -670,5 +663,43 @@ public class CommandTranslator {
 			processOutputSpecification.setVersionRationale(command.getVersionRationale());
 		}
 		return processOutputSpecification;
+	}
+
+	public static BusinessServiceEntity translate(final CreateBusinessServiceCommand command) {
+
+		final BusinessServiceEntity businessService = new BusinessServiceEntity();
+
+		businessService.setName(command.getName(), command.getLanguage());
+		businessService.setDescription(command.getDescription(), command.getLanguage());
+		businessService.setLocalId(command.getLocalId());
+		businessService.setVersion(command.getVersion());
+		businessService.setVersionRationale(command.getVersionRationale());
+		businessService.setVersionDate(command.getVersionDate());
+
+		return businessService;
+	}
+
+	public static void translate(final UpdateBusinessServiceCommand command, final BusinessServiceEntity businessService) {
+
+		if(StringTools.isNotEmpty(command.getName())) {
+			businessService.setName(command.getName(), command.getLanguage());
+		}
+
+		if(StringTools.isNotEmpty(command.getDescription())) {
+			businessService.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if(StringTools.isNotEmpty(command.getVersion())) {
+			businessService.setVersion(command.getVersion());
+		}
+
+		if(StringTools.isNotEmpty(command.getVersionRationale())) {
+			businessService.setVersionRationale(command.getVersionRationale());
+		}
+
+		if(command.getVersionDate() != null) {
+			businessService.setVersionDate(command.getVersionDate());
+		}
+
 	}
 }
