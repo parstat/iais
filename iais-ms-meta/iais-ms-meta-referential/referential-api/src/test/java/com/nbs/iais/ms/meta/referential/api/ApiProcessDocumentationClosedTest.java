@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.nbs.iais.ms.common.utils.DTOMocks.processDocumentation;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,7 +52,7 @@ public class ApiProcessDocumentationClosedTest {
     @Test
     public void createProcessDocumentation() throws Exception {
         final String jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpc3MiOiJpYWlzIiwibmFtZSI6IkZsb3JpYW4gTmlrYSIsImV4cCI6MTU4NjE4MzUwNSwiaWF0IjoxNTg2MTc5OTA1LCJ1c2VyIjoxfQ.xs5EaJie5DsmrUBRoUSHysKUoKXuuuKJ-8YPGIk1OqU";
-        final CreateProcessDocumentationCommand command = CreateProcessDocumentationCommand.create(jwt, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 00, 00),"First version", 1L, 1L, Frequency.YEARLY, 1L, "1.2", Language.ENG);
+        final CreateProcessDocumentationCommand command = CreateProcessDocumentationCommand.create(jwt, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 0, 0),"First version", 1L, 1L, Frequency.YEARLY, 1L, "1.2", Language.ENG);
         command.getEvent().setData(processDocumentation());
 
         when(iaisGateway.sendCommand(any(CreateProcessDocumentationCommand.class), anyString())).thenReturn(command);
@@ -59,15 +60,15 @@ public class ApiProcessDocumentationClosedTest {
         mockMvc.perform(put("/api/v1/close/referential/process/documentations/program/{statistical_program}/function/{business_function}", command.getStatisticalProgram(), command.getBusinessFunction())
                 .header("jwt-auth", jwt)
                 .param("language", "en")
-                .param("name", command.getLocalId())
+                .param("name", "Name")
                 .param("description", command.getDescription())
-                .param("localId", command.getLocalId())
+                .param("local_id", command.getLocalId())
                 .param("version", command.getVersion())
-                .param("versionDate", command.getVersionDate().toString())
+                .param("version_date", command.getVersionDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
                 .param("versionRationale", command.getVersionRationale())
                 .param("frequency", command.getFrequency().toString())
                 .param("maintainer", command.getMaintainer().toString())
-                .param("nextSubPahse", command.getNextSubPhase())
+                .param("nextSubPhase", command.getNextSubPhase())
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().isOk());
 

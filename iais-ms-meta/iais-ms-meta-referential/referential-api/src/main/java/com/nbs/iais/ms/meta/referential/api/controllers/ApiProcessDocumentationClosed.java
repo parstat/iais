@@ -1,9 +1,12 @@
 package com.nbs.iais.ms.meta.referential.api.controllers;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -65,7 +68,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id", required = false) final String localId,
 			@RequestParam(name = "version", required = false) final String version,
-			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+			@RequestParam(name = "version_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@PathVariable(name = "business_function") final Long businessFunction,
 			@PathVariable(name = "statistical_program") final Long statisticalProgram,
