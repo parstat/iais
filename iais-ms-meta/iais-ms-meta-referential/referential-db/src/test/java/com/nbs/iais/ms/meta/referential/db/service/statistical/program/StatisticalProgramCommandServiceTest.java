@@ -1,4 +1,4 @@
-package com.nbs.iais.ms.meta.referential.db.service;
+package com.nbs.iais.ms.meta.referential.db.service.statistical.program;
 
 import com.nbs.iais.ms.common.db.service.tests.ServiceTest;
 import com.nbs.iais.ms.common.enums.Language;
