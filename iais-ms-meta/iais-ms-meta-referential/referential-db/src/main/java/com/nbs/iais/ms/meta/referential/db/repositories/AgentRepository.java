@@ -45,7 +45,7 @@ public interface AgentRepository extends CrudRepository<AgentEntity, Long> {
 	 * @param type The type of Agent (INDIVIDUAL, DIVISION, ORGANIZATION)
 	 * @return Iterable<AgentEntity>
 	 */
-	Iterable<AgentEntity> findByType(AgentType type);
+	Iterable<AgentEntity> findAllByType(AgentType type);
 
 	/**
 	 * Method to search by name in the selected language

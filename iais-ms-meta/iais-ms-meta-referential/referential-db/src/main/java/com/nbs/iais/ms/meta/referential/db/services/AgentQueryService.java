@@ -34,7 +34,7 @@ public class AgentQueryService {
             return query;
         }
         if (query.getAgentType() != null) {
-            translateAgents(agentRepository.findByType(query.getAgentType()), query.getLanguage())
+            translateAgents(agentRepository.findAllByType(query.getAgentType()), query.getLanguage())
                     .ifPresent(query.getRead()::setData);
             return query;
         }

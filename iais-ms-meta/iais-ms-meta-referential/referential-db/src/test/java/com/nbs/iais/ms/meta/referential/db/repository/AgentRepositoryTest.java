@@ -4,14 +4,11 @@ import com.nbs.iais.ms.common.db.repository.tests.RepositoryTest;
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.constraints.AssertTrue;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -74,7 +71,7 @@ public class AgentRepositoryTest extends RepositoryTest {
         final AgentEntity toSave = saveAgent();
         final AgentEntity saved = agentRepository.save(toSave);
 
-        Iterable<AgentEntity> agent = agentRepository.findByType(saved.getType());
+        Iterable<AgentEntity> agent = agentRepository.findAllByType(saved.getType());
     }
 
     @Test
