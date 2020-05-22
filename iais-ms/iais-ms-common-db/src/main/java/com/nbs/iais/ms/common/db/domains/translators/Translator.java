@@ -122,6 +122,21 @@ public class Translator {
 		return Optional.of(businessServiceDTO);
 	}
 
+	public static <BS extends BusinessService> Optional<DTOList<BusinessServiceDTO>> translateBusinessServices(
+			final Iterable<BS> businessServices, final Language language) {
+
+		if(businessServices == null || !businessServices.iterator().hasNext()) {
+			return Optional.empty();
+		}
+
+		final DTOList<BusinessServiceDTO> businessServiceDTOS = DTOList.empty(BusinessServiceDTO.class);
+
+		businessServices.forEach(businessService ->
+				translate(businessService, language).ifPresent(businessServiceDTOS::add));
+
+		return Optional.of(businessServiceDTOS);
+	}
+
 	public static <SP extends StatisticalProgram> Optional<StatisticalProgramDTO> translate(final SP statisticalProgram,
 			final Language language) {
 

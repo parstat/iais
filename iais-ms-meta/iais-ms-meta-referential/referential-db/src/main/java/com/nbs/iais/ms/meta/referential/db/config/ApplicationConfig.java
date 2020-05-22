@@ -1,6 +1,8 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.service.*;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.service.GetBusinessServiceQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.service.GetBusinessServicesQuery;
 import com.nbs.iais.ms.meta.referential.db.services.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -142,6 +144,8 @@ public class ApplicationConfig {
 						.channelMapping(GetBusinessFunctionQuery.class, Channels.BUSINESS_FUNCTION_QUERY_INPUT)
 						.channelMapping(GetBusinessFunctionsQuery.class, Channels.BUSINESS_FUNCTION_QUERY_INPUT)
 						//BUSINESS SERVICE
+						.channelMapping(GetBusinessServiceQuery.class, Channels.BUSINESS_SERVICE_QUERY_INPUT)
+						.channelMapping(GetBusinessServicesQuery.class, Channels.BUSINESS_SERVICE_QUERY_INPUT)
 						//LEGISLATIVE REFERENCE
 						.channelMapping(GetLegislativeReferenceQuery.class, Channels.LEGISLATIVE_REFERENCE_QUERY_INPUT)
 						.channelMapping(GetLegislativeReferencesQuery.class, Channels.LEGISLATIVE_REFERENCE_QUERY_INPUT)
@@ -288,6 +292,19 @@ public class ApplicationConfig {
 								.subFlowMapping(UpdateBusinessFunctionCommand.class,
 										sf -> sf.<UpdateBusinessFunctionCommand>handle(
 												(p, h) -> businessFunctionCommandService.updateBusinessFunction(p))))
+				.get();
+	}
+
+	@Bean
+	public IntegrationFlow businessServiceQueryIntegrationFlow(
+			final BusinessServiceQueryService businessServiceQueryService) {
+		return IntegrationFlows.from(businessServiceQueryInput())
+				.<Object, Class<?>>route(
+						Object::getClass, rs -> rs
+								.subFlowMapping(GetBusinessServiceQuery.class,
+										sf -> sf.<GetBusinessServiceQuery>handle((p, h) -> businessServiceQueryService.getBusinessService(p)))
+								.subFlowMapping(GetBusinessServicesQuery.class,
+										sf -> sf.<GetBusinessServicesQuery>handle((p, h) -> businessServiceQueryService.getBusinessServices(p))))
 				.get();
 	}
 
@@ -642,6 +659,11 @@ public class ApplicationConfig {
 
 	@Bean(name = Channels.BUSINESS_FUNCTION_COMMAND_INPUT)
 	public MessageChannel businessFunctionCommandInput() {
+		return new DirectChannel();
+	}
+
+	@Bean(name = Channels.BUSINESS_SERVICE_QUERY_INPUT)
+	public MessageChannel businessServiceQueryInput() {
 		return new DirectChannel();
 	}
 

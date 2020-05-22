@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface BusinessServiceRepository extends CrudRepository<BusinessServiceEntity, Long> {
 
@@ -15,6 +17,28 @@ public interface BusinessServiceRepository extends CrudRepository<BusinessServic
      * @return true if at least one version of business service exists
      */
     boolean existsByLocalId(String localId);
+
+    /**
+     * Method all versions of business service
+     * @param localId the local id of business service
+     * @return Iterable<BusinessServiceEntity>
+     */
+    Iterable<BusinessServiceEntity> findAllByLocalId(String localId);
+
+    /**
+     * Method to get the latest version of business service
+     * @param localId The local id of business service
+     * @return Optional<BusinessServiceEntity>
+     */
+    Optional<BusinessServiceEntity> findAllTopByLocalIdOrderByVersionDateDesc(String localId);
+
+    /**
+     * Method to get the business service by local id and version
+     * @param localId the local id of the business service
+     * @param version the version of business service
+     * @return Optional<BusinessServiceEntity>
+     */
+    Optional<BusinessServiceEntity> findByLocalIdAndVersion(String localId, String version);
 
     /**
      * Method to search by name in the selected language
