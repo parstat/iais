@@ -10,6 +10,7 @@ import com.nbs.iais.ms.common.enums.LegislativeType;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +48,7 @@ public class ApiLegislativeReferenceClosed extends AbstractController {
             @RequestParam(name = "description", required = false) final String description,
             @RequestParam(name = "local_id") final String localId,
             @RequestParam(name = "number", required = false) final Integer number,
-            @RequestParam(name = "approvalDate", required = false) final LocalDateTime approvalDate,
+            @RequestParam(name = "approvalDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime approvalDate,
             @RequestParam(name = "link", required = false) final String link,
             @RequestParam(name = "version", required = false) final String version,
             @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
@@ -91,7 +92,7 @@ public class ApiLegislativeReferenceClosed extends AbstractController {
             @RequestParam(name = "description", required = false) final String description,
             @RequestParam(name = "local_id", required = false) final String localId,
             @RequestParam(name = "number", required = false) final Integer number,
-            @RequestParam(name = "approvalDate", required = false) final LocalDateTime approvalDate,
+            @RequestParam(name = "approvalDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime approvalDate,
             @RequestParam(name = "link", required = false) final String link,
             @RequestParam(name = "version", required = false) final String version,
             @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,

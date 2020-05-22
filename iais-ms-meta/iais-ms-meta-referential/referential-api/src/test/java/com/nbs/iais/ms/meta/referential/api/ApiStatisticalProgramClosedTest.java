@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.nbs.iais.ms.common.utils.DTOMocks.statisticalProgram;
 import static org.mockito.ArgumentMatchers.any;
@@ -70,8 +71,8 @@ public class ApiStatisticalProgramClosedTest {
                 .param("status", command.getStatus().toString())
                 .param("budget", "2000")
                 .param("funding", command.getSourceOfFunding())
-                .param("dateInitiated", command.getDateInitiated().toString())
-                .param("dateEnded", command.getDateEnded().toString())
+                .param("dateInitiated", command.getDateInitiated().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .param("dateEnded", command.getDateEnded().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
                 .param("owner", command.getOwner().toString())
                 .param("maintainer", command.getMaintainer().toString())
                 .param("contact", command.getContact().toString())

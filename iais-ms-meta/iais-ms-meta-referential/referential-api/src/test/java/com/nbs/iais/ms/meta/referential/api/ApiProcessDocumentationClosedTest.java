@@ -64,7 +64,7 @@ public class ApiProcessDocumentationClosedTest {
                 .param("description", command.getDescription())
                 .param("local_id", command.getLocalId())
                 .param("version", command.getVersion())
-                .param("version_date", command.getVersionDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .param("versionDate", command.getVersionDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
                 .param("versionRationale", command.getVersionRationale())
                 .param("frequency", command.getFrequency().toString())
                 .param("maintainer", command.getMaintainer().toString())

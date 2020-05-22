@@ -2,6 +2,7 @@ package com.nbs.iais.ms.meta.referential.api.controllers;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,7 +56,7 @@ public class ApiProcessInputSpecificationClosed extends AbstractController {
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id") final String localId,
 			@RequestParam(name = "version", required = false) final String version,
-			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+			@RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "language", required = false) final String language) {
 
@@ -90,7 +91,7 @@ public class ApiProcessInputSpecificationClosed extends AbstractController {
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id", required = false) final String localId,
 			@RequestParam(name = "version", required = false) final String version,
-			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+			@RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "language", required = false) final String language) {
 

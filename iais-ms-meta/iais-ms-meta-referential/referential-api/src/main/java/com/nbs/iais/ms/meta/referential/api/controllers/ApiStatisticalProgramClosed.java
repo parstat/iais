@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -72,13 +73,13 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 			@RequestParam(name = "description", required = false) final String description,
 			@PathVariable(name = "local_id") final String localId,
 			@RequestParam(name = "version", required = false) final String version,
-			@RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+			@RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "status", required = false) final ProgramStatus status,
 			@RequestParam(name = "budget", required = false) final double budget,
 			@RequestParam(name = "funding", required = false) final String funding,
-			@RequestParam(name = "initiated", required = false) final LocalDateTime dateInitiated,
-			@RequestParam(name = "ended", required = false) final LocalDateTime dateEnded,
+			@RequestParam(name = "initiated", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime dateInitiated,
+			@RequestParam(name = "ended", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime dateEnded,
 			@RequestParam(name = "owner", required = false) final Long owner,
 			@RequestParam(name = "maintainer", required = false) final Long maintainer,
 			@RequestParam(name = "contact", required = false) final Long contact,

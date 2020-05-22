@@ -10,6 +10,7 @@ import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.CreateStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.UpdateStatisticalStandardCommand;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +46,7 @@ public class ApiStatisticalStandardClosed extends AbstractController {
             @RequestParam(name = "description", required = false) final String description,
             @RequestParam(name = "local_id") final String localId,
             @RequestParam(name = "version", required = false) final String version,
-            @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+            @RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
             @RequestParam(name = "versionRationale", required = false) final String versionRationale,
             @RequestParam(name = "language", required = false) final String language) {
 
@@ -83,7 +84,7 @@ public class ApiStatisticalStandardClosed extends AbstractController {
             @RequestParam(name = "description", required = false) final String description,
             @RequestParam(name = "local_id", required = false) final String localId,
             @RequestParam(name = "version", required = false) final String version,
-            @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+            @RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
             @RequestParam(name = "versionRationale", required = false) final String versionRationale,
             @RequestParam(name = "language", required = false) final String language) {
 

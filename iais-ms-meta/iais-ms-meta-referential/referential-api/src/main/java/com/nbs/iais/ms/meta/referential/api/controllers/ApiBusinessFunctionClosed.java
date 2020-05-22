@@ -7,6 +7,7 @@ import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.CreateBusinessFunctionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.function.UpdateBusinessFunctionCommand;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,7 +65,7 @@ public class ApiBusinessFunctionClosed extends AbstractController {
             @RequestHeader(name = "jwt-auth") final String jwt,
             @PathVariable(name = "id") final Long id,
             @RequestParam(name = "name") final String name,
-            @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+            @RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
             @RequestParam(name = "versionRationale", required = false) final String versionRationale,
             @RequestParam(name = "description", required = false) final String description,
             @RequestParam(name = "language") final String language) {
