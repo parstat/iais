@@ -48,7 +48,7 @@ public class ApiBusinessFunctionClosedTest {
         final CreateBusinessFunctionCommand command = CreateBusinessFunctionCommand.create(jwt, "name", "Description", "1.1", Language.ENG);
         command.getEvent().setData(businessFunction());
         when(iaisGateway.sendCommand(any(), anyString())).thenReturn(command);
-        mockMvc.perform(put("/api/v1/referential/business/functions/{local_id}", "1.1")
+        mockMvc.perform(put("/api/v1/close/referential/business/functions/{local_id}", "1.1")
                 .header("jwt-auth", jwt)
                 .param("name", command.getName())
                 .param("description", command.getDescription())
@@ -66,7 +66,7 @@ public class ApiBusinessFunctionClosedTest {
         final CreateBusinessFunctionCommand command = CreateBusinessFunctionCommand.create(jwt, "name", "Description", "1.1", Language.ENG);
         command.getEvent().setData(businessFunction());
         when(iaisGateway.sendCommand(any(), anyString())).thenReturn(command);
-        mockMvc.perform(RestDocumentationRequestBuilders.put("/api/v1/referential/business/functions/{local_id}", "1.1")
+        mockMvc.perform(RestDocumentationRequestBuilders.put("/api/v1/close/referential/business/functions/{local_id}", "1.1")
                 .header("jwt-auth", jwt)
                 .param("name", command.getName())
                 .param("description", command.getDescription())
@@ -98,7 +98,7 @@ public class ApiBusinessFunctionClosedTest {
         final UpdateBusinessFunctionCommand command = UpdateBusinessFunctionCommand.create(jwt, 1L, "name", "description", Language.ENG);
         command.getEvent().setData(businessFunction());
         when(iaisGateway.sendCommand(any(), anyString())).thenReturn(command);
-        mockMvc.perform(patch("/api/v1/referential/business/functions/{id}", 1L)
+        mockMvc.perform(patch("/api/v1/close/referential/business/functions/{id}", 1L)
                 .header("jwt-auth",jwt)
                 .param("name", command.getName())
                 .param("description", command.getDescription())
@@ -115,7 +115,7 @@ public class ApiBusinessFunctionClosedTest {
         final UpdateBusinessFunctionCommand command = UpdateBusinessFunctionCommand.create(jwt, 1L, "name", "description", Language.ENG);
         command.getEvent().setData(businessFunction());
         when(iaisGateway.sendCommand(any(), anyString())).thenReturn(command);
-        mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/v1/referential/business/functions/{id}", 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/v1/close/referential/business/functions/{id}", 1L)
                 .header("jwt-auth", jwt)
                 .param("name", command.getName())
                 .param("description", command.getDescription())

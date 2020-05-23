@@ -29,11 +29,6 @@ public class UpdateBusinessServiceCommand extends AbstractCommand<UpdateBusiness
     private String description;
 
     /**
-     * Local id of the Business Service
-     */
-    private String localId;
-
-    /**
      * Version of Business Service
      */
     private String version;
@@ -53,13 +48,12 @@ public class UpdateBusinessServiceCommand extends AbstractCommand<UpdateBusiness
     }
 
     private UpdateBusinessServiceCommand(final String jwt, final Long id, final String name, final String description,
-                                         final String localId, final String version, final String versionRationale,
+                                         final String version, final String versionRationale,
                                          final LocalDateTime versionDate, final Language language) {
         super(new UpdateBusinessServiceEvent());
         this.id = id;
         this.name = name;
         this.description = description;
-        this.localId = localId;
         this.version = version;
         this.versionRationale = versionRationale;
         this.versionDate = versionDate;
@@ -69,10 +63,10 @@ public class UpdateBusinessServiceCommand extends AbstractCommand<UpdateBusiness
     }
 
     public static UpdateBusinessServiceCommand create(final String jwt, final Long id, final String name, final String description,
-                                                      final String localId, final String version, final String versionRationale,
+                                                      final String version, final String versionRationale,
                                                       final LocalDateTime versionDate, final Language language) {
 
-        return new UpdateBusinessServiceCommand(jwt, id, name, description, localId, version, versionRationale, versionDate,
+        return new UpdateBusinessServiceCommand(jwt, id, name, description, version, versionRationale, versionDate,
                 language);
     }
 
@@ -98,14 +92,6 @@ public class UpdateBusinessServiceCommand extends AbstractCommand<UpdateBusiness
 
     public void setDescription(final String description) {
         this.description = description;
-    }
-
-    public String getLocalId() {
-        return localId;
-    }
-
-    public void setLocalId(final String localId) {
-        this.localId = localId;
     }
 
     public String getVersion() {

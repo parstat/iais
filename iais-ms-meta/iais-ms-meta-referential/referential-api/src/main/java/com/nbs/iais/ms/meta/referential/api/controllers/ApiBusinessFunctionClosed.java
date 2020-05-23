@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping(value = "/api/v1/referential/business/functions", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/close/referential/business/functions", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiBusinessFunctionClosed extends AbstractController {
 
     /**
