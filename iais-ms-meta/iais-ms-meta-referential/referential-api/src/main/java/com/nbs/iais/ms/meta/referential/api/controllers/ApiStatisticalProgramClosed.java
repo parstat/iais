@@ -2,6 +2,7 @@ package com.nbs.iais.ms.meta.referential.api.controllers;
 
 import java.time.LocalDateTime;
 
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,15 +25,6 @@ import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProgramStatus;
 import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.common.utils.StringTools;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.DeleteStatisticalProgramCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.RemoveStatisticalProgramAdministratorCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.RemoveStatisticalProgramLegislativeReferenceCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.RemoveStatisticalProgramStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.UpdateStatisticalProgramCommand;
 
 @RestController
 @RequestMapping(value = "/api/v1/close/referential/statistical/programs", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -324,6 +316,29 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 	}
 
 	/**
+	 * Method to add a maintainer (usually a DIVISION) to a statistical program
+	 * @param jwt Authentication token
+	 * @param id The id of the statistical program
+	 * @param agent The id of the DIVISION to remove as maintainer
+	 * @param language The language to use
+	 * @return StatisticalProgramDTO
+	 */
+	@JsonView(Views.Extended.class)
+	@PutMapping("/{id}/maintainer/{agent}")
+	public StatisticalProgramDTO addStatisticalProgramMaintainer(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "agent") final Long agent,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final AddStatisticalProgramAdministratorCommand command = AddStatisticalProgramAdministratorCommand
+				.create(jwt, id, agent, RoleType.MAINTAINER, Language.getLanguage(language));
+
+		return sendCommand(command ,"statistical_program").getEvent().getData();
+
+	}
+
+	/**
 	 * Method to remove a maintainer (usually a DIVISION) from statistical program
 	 * @param jwt Authentication token
 	 * @param id The id of the statistical program
@@ -341,6 +356,29 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 
 		final RemoveStatisticalProgramAdministratorCommand command = RemoveStatisticalProgramAdministratorCommand
 				.create(jwt, id, agent, RoleType.MAINTAINER, Language.getLanguage(language));
+
+		return sendCommand(command ,"statistical_program").getEvent().getData();
+
+	}
+
+	/**
+	 * Method to add a owner (usually a ORGANIZATION) in a statistical program
+	 * @param jwt Authentication token
+	 * @param id The id of the statistical program
+	 * @param agent The id of the ORGANIZATION to remove as maintainer
+	 * @param language The language to use
+	 * @return StatisticalProgramDTO TRUE if owner removed
+	 */
+	@JsonView(Views.Extended.class)
+	@PutMapping("/{id}/owner/{agent}")
+	public StatisticalProgramDTO addStatisticalProgramOwner(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "agent") final Long agent,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final AddStatisticalProgramAdministratorCommand command = AddStatisticalProgramAdministratorCommand
+				.create(jwt, id, agent, RoleType.OWNER, Language.getLanguage(language));
 
 		return sendCommand(command ,"statistical_program").getEvent().getData();
 
@@ -369,6 +407,29 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 
 	}
 
+
+	/**
+	 * Method to remove a owner (usually a CONTACT) from statistical program
+	 * @param jwt Authentication token
+	 * @param id The id of the statistical program
+	 * @param agent The id of the CONTACT to remove as maintainer
+	 * @param language The language to use
+	 * @return DTOBoolean TRUE if CONTACT removed
+	 */
+	@JsonView(Views.Extended.class)
+	@PutMapping("/{id}/contact/{agent}")
+	public StatisticalProgramDTO addStatisticalProgramContact(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "agent") final Long agent,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final AddStatisticalProgramAdministratorCommand command = AddStatisticalProgramAdministratorCommand
+				.create(jwt, id, agent, RoleType.CONTACT, Language.getLanguage(language));
+
+		return sendCommand(command ,"statistical_program").getEvent().getData();
+
+	}
 
 	/**
 	 * Method to remove a owner (usually a CONTACT) from statistical program

@@ -27,7 +27,7 @@ public class AddStatisticalProgramAdministratorCommand extends AbstractCommand<A
         setJwt(jwt);
     }
 
-    public AddStatisticalProgramAdministratorCommand create(final String jwt, final Long statisticalProgram, final Long agent,
+    public static AddStatisticalProgramAdministratorCommand create(final String jwt, final Long statisticalProgram, final Long agent,
                                                             final RoleType role, final Language language) {
 
         return new AddStatisticalProgramAdministratorCommand(jwt, statisticalProgram,agent, role,
