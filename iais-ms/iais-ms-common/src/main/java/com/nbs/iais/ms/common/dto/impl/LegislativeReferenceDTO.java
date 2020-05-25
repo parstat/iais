@@ -15,10 +15,6 @@ public class LegislativeReferenceDTO extends LinkableIdentifiableArtefactDTO {
     private static final long serialVersionUID = 2864464354903875090L;
 
     @JsonProperty
-    @JsonView(Views.Minimal.class)
-    private int number;
-
-    @JsonProperty
     @JsonView(Views.Extended.class)
     private LocalDateTime approval;
 
@@ -29,7 +25,7 @@ public class LegislativeReferenceDTO extends LinkableIdentifiableArtefactDTO {
     
     @JsonProperty
     @JsonView(Views.Extended.class)
-    private String externaLink;
+    private String externalLink;
 
 
     public LegislativeReferenceDTO() {
@@ -38,14 +34,6 @@ public class LegislativeReferenceDTO extends LinkableIdentifiableArtefactDTO {
 
     public LegislativeReferenceDTO(final Long id) {
         super(id);
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(final int number) {
-        this.number = number;
     }
 
     public LocalDateTime getApproval() {
@@ -64,12 +52,12 @@ public class LegislativeReferenceDTO extends LinkableIdentifiableArtefactDTO {
         this.type = type;
     }
 
-	public String getExternaLink() {
-		return externaLink;
+	public String getExternalLink() {
+		return externalLink;
 	}
 
-	public void setExternaLink(String externaLink) {
-		this.externaLink = externaLink;
+	public void setExternalLink(String externalLink) {
+		this.externalLink = externalLink;
 	}
 
 	 

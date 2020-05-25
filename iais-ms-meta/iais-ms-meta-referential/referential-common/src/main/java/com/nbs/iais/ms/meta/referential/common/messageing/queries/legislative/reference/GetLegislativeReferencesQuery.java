@@ -13,10 +13,6 @@ public class GetLegislativeReferencesQuery extends AbstractQuery<GetLegislativeR
 	private static final long serialVersionUID = 20320L;
 
 	private LegislativeType type;
-	
-  
-    private Integer number;
-
 
     private LocalDateTime approvalDate;
 
@@ -32,17 +28,16 @@ public class GetLegislativeReferencesQuery extends AbstractQuery<GetLegislativeR
     	setLanguage(language);
 	}
 
-	private GetLegislativeReferencesQuery(final LegislativeType type, final String name,final Integer number,  final Language language) {
+	private GetLegislativeReferencesQuery(final LegislativeType type, final String name, final Language language) {
 		super(new GetLegislativeReferencesRead());
 		this.type = type;
-		this.number = number;
 		this.setName(name);
 		setLanguage(language);
 	}
 
 	
-	public static GetLegislativeReferencesQuery create(final LegislativeType type, final String name, final Integer number,final Language language) {
-		return new GetLegislativeReferencesQuery(type, name,number, language);
+	public static GetLegislativeReferencesQuery create(final LegislativeType type, final String name, final Language language) {
+		return new GetLegislativeReferencesQuery(type, name, language);
 	}
 
 
@@ -53,14 +48,6 @@ public class GetLegislativeReferencesQuery extends AbstractQuery<GetLegislativeR
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Integer getNumber() {
-		return number;
-	}
-
-	public void setNumber(Integer number) {
-		this.number = number;
 	}
 
 	public LocalDateTime getApprovalDate() {

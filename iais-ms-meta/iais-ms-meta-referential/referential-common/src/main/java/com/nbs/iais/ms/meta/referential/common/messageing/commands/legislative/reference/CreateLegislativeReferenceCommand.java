@@ -12,10 +12,6 @@ public class CreateLegislativeReferenceCommand extends AbstractCommand<CreateLeg
 
 	private static final long serialVersionUID = 2300L;
 
-
-    private Integer number;
-
-
     private LocalDateTime approvalDate;
     
 	private String link;
@@ -59,13 +55,12 @@ public class CreateLegislativeReferenceCommand extends AbstractCommand<CreateLeg
 	}
 
 	private CreateLegislativeReferenceCommand(final String jwt, final String name, final String description,
-			final String localId,final Integer number, final LocalDateTime approvalDate,final String link, final LegislativeType type, final String version,
+			final String localId, final LocalDateTime approvalDate,final String link, final LegislativeType type, final String version,
 			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 		super(new CreateLegislativeReferenceEvent());
 		setJwt(jwt);
 		this.name = name;
 		this.description = description;
-		this.number = number;
 		this.approvalDate = approvalDate;
 		this.setLink(link);
 		this.localId = localId;
@@ -82,10 +77,10 @@ public class CreateLegislativeReferenceCommand extends AbstractCommand<CreateLeg
  
 
 	public static CreateLegislativeReferenceCommand create(final String jwt, final String name, final String description,
-			final String localId,final Integer number, final LocalDateTime approvalDate, final String link, final LegislativeType type, final String version,
+			final String localId, final LocalDateTime approvalDate, final String link, final LegislativeType type, final String version,
 			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 
-		return new CreateLegislativeReferenceCommand(jwt, name, description, localId,number,approvalDate,link, type, version, versionDate,
+		return new CreateLegislativeReferenceCommand(jwt, name, description, localId, approvalDate,link, type, version, versionDate,
 				versionRationale, language);
 
 	}
@@ -136,14 +131,6 @@ public class CreateLegislativeReferenceCommand extends AbstractCommand<CreateLeg
 
 	public void setVersionDate(final LocalDateTime versionDate) {
 		this.versionDate = versionDate;
-	}
-
-	public Integer getNumber() {
-		return number;
-	}
-
-	public void setNumber(Integer number) {
-		this.number = number;
 	}
 
 	public LocalDateTime getApprovalDate() {

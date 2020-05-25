@@ -29,7 +29,6 @@ public class ApiLegislativeReferenceClosed extends AbstractController {
      *                         GOVERNMENTAL_DECISION, AMENDMENT,
      * @param description      of the legislative reference in the selected language
      * @param localId          of the legislative reference
-     * @param number           of the legislative reference
      * @param approvalDate     of the legislative reference
      * @param link             of the legislative reference
      * @param version          first version of agent (default 1.0)
@@ -46,17 +45,16 @@ public class ApiLegislativeReferenceClosed extends AbstractController {
             @RequestParam(name = "name", required = false) final String name,
             @RequestParam(name = "type", required = false) final LegislativeType type,
             @RequestParam(name = "description", required = false) final String description,
-            @RequestParam(name = "local_id") final String localId,
-            @RequestParam(name = "number", required = false) final Integer number,
+            @RequestParam(name = "localId") final String localId,
             @RequestParam(name = "approvalDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime approvalDate,
             @RequestParam(name = "link", required = false) final String link,
             @RequestParam(name = "version", required = false) final String version,
-            @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+            @RequestParam(name = "versionDate", required = false)  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
             @RequestParam(name = "versionRationale", required = false) final String versionRationale,
             @RequestParam(name = "language", required = false) final String language) {
 
         final CreateLegislativeReferenceCommand command = CreateLegislativeReferenceCommand.create(jwt, name,
-                description, localId, number, approvalDate,link, type, version, versionDate, versionRationale,
+                description, localId, approvalDate,link, type, version, versionDate, versionRationale,
                 Language.getLanguage(language));
         return sendCommand(command, "legislative_reference").getEvent().getData();
 
@@ -72,7 +70,6 @@ public class ApiLegislativeReferenceClosed extends AbstractController {
      *                         GOVERNMENTAL_DECISION, AMENDMENT,
      * @param description      of the legislative reference in the selected language
      * @param localId          of the legislative reference
-     * @param number           of the legislative reference
      * @param approvalDate     of the legislative reference
      * @param link             of the legislative reference
      * @param version          first version of agent (default 1.0)
@@ -91,16 +88,15 @@ public class ApiLegislativeReferenceClosed extends AbstractController {
             @RequestParam(name = "type", required = false) final LegislativeType type,
             @RequestParam(name = "description", required = false) final String description,
             @RequestParam(name = "local_id", required = false) final String localId,
-            @RequestParam(name = "number", required = false) final Integer number,
             @RequestParam(name = "approvalDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime approvalDate,
             @RequestParam(name = "link", required = false) final String link,
             @RequestParam(name = "version", required = false) final String version,
-            @RequestParam(name = "versionDate", required = false) final LocalDateTime versionDate,
+            @RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
             @RequestParam(name = "versionRationale", required = false) final String versionRationale,
             @RequestParam(name = "language", required = false) final String language) {
 
         final UpdateLegislativeReferenceCommand command = UpdateLegislativeReferenceCommand.create(jwt, id, name,
-                description, number, approvalDate,link, type, localId, version, versionDate, versionRationale,
+                description, approvalDate,link, type, localId, version, versionDate, versionRationale,
                 Language.getLanguage(language));
         return sendCommand(command, "legislative_reference").getEvent().getData();
 

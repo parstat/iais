@@ -302,7 +302,6 @@ public class CommandTranslator {
 			legislativeReference.setLink(command.getLink(), command.getLanguage());
 		}
 
-		legislativeReference.setNumber(command.getNumber());
 		legislativeReference.setApprovalDate(command.getApprovalDate());
 		legislativeReference.setVersion(command.getVersion());
 
@@ -335,9 +334,6 @@ public class CommandTranslator {
 		}
 		if (command.getType() != null) {
 			legislativeReference.setLegislativeType(command.getType());
-		}
-		if (command.getNumber() != null) {
-			legislativeReference.setNumber(command.getNumber());
 		}
 
 		if (command.getApprovalDate() != null) {

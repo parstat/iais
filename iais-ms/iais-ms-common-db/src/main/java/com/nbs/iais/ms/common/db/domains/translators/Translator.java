@@ -289,10 +289,10 @@ public class Translator {
 		final LegislativeReferenceDTO legislativeReferenceDTO = new LegislativeReferenceDTO(
 				legislativeReference.getId());
 		legislativeReferenceDTO.setApproval(legislativeReference.getApprovalDate());
-		legislativeReferenceDTO.setNumber(legislativeReference.geNumber());
+		legislativeReferenceDTO.setLocalId(legislativeReference.getLocalId());
 		legislativeReferenceDTO.setName(legislativeReference.getName(language));
 		legislativeReferenceDTO.setDescription(legislativeReference.getDescription(language));
-		legislativeReferenceDTO.setExternaLink(legislativeReference.getLink(language));
+		legislativeReferenceDTO.setExternalLink(legislativeReference.getLink(language));
 		legislativeReferenceDTO.setType(legislativeReference.getLegislativeType());
 		legislativeReferenceDTO.setLocalId(legislativeReference.getLocalId());
 		legislativeReferenceDTO.setVersion(legislativeReference.getVersion());

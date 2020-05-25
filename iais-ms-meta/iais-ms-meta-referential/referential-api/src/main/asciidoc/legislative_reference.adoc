@@ -1,0 +1,89 @@
+= IAIS API Guide: Legislative Reference
+:revnumber: {iais.version}
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-get-legislative-reference]]
+== APIs
+=== Get Legislative Reference
+==== Request
+include::{snippets}/get-legislative-reference/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-legislative-reference/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-legislative-reference/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-legislative-reference/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-legislative-reference/curl-request.adoc[]
+==== Response
+include::{snippets}/get-legislative-reference/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-legislative-reference/http-response.adoc[]
+
+[[resources-get-legislative-references]]
+=== Get Legislative References
+==== Request
+include::{snippets}/get-legislative-references/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-legislative-references/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-legislative-references/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-legislative-references/curl-request.adoc[]
+==== Response
+include::{snippets}/get-legislative-references/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-legislative-references/http-response.adoc[]
+
+[[resources-create-legislative-reference]]
+=== Create Legislative Reference
+==== Request
+include::{snippets}/create-legislative-reference/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-legislative-reference/request-body.adoc[]
+===== Request parameters
+include::{snippets}/create-legislative-reference/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/create-legislative-reference/curl-request.adoc[]
+==== Response
+include::{snippets}/create-legislative-reference/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-legislative-reference/http-response.adoc[]
+
+[[resources-update-legislative-reference]]
+=== Update Legislative Reference
+==== Request
+include::{snippets}/update-legislative-reference/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-legislative-reference/request-body.adoc[]
+===== Path parameters
+include::{snippets}/update-legislative-reference/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/update-legislative-reference/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/update-legislative-reference/curl-request.adoc[]
+==== Response
+include::{snippets}/update-legislative-reference/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-legislative-reference/http-response.adoc[]
+
+[[resources-delete-legislative-reference]]
+=== Delete Legislative Reference
+==== Request
+include::{snippets}/delete-legislative-reference/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-legislative-reference/request-body.adoc[]
+===== Path parameters
+include::{snippets}/delete-legislative-reference/path-parameters.adoc[]
+===== CURL request
+include::{snippets}/delete-legislative-reference/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-legislative-reference/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-legislative-reference/http-response.adoc[]
+

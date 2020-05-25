@@ -53,12 +53,13 @@ public class DTOMocks {
         final LegislativeReferenceDTO legislativeReferenceDTO = new LegislativeReferenceDTO(1L);
         legislativeReferenceDTO.setName("Legislative Reference");
         legislativeReferenceDTO.setDescription("Description");
-        legislativeReferenceDTO.setNumber(2034);
+        legislativeReferenceDTO.setLocalId("2034/2");
         legislativeReferenceDTO.setApproval(LocalDateTime.of(2005, 10, 4, 10, 30));
         legislativeReferenceDTO.setLink("/legislative/references/1");
         legislativeReferenceDTO.setVersion("232");
         legislativeReferenceDTO.setVersionDate(LocalDateTime.of(2008, 12, 3, 10, 30));
         legislativeReferenceDTO.setType(LegislativeType.REGULATION);
+        legislativeReferenceDTO.setExternalLink("https://country.gov/link/to/gov/law.gov");
         return legislativeReferenceDTO;
     }
 
@@ -156,4 +157,5 @@ public class DTOMocks {
 
         return processDocumentationMiniDTO;
     }
+
 }

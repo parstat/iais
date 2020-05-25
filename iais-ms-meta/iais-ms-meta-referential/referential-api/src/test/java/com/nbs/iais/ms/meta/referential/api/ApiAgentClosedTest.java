@@ -86,7 +86,9 @@ public class ApiAgentClosedTest {
                 .param("local_id", command.getLocalId())
                 .param("language", "en"))
                 .andDo(document("create-agent",
-
+                        requestHeaders(
+                                headerWithName("jwt-auth").description("authentication token")
+                        ),
                         requestParameters(
                                 parameterWithName("name").description("Name of the agent").optional(),
                                 parameterWithName("description").description("Description of the agent").optional(),
