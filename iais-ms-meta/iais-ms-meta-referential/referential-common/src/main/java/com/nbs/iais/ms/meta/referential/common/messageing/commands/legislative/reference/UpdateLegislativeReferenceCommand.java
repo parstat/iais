@@ -11,7 +11,6 @@ public class UpdateLegislativeReferenceCommand extends AbstractCommand<UpdateLeg
 
 	private static final long serialVersionUID = 2610L;
 
-	private Integer number;
 
 	private LocalDateTime approvalDate;
 	
@@ -90,13 +89,12 @@ public class UpdateLegislativeReferenceCommand extends AbstractCommand<UpdateLeg
 	}
 
 	private UpdateLegislativeReferenceCommand(final String jwt, final Long id, final String name,
-			final String description, final Integer number, final LocalDateTime approvalDate,final String link,final LegislativeType type, final String localId, final String version,
+			final String description, final LocalDateTime approvalDate,final String link,final LegislativeType type, final String localId, final String version,
 			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 		super(new UpdateLegislativeReferenceEvent());
 		this.setId(id);
 		this.name = name;
 		this.description = description;
-		this.number = number;
 		this.approvalDate = approvalDate;
 		this.setLink(link);
 		this.type = type;
@@ -111,10 +109,10 @@ public class UpdateLegislativeReferenceCommand extends AbstractCommand<UpdateLeg
 	}
 
 	public static UpdateLegislativeReferenceCommand create(final String jwt, final Long id, final String name,
-			final String description,final Integer number, final LocalDateTime approvalDate, final String link, final LegislativeType type, final String localId, final String version,
+			final String description, final LocalDateTime approvalDate, final String link, final LegislativeType type, final String localId, final String version,
 			final LocalDateTime versionDate, final String versionRationale, final Language language) {
 
-		return new UpdateLegislativeReferenceCommand(jwt, id, name, description,number,approvalDate,link, type, localId, version, versionDate,
+		return new UpdateLegislativeReferenceCommand(jwt, id, name, description, approvalDate,link, type, localId, version, versionDate,
 				versionRationale, language);
 
 	}
@@ -157,14 +155,6 @@ public class UpdateLegislativeReferenceCommand extends AbstractCommand<UpdateLeg
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Integer getNumber() {
-		return number;
-	}
-
-	public void setNumber(Integer number) {
-		this.number = number;
 	}
 
 	public LocalDateTime getApprovalDate() {

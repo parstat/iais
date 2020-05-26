@@ -1,5 +1,6 @@
 package com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.reference;
 
+import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.queries.abstracts.AbstractQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.reads.legislative.reference.GetLegislativeReferenceRead;
 
@@ -16,17 +17,30 @@ public class GetLegislativeReferenceQuery extends AbstractQuery<GetLegislativeRe
 		super(new GetLegislativeReferenceRead());
 	}
 
-	private GetLegislativeReferenceQuery(final Long id) {
+	private GetLegislativeReferenceQuery(final Long id, final Language language) {
     	super(new GetLegislativeReferenceRead());
     	this.id = id;
+    	setLanguage(language);
+    	setClosed(false);
+	}
+
+	private GetLegislativeReferenceQuery(final String localId, final Language language) {
+		super(new GetLegislativeReferenceRead());
+		this.localId = localId;
+		setLanguage(language);
+		setClosed(false);
 	}
 
 	public static GetLegislativeReferenceQuery create() {
 	        return new GetLegislativeReferenceQuery();
     }
 
-	public static GetLegislativeReferenceQuery create(final Long id) {
-		return new GetLegislativeReferenceQuery(id);
+	public static GetLegislativeReferenceQuery create(final Long id, final Language language) {
+		return new GetLegislativeReferenceQuery(id, language);
+	}
+
+	public static GetLegislativeReferenceQuery create(final String localId, final Language language) {
+		return new GetLegislativeReferenceQuery(localId, language);
 	}
 
 	public static long getSerialVersionUID() {

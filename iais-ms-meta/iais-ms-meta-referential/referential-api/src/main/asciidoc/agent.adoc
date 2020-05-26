@@ -72,6 +72,22 @@ include::{snippets}/update-agent/response-fields.adoc[]
 ===== Response Example
 include::{snippets}/update-agent/http-response.adoc[]
 
+
+[[resources-delete-agent]]
+=== Delete Agent
+==== Request
+include::{snippets}/delete-agent/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-agent/request-body.adoc[]
+===== Path parameters
+include::{snippets}/delete-agent/path-parameters.adoc[]
+===== CURL request
+include::{snippets}/delete-agent/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-agent/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-agent/http-response.adoc[]
+
 [[resources-get-agent-by-local-id]]
 == APIs
 === Get Agent By Local Id
