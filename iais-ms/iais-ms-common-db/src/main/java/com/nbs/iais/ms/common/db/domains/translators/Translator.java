@@ -260,6 +260,7 @@ public class Translator {
 		statisticalStandardDTO.setVersion(statisticalStandard.getVersion());
 		statisticalStandardDTO.setVersionDate(statisticalStandard.getVersionDate());
 		statisticalStandardDTO.setVersionRationale(statisticalStandard.getVersionRationale());
+		statisticalStandardDTO.setExternalLink(statisticalStandard.getLink(language));
 		statisticalStandardDTO.setLink("/statistical/standards/" + statisticalStandard.getId());
 
 		return Optional.of(statisticalStandardDTO);
@@ -317,7 +318,7 @@ public class Translator {
 		return Optional.of(legislativeReferenceDTOS);
 	}
 
-	public static <LR extends ProcessDocument> Optional<ProcessDocumentDTO> translate(final LR processDocument,
+	public static <PD extends ProcessDocument> Optional<ProcessDocumentDTO> translate(final PD processDocument,
 			final Language language) {
 
 		if (processDocument == null) {

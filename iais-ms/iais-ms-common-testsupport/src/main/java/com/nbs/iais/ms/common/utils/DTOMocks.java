@@ -39,16 +39,6 @@ public class DTOMocks {
         return agentMiniDTO;
     }
 
-    public static StatisticalStandardDTO statisticalStandard() {
-        final StatisticalStandardDTO statisticalStandardDTO = new StatisticalStandardDTO(1L);
-        statisticalStandardDTO.setName("Standard");
-        statisticalStandardDTO.setDescription("Description");
-        statisticalStandardDTO.setType(StatisticalStandardType.CLASSIFICATIONS);
-        statisticalStandardDTO.setLink("/statistical/standards/1");
-        statisticalStandardDTO.setVersion("1.0");
-        return statisticalStandardDTO;
-    }
-
     public static LegislativeReferenceDTO legislativeReference() {
         final LegislativeReferenceDTO legislativeReferenceDTO = new LegislativeReferenceDTO(1L);
         legislativeReferenceDTO.setName("Legislative Reference");
@@ -147,7 +137,7 @@ public class DTOMocks {
     }
 
     public static ProcessDocumentationMiniDTO processDocumentationMini() {
-        ProcessDocumentationMiniDTO processDocumentationMiniDTO = new ProcessDocumentationMiniDTO(1L);
+        final ProcessDocumentationMiniDTO processDocumentationMiniDTO = new ProcessDocumentationMiniDTO(1L);
         processDocumentationMiniDTO.setBusinessFunction(businessFunctionMini());
         processDocumentationMiniDTO.setStatisticalProgram(statisticalProgramMini());
         processDocumentationMiniDTO.setDescription("Description");
@@ -156,6 +146,22 @@ public class DTOMocks {
         processDocumentationMiniDTO.setLink("/process/documentations/1");
 
         return processDocumentationMiniDTO;
+    }
+
+    public static StatisticalStandardDTO statisticalStandard() {
+
+        final StatisticalStandardDTO statisticalStandardDTO = new StatisticalStandardDTO(1L);
+        statisticalStandardDTO.setName("Name");
+        statisticalStandardDTO.setDescription("Description");
+        statisticalStandardDTO.setLink("http://iais.nbs.com/statistical/standard/1");
+        statisticalStandardDTO.setExternalLink("http://external/link/statistical/standard");
+        statisticalStandardDTO.setType(StatisticalStandardType.CLASSIFICATIONS);
+        statisticalStandardDTO.setVersion("1.0");
+        statisticalStandardDTO.setVersionDate(LocalDateTime.now());
+        statisticalStandardDTO.setVersionRationale("Version Rationale");
+        statisticalStandardDTO.setLocalId("local_id");
+
+        return statisticalStandardDTO;
     }
 
 }

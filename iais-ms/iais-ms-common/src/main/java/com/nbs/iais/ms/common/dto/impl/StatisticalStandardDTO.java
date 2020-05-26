@@ -17,7 +17,11 @@ public class StatisticalStandardDTO extends LinkableIdentifiableArtefactDTO {
     @JsonProperty
     @JsonView(Views.Minimal.class)
     private StatisticalStandardType type;
- 
+
+    @JsonProperty
+    @JsonView(Views.Minimal.class)
+    private String externalLink;
+
 
     public StatisticalStandardType getType() {
 		return type;
@@ -35,5 +39,11 @@ public class StatisticalStandardDTO extends LinkableIdentifiableArtefactDTO {
         super(id);
     }
 
-  
+    public String getExternalLink() {
+        return externalLink;
+    }
+
+    public void setExternalLink(final String externalLink) {
+        this.externalLink = externalLink;
+    }
 }
