@@ -44,14 +44,15 @@ public class ApiStatisticalStandardClosed extends AbstractController {
             @RequestParam(name = "name", required = false) final String name,
             @RequestParam(name = "type", required = false) final StatisticalStandardType type,
             @RequestParam(name = "description", required = false) final String description,
-            @RequestParam(name = "local_id") final String localId,
+            @RequestParam(name = "localId") final String localId,
             @RequestParam(name = "version", required = false) final String version,
             @RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
             @RequestParam(name = "versionRationale", required = false) final String versionRationale,
+            @RequestParam(name = "link", required = false) final String link,
             @RequestParam(name = "language", required = false) final String language) {
 
         final CreateStatisticalStandardCommand command = CreateStatisticalStandardCommand.create(jwt, name, description,
-                localId, type, version, versionDate, versionRationale, Language.getLanguage(language));
+                localId, type, version, versionDate, versionRationale, link, Language.getLanguage(language));
         return sendCommand(command, "statistical_standards").getEvent().getData();
 
     }
@@ -86,10 +87,11 @@ public class ApiStatisticalStandardClosed extends AbstractController {
             @RequestParam(name = "version", required = false) final String version,
             @RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
             @RequestParam(name = "versionRationale", required = false) final String versionRationale,
+            @RequestParam(name = "link", required = false) final String link,
             @RequestParam(name = "language", required = false) final String language) {
 
         final UpdateStatisticalStandardCommand command = UpdateStatisticalStandardCommand.create(jwt, id, name,
-                description, type, localId, version, versionDate, versionRationale, Language.getLanguage(language));
+                description, type, localId, version, versionDate, versionRationale, link, Language.getLanguage(language));
         return sendCommand(command, "statistical_standards").getEvent().getData();
 
     }

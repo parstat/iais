@@ -44,6 +44,11 @@ public class UpdateStatisticalStandardCommand extends AbstractCommand<UpdateStat
      */
     private String version;
 
+	/**
+	 * New external link of the statistical standard
+	 */
+	private String link;
+
     public String getVersion() {
 		return version;
 	}
@@ -86,7 +91,7 @@ public class UpdateStatisticalStandardCommand extends AbstractCommand<UpdateStat
 
 	private UpdateStatisticalStandardCommand(final String jwt, final Long id, final String name,
 			final String description, final StatisticalStandardType type, final String localId,final String version,
-            final LocalDateTime versionDate, final String versionRationale,
+            final LocalDateTime versionDate, final String versionRationale, final String link,
 			final Language language) {
 		super(new UpdateStatisticalStandardEvent());
 		this.setId(id);
@@ -97,6 +102,7 @@ public class UpdateStatisticalStandardCommand extends AbstractCommand<UpdateStat
 		this.version=version;
 		if(versionDate!=null) this.versionDate=versionDate;
 		this.versionRationale=versionRationale;
+		this.link = link;
 		setLanguage(language);
 		setClosed(true);
 		setJwt(jwt);
@@ -104,10 +110,10 @@ public class UpdateStatisticalStandardCommand extends AbstractCommand<UpdateStat
 
 	public static UpdateStatisticalStandardCommand create(final String jwt, final Long id, final String name,
 			final String description, final StatisticalStandardType type, final String localId,final String version,
-            final LocalDateTime versionDate, final String versionRationale,
+            final LocalDateTime versionDate, final String versionRationale, final String link,
 			final Language language) {
 
-		return new UpdateStatisticalStandardCommand(jwt, id, name, description, type, localId,version,versionDate,versionRationale, language);
+		return new UpdateStatisticalStandardCommand(jwt, id, name, description, type, localId,version,versionDate,versionRationale, link, language);
 
 	}
 
@@ -150,5 +156,13 @@ public class UpdateStatisticalStandardCommand extends AbstractCommand<UpdateStat
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(final String link) {
+		this.link = link;
 	}
 }
