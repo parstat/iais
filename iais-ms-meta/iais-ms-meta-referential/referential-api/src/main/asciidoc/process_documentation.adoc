@@ -40,4 +40,152 @@ include::{snippets}/get-process-documentations/response-fields.adoc[]
 ===== Response Example
 include::{snippets}/get-process-documentations/http-response.adoc[]
 
+[[resources-create-process-documentations]]
+=== Create Process Documentation
+==== Request
+include::{snippets}/create-process-documentation/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-process-documentation/request-body.adoc[]
+===== Request parameters
+include::{snippets}/create-process-documentation/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/create-process-documentation/curl-request.adoc[]
+==== Response
+include::{snippets}/create-process-documentation/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-process-documentation/http-response.adoc[]
 
+[[resources-add-process-documentation-version]]
+=== Add Process Documentation Version
+==== Request
+include::{snippets}/add-process-documentation-version/http-request.adoc[]
+===== Request Body
+include::{snippets}/add-process-documentation-version/request-body.adoc[]
+===== Request parameters
+include::{snippets}/add-process-documentation-version/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/add-process-documentation-version/curl-request.adoc[]
+==== Response
+include::{snippets}/add-process-documentation-version/response-fields.adoc[]
+===== Response Example
+include::{snippets}/add-process-documentation-version/http-response.adoc[]
+
+[[resources-update-process-documentation]]
+=== Update Process Documentation
+==== Request
+include::{snippets}/update-process-documentation/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-process-documentation/request-body.adoc[]
+===== Request parameters
+include::{snippets}/update-process-documentation/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/update-process-documentation/curl-request.adoc[]
+==== Response
+include::{snippets}/update-process-documentation/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-process-documentation/http-response.adoc[]
+
+[[resources-delete-process-documentation]]
+=== Delete Process Documentation
+==== Request
+include::{snippets}/delete-process-documentation/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-process-documentation/request-body.adoc[]
+===== Request parameters
+include::{snippets}/delete-process-documentation/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/delete-process-documentation/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-process-documentation/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-process-documentation/http-response.adoc[]
+
+[[resources-add-process-documentation-standard]]
+=== Add Process Documentation Standard
+==== Request
+include::{snippets}/add-process-documentation-standard/http-request.adoc[]
+===== Request Body
+include::{snippets}/add-process-documentation-standard/request-body.adoc[]
+===== Request parameters
+include::{snippets}/add-process-documentation-standard/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/add-process-documentation-standard/curl-request.adoc[]
+==== Response
+include::{snippets}/add-process-documentation-standard/response-fields.adoc[]
+===== Response Example
+include::{snippets}/add-process-documentation-standard/http-response.adoc[]
+
+[[resources-add-process-documentation-document]]
+=== Add Process Documentation Document
+==== Request
+include::{snippets}/add-process-documentation-document/http-request.adoc[]
+===== Request Body
+include::{snippets}/add-process-documentation-document/request-body.adoc[]
+===== Request parameters
+include::{snippets}/add-process-documentation-document/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/add-process-documentation-document/curl-request.adoc[]
+==== Response
+include::{snippets}/add-process-documentation-document/response-fields.adoc[]
+===== Response Example
+include::{snippets}/add-process-documentation-document/http-response.adoc[]
+
+[[resources-add-process-documentation-input]]
+=== Add Process Documentation Input
+==== Request
+include::{snippets}/add-process-documentation-input/http-request.adoc[]
+===== Request Body
+include::{snippets}/add-process-documentation-input/request-body.adoc[]
+===== Request parameters
+include::{snippets}/add-process-documentation-input/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/add-process-documentation-input/curl-request.adoc[]
+==== Response
+include::{snippets}/add-process-documentation-input/response-fields.adoc[]
+===== Response Example
+include::{snippets}/add-process-documentation-input/http-response.adoc[]
+
+[[resources-add-process-documentation-method]]
+=== Add Process Documentation Method
+==== Request
+include::{snippets}/add-process-documentation-method/http-request.adoc[]
+===== Request Body
+include::{snippets}/add-process-documentation-method/request-body.adoc[]
+===== Request parameters
+include::{snippets}/add-process-documentation-method/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/add-process-documentation-method/curl-request.adoc[]
+==== Response
+include::{snippets}/add-process-documentation-method/response-fields.adoc[]
+===== Response Example
+include::{snippets}/add-process-documentation-method/http-response.adoc[]
+
+[[resources-add-process-documentation-output]]
+=== Add Process Documentation Output
+==== Request
+include::{snippets}/add-process-documentation-output/http-request.adoc[]
+===== Request Body
+include::{snippets}/add-process-documentation-output/request-body.adoc[]
+===== Request parameters
+include::{snippets}/add-process-documentation-output/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/add-process-documentation-output/curl-request.adoc[]
+==== Response
+include::{snippets}/add-process-documentation-output/response-fields.adoc[]
+===== Response Example
+include::{snippets}/add-process-documentation-output/http-response.adoc[]
+
+[[resources-add-process-documentation-quality]]
+=== Add Process Documentation Quality
+==== Request
+include::{snippets}/add-process-documentation-quality/http-request.adoc[]
+===== Request Body
+include::{snippets}/add-process-documentation-quality/request-body.adoc[]
+===== Request parameters
+include::{snippets}/add-process-documentation-quality/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/add-process-documentation-quality/curl-request.adoc[]
+==== Response
+include::{snippets}/add-process-documentation-quality/response-fields.adoc[]
+===== Response Example
+include::{snippets}/add-process-documentation-quality/http-response.adoc[]
