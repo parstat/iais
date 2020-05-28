@@ -1,6 +1,8 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.service.*;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.service.GetBusinessServiceQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.service.GetBusinessServicesQuery;
 import com.nbs.iais.ms.meta.referential.db.services.*;
@@ -193,6 +195,7 @@ public class ApplicationConfig {
 				//LEGISLATIVE REFERENCE
 				.channelMapping(CreateLegislativeReferenceCommand.class, Channels.LEGISLATIVE_REFERENCE_COMMAND_INPUT)
 				.channelMapping(UpdateLegislativeReferenceCommand.class, Channels.LEGISLATIVE_REFERENCE_COMMAND_INPUT)
+				.channelMapping(DeleteLegislativeReferenceCommand.class, Channels.LEGISLATIVE_REFERENCE_COMMAND_INPUT)
 				//PROCESS DOCUMENTATION
 				.channelMapping(CreateProcessDocumentationCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(UpdateProcessDocumentationCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
@@ -217,6 +220,7 @@ public class ApplicationConfig {
 				//STATISTICAL STANDARD
 				.channelMapping(CreateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT)
 				.channelMapping(UpdateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT)
+				.channelMapping(DeleteStatisticalStandardCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 				//PROCESS DOCUMENT
 				.channelMapping(CreateProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
 				.channelMapping(UpdateProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
@@ -369,6 +373,34 @@ public class ApplicationConfig {
 												(p, h) -> legislativeReferenceCommandService
 														.deleteLegislativeReference(p))))
 				.get();
+	}
+
+	@Bean
+	public IntegrationFlow statisticalStandardQueryIntegrationFlow(
+			final StatisticalStandardQueryService statisticalStandardQueryService) {
+
+		return IntegrationFlows.from(statisticalStandardQueryInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+								.subFlowMapping(GetStatisticalStandardQuery.class,
+										sf -> sf.<GetStatisticalStandardQuery>handle((p, h) -> statisticalStandardQueryService.getStatisticalStandard(p)))
+								.subFlowMapping(GetStatisticalStandardsQuery.class,
+										sf -> sf.<GetStatisticalStandardsQuery>handle((p, h) -> statisticalStandardQueryService.getStatisticalStandards(p)))
+				).get();
+	}
+
+	@Bean
+	public IntegrationFlow statisticalStandardCommandIntegrationFlow(
+			final StatisticalStandardCommandService statisticalStandardCommandService) {
+
+		return IntegrationFlows.from(statisticalStandardCommandInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+						.subFlowMapping(CreateStatisticalStandardCommand.class,
+								sf -> sf.<CreateStatisticalStandardCommand>handle((p, h) -> statisticalStandardCommandService.createStatisticalStandard(p)))
+						.subFlowMapping(UpdateStatisticalStandardCommand.class,
+								sf -> sf.<UpdateStatisticalStandardCommand>handle((p, h) -> statisticalStandardCommandService.updateStatisticalStandard(p)))
+						.subFlowMapping(DeleteStatisticalStandardCommand.class,
+								sf -> sf.<DeleteStatisticalStandardCommand>handle((p, h) -> statisticalStandardCommandService.deleteStatisticalStandard(p)))
+				).get();
 	}
 
 	@Bean

@@ -244,6 +244,10 @@ public class CommandTranslator {
 			statisticalStandard.setLocalId(command.getLocalId());
 		}
 
+		if(StringTools.isNotEmpty(command.getLink())) {
+			statisticalStandard.setLink(command.getLink(), command.getLanguage());
+		}
+
 		statisticalStandard.setType(command.getType());
 
 		statisticalStandard.setVersion(command.getVersion());

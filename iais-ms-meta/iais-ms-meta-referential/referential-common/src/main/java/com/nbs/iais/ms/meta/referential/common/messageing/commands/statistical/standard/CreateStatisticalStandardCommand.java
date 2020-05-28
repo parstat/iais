@@ -45,13 +45,18 @@ public class CreateStatisticalStandardCommand extends AbstractCommand<CreateStat
 	 **/
 	private StatisticalStandardType type;
 
+	/**
+	 * External link for statistical standard
+	 */
+	private String link;
+
 	private CreateStatisticalStandardCommand() {
 		super(new CreateStatisticalStandardEvent());
 	}
 
 	private CreateStatisticalStandardCommand(final String jwt, final String name, final String description,
 			final String localId, final StatisticalStandardType type, final String version,
-			final LocalDateTime versionDate, final String versionRationale, final Language language) {
+			final LocalDateTime versionDate, final String versionRationale, final String link, final Language language) {
 		super(new CreateStatisticalStandardEvent());
 		setJwt(jwt);
 		this.name = name;
@@ -64,6 +69,7 @@ public class CreateStatisticalStandardCommand extends AbstractCommand<CreateStat
 		if (versionRationale != null)
 			this.versionRationale = versionRationale;
 		this.type = type;
+		this.link = link;
 		setLanguage(language);
 		setClosed(true);
 	}
@@ -78,10 +84,10 @@ public class CreateStatisticalStandardCommand extends AbstractCommand<CreateStat
 
 	public static CreateStatisticalStandardCommand create(final String jwt, final String name, final String description,
 			final String localId, final StatisticalStandardType type, final String version,
-			final LocalDateTime versionDate, final String versionRationale, final Language language) {
+			final LocalDateTime versionDate, final String versionRationale, final String link, final Language language) {
 
 		return new CreateStatisticalStandardCommand(jwt, name, description, localId, type, version, versionDate,
-				versionRationale, language);
+				versionRationale, link, language);
 
 	}
 
@@ -133,4 +139,11 @@ public class CreateStatisticalStandardCommand extends AbstractCommand<CreateStat
 		this.versionDate = versionDate;
 	}
 
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(final String link) {
+		this.link = link;
+	}
 }

@@ -1,0 +1,89 @@
+= IAIS API Guide: Statistical Standard
+:revnumber: {iais.version}
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-get-statistical-standard]]
+== APIs
+=== Get Statistical Standard
+==== Request
+include::{snippets}/get-statistical-standard/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-statistical-standard/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-statistical-standard/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-statistical-standard/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-statistical-standard/curl-request.adoc[]
+==== Response
+include::{snippets}/get-statistical-standard/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-statistical-standard/http-response.adoc[]
+
+[[resources-get-statisticl-standards]]
+=== Get Statistical Standards
+==== Request
+include::{snippets}/get-statistical-standards/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-statistical-standards/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-statistical-standards/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-statistical-standards/curl-request.adoc[]
+==== Response
+include::{snippets}/get-statistical-standards/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-statistical-standards/http-response.adoc[]
+
+[[resources-create-statistical-standard]]
+=== Create Statistical Standard
+==== Request
+include::{snippets}/create-statistical-standard/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-statistical-standard/request-body.adoc[]
+===== Request parameters
+include::{snippets}/create-statistical-standard/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/create-statistical-standard/curl-request.adoc[]
+==== Response
+include::{snippets}/create-statistical-standard/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-statistical-standard/http-response.adoc[]
+
+[[resources-update-statistical-standard]]
+=== Update Statistical Standard
+==== Request
+include::{snippets}/update-statistical-standard/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-statistical-standard/request-body.adoc[]
+===== Path parameters
+include::{snippets}/update-statistical-standard/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/update-statistical-standard/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/update-statistical-standard/curl-request.adoc[]
+==== Response
+include::{snippets}/update-statistical-standard/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-statistical-standard/http-response.adoc[]
+
+[[resources-delete-statistical-standard]]
+=== Delete Statistical Standard
+==== Request
+include::{snippets}/delete-statistical-standard/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-statistical-standard/request-body.adoc[]
+===== Path parameters
+include::{snippets}/delete-statistical-standard/path-parameters.adoc[]
+===== CURL request
+include::{snippets}/delete-statistical-standard/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-statistical-standard/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-statistical-standard/http-response.adoc[]
+

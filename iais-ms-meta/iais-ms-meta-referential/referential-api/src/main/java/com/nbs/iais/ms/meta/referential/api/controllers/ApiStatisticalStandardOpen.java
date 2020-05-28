@@ -53,7 +53,7 @@ public class ApiStatisticalStandardOpen extends AbstractController {
             @PathVariable(name = "id") final Long id,
             @RequestParam(name = "language") final String language) {
 
-        final GetStatisticalStandardQuery getStatisticalStandardQuery = GetStatisticalStandardQuery.create(id);
+        final GetStatisticalStandardQuery getStatisticalStandardQuery = GetStatisticalStandardQuery.create(id, Language.ENG);
         getStatisticalStandardQuery.setLanguage(Language.getLanguage(language));
         return sendQuery(getStatisticalStandardQuery, "statistical_standard").getRead().getData();
     }
