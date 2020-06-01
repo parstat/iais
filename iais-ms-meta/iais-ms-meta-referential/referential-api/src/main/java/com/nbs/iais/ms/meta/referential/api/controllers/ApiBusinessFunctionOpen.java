@@ -6,14 +6,20 @@ import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.BusinessFunctionDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Language;
+import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.function.GetBusinessFunctionsQuery;
+import com.nbs.iais.ms.meta.referential.db.services.BusinessServiceCommandService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/v1/referential/business/functions", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiBusinessFunctionOpen extends AbstractController {
+
+    private final static Logger LOG = LoggerFactory.getLogger(BusinessServiceCommandService.class);
 
     /**
      * Method to get a business function (gsbpm sub-phase) by id
@@ -94,10 +100,18 @@ public class ApiBusinessFunctionOpen extends AbstractController {
     @GetMapping
     public DTOList<BusinessFunctionDTO> getBusinessFunctions(
             @RequestParam(name = "name", required = false) final String name,
-            @RequestParam(name = "phase", required = false) final int phase,
+            @RequestParam(name = "phase", required = false) final String phase,
             @RequestParam(name = "language") final String language) {
 
-        final GetBusinessFunctionsQuery query = GetBusinessFunctionsQuery.create(name, phase, null,
+        int intPhase = 0;
+        if(StringTools.isNotEmpty(phase)) {
+            try {
+                intPhase = Integer.parseInt(phase);
+            } catch (NumberFormatException ex) {
+                LOG.debug("Not a number used for phase");
+            }
+        }
+        final GetBusinessFunctionsQuery query = GetBusinessFunctionsQuery.create(name, intPhase, null,
                 Language.getLanguage(language));
 
         return sendQuery(query, "business_function").getRead().getData();

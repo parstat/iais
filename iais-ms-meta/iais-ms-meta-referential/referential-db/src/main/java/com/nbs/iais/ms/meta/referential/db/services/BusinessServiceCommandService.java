@@ -10,11 +10,15 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.serv
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessServiceEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.BusinessServiceRepository;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BusinessServiceCommandService {
+
+    private final static Logger LOG = LoggerFactory.getLogger(BusinessServiceCommandService.class);
 
     @Autowired
     private BusinessServiceRepository businessServiceRepository;
