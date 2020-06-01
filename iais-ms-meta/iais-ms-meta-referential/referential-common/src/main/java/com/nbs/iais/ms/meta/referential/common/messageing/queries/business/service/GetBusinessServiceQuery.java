@@ -20,6 +20,7 @@ public class GetBusinessServiceQuery extends AbstractQuery<GetBusinessServiceRea
 
     private GetBusinessServiceQuery(final Long id, final Language language) {
 
+        super(new GetBusinessServiceRead());
         this.id = id;
         setLanguage(language);
         setClosed(false);
@@ -27,6 +28,7 @@ public class GetBusinessServiceQuery extends AbstractQuery<GetBusinessServiceRea
 
     private GetBusinessServiceQuery(final String localId, final String version, final Language language) {
 
+        super(new GetBusinessServiceRead());
         this.version = version;
         this.localId = localId;
         setLanguage(language);
