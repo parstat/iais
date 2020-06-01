@@ -9,6 +9,8 @@ import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DTOMocks {
 
@@ -82,6 +84,22 @@ public class DTOMocks {
         businessFunctionDTO.setVersion("5.1");
         businessFunctionDTO.setLink("/business/functions/1");
         return businessFunctionDTO;
+    }
+
+    public static BusinessServiceDTO businessService() {
+        final BusinessServiceDTO businessServiceDTO = new BusinessServiceDTO(1L);
+        businessServiceDTO.setName("Software");
+        businessServiceDTO.setDescription("Description of software");
+        businessServiceDTO.setLocalId("lolaId");
+        businessServiceDTO.setVersion("1.0");
+        businessServiceDTO.setVersionDate(LocalDateTime.now());
+        businessServiceDTO.setVersionRationale("New version");
+        final List<String> interfaces = new ArrayList<>();
+        interfaces.add("Interface1");
+        interfaces.add("Interface2");
+        businessServiceDTO.setInterfaces(interfaces);
+        businessServiceDTO.setLink("/business/service/1");
+        return businessServiceDTO;
     }
 
     public static BusinessFunctionMiniDTO businessFunctionMini() {

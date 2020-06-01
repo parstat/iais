@@ -91,8 +91,6 @@ include::{snippets}/update-process-documentation/http-response.adoc[]
 include::{snippets}/delete-process-documentation/http-request.adoc[]
 ===== Request Body
 include::{snippets}/delete-process-documentation/request-body.adoc[]
-===== Request parameters
-include::{snippets}/delete-process-documentation/request-parameters.adoc[]
 ===== CURL request
 include::{snippets}/delete-process-documentation/curl-request.adoc[]
 ==== Response
