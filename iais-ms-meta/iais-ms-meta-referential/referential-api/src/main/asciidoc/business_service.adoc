@@ -55,3 +55,81 @@ include::{snippets}/get-business-services/curl-request.adoc[]
 include::{snippets}/get-business-services/response-fields.adoc[]
 ===== Response Example
 include::{snippets}/get-business-services/http-response.adoc[]
+
+[[resources-create-business-service]]
+== APIs
+=== Create Business Services
+==== Request
+include::{snippets}/create-business-service/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-business-service/request-body.adoc[]
+===== Request parameters
+include::{snippets}/create-business-service/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/create-business-service/curl-request.adoc[]
+==== Response
+include::{snippets}/create-business-service/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-business-service/http-response.adoc[]
+
+[[resources-update-business-service]]
+== APIs
+=== Update Business Services
+==== Request
+include::{snippets}/update-business-service/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-business-service/request-body.adoc[]
+===== Request parameters
+include::{snippets}/update-business-service/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/update-business-service/curl-request.adoc[]
+==== Response
+include::{snippets}/update-business-service/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-business-service/http-response.adoc[]
+
+[[resources-delete-business-service]]
+== APIs
+=== Delete Business Services
+==== Request
+include::{snippets}/delete-business-service/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-business-service/request-body.adoc[]
+===== CURL request
+include::{snippets}/delete-business-service/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-business-service/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-business-service/http-response.adoc[]
+
+[[resources-add-business-service-interface]]
+== APIs
+=== Add Business Services Interface
+==== Request
+include::{snippets}/add-business-service-interface/http-request.adoc[]
+===== Request Body
+include::{snippets}/add-business-service-interface/request-body.adoc[]
+===== Request parameters
+include::{snippets}/add-business-service-interface/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/add-business-service-interface/curl-request.adoc[]
+==== Response
+include::{snippets}/add-business-service-interface/response-fields.adoc[]
+===== Response Example
+include::{snippets}/add-business-service-interface/http-response.adoc[]
+
+[[resources-remove-business-service-interface]]
+== APIs
+=== Remove Business Services Interface
+==== Request
+include::{snippets}/remove-business-service-interface/http-request.adoc[]
+===== Request Body
+include::{snippets}/remove-business-service-interface/request-body.adoc[]
+===== Request parameters
+include::{snippets}/remove-business-service-interface/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/remove-business-service-interface/curl-request.adoc[]
+==== Response
+include::{snippets}/remove-business-service-interface/response-fields.adoc[]
+===== Response Example
+include::{snippets}/remove-business-service-interface/http-response.adoc[]

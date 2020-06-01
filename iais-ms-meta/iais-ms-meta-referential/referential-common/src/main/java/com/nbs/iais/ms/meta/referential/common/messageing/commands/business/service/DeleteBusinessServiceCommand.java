@@ -17,6 +17,7 @@ public class DeleteBusinessServiceCommand extends AbstractCommand<DeleteBusiness
     }
 
     private DeleteBusinessServiceCommand(final String jwt, final Long id) {
+        super(new DeleteBusinessServiceEvent());
         this.id = id;
         setJwt(jwt);
     }

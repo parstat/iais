@@ -90,7 +90,7 @@ public class DTOMocks {
         final BusinessServiceDTO businessServiceDTO = new BusinessServiceDTO(1L);
         businessServiceDTO.setName("Software");
         businessServiceDTO.setDescription("Description of software");
-        businessServiceDTO.setLocalId("lolaId");
+        businessServiceDTO.setLocalId("localId");
         businessServiceDTO.setVersion("1.0");
         businessServiceDTO.setVersionDate(LocalDateTime.now());
         businessServiceDTO.setVersionRationale("New version");
