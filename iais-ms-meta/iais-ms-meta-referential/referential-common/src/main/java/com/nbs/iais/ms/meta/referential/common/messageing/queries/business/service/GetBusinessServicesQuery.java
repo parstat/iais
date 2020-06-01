@@ -17,6 +17,7 @@ public class GetBusinessServicesQuery extends AbstractQuery<GetBusinessServicesR
     }
 
     private GetBusinessServicesQuery(final String localId, final String name, final Language language) {
+        super(new GetBusinessServicesRead());
         this.localId = localId;
         this.name = name;
         setLanguage(language);

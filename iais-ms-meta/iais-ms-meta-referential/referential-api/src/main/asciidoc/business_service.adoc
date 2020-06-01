@@ -1,0 +1,57 @@
+= IAIS API Guide: Business Service
+:revnumber: {iais.version}
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-get-business-service]]
+== APIs
+=== Get Business Service
+==== Request
+include::{snippets}/get-business-service/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-business-service/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-business-service/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-business-service/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-business-service/curl-request.adoc[]
+==== Response
+include::{snippets}/get-business-service/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-business-service/http-response.adoc[]
+
+[[resources-get-business-service-version]]
+=== Get Business Service Version
+==== Request
+include::{snippets}/get-business-service-version/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-business-service-version/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-business-service-version/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-business-service-version/curl-request.adoc[]
+==== Response
+include::{snippets}/get-business-service-version/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-business-service-version/http-response.adoc[]
+
+[[resources-get-business-services]]
+== APIs
+=== Get Business Services
+==== Request
+include::{snippets}/get-business-services/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-business-services/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-business-services/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-business-services/curl-request.adoc[]
+==== Response
+include::{snippets}/get-business-services/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-business-services/http-response.adoc[]
