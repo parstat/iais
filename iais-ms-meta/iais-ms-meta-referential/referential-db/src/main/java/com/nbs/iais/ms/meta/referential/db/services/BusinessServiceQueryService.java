@@ -5,11 +5,15 @@ import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.service.GetBusinessServiceQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.service.GetBusinessServicesQuery;
 import com.nbs.iais.ms.meta.referential.db.repositories.BusinessServiceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BusinessServiceQueryService {
+
+    private final static Logger LOG = LoggerFactory.getLogger(BusinessServiceQueryService.class);
 
     @Autowired
     private BusinessServiceRepository businessServiceRepository;
