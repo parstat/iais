@@ -145,6 +145,19 @@ public class DTOMocks {
         return processDocumentationDTO;
     }
 
+    public static ProcessDocumentDTO processDocument() {
+        final ProcessDocumentDTO processDocumentDTO = new ProcessDocumentDTO(1L);
+        processDocumentDTO.setName("Name");
+        processDocumentDTO.setLocalId("localId");
+        processDocumentDTO.setVersion("version");
+        processDocumentDTO.setVersionDate(LocalDateTime.now());
+        processDocumentDTO.setVersionRationale("New version");
+        processDocumentDTO.setDescription("Description");
+        processDocumentDTO.setLink("/process/document/1");
+        processDocumentDTO.setMediaType(MediaType.APPLICATION_JSON);
+        return processDocumentDTO;
+    }
+
     public static StatisticalProgramMiniDTO statisticalProgramMini() {
         final StatisticalProgramMiniDTO statisticalProgramMiniDTO = new StatisticalProgramMiniDTO(1L);
         statisticalProgramMiniDTO.setName("Labor Force Survey");

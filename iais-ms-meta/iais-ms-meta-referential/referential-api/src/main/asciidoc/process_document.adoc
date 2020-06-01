@@ -1,0 +1,41 @@
+= IAIS API Guide: Process Document
+:revnumber: {iais.version}
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-get-process-documents]]
+== APIs
+=== Get Process Documents
+==== Request
+include::{snippets}/get-process-documents/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-process-documents/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-process-documents/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-process-documents/curl-request.adoc[]
+==== Response
+include::{snippets}/get-process-documents/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-process-documents/http-response.adoc[]
+
+[[resources-get-process-document]]
+=== Get Process Document
+==== Request
+include::{snippets}/get-process-document/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-process-document/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-process-document/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-process-document/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-process-document/curl-request.adoc[]
+==== Response
+include::{snippets}/get-process-document/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-process-document/http-response.adoc[]
