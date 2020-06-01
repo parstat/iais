@@ -12,7 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/v1/close/referential/business/services", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/referential/business/services", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiBusinessServiceOpen extends AbstractController {
 
 
