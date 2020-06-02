@@ -10,10 +10,8 @@ import com.nbs.iais.ms.common.exceptions.EntityException;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.CreateProcessMethodCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.DeleteProcessMethodCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.UpdateProcessMethodCommand;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessMethodEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessMethodRepository;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
-import javafx.scene.input.TransferMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
