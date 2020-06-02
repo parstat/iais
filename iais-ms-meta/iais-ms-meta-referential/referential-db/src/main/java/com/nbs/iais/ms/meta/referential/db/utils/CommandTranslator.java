@@ -21,6 +21,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.docum
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.CreateInputSpecificationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.UpdateInputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.CreateProcessMethodCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.UpdateProcessMethodCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.CreateOutputSpecificationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.CreateProcessQualityCommand;
@@ -701,5 +703,33 @@ public class CommandTranslator {
 			businessService.setVersionDate(command.getVersionDate());
 		}
 
+	}
+
+	public static ProcessMethodEntity translate(final CreateProcessMethodCommand command) {
+
+		final ProcessMethodEntity processMethod = new ProcessMethodEntity();
+		processMethod.setName(command.getName(), command.getLanguage());
+		processMethod.setDescription(command.getDescription(), command.getLanguage());
+		processMethod.setLocalId(command.getLocalId());
+		processMethod.setVersion(command.getVersion());
+		processMethod.setVersionRationale(command.getVersionRationale());
+		processMethod.setVersionDate(command.getVersionDate());
+
+		return processMethod;
+	}
+
+	public static void translate(final UpdateProcessMethodCommand command, final ProcessMethodEntity processMethod) {
+
+		if(StringTools.isNotEmpty(command.getName())) {
+			processMethod.setName(command.getName(), command.getLanguage());
+		}
+
+		if(StringTools.isNotEmpty(command.getDescription())) {
+			processMethod.setDescription(command.getDescription(), command.getLanguage());
+		}
+
+		if(StringTools.isNotEmpty(command.getLocalId())) {
+			processMethod.setLocalId(command.getLocalId());
+		}
 	}
 }

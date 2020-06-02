@@ -2,9 +2,14 @@ package com.nbs.iais.ms.meta.referential.db.config;
 
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.service.*;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.CreateProcessMethodCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.DeleteProcessMethodCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.UpdateProcessMethodCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.standard.DeleteStatisticalStandardCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.service.GetBusinessServiceQuery;
 import com.nbs.iais.ms.meta.referential.common.messageing.queries.business.service.GetBusinessServicesQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.process.method.GetProcessMethodQuery;
+import com.nbs.iais.ms.meta.referential.common.messageing.queries.process.method.GetProcessMethodsQuery;
 import com.nbs.iais.ms.meta.referential.db.services.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -166,6 +171,9 @@ public class ApplicationConfig {
 						//PROCESS DOCUMENTATION QUALITY
 						.channelMapping(GetProcessQualityQuery.class, Channels.PROCESS_QUALITY_QUERY_INPUT)
 						.channelMapping(GetProcessQualitiesQuery.class, Channels.PROCESS_QUALITY_QUERY_INPUT)
+						//PROCESS METHOD
+						.channelMapping(GetProcessMethodQuery.class, Channels.PROCESS_METHOD_QUERY_INPUT)
+						.channelMapping(GetProcessMethodsQuery.class, Channels.PROCESS_METHOD_QUERY_INPUT)
 						//PROCESS INPUT SPECIFICATION
 						.channelMapping(GetProcessInputSpecificationQuery.class, Channels.PROCESS_INPUT_SPECIFICATION_QUERY_INPUT)
 						.channelMapping(GetProcessInputSpecificationsQuery.class, Channels.PROCESS_INPUT_SPECIFICATION_QUERY_INPUT)
@@ -206,6 +214,10 @@ public class ApplicationConfig {
 				.channelMapping(AddProcessDocumentationStandardCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationQualityCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationVersionCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				//PROCESS METHOD
+				.channelMapping(CreateProcessMethodCommand.class, Channels.PROCESS_METHOD_COMMAND_INPUT)
+				.channelMapping(UpdateProcessMethodCommand.class, Channels.PROCESS_METHOD_COMMAND_INPUT)
+				.channelMapping(DeleteProcessMethodCommand.class, Channels.PROCESS_METHOD_COMMAND_INPUT)
 				//STATISTICAL PROGRAM
 				.channelMapping(CreateStatisticalProgramCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 				.channelMapping(AddStatisticalProgramVersionCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
@@ -538,7 +550,8 @@ public class ApplicationConfig {
 	@Bean
 	public IntegrationFlow processDocumentCommandIntegrationFlow(
 			final ProcessDocumentCommandService processDocumentCommandService) {
-		return IntegrationFlows.from(processDocumentCommandInput()).<Object, Class<?>>route(Object::getClass, rs -> rs
+		return IntegrationFlows.from(processDocumentCommandInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
 				.subFlowMapping(CreateProcessDocumentCommand.class,
 						sf -> sf.<CreateProcessDocumentCommand>handle(
 								(p, h) -> processDocumentCommandService.createProcessDocument(p)))
@@ -547,6 +560,32 @@ public class ApplicationConfig {
 								(p, h) -> processDocumentCommandService.updateProcessDocument(p)))
 				.subFlowMapping(DeleteProcessDocumentCommand.class, sf -> sf.<DeleteProcessDocumentCommand>handle(
 						(p, h) -> processDocumentCommandService.deleteProcessDocument(p))))
+				.get();
+	}
+
+	@Bean
+	public IntegrationFlow processMethodQueryIntegrationFlow(
+			final ProcessMethodQueryService processMethodQueryService) {
+		return IntegrationFlows.from(processMethodQueryInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+				.subFlowMapping(GetProcessMethodQuery.class,
+						sf -> sf.<GetProcessMethodQuery>handle((p, h) -> processMethodQueryService.getProcessMethod(p)))
+				.subFlowMapping(GetProcessMethodsQuery.class,
+						sf -> sf.<GetProcessMethodsQuery>handle((p, h) -> processMethodQueryService.getProcessMethods(p))))
+				.get();
+	}
+
+	@Bean
+	public IntegrationFlow processMethodCommandIntegrationFlow(
+			final ProcessMethodCommandService processMethodCommandService) {
+		return IntegrationFlows.from(processMethodCommandInput())
+				.<Object, Class<?>>route(Object::getClass, rs -> rs
+						.subFlowMapping(CreateProcessMethodCommand.class,
+								sf -> sf.<CreateProcessMethodCommand>handle((p, h) -> processMethodCommandService.createProcessMethod(p)))
+						.subFlowMapping(UpdateProcessMethodCommand.class,
+								sf -> sf.<UpdateProcessMethodCommand>handle((p, h) -> processMethodCommandService.updateProcessMethod(p)))
+						.subFlowMapping(DeleteProcessMethodCommand.class,
+								sf -> sf.<DeleteProcessMethodCommand>handle((p, h) -> processMethodCommandService.deleteProcessMethod(p))))
 				.get();
 	}
 
@@ -751,6 +790,16 @@ public class ApplicationConfig {
 
 	@Bean(name = Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
 	public MessageChannel processDocumentCommandInput() {
+		return new DirectChannel();
+	}
+
+	@Bean(name = Channels.PROCESS_METHOD_QUERY_INPUT)
+	public MessageChannel processMethodQueryInput() {
+		return new DirectChannel();
+	}
+
+	@Bean(name = Channels.PROCESS_METHOD_COMMAND_INPUT)
+	public MessageChannel processMethodCommandInput() {
 		return new DirectChannel();
 	}
 

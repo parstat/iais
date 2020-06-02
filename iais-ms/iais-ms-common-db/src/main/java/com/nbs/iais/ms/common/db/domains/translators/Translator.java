@@ -354,7 +354,7 @@ public class Translator {
 		return Optional.of(processDocumentDTOS);
 	}
 
-	public static <LR extends ProcessMethod> Optional<ProcessMethodDTO> translate(final LR processMethod,
+	public static <PD extends ProcessMethod> Optional<ProcessMethodDTO> translate(final PD processMethod,
 			final Language language) {
 
 		if (processMethod == null) {

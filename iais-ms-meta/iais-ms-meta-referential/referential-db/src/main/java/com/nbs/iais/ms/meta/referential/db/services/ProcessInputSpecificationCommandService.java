@@ -71,11 +71,11 @@ public class ProcessInputSpecificationCommandService {
 			final UpdateInputSpecificationCommand command) throws AuthorizationException {
 
 		if (command.getId() != null) {
-			processInputSpecificationRepository.findById(command.getId()).ifPresentOrElse(InputSpecification -> {
-				CommandTranslator.translate(command, InputSpecification);
+			processInputSpecificationRepository.findById(command.getId()).ifPresentOrElse(inputSpecification -> {
+				CommandTranslator.translate(command, inputSpecification);
 
 				Translator
-						.translate(processInputSpecificationRepository.save(InputSpecification), command.getLanguage())
+						.translate(processInputSpecificationRepository.save(inputSpecification), command.getLanguage())
 						.ifPresent(command.getEvent()::setData);
 			}, () -> {
 				throw new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND);

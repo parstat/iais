@@ -47,6 +47,10 @@ public interface Channels {
     String PROCESS_DOCUMENT_QUERY_INPUT = "process.document.query.input";
 
     String PROCESS_DOCUMENT_COMMAND_INPUT = "process.document.command.input";
+
+    String PROCESS_METHOD_QUERY_INPUT = "process.method.query.input";
+
+    String PROCESS_METHOD_COMMAND_INPUT = "process.method.command.input";
     
     String PROCESS_QUALITY_QUERY_INPUT = "process.quality.query.input";
 
