@@ -86,8 +86,10 @@ public class ApiProcessOutputSpecificationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PatchMapping("/{id}")
-	public ProcessOutputSpecificationDTO updateOutputSpecification(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @RequestParam(name = "name", required = false) final String name,
+	public ProcessOutputSpecificationDTO updateOutputSpecification(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id", required = false) final String localId,
 			@RequestParam(name = "version", required = false) final String version,

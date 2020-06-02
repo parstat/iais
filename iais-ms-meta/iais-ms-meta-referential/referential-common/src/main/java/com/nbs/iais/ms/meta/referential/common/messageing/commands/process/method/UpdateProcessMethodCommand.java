@@ -34,12 +34,13 @@ public class UpdateProcessMethodCommand extends AbstractCommand<UpdateProcessMet
         super(new UpdateProcessMethodEvent());
     }
 
-    private UpdateProcessMethodCommand(final String jwt, final Long id, final String name, final String description,
-                                       final Language language) {
+    private UpdateProcessMethodCommand(final String jwt, final Long id, final String localId, final String name,
+                                       final String description, final Language language) {
 
         super(new UpdateProcessMethodEvent());
         this.id = id;
         setJwt(jwt);
+        this.localId = localId;
         this.name = name;
         this.description = description;
         setLanguage(language);
@@ -47,10 +48,10 @@ public class UpdateProcessMethodCommand extends AbstractCommand<UpdateProcessMet
 
     }
 
-    public static UpdateProcessMethodCommand create(final String jwt, final Long id, final String name, final String description,
+    public static UpdateProcessMethodCommand create(final String jwt, final Long id, final String localId, final String name, final String description,
                                                     final Language language) {
 
-        return new UpdateProcessMethodCommand(jwt, id, name, description, language);
+        return new UpdateProcessMethodCommand(jwt, id, localId, name, description,  language);
 
     }
 

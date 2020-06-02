@@ -2,6 +2,7 @@ package com.nbs.iais.ms.meta.referential.common.messageing.commands.process.meth
 
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
+import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.events.process.method.CreateProcessMethodEvent;
 
 import java.time.LocalDateTime;
@@ -52,9 +53,15 @@ public class CreateProcessMethodCommand extends AbstractCommand<CreateProcessMet
         setJwt(jwt);
         this.name = name;
         this.description = description;
-        this.version = version;
-        this.versionRationale = versionRationale;
-        this.versionDate = versionDate;
+        if(StringTools.isNotEmpty(version)) {
+            this.version = version;
+        }
+        if(StringTools.isNotEmpty(versionRationale)) {
+            this.versionRationale = versionRationale;
+        }
+        if(versionDate != null) {
+            this.versionDate = versionDate;
+        }
         setLanguage(language);
         setClosed(true);
 

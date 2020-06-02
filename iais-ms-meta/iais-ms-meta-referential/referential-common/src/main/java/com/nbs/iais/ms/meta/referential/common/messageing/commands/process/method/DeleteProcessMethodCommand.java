@@ -24,6 +24,10 @@ public class DeleteProcessMethodCommand extends AbstractCommand<DeleteProcessMet
         setClosed(true);
     }
 
+    public static DeleteProcessMethodCommand create(final String jwt, final Long id) {
+        return new DeleteProcessMethodCommand(jwt, id);
+    }
+
     public Long getId() {
         return id;
     }
