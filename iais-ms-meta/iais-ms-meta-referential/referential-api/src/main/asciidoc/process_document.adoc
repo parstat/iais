@@ -39,3 +39,52 @@ include::{snippets}/get-process-document/curl-request.adoc[]
 include::{snippets}/get-process-document/response-fields.adoc[]
 ===== Response Example
 include::{snippets}/get-process-document/http-response.adoc[]
+
+[[resources-create-process-document]]
+=== Create Process Document
+==== Request
+include::{snippets}/create-process-document/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-process-document/request-body.adoc[]
+===== Path parameters
+include::{snippets}/create-process-document/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/create-process-document/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/create-process-document/curl-request.adoc[]
+==== Response
+include::{snippets}/create-process-document/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-process-document/http-response.adoc[]
+
+[[resources-update-process-document]]
+=== Update Process Document
+==== Request
+include::{snippets}/update-process-document/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-process-document/request-body.adoc[]
+===== Path parameters
+include::{snippets}/update-process-document/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/update-process-document/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/update-process-document/curl-request.adoc[]
+==== Response
+include::{snippets}/update-process-document/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-process-document/http-response.adoc[]
+
+[[resources-delete-process-document]]
+=== Delete Process Document
+==== Request
+include::{snippets}/delete-process-document/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-process-document/request-body.adoc[]
+===== Path parameters
+include::{snippets}/delete-process-document/path-parameters.adoc[]
+===== CURL request
+include::{snippets}/delete-process-document/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-process-document/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-process-document/http-response.adoc[]
