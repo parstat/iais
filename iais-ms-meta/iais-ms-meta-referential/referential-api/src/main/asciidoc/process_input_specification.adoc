@@ -1,0 +1,128 @@
+= IAIS API Guide: Process Input Specification
+:revnumber: {iais.version}
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-get-process-inputs]]
+== APIs
+=== Get Process Input Specifications
+==== Request
+include::{snippets}/get-process-inputs/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-process-inputs/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-process-inputs/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-process-inputs/curl-request.adoc[]
+==== Response
+include::{snippets}/get-process-inputs/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-process-inputs/http-response.adoc[]
+
+[[resources-get-process-input]]
+== APIs
+=== Get Process Input Specification
+==== Request
+include::{snippets}/get-process-input/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-process-input/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-process-input/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-process-input/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-process-input/curl-request.adoc[]
+==== Response
+include::{snippets}/get-process-input/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-process-input/http-response.adoc[]
+
+[[resources-create-input-specification]]
+== APIs
+=== Create Process Input Specification
+==== Request
+include::{snippets}/create-input-specification/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-input-specification/request-body.adoc[]
+===== Path parameters
+include::{snippets}/create-input-specification/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/create-input-specification/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/create-input-specification/curl-request.adoc[]
+==== Response
+include::{snippets}/create-input-specification/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-input-specification/http-response.adoc[]
+
+[[resources-update-input-specification]]
+== APIs
+=== Update Process Input Specification
+==== Request
+include::{snippets}/update-input-specification/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-input-specification/request-body.adoc[]
+===== Path parameters
+include::{snippets}/update-input-specification/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/update-input-specification/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/update-input-specification/curl-request.adoc[]
+==== Response
+include::{snippets}/update-input-specification/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-input-specification/http-response.adoc[]
+
+[[resources-add-input-specification]]
+== APIs
+=== Add Process Input Specification
+==== Request
+include::{snippets}/add-input-specification/http-request.adoc[]
+===== Request Body
+include::{snippets}/add-input-specification/request-body.adoc[]
+===== Path parameters
+include::{snippets}/add-input-specification/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/add-input-specification/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/add-input-specification/curl-request.adoc[]
+==== Response
+include::{snippets}/add-input-specification/response-fields.adoc[]
+===== Response Example
+include::{snippets}/add-input-specification/http-response.adoc[]
+
+[[resources-remove-input-specification]]
+== APIs
+=== Remove Process Input Specification
+==== Request
+include::{snippets}/remove-input-specification/http-request.adoc[]
+===== Request Body
+include::{snippets}/remove-input-specification/request-body.adoc[]
+===== Path parameters
+include::{snippets}/remove-input-specification/path-parameters.adoc[]
+===== CURL request
+include::{snippets}/remove-input-specification/curl-request.adoc[]
+==== Response
+include::{snippets}/remove-input-specification/response-fields.adoc[]
+===== Response Example
+include::{snippets}/remove-input-specification/http-response.adoc[]
+
+[[resources-delete-input-specification]]
+== APIs
+=== Delete Process Input Specification
+==== Request
+include::{snippets}/delete-input-specification/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-input-specification/request-body.adoc[]
+===== Path parameters
+include::{snippets}/delete-input-specification/path-parameters.adoc[]
+===== CURL request
+include::{snippets}/delete-input-specification/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-input-specification/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-input-specification/http-response.adoc[]
