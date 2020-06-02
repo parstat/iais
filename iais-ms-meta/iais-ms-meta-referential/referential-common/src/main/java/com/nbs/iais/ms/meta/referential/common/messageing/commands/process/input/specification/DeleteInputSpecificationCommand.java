@@ -1,7 +1,7 @@
 package com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification;
 
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.input.specification.DeleteInputSpecificationEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.process.input.specification.DeleteInputSpecificationEvent;
 
 public class DeleteInputSpecificationCommand extends AbstractCommand<DeleteInputSpecificationEvent> {
 

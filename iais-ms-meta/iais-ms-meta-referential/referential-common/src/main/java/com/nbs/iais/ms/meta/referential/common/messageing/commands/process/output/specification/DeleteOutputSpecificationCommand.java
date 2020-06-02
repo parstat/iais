@@ -1,7 +1,7 @@
 package com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification;
 
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.output.specification.DeleteOutputSpecificationEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.process.output.specification.DeleteOutputSpecificationEvent;
 
 public class DeleteOutputSpecificationCommand extends AbstractCommand<DeleteOutputSpecificationEvent> {
 

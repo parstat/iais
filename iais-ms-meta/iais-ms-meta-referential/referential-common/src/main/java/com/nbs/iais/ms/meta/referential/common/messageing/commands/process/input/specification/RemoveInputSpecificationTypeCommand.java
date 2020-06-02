@@ -3,7 +3,7 @@ package com.nbs.iais.ms.meta.referential.common.messageing.commands.process.inpu
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProcessInputType;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.input.specification.RemoveInputSpecificationTypeEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.process.input.specification.RemoveInputSpecificationTypeEvent;
 
 public class RemoveInputSpecificationTypeCommand extends AbstractCommand<RemoveInputSpecificationTypeEvent> {
 

@@ -11,14 +11,6 @@ public class GetStatisticalStandardsQuery extends AbstractQuery<GetStatisticalSt
 	private static final long serialVersionUID = 20320L;
 
 	private StatisticalStandardType type;
-	
-	public StatisticalStandardType getType() {
-		return type;
-	}
-
-	public void setType(StatisticalStandardType type) {
-		this.type = type;
-	}
 
 	private String name;
 	
@@ -47,14 +39,20 @@ public class GetStatisticalStandardsQuery extends AbstractQuery<GetStatisticalSt
 		return new GetStatisticalStandardsQuery(type, name, language);
 	}
 
-
-	
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public StatisticalStandardType getType() {
+		return type;
+	}
+
+	public void setType(final StatisticalStandardType type) {
+		this.type = type;
 	}
 
 	}

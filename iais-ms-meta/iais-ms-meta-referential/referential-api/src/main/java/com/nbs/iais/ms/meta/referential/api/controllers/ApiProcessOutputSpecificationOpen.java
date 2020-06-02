@@ -23,8 +23,7 @@ public class ApiProcessOutputSpecificationOpen extends AbstractController {
     /**
      * Method to get many process outputs in the selected language
      *
-     * @param processOutputation     the processDocumentation to search the process quality
-    
+     * @param processDocumentation the processDocumentation to search the process quality
      * @param language the language to present the returned DTO (en, ro, ru)
      * @return a list of filtered process quality in the selected language all
      *         process quality if no filter parameter has been provided

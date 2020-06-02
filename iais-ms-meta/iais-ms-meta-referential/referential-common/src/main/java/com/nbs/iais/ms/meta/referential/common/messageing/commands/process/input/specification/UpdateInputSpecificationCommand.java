@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.input.specification.UpdateInputSpecificationEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.process.input.specification.UpdateInputSpecificationEvent;
 
 public class UpdateInputSpecificationCommand extends AbstractCommand<UpdateInputSpecificationEvent> {
 
