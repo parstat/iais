@@ -79,13 +79,8 @@ public class StatisticalStandardCommandService {
 
     public DeleteStatisticalStandardCommand deleteStatisticalStandard(final DeleteStatisticalStandardCommand command)
             throws AuthorizationException, EntityException {
-
         try {
-            final StatisticalStandardReferenceEntity standardEntity = statisticalStandardReferenceRepository
-                    .findById(command.getId())
-                    .orElseThrow(() -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
-
-            statisticalStandardReferenceRepository.delete(standardEntity);
+            statisticalStandardReferenceRepository.deleteById(command.getId());
         } catch (Exception e) {
             LOG.debug("Error deleting agent: " + e.getMessage());
             command.getEvent().setData(DTOBoolean.FAIL);
