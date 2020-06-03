@@ -80,11 +80,7 @@ public class LegislativeReferenceCommandService {
             throws AuthorizationException, EntityException {
 
         try {
-            final LegislativeReferenceEntity referenceEntity = legislativeReferenceRepository
-                    .findById(command.getId())
-                    .orElseThrow(() -> new EntityException(ExceptionCodes.LEGISLATIVE_REFERENCE_NOT_FOUND));
-
-            legislativeReferenceRepository.delete(referenceEntity);
+            legislativeReferenceRepository.deleteById(command.getId());
         } catch (Exception e) {
             LOG.debug("Error deleting agent: " + e.getMessage());
             command.getEvent().setData(DTOBoolean.FAIL);
