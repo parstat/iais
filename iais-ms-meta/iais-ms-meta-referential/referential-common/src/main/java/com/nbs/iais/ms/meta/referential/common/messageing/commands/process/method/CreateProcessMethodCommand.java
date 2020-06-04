@@ -6,6 +6,7 @@ import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.events.process.method.CreateProcessMethodEvent;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class CreateProcessMethodCommand extends AbstractCommand<CreateProcessMethodEvent> {
 
@@ -22,9 +23,9 @@ public class CreateProcessMethodCommand extends AbstractCommand<CreateProcessMet
     private String description;
 
     /**
-     * Local id of the method
+     * Local id of the method default random uuid
      */
-    private String localId;
+    private String localId = UUID.randomUUID().toString();
 
     /**
      * Version being created default 1.0
@@ -45,7 +46,7 @@ public class CreateProcessMethodCommand extends AbstractCommand<CreateProcessMet
         super(new CreateProcessMethodEvent());
     }
 
-    private CreateProcessMethodCommand(final String jwt, final String name, final String description,
+    private CreateProcessMethodCommand(final String jwt, final String localId, final String name, final String description,
                                        final String version, final String versionRationale,
                                        final LocalDateTime versionDate, final Language language) {
 
@@ -53,6 +54,9 @@ public class CreateProcessMethodCommand extends AbstractCommand<CreateProcessMet
         setJwt(jwt);
         this.name = name;
         this.description = description;
+        if(StringTools.isNotEmpty(localId)) {
+            this.localId = localId;
+        }
         if(StringTools.isNotEmpty(version)) {
             this.version = version;
         }
@@ -67,11 +71,11 @@ public class CreateProcessMethodCommand extends AbstractCommand<CreateProcessMet
 
     }
 
-    public static CreateProcessMethodCommand create(final String jwt, final String name, final String description,
+    public static CreateProcessMethodCommand create(final String jwt, final String localId, final String name, final String description,
                                                     final String version, final String versionRationale,
                                                     final LocalDateTime versionDate, final Language language) {
 
-        return new CreateProcessMethodCommand(jwt, name, description, version, versionRationale, versionDate, language);
+        return new CreateProcessMethodCommand(jwt, localId, name, description, version, versionRationale, versionDate, language);
 
     }
 

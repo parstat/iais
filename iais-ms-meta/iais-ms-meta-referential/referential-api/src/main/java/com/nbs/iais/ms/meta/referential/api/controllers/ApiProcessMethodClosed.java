@@ -37,13 +37,13 @@ public class ApiProcessMethodClosed extends AbstractController {
             @RequestHeader(name = "jwt-auth") final String jwt,
             @RequestParam(name = "name", required = false) final String name,
             @RequestParam(name = "description", required = false) final String description,
-            @RequestParam(name = "local_id", required = false) final String localId,
+            @RequestParam(name = "localId", required = false) final String localId,
             @RequestParam(name = "version", required = false) final String version,
             @RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
             @RequestParam(name = "versionRationale", required = false) final String versionRationale,
             @RequestParam(name = "language", required = false) final String language) {
 
-        final CreateProcessMethodCommand command = CreateProcessMethodCommand.create(jwt, name, description, version,
+        final CreateProcessMethodCommand command = CreateProcessMethodCommand.create(jwt, localId, name, description, version,
                 versionRationale, versionDate, Language.getLanguage(language));
 
         return sendCommand(command, "process_method").getEvent().getData();
