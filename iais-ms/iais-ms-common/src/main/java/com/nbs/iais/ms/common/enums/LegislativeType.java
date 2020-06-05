@@ -2,10 +2,14 @@ package com.nbs.iais.ms.common.enums;
 
 public enum LegislativeType {
 
-    REGULATION,
-    LAW,
+    AMENDMENT,
+    CONVENTION,
     CODE,
     GOVERNMENTAL_DECISION,
-    AMENDMENT,
+    LAW,
+    PROTOCOL,
+    RECOMMENDATION,
+    REGULATION,
+    RESOLUTION
 
 }

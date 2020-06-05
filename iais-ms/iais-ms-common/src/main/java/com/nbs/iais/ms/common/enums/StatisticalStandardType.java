@@ -8,5 +8,7 @@ public enum StatisticalStandardType {
     METHODOLOGIES,
     PROCEDURES,
     RECOMMENDATIONS,
+    STANDARDS,
+    PROTOCOLS,
     FRAMEWORK
 }

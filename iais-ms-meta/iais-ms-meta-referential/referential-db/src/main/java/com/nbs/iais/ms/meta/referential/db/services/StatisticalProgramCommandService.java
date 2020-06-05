@@ -104,11 +104,14 @@ public class StatisticalProgramCommandService {
 
     private void addAdministrator(final StatisticalProgramEntity sp, final AgentEntity agent, final RoleType type) {
         agentInRoleRepository.findByAgentAndRole(agent, type)
-                .ifPresentOrElse(agentInRole -> sp.getAdministrators().add(agentInRole), () -> {
+                .ifPresentOrElse(agentInRole ->  {
+                    if(!sp.getAdministrators().contains(agentInRole)) {
+                        sp.getAdministrators().add(agentInRole);
+                    }
+                }, () -> {
                     final AgentInRoleEntity agentInRole = new AgentInRoleEntity();
                     agentInRole.setAgent(agent);
                     agentInRole.setRole(type);
-
                     sp.getAdministrators().add(agentInRoleRepository.save(agentInRole));
                 });
 
