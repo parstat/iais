@@ -236,6 +236,10 @@ public class StatisticalProgramCommandService {
         final AgentEntity agent = agentRepository.findById(command.getAgent())
                 .orElseThrow(() -> new EntityException(ExceptionCodes.AGENT_NOT_FOUND));
 
+        //remove if it already exists
+        sp.getAdministrators().stream().filter(ar -> ar.getRole() == command.getRole()).findFirst().ifPresent(
+                sp.getAdministrators()::remove);
+
         addAdministrator(sp, agent, command.getRole());
         auditingChanges(sp, command.getJwt());
 
