@@ -56,7 +56,8 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @ManyToMany(targetEntity = AgentInRoleEntity.class)
     @JoinTable(name = "sp_agent_in_role",
                 joinColumns = @JoinColumn(name = "sp_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
+                inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"),
+                uniqueConstraints = @UniqueConstraint(columnNames = {"sp_id", "agent_in_role_id"}))
     private List<AgentInRole> administrators = new ArrayList<>();
 
     @OneToOne(targetEntity = AdministrativeDetailsEntity.class, orphanRemoval = true)
@@ -66,13 +67,15 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @ManyToMany(targetEntity = LegislativeReferenceEntity.class)
     @JoinTable(name = "statistical_program_legislative_references",
             joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "legislative_reference_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "legislative_reference_id", referencedColumnName = "id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"statistical_program_id", "legislative_reference_id"}))
     private List<LegislativeReference> legislativeReferences = new ArrayList<>();
 
     @ManyToMany(targetEntity = StatisticalStandardReferenceEntity.class)
     @JoinTable(name = "statistical_program_standards",
             joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "statistical_standard_reference_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "statistical_standard_reference_id", referencedColumnName = "id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"statistical_program_id", "statistical_standard_reference_id"}))
     private List<StatisticalStandardReference> statisticalStandardReferences = new ArrayList<>();
 
     @OneToMany(targetEntity = ProcessDocumentationEntity.class, mappedBy = "statisticalProgram")

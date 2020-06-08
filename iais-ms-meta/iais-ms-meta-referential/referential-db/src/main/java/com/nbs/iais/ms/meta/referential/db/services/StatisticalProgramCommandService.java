@@ -293,9 +293,12 @@ public class StatisticalProgramCommandService {
 
         final LegislativeReferenceEntity lr = legislativeReferenceRepository.findById(command.getLegislativeReference())
                 .orElseThrow(() -> new EntityException(ExceptionCodes.LEGISLATIVE_REFERENCE_NOT_FOUND));
+        //don't add it if already there
+        if(!sp.getLegislativeReference().contains(lr)) {
+            sp.getLegislativeReference().add(lr);
+            auditingChanges(sp, command.getJwt());
+        }
 
-        sp.getLegislativeReference().add(lr);
-        auditingChanges(sp, command.getJwt());
 
         // save and translate to dto
         Translator.translate(statisticalProgramRepository.save(sp), command.getLanguage())
@@ -348,8 +351,11 @@ public class StatisticalProgramCommandService {
                 .findById(command.getStatisticalStandardReference())
                 .orElseThrow(() -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
 
-        sp.getStatisticalStandardReferences().add(sr);
-        auditingChanges(sp, command.getJwt());
+        //add only if it does not exits
+        if(!sp.getStatisticalStandardReferences().contains(sr)) {
+            sp.getStatisticalStandardReferences().add(sr);
+            auditingChanges(sp, command.getJwt());
+        }
 
         Translator.translate(statisticalProgramRepository.save(sp), command.getLanguage())
                 .ifPresent(command.getEvent()::setData);
