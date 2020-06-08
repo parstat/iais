@@ -38,7 +38,7 @@ public class SecurityService {
         final String secret = tokenRepository
                 .getToken(JwtUtils.getJwtPrivateKey(String.valueOf(JWT.decode(jwt).getClaim("user").asLong())))
                 .getSecret();
-        return JwtUtils.verifyJwt(jwt, secret).getClaim("user").asString();
+        return JwtUtils.verifyJwt(jwt, secret).getClaim("user").asLong().toString();
     }
 
     public void invalidateToken(final String user) {
