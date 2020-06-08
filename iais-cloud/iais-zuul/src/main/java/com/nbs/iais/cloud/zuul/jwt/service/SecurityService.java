@@ -41,8 +41,8 @@ public class SecurityService {
         return JwtUtils.verifyJwt(jwt, secret).getClaim("user").asString();
     }
 
-    public void invalidateToken(final String jwt) {
-        tokenRepository.deleteToken(JwtUtils.getJwtPrivateKey((JWT.decode(jwt).getClaim("user").asString())));
+    public void invalidateToken(final String user) {
+        tokenRepository.deleteToken(JwtUtils.getJwtPrivateKey((user)));
     }
 
     private PrivateJwt createPrivateJwt(final String user) {

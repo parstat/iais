@@ -57,8 +57,8 @@ public class SignoutFilter extends ZuulFilter {
         }
 
         try {
-            final String jwt = securityService.verifyJwt(jwtAuthHeader);
-            securityService.invalidateToken(jwt);
+            final String user = securityService.verifyJwt(jwtAuthHeader);
+            securityService.invalidateToken(user);
             ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(HttpStatus.OK.value());
             return null;
