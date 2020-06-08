@@ -2,6 +2,7 @@ package com.nbs.iais.cloud.zuul.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nbs.iais.cloud.zuul.jwt.model.PrivateJwt;
@@ -41,7 +42,7 @@ public class SecurityService {
             final String secret = privateJwt.getSecret();
             return String.valueOf(JwtUtils.verifyJwt(jwt, secret).getClaim("user").asLong());
         }
-        throw new JWTVerificationException("Token signature not found");
+        throw new SignatureVerificationException(null);
     }
 
     public void invalidateToken(final String user) {
