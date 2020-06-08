@@ -68,9 +68,8 @@ public class SignoutFilter extends ZuulFilter {
             ctx.setResponseStatusCode(HttpStatus.OK.value());
             return null;
         }
-        catch (AlgorithmMismatchException | InvalidClaimException |
-                JWTDecodeException | SignatureVerificationException ex) {
-            //Shouldn't go here Zuul will mark as bad request if jwt is empty or jwt is not provided by dotoday
+        catch (JWTVerificationException ex) {
+            //Shouldn't go here Zuul will mark as bad request if jwt is empty or jwt is not provided by iais
             ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(HttpStatus.BAD_REQUEST.value());
             return null;

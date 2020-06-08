@@ -35,10 +35,13 @@ public class SecurityService {
     }
 
     public String verifyJwt(final String jwt) throws JWTVerificationException {
-        final String secret = tokenRepository
-                .getToken(JwtUtils.getJwtPrivateKey(String.valueOf(JWT.decode(jwt).getClaim("user").asLong())))
-                .getSecret();
-        return JwtUtils.verifyJwt(jwt, secret).getClaim("user").asLong().toString();
+        final PrivateJwt privateJwt = tokenRepository
+                .getToken(JwtUtils.getJwtPrivateKey(String.valueOf(JWT.decode(jwt).getClaim("user").asLong())));
+        if(privateJwt != null) {
+            final String secret = privateJwt.getSecret();
+            return String.valueOf(JwtUtils.verifyJwt(jwt, secret).getClaim("user").asLong());
+        }
+        throw new JWTVerificationException("Token signature not found");
     }
 
     public void invalidateToken(final String user) {
