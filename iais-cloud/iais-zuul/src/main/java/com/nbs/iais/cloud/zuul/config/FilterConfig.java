@@ -2,10 +2,7 @@ package com.nbs.iais.cloud.zuul.config;
 
 import com.nbs.iais.cloud.zuul.filters.post.SigninJwtFilter;
 import com.nbs.iais.cloud.zuul.filters.post.SignupJwtFilter;
-import com.nbs.iais.cloud.zuul.filters.pre.AuthenticatedFilter;
-import com.nbs.iais.cloud.zuul.filters.pre.LanguageFilter;
-import com.nbs.iais.cloud.zuul.filters.pre.SignoutFilter;
-import com.nbs.iais.cloud.zuul.filters.pre.XssFilter;
+import com.nbs.iais.cloud.zuul.filters.pre.*;
 import com.nbs.iais.ms.common.enums.Language;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +34,11 @@ public class FilterConfig {
     @Bean
     public SignoutFilter signoutFilter() {
         return new SignoutFilter();
+    }
+
+    @Bean
+    public AuthenticateFilter authenticateFilter() {
+        return new AuthenticateFilter();
     }
 
     @Bean
