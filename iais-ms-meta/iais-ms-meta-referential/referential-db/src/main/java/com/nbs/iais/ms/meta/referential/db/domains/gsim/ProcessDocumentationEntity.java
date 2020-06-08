@@ -31,19 +31,31 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 	private MultilingualText description;
 
 	@ManyToMany(targetEntity = AgentInRoleEntity.class)
-	@JoinTable(name = "pd_agent_in_role", joinColumns = @JoinColumn(name = "pd_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"))
+	@JoinTable(name = "pd_agent_in_role",
+			joinColumns = @JoinColumn(name = "pd_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"),
+			uniqueConstraints = @UniqueConstraint(columnNames = {"pd_id", "agent_in_role_id"}))
 	private List<AgentInRole> administrators = new ArrayList<>();
 
 	@ManyToMany(targetEntity = ProcessMethodEntity.class)
-	@JoinTable(name = "process_documentation_methods", joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "method_id", referencedColumnName = "id"))
+	@JoinTable(name = "process_documentation_methods",
+			joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "method_id", referencedColumnName = "id"),
+			uniqueConstraints = @UniqueConstraint(columnNames = {"process_documentation_id", "method_id"}))
 	private List<ProcessMethod> processMethods = new ArrayList<>();
 
 	@ManyToMany(targetEntity = StatisticalStandardReferenceEntity.class)
-	@JoinTable(name = "process_documentation_standards", joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "standard_id", referencedColumnName = "id"))
+	@JoinTable(name = "process_documentation_standards",
+			joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "standard_id", referencedColumnName = "id"),
+			uniqueConstraints = @UniqueConstraint(columnNames = {"process_documentation_id", "standard_id"}))
 	private List<StatisticalStandardReference> standardsUsed = new ArrayList<>();
 
 	@ManyToMany(targetEntity = BusinessServiceEntity.class)
-	@JoinTable(name = "process_documentation_services", joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
+	@JoinTable(name = "process_documentation_services",
+			joinColumns = @JoinColumn(name = "process_documentation_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"),
+			uniqueConstraints = @UniqueConstraint(columnNames = {"process_documentation_id", "service_id"}))
 	private List<BusinessService> businessServices = new ArrayList<>();
 
 	@OneToMany(targetEntity = ProcessQualityEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)

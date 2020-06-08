@@ -250,7 +250,6 @@ public class ProcessDocumentationCommandService {
 	}
 
 	/**
-	 * FIXME oneToMany it is better that this command should create also the output
 	 * Method to add a input specification to process documentation
 	 * 
 	 * @param command to execute
@@ -318,7 +317,7 @@ public class ProcessDocumentationCommandService {
 		final ProcessMethodEntity method = processMethodRepository.findById(command.getProcessMethod())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_METHOD_NOT_FOUND));
 
-		if(!pd.getProcessMethods().contains(method)) {
+		if(!pd.getProcessMethods().contains(method)) { //added only if not present
 			pd.getProcessMethods().add(method);
 		}
 		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
