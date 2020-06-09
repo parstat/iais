@@ -116,8 +116,10 @@ public class Translator {
 		businessServiceDTO.setVersionRationale(businessService.getVersionRationale());
 		businessServiceDTO.setLink("/business/service/" + businessService.getId().toString());
 		businessServiceDTO.setInterfaces(new ArrayList<>());
-		businessService.getServiceInterfaces().forEach(serviceInterface ->
-				businessServiceDTO.getInterfaces().add(serviceInterface));
+		if(businessService.getServiceInterfaces() != null && businessService.getServiceInterfaces().size() > 0) {
+			businessService.getServiceInterfaces().forEach(serviceInterface ->
+					businessServiceDTO.getInterfaces().add(serviceInterface));
+		}
 
 		return Optional.of(businessServiceDTO);
 	}
