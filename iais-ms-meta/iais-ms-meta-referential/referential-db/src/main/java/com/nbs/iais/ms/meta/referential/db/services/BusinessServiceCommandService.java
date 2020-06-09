@@ -33,7 +33,7 @@ public class BusinessServiceCommandService {
 
         if(!businessServiceRepository.existsByLocalId(command.getLocalId())) {
             final BusinessServiceEntity businessService = CommandTranslator.translate(command);
-            Translator.translate(businessService, command.getLanguage()).ifPresent(command.getEvent()::setData);
+            Translator.translate(businessServiceRepository.save(businessService), command.getLanguage()).ifPresent(command.getEvent()::setData);
         } else {
             throw new EntityException(ExceptionCodes.BUSINESS_FUNCTION_EXISTS);
         }
