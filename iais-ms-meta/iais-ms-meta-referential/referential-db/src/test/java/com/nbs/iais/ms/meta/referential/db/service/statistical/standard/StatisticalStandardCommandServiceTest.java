@@ -38,6 +38,7 @@ public class StatisticalStandardCommandServiceTest extends ServiceTest {
         final CreateStatisticalStandardCommand command = CreateStatisticalStandardCommand.create(jwt, "Name", "Description", null, StatisticalStandardType.CONCEPTS, "1.0", LocalDateTime.now(), "New version", "http://the/link", Language.ENG);
 
         final StatisticalStandardReferenceEntity statisticalStandard = CommandTranslator.translate(command);
+        statisticalStandard.setId(1L);
 
         when(repository.save(any(StatisticalStandardReferenceEntity.class))).thenReturn(statisticalStandard);
 
