@@ -83,6 +83,7 @@ public class Translator {
 		businessFunctionDTO.setVersionRationale(businessFunction.getVersionRationale());
 		businessFunctionDTO.setPhaseId(Integer.parseInt(businessFunction.getLocalId().substring(0, 1)));
 		businessFunctionDTO.setPhase(PhaseName.fromId(businessFunctionDTO.getPhaseId()).translate(language));
+		businessFunctionDTO.setLink("/metadata/referential/gsim/function/view/" + businessFunction.getId().toString());
 
 		return Optional.of(businessFunctionDTO);
 
@@ -114,7 +115,7 @@ public class Translator {
 		businessServiceDTO.setVersion(businessService.getVersion());
 		businessServiceDTO.setVersionDate(businessService.getVersionDate());
 		businessServiceDTO.setVersionRationale(businessService.getVersionRationale());
-		businessServiceDTO.setLink("/business/service/" + businessService.getId().toString());
+		businessServiceDTO.setLink("/metadata/referential/gsim/service/view/" + businessService.getId().toString());
 		businessServiceDTO.setInterfaces(new ArrayList<>());
 		if(businessService.getServiceInterfaces() != null && businessService.getServiceInterfaces().size() > 0) {
 			businessService.getServiceInterfaces().forEach(serviceInterface ->
@@ -158,7 +159,7 @@ public class Translator {
 		statisticalProgramDTO.setVersion(statisticalProgram.getVersion());
 		statisticalProgramDTO.setVersionDate(statisticalProgram.getVersionDate());
 		statisticalProgramDTO.setVersionRationale(statisticalProgram.getVersionRationale());
-		statisticalProgramDTO.setLink("/statistical/programs/" + statisticalProgram.getId());
+		statisticalProgramDTO.setLink("/metadata/referential/view/" + statisticalProgram.getId().toString());
 		statisticalProgramDTO.setBudget(statisticalProgram.getBudget());
 		statisticalProgram.getAdministrators().forEach(agentInRole -> {
 			if (agentInRole.getRole() == RoleType.OWNER) {
@@ -201,7 +202,7 @@ public class Translator {
 		agentDTO.setVersion(agent.getVersion());
 		agentDTO.setVersionDate(agent.getVersionDate());
 		agentDTO.setVersionRationale(agent.getVersionRationale());
-		agentDTO.setLink("/agents/" + agent.getId());
+		agentDTO.setLink("/metadata/referential/gsim/agent/view/" + agent.getId().toString());
 
 		return Optional.of(agentDTO);
 	}
@@ -212,7 +213,7 @@ public class Translator {
 			return Optional.empty();
 		}
 		AgentMiniDTO agentMiniDTO = new AgentMiniDTO(agent.getId());
-		agentMiniDTO.setLink("/agents/" + agent.getId());
+		agentMiniDTO.setLink("/metadata/referential/gsim/agent/view/" + agent.getId());
 		agentMiniDTO.setType(agent.getType());
 		agentMiniDTO.setName(agent.getName(language));
 		return Optional.of(agentMiniDTO);
@@ -237,7 +238,7 @@ public class Translator {
 		if (agent.getChildren() != null) {
 			agent.getChildren().forEach(child -> {
 				AgentMiniDTO agentMini = new AgentMiniDTO(child.getId());
-				agentMini.setLink("/agents/" + child.getId());
+				agentMini.setLink("/metadata/referential/gsim/agent/view/" + child.getId().toString());
 				agentMini.setName(child.getName(language));
 				agentMini.setType(child.getType());
 				children.add(agentMini);
@@ -263,7 +264,7 @@ public class Translator {
 		statisticalStandardDTO.setVersionDate(statisticalStandard.getVersionDate());
 		statisticalStandardDTO.setVersionRationale(statisticalStandard.getVersionRationale());
 		statisticalStandardDTO.setExternalLink(statisticalStandard.getLink(language));
-		statisticalStandardDTO.setLink("/statistical/standards/" + statisticalStandard.getId());
+		statisticalStandardDTO.setLink("/metadata/referential/gsim/standard/view/" + statisticalStandard.getId().toString());
 
 		return Optional.of(statisticalStandardDTO);
 	}
@@ -301,7 +302,7 @@ public class Translator {
 		legislativeReferenceDTO.setVersion(legislativeReference.getVersion());
 		legislativeReferenceDTO.setVersionDate(legislativeReference.getVersionDate());
 		legislativeReferenceDTO.setVersionRationale(legislativeReference.getVersionRationale());
-		legislativeReferenceDTO.setLink("/legislative/references/" + legislativeReference.getId().toString());
+		legislativeReferenceDTO.setLink("/metadata/referential/gsim/regulation/view/" + legislativeReference.getId().toString());
 
 		return Optional.of(legislativeReferenceDTO);
 	}
@@ -583,7 +584,7 @@ public class Translator {
 		processDocumentationMiniDTO.setName(processDocumentation.getName(language));
 		processDocumentationMiniDTO.setDescription(processDocumentation.getDescription(language));
 		processDocumentationMiniDTO.setFrequency(processDocumentation.getFrequency());
-		processDocumentationMiniDTO.setLink("/process/documentations/" + processDocumentation.getId());
+		processDocumentationMiniDTO.setLink("/metadata/referential/documentation/view/" + processDocumentation.getId());
 		processDocumentationMiniDTO
 				.setBusinessFunction(translateMini(processDocumentation.getBusinessFunction(), language).orElse(null));
 		processDocumentationMiniDTO.setStatisticalProgram(
@@ -612,7 +613,7 @@ public class Translator {
 		statisticalProgramMiniDTO.setName(statisticalProgram.getName(language));
 		statisticalProgramMiniDTO.setDescription(statisticalProgram.getDescription(language));
 		statisticalProgramMiniDTO.setAcronym(statisticalProgram.getAcronym(language));
-		statisticalProgramMiniDTO.setLink("/statistical/programs/" + statisticalProgram.getId());
+		statisticalProgramMiniDTO.setLink("/metadata/referential/view/" + statisticalProgram.getId().toString());
 		return Optional.of(statisticalProgramMiniDTO);
 	}
 
@@ -626,7 +627,7 @@ public class Translator {
 		final BusinessFunctionMiniDTO businessFunctionMiniDTO = new BusinessFunctionMiniDTO(businessFunction.getId());
 		businessFunctionMiniDTO.setName(businessFunction.getName(language));
 		businessFunctionMiniDTO.setLocalId(businessFunction.getLocalId());
-		businessFunctionMiniDTO.setLink("/business/programs/" + businessFunction.getId());
+		businessFunctionMiniDTO.setLink("/metadata/referential/gsim/function/view/" + businessFunction.getId());
 		return Optional.of(businessFunctionMiniDTO);
 	}
 
