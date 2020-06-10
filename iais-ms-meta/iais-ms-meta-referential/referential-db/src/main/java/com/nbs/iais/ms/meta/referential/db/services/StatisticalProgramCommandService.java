@@ -266,8 +266,8 @@ public class StatisticalProgramCommandService {
                     new EntityException(ExceptionCodes.ROLE_NOT_FOUND));
 
             statisticalProgram.getAdministrators().remove(agentInRole);
-            statisticalProgramRepository.save(statisticalProgram);
-            command.getEvent().setData(DTOBoolean.TRUE);
+            Translator.translate(statisticalProgramRepository.save(statisticalProgram), command.getLanguage())
+                .ifPresent(command.getEvent()::setData);
 
         }, () -> {
             throw  new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND);
@@ -323,8 +323,8 @@ public class StatisticalProgramCommandService {
 
             statisticalProgram.getLegislativeReference().remove(legislativeReference);
 
-            statisticalProgramRepository.save(statisticalProgram);
-            command.getEvent().setData(DTOBoolean.TRUE);
+            Translator.translate(statisticalProgramRepository.save(statisticalProgram), command.getLanguage())
+                    .ifPresent(command.getEvent()::setData);
         }, () -> {
             throw new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND);
         });
@@ -378,8 +378,8 @@ public class StatisticalProgramCommandService {
                             -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
 
             statisticalProgram.getStatisticalStandardReferences().remove(statisticalStandardReference);
-            statisticalProgramRepository.save(statisticalProgram);
-            command.getEvent().setData(DTOBoolean.TRUE);
+            Translator.translate( statisticalProgramRepository.save(statisticalProgram), command.getLanguage())
+                    .ifPresent(command.getEvent()::setData);
 
         }, () -> {
 

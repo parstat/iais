@@ -235,7 +235,7 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/{id}/standards/{standard}")
-	public DTOBoolean removeStatisticalProgramStandard(
+	public StatisticalProgramDTO removeStatisticalProgramStandard(
 			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id,
 			@PathVariable(name = "standard") final Long standard,
@@ -302,7 +302,7 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/{id}/legislative/{legislative}")
-	public DTOBoolean removeStatisticalProgramLegislativeReference(
+	public StatisticalProgramDTO removeStatisticalProgramLegislativeReference(
 			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id,
 			@PathVariable(name = "legislative") final Long legislative,
@@ -348,7 +348,7 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/{id}/maintainer/{agent}")
-	public DTOBoolean removeStatisticalProgramMaintainer(
+	public StatisticalProgramDTO removeStatisticalProgramMaintainer(
 			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id,
 			@PathVariable(name = "agent") final Long agent,
@@ -394,7 +394,7 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/{id}/owner/{agent}")
-	public DTOBoolean removeStatisticalProgramOwner(
+	public StatisticalProgramDTO removeStatisticalProgramOwner(
 			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id,
 			@PathVariable(name = "agent") final Long agent,
@@ -441,7 +441,7 @@ public class ApiStatisticalProgramClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/{id}/contact/{agent}")
-	public DTOBoolean removeStatisticalProgramContact(
+	public StatisticalProgramDTO removeStatisticalProgramContact(
 			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id,
 			@PathVariable(name = "agent") final Long agent,
