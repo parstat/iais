@@ -16,7 +16,7 @@ public interface ProcessMethodRepository extends CrudRepository<ProcessMethodEnt
      * @param name The name to search with
      * @return Iterable<ProcessMethodEntity>
      */
-    @Query("SELECT pm FROM ProcessMethod pm INNER JOIN pm.name n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:name%")
+    @Query("SELECT pm FROM ProcessMethod pm INNER JOIN pm.name n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :name, '%'))")
     Iterable<ProcessMethodEntity> findAllByNameInLanguageContaining(@Param(value = "language") String language,
                                                                      @Param(value = "name") String name);
 }

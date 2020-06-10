@@ -42,13 +42,13 @@ public class LegislativeReferenceRepositoryTest extends RepositoryTest {
         final LegislativeReferenceEntity toSave = saveLegislativeReference();
         final LegislativeReferenceEntity saved = legislativeReferenceRepository.save(toSave);
 
-        Iterable<LegislativeReferenceEntity> legislativeReference = legislativeReferenceRepository.findAllByNameInLanguageContaining(Language.ENG.getShortName(),"Name");
+        Iterable<LegislativeReferenceEntity> legislativeReference = legislativeReferenceRepository.findAllByNameInLanguageContaining(Language.ENG.getShortName(),"name");
         Assert.assertTrue(legislativeReference.iterator().hasNext());
     }
 
     private LegislativeReferenceEntity saveLegislativeReference(){
         final LegislativeReferenceEntity toSave = new LegislativeReferenceEntity();
-        toSave.setName("Name",Language.ENG);
+        toSave.setName("Name test",Language.ENG);
         toSave.setName("Nume", Language.ROM);
         toSave.setName("имя", Language.RUS);
         toSave.setDescription("Description", Language.ENG);

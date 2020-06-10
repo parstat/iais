@@ -46,7 +46,7 @@ public interface BusinessServiceRepository extends CrudRepository<BusinessServic
      * @param name The name to search with
      * @return Iterable<BusinessServiceEntity>
      */
-    @Query("SELECT bs FROM BusinessService bs INNER JOIN bs.name n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:name%")
+    @Query("SELECT bs FROM BusinessService bs INNER JOIN bs.name n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :name, '%'))")
     Iterable<BusinessServiceEntity> findAllByNameInLanguageContaining(@Param(value = "language") String language,
                                                                       @Param(value = "name") String name);
 

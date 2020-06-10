@@ -29,7 +29,7 @@ public interface LegislativeReferenceRepository extends CrudRepository<Legislati
 	 * @param name     The name to search with
 	 * @return Iterable<LegislativeReferenceEntity>
 	 */
-	@Query("SELECT lr FROM LegislativeReference lr INNER JOIN lr.name n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:name%")
+	@Query("SELECT lr FROM LegislativeReference lr INNER JOIN lr.name n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :name, '%'))")
 	Iterable<LegislativeReferenceEntity> findAllByNameInLanguageContaining(
 			@Param(value = "language") final String language, @Param(value = "name") final String name);
 

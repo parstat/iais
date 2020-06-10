@@ -12,7 +12,7 @@ public interface ProcessOutputSpecificationRepository extends CrudRepository<Pro
 	 * Method to get all Process ProcessOutputSpecification of a process
 	 * documentation
 	 * 
-	 * @param sp ProcessDocumentation
+	 * @param processDocumentation ProcessDocumentation
 	 * @return Iterable<ProcessOutputSpecificationEntity> all Process
 	 *         ProcessOutputSpecification of a process documentation
 	 */

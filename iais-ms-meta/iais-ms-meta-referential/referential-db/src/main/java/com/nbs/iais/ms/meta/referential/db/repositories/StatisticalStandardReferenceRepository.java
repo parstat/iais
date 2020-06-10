@@ -29,7 +29,7 @@ public interface StatisticalStandardReferenceRepository
 	 * @param name The name to search with
 	 * @return Iterable<StatisticalStandardReferenceEntity>
 	 */
-	@Query("SELECT ssr FROM StatisticalStandardReference ssr INNER JOIN ssr.name n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:name%")
+	@Query("SELECT ssr FROM StatisticalStandardReference ssr INNER JOIN ssr.name n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :name, '%'))")
 	Iterable<StatisticalStandardReferenceEntity> findAllByNameInLanguageContaining(@Param(value = "language") final String language,
 															@Param(value = "name") final String name);
 

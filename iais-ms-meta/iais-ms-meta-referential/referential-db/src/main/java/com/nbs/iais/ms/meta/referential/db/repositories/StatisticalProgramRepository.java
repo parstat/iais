@@ -57,7 +57,7 @@ public interface StatisticalProgramRepository extends CrudRepository<Statistical
      * @param name to search
      * @return Iterable<StatisticalProgramEntity> 
      */
-    @Query("SELECT sp FROM StatisticalProgram sp INNER JOIN sp.name n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:name%")
+    @Query("SELECT sp FROM StatisticalProgram sp INNER JOIN sp.name n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :name, '%'))")
     Iterable<StatisticalProgramEntity> findAllByNameInLanguageContaining(@Param(value = "language") String language,
                                                                        @Param(value = "name") String name);
 
@@ -66,7 +66,7 @@ public interface StatisticalProgramRepository extends CrudRepository<Statistical
      * @param acronym to search
      * @return Iterable<StatisticalProgramEntity>
      */
-    @Query("SELECT sp FROM StatisticalProgram sp INNER JOIN sp.acronym n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:acronym%")
+    @Query("SELECT sp FROM StatisticalProgram sp INNER JOIN sp.acronym n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :acronym, '%'))")
     Iterable<StatisticalProgramEntity> findAllByAcronymInLanguageContaining(@Param(value = "language") String language,
                                                                            @Param(value = "acronym") String acronym);
 

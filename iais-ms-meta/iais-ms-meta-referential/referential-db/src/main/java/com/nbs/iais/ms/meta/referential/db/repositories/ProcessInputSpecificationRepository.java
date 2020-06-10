@@ -11,7 +11,7 @@ public interface ProcessInputSpecificationRepository extends CrudRepository<Proc
 
 	/**
 	 * Method to get all Process ProcessInputSpecification of a process documentation
-	 * @param sp ProcessDocumentation
+	 * @param processDocumentation ProcessDocumentation
 	 * @return Iterable<ProcessInputSpecificationEntity> all Process ProcessInputSpecification of a process documentation
 	 */
 	 Iterable<ProcessInputSpecificationEntity> findByProcessDocumentation(ProcessDocumentation processDocumentation) ;

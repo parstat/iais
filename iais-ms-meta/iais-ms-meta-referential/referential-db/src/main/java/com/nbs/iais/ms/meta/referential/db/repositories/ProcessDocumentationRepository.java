@@ -67,7 +67,7 @@ public interface ProcessDocumentationRepository extends CrudRepository<ProcessDo
 	 * @param name     The name to search with
 	 * @return Iterable<ProcessDocumentationEntity>
 	 */
-	@Query("SELECT ssr FROM ProcessDocumentation ssr INNER JOIN ssr.name n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:name%")
+	@Query("SELECT ssr FROM ProcessDocumentation ssr INNER JOIN ssr.name n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :name, '%'))")
 	Iterable<ProcessDocumentationEntity> findAllByNameInLanguageContaining(
 			@Param(value = "language") final String language, @Param(value = "name") final String name);
 

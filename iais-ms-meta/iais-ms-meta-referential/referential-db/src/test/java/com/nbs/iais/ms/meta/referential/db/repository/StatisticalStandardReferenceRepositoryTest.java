@@ -43,7 +43,7 @@ public class StatisticalStandardReferenceRepositoryTest extends RepositoryTest {
         final StatisticalStandardReferenceEntity toSave = saveStatisticaStandard();
         final StatisticalStandardReferenceEntity saved = statisticalStandardRepository.save(toSave);
 
-        Iterable<StatisticalStandardReferenceEntity> statisticaStandard = statisticalStandardRepository.findAllByNameInLanguageContaining(Language.ENG.getShortName(), "Name");
+        Iterable<StatisticalStandardReferenceEntity> statisticaStandard = statisticalStandardRepository.findAllByNameInLanguageContaining(Language.ENG.getShortName(), "name");
         Assert.assertTrue(statisticaStandard.iterator().hasNext());
     }
 

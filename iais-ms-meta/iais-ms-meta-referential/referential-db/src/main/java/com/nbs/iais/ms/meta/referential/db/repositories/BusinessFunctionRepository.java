@@ -16,7 +16,7 @@ public interface BusinessFunctionRepository extends CrudRepository<BusinessFunct
     Iterable<BusinessFunctionEntity> findAllByLocalIdStartingWith(String phase);
 
     //A named query because search should be done only for selected language texts
-    @Query("SELECT bf FROM BusinessFunction bf INNER JOIN bf.name n INNER JOIN n.map m WHERE KEY(m) = :language AND m LIKE %:name%")
+    @Query("SELECT bf FROM BusinessFunction bf INNER JOIN bf.name n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :name, '%'))")
     Iterable<BusinessFunctionEntity> findAllByNameInLanguageContaining(@Param(value = "language") String language,
                                                                        @Param(value = "name") String name);
 
