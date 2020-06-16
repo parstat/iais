@@ -444,7 +444,9 @@ public class Translator {
 		processDocumentationDTO.setVersionRationale(processDocumentation.getVersionRationale());
 
 		processDocumentationDTO.setFrequency(processDocumentation.getFrequency());
-		processDocumentationDTO.setNextSubPhase(processDocumentation.getNextBusinessFunction().getLocalId());
+		if(processDocumentation.getBusinessFunction() != null) {
+			processDocumentationDTO.setNextSubPhase(processDocumentation.getNextBusinessFunction().getLocalId());
+		}
 
 		processDocumentation.getAdministrators().forEach(agentInRole -> {
 
@@ -586,7 +588,9 @@ public class Translator {
 		processDocumentationMiniDTO.setDescription(processDocumentation.getDescription(language));
 		processDocumentationMiniDTO.setFrequency(processDocumentation.getFrequency());
 		processDocumentationMiniDTO.setLink("/metadata/referential/documentation/view/" + processDocumentation.getId());
-		processDocumentationMiniDTO.setNextSubPhase(processDocumentation.getNextBusinessFunction().getLocalId());
+		if(processDocumentation.getBusinessFunction() != null) {
+			processDocumentationMiniDTO.setNextSubPhase(processDocumentation.getNextBusinessFunction().getLocalId());
+		}
 		processDocumentationMiniDTO
 				.setBusinessFunction(translateMini(processDocumentation.getBusinessFunction(), language).orElse(null));
 		processDocumentationMiniDTO.setStatisticalProgram(
