@@ -448,16 +448,18 @@ public class Translator {
 			processDocumentationDTO.setNextSubPhase(processDocumentation.getNextBusinessFunction().getLocalId());
 		}
 
-		processDocumentation.getAdministrators().forEach(agentInRole -> {
+		if(processDocumentation.getAdministrators() != null && processDocumentation.getAdministrators().size() > 0) {
+			processDocumentation.getAdministrators().forEach(agentInRole -> {
 
-			if (agentInRole.getRole() == RoleType.OWNER) {
-				translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationDTO::setOwner);
-			}
-			if (agentInRole.getRole() == RoleType.MAINTAINER) {
-				translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationDTO::setMaintainer);
-			}
+				if (agentInRole.getRole() == RoleType.OWNER) {
+					translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationDTO::setOwner);
+				}
+				if (agentInRole.getRole() == RoleType.MAINTAINER) {
+					translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationDTO::setMaintainer);
+				}
 
-		});
+			});
+		}
 
 		translateMini(processDocumentation.getBusinessFunction(), language)
 				.ifPresent(processDocumentationDTO::setBusinessFunction);
@@ -483,9 +485,6 @@ public class Translator {
 		
 		translateOutputSpecifications(processDocumentation.getProcessOutputs(), language)
 		.ifPresent(processDocumentationDTO::setProcessOutputSpecifications);
-		
-		
-		
 
 		return Optional.of(processDocumentationDTO);
 	}

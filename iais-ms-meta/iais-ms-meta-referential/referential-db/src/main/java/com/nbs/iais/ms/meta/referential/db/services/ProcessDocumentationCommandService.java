@@ -3,6 +3,7 @@ package com.nbs.iais.ms.meta.referential.db.services;
 import javax.transaction.Transactional;
 
 import com.nbs.iais.ms.common.utils.StringTools;
+import com.zaxxer.hikari.metrics.dropwizard.CodahaleHealthChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,8 +117,10 @@ public class ProcessDocumentationCommandService {
 		processDocumentationEntity.setBusinessFunction(businessFunction);
 		processDocumentationEntity.setStatisticalProgram(statisticalProgram);
 		if(StringTools.isNotEmpty(command.getNextSubPhase())) {
-			businessFunctionRepository.findByLocalIdAndVersion(command.getLocalId(), "5.1")
-					.ifPresent(processDocumentationEntity::setNextBusinessFunction);
+			businessFunctionRepository.findByLocalIdAndVersion(command.getNextSubPhase(), "5.1")
+					.ifPresentOrElse(processDocumentationEntity::setNextBusinessFunction, () -> {
+						throw new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND);
+					});
 		}
 
 		processDocumentationRepository.save(processDocumentationEntity);
