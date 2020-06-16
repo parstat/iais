@@ -58,7 +58,7 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
 
     @JsonProperty
     @JsonView(Views.Basic.class)
-    private String nextSubPhase;
+    private BusinessFunctionMiniDTO nextSubPhase;
 
     @JsonProperty
     @JsonView(Views.Basic.class)
@@ -156,11 +156,11 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
         this.processQualityList = processQualityList;
     }
 
-    public String getNextSubPhase() {
+    public BusinessFunctionMiniDTO getNextSubPhase() {
         return nextSubPhase;
     }
 
-    public void setNextSubPhase(final String nextSubPhase) {
+    public void setNextSubPhase(final BusinessFunctionMiniDTO nextSubPhase) {
         this.nextSubPhase = nextSubPhase;
     }
 

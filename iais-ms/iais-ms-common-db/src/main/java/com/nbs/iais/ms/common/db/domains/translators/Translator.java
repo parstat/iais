@@ -444,9 +444,8 @@ public class Translator {
 		processDocumentationDTO.setVersionRationale(processDocumentation.getVersionRationale());
 
 		processDocumentationDTO.setFrequency(processDocumentation.getFrequency());
-		if(processDocumentation.getBusinessFunction() != null) {
-			processDocumentationDTO.setNextSubPhase(processDocumentation.getNextBusinessFunction().getLocalId());
-		}
+		translateMini(processDocumentation.getNextBusinessFunction(), language).ifPresent(
+				processDocumentationDTO::setBusinessFunction);
 
 		if(processDocumentation.getAdministrators() != null && processDocumentation.getAdministrators().size() > 0) {
 			processDocumentation.getAdministrators().forEach(agentInRole -> {
