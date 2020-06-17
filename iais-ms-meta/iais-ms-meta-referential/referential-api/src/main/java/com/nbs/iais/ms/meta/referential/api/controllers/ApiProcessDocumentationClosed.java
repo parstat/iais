@@ -49,7 +49,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language           selected
 	 * @return ProcessDocumentationDTO
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PutMapping("/program/{statistical_program}/function/{business_function}")
 	public ProcessDocumentationDTO createProcessDocumentation(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -95,7 +95,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language           selected
 	 * @return ProcessDocumentationDTO
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PutMapping("/program/{statistical_program}/function/{business_function}/version/{version}")
 	public ProcessDocumentationDTO addProcessDocumentationVersion(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -142,7 +142,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language         selected
 	 * @return ProcessDocumentationDTO
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PatchMapping("/{id}")
 	public ProcessDocumentationDTO updateProcessDocumentation(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -173,7 +173,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param id  of Statistical Standard to delete
 	 * @return DTOBoolean true if the process documentation has been deleted
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@DeleteMapping("/{id}")
 	public DTOBoolean deleteProcessDocumentation(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -193,7 +193,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language to present the returned DTO
 	 * @return ProcessDocumentationDTO (the update process documentation)
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PutMapping("/{id}/standards/{standard}")
 	public ProcessDocumentationDTO addProcessDocumentationStandard(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -217,7 +217,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language to present the returned DTO
 	 * @return ProcessDocumentationDTO (the update process documentation)
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PutMapping("/{id}/document/{document}")
 	public ProcessDocumentationDTO addProcessDocumentationDocument(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -241,7 +241,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language            to present the returned DTO
 	 * @return ProcessDocumentationDTO (the update process documentation)
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PutMapping("/{id}/input/{input_specification}")
 	public ProcessDocumentationDTO addProcessDocumentationInput(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -265,7 +265,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language to present the returned DTO
 	 * @return ProcessDocumentationDTO (the update process documentation)
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PutMapping("/{id}/method/{method}")
 	public ProcessDocumentationDTO addProcessDocumentationMethod(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -290,7 +290,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language             to present the returned DTO
 	 * @return ProcessDocumentationDTO (the update process documentation)
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PutMapping("/{id}/output/{output_specification}")
 	public ProcessDocumentationDTO addProcessDocumentationOutput(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -314,7 +314,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language to present the returned DTO
 	 * @return ProcessDocumentationDTO (the update process documentation)
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PutMapping("/{id}/quality/{quality}")
 	public ProcessDocumentationDTO addProcessDocumentationQuality(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -337,7 +337,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language the language to use
 	 * @return ProcessDocumentationDTO
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@PutMapping("{id}/maintainer/{agent}")
 	public ProcessDocumentationDTO addProcessDocumentationMaintainer(
 			@RequestHeader(name = "jwt-auth") final String jwt,
@@ -358,7 +358,7 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 * @param language the language to use
 	 * @return ProcessDocumentationDTO
 	 */
-	@JsonView(Views.Extended.class)
+	@JsonView(Views.Secure.class)
 	@DeleteMapping("/{id}/maintainer/{agent}")
 	public ProcessDocumentationDTO removeProcessDocumentationMaintainer(
 			@RequestHeader(name = "jwt-auth") final String jwt,
