@@ -26,14 +26,10 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
 
     @JsonProperty
     @JsonView(Views.Basic.class)
-    private AgentMiniDTO owner;
-
-    @JsonProperty
-    @JsonView(Views.Basic.class)
     private Frequency frequency;
 
     @JsonProperty
-    @JsonView(Views.Secure.class)
+    @JsonView(Views.Basic.class)
     private DTOList<AgentMiniDTO> maintainers;
 
     @JsonProperty

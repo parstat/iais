@@ -41,7 +41,7 @@ public class ProcessDocumentationQueryService {
 	 */
 	public GetProcessDocumentationQuery getProcessDocumentation(final GetProcessDocumentationQuery query) {
 
-		processDocumentationRepository.findById(query.getId()).flatMap(ss -> translate(ss, query.getLanguage()))
+		processDocumentationRepository.findById(query.getId()).flatMap(pd -> translate(pd, query.getLanguage()))
 				.ifPresent(query.getRead()::setData);
 
 		return query;
