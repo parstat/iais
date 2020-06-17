@@ -427,8 +427,8 @@ public class Translator {
 	}
 
   
-	public static <SS extends ProcessDocumentation> Optional<ProcessDocumentationDTO> translate(
-			final SS processDocumentation, final Language language) {
+	public static <PD extends ProcessDocumentation> Optional<ProcessDocumentationDTO> translate(
+			final PD processDocumentation, final Language language) {
 
 		if (processDocumentation == null) {
 			return Optional.empty();
@@ -448,14 +448,13 @@ public class Translator {
 				processDocumentationDTO::setNextSubPhase);
 
 		if(processDocumentation.getAdministrators() != null && processDocumentation.getAdministrators().size() > 0) {
+			final DTOList<AgentMiniDTO> maintainers = DTOList.empty(AgentMiniDTO.class);
 			processDocumentation.getAdministrators().forEach(agentInRole -> {
 				if (agentInRole.getRole() == RoleType.MAINTAINER) {
-					final DTOList<AgentMiniDTO> maintainers = DTOList.empty(AgentMiniDTO.class);
 					translateMini(agentInRole.getAgent(), language).ifPresent(maintainers::add);
-					processDocumentationDTO.setMaintainers(maintainers);
 				}
-
 			});
+			processDocumentationDTO.setMaintainers(maintainers);
 		}
 
 		translateMini(processDocumentation.getBusinessFunction(), language)
