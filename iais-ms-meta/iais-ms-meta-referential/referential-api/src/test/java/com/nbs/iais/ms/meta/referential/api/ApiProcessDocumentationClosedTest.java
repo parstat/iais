@@ -129,7 +129,12 @@ public class ApiProcessDocumentationClosedTest {
                                 fieldWithPath("statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING)
+                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[]").description("List of maintainer of the process documentation").type(JsonFieldType.ARRAY),
+                                fieldWithPath("maintainers[].id").description("The id of requested maintainer").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainers[].link").description("Link of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].name").description("Name of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].type").description("Type of requested maintainer").type(JsonFieldType.STRING)
 
                         )
                         )).andReturn();
@@ -213,7 +218,12 @@ public class ApiProcessDocumentationClosedTest {
                                 fieldWithPath("statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING)
+                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[]").description("List of maintainer of the process documentation").type(JsonFieldType.ARRAY),
+                                fieldWithPath("maintainers[].id").description("The id of requested maintainer").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainers[].link").description("Link of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].name").description("Name of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].type").description("Type of requested maintainer").type(JsonFieldType.STRING)
 
                         )
                         )).andReturn();
@@ -293,7 +303,12 @@ public class ApiProcessDocumentationClosedTest {
                                 fieldWithPath("statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING)
+                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[]").description("List of maintainer of the process documentation").type(JsonFieldType.ARRAY),
+                                fieldWithPath("maintainers[].id").description("The id of requested maintainer").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainers[].link").description("Link of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].name").description("Name of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].type").description("Type of requested maintainer").type(JsonFieldType.STRING)
 
                         )
                         )).andReturn();
@@ -377,7 +392,12 @@ public class ApiProcessDocumentationClosedTest {
                                 fieldWithPath("statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING)
+                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[]").description("List of maintainer of the process documentation").type(JsonFieldType.ARRAY),
+                                fieldWithPath("maintainers[].id").description("The id of requested maintainer").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainers[].link").description("Link of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].name").description("Name of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].type").description("Type of requested maintainer").type(JsonFieldType.STRING)
 
                         )
                         )).andReturn();
@@ -429,7 +449,12 @@ public class ApiProcessDocumentationClosedTest {
                                 fieldWithPath("statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING)
+                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[]").description("List of maintainer of the process documentation").type(JsonFieldType.ARRAY),
+                                fieldWithPath("maintainers[].id").description("The id of requested maintainer").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainers[].link").description("Link of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].name").description("Name of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].type").description("Type of requested maintainer").type(JsonFieldType.STRING)
 
                         ))).andReturn();
     }
@@ -480,7 +505,12 @@ public class ApiProcessDocumentationClosedTest {
                                 fieldWithPath("statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING)
+                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[]").description("List of maintainer of the process documentation").type(JsonFieldType.ARRAY),
+                                fieldWithPath("maintainers[].id").description("The id of requested maintainer").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainers[].link").description("Link of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].name").description("Name of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].type").description("Type of requested maintainer").type(JsonFieldType.STRING)
                         ))).andReturn();
     }
 
@@ -530,7 +560,12 @@ public class ApiProcessDocumentationClosedTest {
                                 fieldWithPath("statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING)
+                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[]").description("List of maintainer of the process documentation").type(JsonFieldType.ARRAY),
+                                fieldWithPath("maintainers[].id").description("The id of requested maintainer").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainers[].link").description("Link of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].name").description("Name of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].type").description("Type of requested maintainer").type(JsonFieldType.STRING)
                         ))).andReturn();
     }
 
@@ -580,7 +615,12 @@ public class ApiProcessDocumentationClosedTest {
                                 fieldWithPath("statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING)
+                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[]").description("List of maintainer of the process documentation").type(JsonFieldType.ARRAY),
+                                fieldWithPath("maintainers[].id").description("The id of requested maintainer").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainers[].link").description("Link of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].name").description("Name of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].type").description("Type of requested maintainer").type(JsonFieldType.STRING)
                         ))).andReturn();
     }
 
@@ -630,7 +670,12 @@ public class ApiProcessDocumentationClosedTest {
                                 fieldWithPath("statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING)
+                                fieldWithPath("frequency").description("Frequency of requested process documentation").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[]").description("List of maintainer of the process documentation").type(JsonFieldType.ARRAY),
+                                fieldWithPath("maintainers[].id").description("The id of requested maintainer").type(JsonFieldType.NUMBER),
+                                fieldWithPath("maintainers[].link").description("Link of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].name").description("Name of requested maintainer").type(JsonFieldType.STRING),
+                                fieldWithPath("maintainers[].type").description("Type of requested maintainer").type(JsonFieldType.STRING)
                         ))).andReturn();
     }
 }
