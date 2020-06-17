@@ -209,6 +209,30 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	}
 
 	/**
+	 * API method to remove an existent statistical standard to a process documentation
+	 *
+	 * @param id       id of the process documentation
+	 * @param standard id of the statistical standard to remove
+	 * @param jwt      token in the header of the request
+	 * @param language to present the returned DTO
+	 * @return ProcessDocumentationDTO (the update process documentation)
+	 */
+	@JsonView(Views.Secure.class)
+	@DeleteMapping("/{id}/standards/{standard}")
+	public ProcessDocumentationDTO removeProcessDocumentationStandard(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "standard") final Long standard,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final RemoveProcessDocumentationStandardCommand command = RemoveProcessDocumentationStandardCommand.create(jwt, id,
+				standard, Language.getLanguage(language));
+
+		return sendCommand(command, "process_documentation").getEvent().getData();
+
+	}
+
+	/**
 	 * API method to add an existent process document to a process documentation
 	 *
 	 * @param id       id of the process documentation

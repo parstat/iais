@@ -226,6 +226,32 @@ public class ProcessDocumentationCommandService {
 	}
 
 	/**
+	 * Method to remove a statistical standard from process documentation
+	 *
+	 * @param command the command to execute
+	 * @return RemoveProcessDocumentationStandardCommand including process
+	 *         documentation dto in the event
+	 * @throws EntityException when process documentation or statistical standard
+	 *                         not found
+	 */
+	public RemoveProcessDocumentationStandardCommand removeProcessDocumentationStandardCommand(
+			final RemoveProcessDocumentationStandardCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final StatisticalStandardReferenceEntity ss = statisticalStandardReferenceRepository
+				.findById(command.getStatisticalStandard())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
+
+		pd.getStandardsUsed().remove(ss);
+
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+
+	/**
 	 *  FIXME oneToMany it is better that this command should create also the output
 	 * Method to add a process document to process documentation
 	 * 
