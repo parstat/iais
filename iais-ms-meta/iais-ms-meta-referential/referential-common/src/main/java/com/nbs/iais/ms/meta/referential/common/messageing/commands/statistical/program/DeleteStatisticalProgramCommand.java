@@ -17,6 +17,7 @@ public class DeleteStatisticalProgramCommand extends AbstractCommand<DeleteStati
         super(new DeleteStatisticalProgramEvent());
         setJwt(jwt);
         this.id = id;
+        setClosed(true);
     }
 
     public static DeleteStatisticalProgramCommand create(final String jwt, final Long id) {

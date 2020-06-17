@@ -236,7 +236,7 @@ public class StatisticalProgramCommandService {
         final AgentEntity agent = agentRepository.findById(command.getAgent())
                 .orElseThrow(() -> new EntityException(ExceptionCodes.AGENT_NOT_FOUND));
 
-        //remove if it already exists
+        //remove if role already exists
         sp.getAdministrators().stream().filter(ar -> ar.getRole() == command.getRole()).findFirst().ifPresent(
                 sp.getAdministrators()::remove);
 
@@ -265,7 +265,10 @@ public class StatisticalProgramCommandService {
             final AgentInRole agentInRole = agentInRoleRepository.findByAgentAndRole(agent, command.getRoleType()).orElseThrow(() ->
                     new EntityException(ExceptionCodes.ROLE_NOT_FOUND));
 
-            statisticalProgram.getAdministrators().remove(agentInRole);
+            if(statisticalProgram.getAdministrators().contains(agentInRole)) {
+                statisticalProgram.getAdministrators().remove(agentInRole);
+                auditingChanges(statisticalProgram, command.getJwt());
+            }
             Translator.translate(statisticalProgramRepository.save(statisticalProgram), command.getLanguage())
                 .ifPresent(command.getEvent()::setData);
 
@@ -321,7 +324,10 @@ public class StatisticalProgramCommandService {
                     command.getLegislativeReferenceId()).orElseThrow(() ->
                     new EntityException(ExceptionCodes.LEGISLATIVE_REFERENCE_NOT_FOUND));
 
-            statisticalProgram.getLegislativeReference().remove(legislativeReference);
+            if(statisticalProgram.getLegislativeReference().contains(legislativeReference)) {
+                statisticalProgram.getLegislativeReference().remove(legislativeReference);
+                auditingChanges(statisticalProgram, command.getJwt());
+            }
 
             Translator.translate(statisticalProgramRepository.save(statisticalProgram), command.getLanguage())
                     .ifPresent(command.getEvent()::setData);
@@ -377,7 +383,10 @@ public class StatisticalProgramCommandService {
                     statisticalStandardReferenceRepository.findById(command.getStatisticalStandardId()).orElseThrow(()
                             -> new EntityException(ExceptionCodes.STANDARD_REFERENCE_NOT_FOUND));
 
-            statisticalProgram.getStatisticalStandardReferences().remove(statisticalStandardReference);
+            if(statisticalProgram.getStatisticalStandardReferences().contains(statisticalStandardReference)) {
+                statisticalProgram.getStatisticalStandardReferences().remove(statisticalStandardReference);
+                auditingChanges(statisticalProgram, command.getJwt());
+            }
             Translator.translate( statisticalProgramRepository.save(statisticalProgram), command.getLanguage())
                     .ifPresent(command.getEvent()::setData);
 

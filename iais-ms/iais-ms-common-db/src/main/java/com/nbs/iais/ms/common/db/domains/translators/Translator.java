@@ -449,12 +449,10 @@ public class Translator {
 
 		if(processDocumentation.getAdministrators() != null && processDocumentation.getAdministrators().size() > 0) {
 			processDocumentation.getAdministrators().forEach(agentInRole -> {
-
-				if (agentInRole.getRole() == RoleType.OWNER) {
-					translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationDTO::setOwner);
-				}
 				if (agentInRole.getRole() == RoleType.MAINTAINER) {
-					translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationDTO::setMaintainer);
+					final DTOList<AgentMiniDTO> maintainers = DTOList.empty(AgentMiniDTO.class);
+					translateMini(agentInRole.getAgent(), language).ifPresent(maintainers::add);
+					processDocumentationDTO.setMaintainers(maintainers);
 				}
 
 			});
@@ -582,6 +580,7 @@ public class Translator {
 
 		final ProcessDocumentationMiniDTO processDocumentationMiniDTO = new ProcessDocumentationMiniDTO(
 				processDocumentation.getId());
+		processDocumentationMiniDTO.setLocalId(processDocumentation.getLocalId());
 		processDocumentationMiniDTO.setName(processDocumentation.getName(language));
 		processDocumentationMiniDTO.setDescription(processDocumentation.getDescription(language));
 		processDocumentationMiniDTO.setFrequency(processDocumentation.getFrequency());
@@ -595,11 +594,11 @@ public class Translator {
 				translateMini(processDocumentation.getStatisticalProgram(), language).orElse(null));
 
 		processDocumentation.getAdministrators().forEach(agentInRole -> {
-
 			if (agentInRole.getRole() == RoleType.MAINTAINER) {
-				translateMini(agentInRole.getAgent(), language).ifPresent(processDocumentationMiniDTO::setMaintainer);
+				final DTOList<AgentMiniDTO> maintainers = DTOList.empty(AgentMiniDTO.class);
+				translateMini(agentInRole.getAgent(), language).ifPresent(maintainers::add);
+				processDocumentationMiniDTO.setMaintainers(maintainers);
 			}
-
 		});
 
 		return Optional.of(processDocumentationMiniDTO);

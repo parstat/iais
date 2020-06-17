@@ -2,8 +2,9 @@ package com.nbs.iais.ms.meta.referential.db.services;
 
 import javax.transaction.Transactional;
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.utils.StringTools;
-import com.zaxxer.hikari.metrics.dropwizard.CodahaleHealthChecker;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +16,6 @@ import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.common.exceptions.AuthorizationException;
 import com.nbs.iais.ms.common.exceptions.EntityException;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationDocumentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationInputCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationMethodCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationQualityCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationVersionCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.DeleteProcessDocumentationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentInRoleEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
@@ -137,7 +128,11 @@ public class ProcessDocumentationCommandService {
 
 	private void addAdministrator(final ProcessDocumentationEntity pd, final AgentEntity agent, final RoleType type) {
 		agentInRoleRepository.findByAgentAndRole(agent, type)
-				.ifPresentOrElse(agentInRole -> pd.getAdministrators().add(agentInRole), () -> {
+				.ifPresentOrElse(agentInRole -> {
+					if(!pd.getAdministrators().contains(agentInRole)) {
+						pd.getAdministrators().add(agentInRole);
+					}
+				}, () -> {
 					final AgentInRoleEntity agentInRole = new AgentInRoleEntity();
 					agentInRole.setAgent(agent);
 					agentInRole.setRole(type);
@@ -400,6 +395,50 @@ public class ProcessDocumentationCommandService {
 			});
 		}
 		Translator.translate(processDocumentation, command.getLanguage()).ifPresent(command.getEvent()::setData);
+		return command;
+	}
+
+	/**
+	 * Method to add an administrator to a process documentation
+	 * usually the maintainer/responsible division
+	 * @param command the command to be executed
+	 * @return AddProcessDocumentationAdministratorCommand including the process documentation dto
+	 */
+	public AddProcessDocumentationAdministratorCommand addProcessDocumentationAdministrator(final AddProcessDocumentationAdministratorCommand command) {
+
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final AgentEntity agent = agentRepository.findById(command.getAgent())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.AGENT_NOT_FOUND));
+
+		addAdministrator(pd, agent, command.getRole());
+
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+
+	public RemoveProcessDocumentationAdministratorCommand removeProcessDocumentationAdministrator(final RemoveProcessDocumentationAdministratorCommand command) {
+
+
+		processDocumentationRepository.findById(command.getProcessDocumentation()).ifPresentOrElse(processDocumentation -> {
+
+			final AgentEntity agent = agentRepository.findById(command.getAgent()).orElseThrow(() ->
+					new EntityException(ExceptionCodes.AGENT_NOT_FOUND));
+
+			final AgentInRole agentInRole = agentInRoleRepository.findByAgentAndRole(agent, command.getRole()).orElseThrow(() ->
+					new EntityException(ExceptionCodes.ROLE_NOT_FOUND));
+
+			processDocumentation.getAdministrators().remove(agentInRole);
+			Translator.translate(processDocumentationRepository.save(processDocumentation), command.getLanguage())
+					.ifPresent(command.getEvent()::setData);
+
+		}, () -> {
+			throw  new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
+		});
+
 		return command;
 	}
 

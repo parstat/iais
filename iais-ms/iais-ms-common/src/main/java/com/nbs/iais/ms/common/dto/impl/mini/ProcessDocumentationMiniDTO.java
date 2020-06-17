@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.abstracts.LinkableEntityDTO;
+import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Frequency;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,6 +23,10 @@ public class ProcessDocumentationMiniDTO extends LinkableEntityDTO {
 
     @JsonProperty
     @JsonView(Views.Minimal.class)
+    private String localId;
+
+    @JsonProperty
+    @JsonView(Views.Minimal.class)
     private String name;
     
     @JsonProperty
@@ -34,7 +39,7 @@ public class ProcessDocumentationMiniDTO extends LinkableEntityDTO {
 
     @JsonProperty
     @JsonView(Views.Minimal.class)
-    private AgentMiniDTO maintainer;
+    private DTOList<AgentMiniDTO> maintainers;
 
     @JsonProperty
     @JsonView(Views.Minimal.class)
@@ -64,6 +69,14 @@ public class ProcessDocumentationMiniDTO extends LinkableEntityDTO {
         this.statisticalProgram = statisticalProgram;
     }
 
+    public String getLocalId() {
+        return localId;
+    }
+
+    public void setLocalId(final String localId) {
+        this.localId = localId;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -80,12 +93,12 @@ public class ProcessDocumentationMiniDTO extends LinkableEntityDTO {
         this.frequency = frequency;
     }
 
-    public AgentMiniDTO getMaintainer() {
-        return maintainer;
+    public DTOList<AgentMiniDTO> getMaintainers() {
+        return maintainers;
     }
 
-    public void setMaintainer(final AgentMiniDTO maintainer) {
-        this.maintainer = maintainer;
+    public void setMaintainers(final DTOList<AgentMiniDTO> maintainers) {
+        this.maintainers = maintainers;
     }
 
 	public String getName() {

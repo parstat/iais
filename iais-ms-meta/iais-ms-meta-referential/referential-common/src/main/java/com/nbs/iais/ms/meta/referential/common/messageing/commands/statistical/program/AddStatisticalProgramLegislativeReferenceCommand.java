@@ -24,6 +24,7 @@ public class AddStatisticalProgramLegislativeReferenceCommand extends AbstractCo
         this.statisticalProgram = statisticalProgram;
         setLanguage(language);
         setJwt(jwt);
+        setClosed(true);
     }
 
     public static AddStatisticalProgramLegislativeReferenceCommand create(final String jwt, final Long statisticalProgram,

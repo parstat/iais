@@ -140,7 +140,7 @@ public class DTOMocks {
         processDocumentationDTO.setBusinessFunction(businessFunctionMini());
         processDocumentationDTO.setStatisticalProgram(statisticalProgramMini());
         processDocumentationDTO.setDescription("Description");
-        processDocumentationDTO.setMaintainer(maintainer());
+        processDocumentationDTO.setMaintainers(DTOList.create(maintainer()));
         processDocumentationDTO.setFrequency(Frequency.YEARLY);
         return processDocumentationDTO;
     }
@@ -183,7 +183,7 @@ public class DTOMocks {
         processDocumentationMiniDTO.setBusinessFunction(businessFunctionMini());
         processDocumentationMiniDTO.setStatisticalProgram(statisticalProgramMini());
         processDocumentationMiniDTO.setDescription("Description");
-        processDocumentationMiniDTO.setMaintainer(maintainer());
+        processDocumentationMiniDTO.setMaintainers(DTOList.create(maintainer()));
         processDocumentationMiniDTO.setFrequency(Frequency.YEARLY);
         processDocumentationMiniDTO.setLink("/process/documentations/1");
 

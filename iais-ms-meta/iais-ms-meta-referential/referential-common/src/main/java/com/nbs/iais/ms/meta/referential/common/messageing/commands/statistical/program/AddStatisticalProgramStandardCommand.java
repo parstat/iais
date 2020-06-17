@@ -23,6 +23,7 @@ public class AddStatisticalProgramStandardCommand extends AbstractCommand<AddSta
         this.statisticalStandardReference = statisticalStandardReference;
         setJwt(jwt);
         setLanguage(language);
+        setClosed(true);
 
     }
 

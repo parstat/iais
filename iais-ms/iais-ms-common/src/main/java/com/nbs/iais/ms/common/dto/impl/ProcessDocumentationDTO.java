@@ -34,7 +34,7 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
 
     @JsonProperty
     @JsonView(Views.Secure.class)
-    private AgentMiniDTO maintainer;
+    private DTOList<AgentMiniDTO> maintainers;
 
     @JsonProperty
     @JsonView(Views.Basic.class)
@@ -92,14 +92,6 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
         this.statisticalProgram = statisticalProgram;
     }
 
-    public AgentMiniDTO getOwner() {
-        return owner;
-    }
-
-    public void setOwner(final AgentMiniDTO owner) {
-        this.owner = owner;
-    }
-
     public Frequency getFrequency() {
         return frequency;
     }
@@ -108,12 +100,12 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
         this.frequency = frequency;
     }
 
-    public AgentMiniDTO getMaintainer() {
-        return maintainer;
+    public DTOList<AgentMiniDTO> getMaintainers() {
+        return maintainers;
     }
 
-    public void setMaintainer(AgentMiniDTO maintainer) {
-        this.maintainer = maintainer;
+    public void setMaintainers(final DTOList<AgentMiniDTO> maintainers) {
+        this.maintainers = maintainers;
     }
 
     public DTOList<ProcessMethodDTO> getProcessMethods() {

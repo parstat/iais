@@ -194,11 +194,11 @@ public class ApiStatisticalProgramClosedTest {
                                 fieldWithPath("processDocumentations[].statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("processDocumentations[].statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("processDocumentations[].statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainer").description("Maintainer of Process for statistical program, usually the responsible DIVISION agent").type(JsonFieldType.OBJECT),
-                                fieldWithPath("processDocumentations[].maintainer.id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
-                                fieldWithPath("processDocumentations[].maintainer.name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainer.type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainer.link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
+                                fieldWithPath("processDocumentations[].maintainers[]").description("Maintainer of Process for statistical program, usually the responsible DIVISION agent").type(JsonFieldType.ARRAY),
+                                fieldWithPath("processDocumentations[].maintainers[].id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].maintainers[].name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainers[].type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainers[].link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
 
 
                         ))).andReturn();
@@ -351,11 +351,11 @@ public class ApiStatisticalProgramClosedTest {
                                 fieldWithPath("processDocumentations[].statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("processDocumentations[].statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("processDocumentations[].statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainer").description("Maintainer of Process for statistical program, usually the responsible DIVISION agent").type(JsonFieldType.OBJECT),
-                                fieldWithPath("processDocumentations[].maintainer.id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
-                                fieldWithPath("processDocumentations[].maintainer.name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainer.type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainer.link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
+                                fieldWithPath("processDocumentations[].maintainers[]").description("Maintainer of Process for statistical program, usually the responsible DIVISION agent").type(JsonFieldType.ARRAY),
+                                fieldWithPath("processDocumentations[].maintainers[].id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].maintainers[].name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainers[].type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainers[].link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
 
 
 
@@ -495,11 +495,11 @@ public class ApiStatisticalProgramClosedTest {
                                 fieldWithPath("processDocumentations[].statisticalProgram.acronym").description("Acronym of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("processDocumentations[].statisticalProgram.description").description("Description of Statistical Program being documented").type(JsonFieldType.STRING),
                                 fieldWithPath("processDocumentations[].statisticalProgram.link").description("Link of Statistical Program being documented").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainer").description("Maintainer of Process for statistical program, usually the responsible DIVISION agent").type(JsonFieldType.OBJECT),
-                                fieldWithPath("processDocumentations[].maintainer.id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
-                                fieldWithPath("processDocumentations[].maintainer.name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainer.type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainer.link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
+                                fieldWithPath("processDocumentations[].maintainers[]").description("Maintainer of Process for statistical program, usually the responsible DIVISION agent").type(JsonFieldType.ARRAY),
+                                fieldWithPath("processDocumentations[].maintainers[].id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
+                                fieldWithPath("processDocumentations[].maintainers[].name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainers[].type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].maintainers[].link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
 
 
 

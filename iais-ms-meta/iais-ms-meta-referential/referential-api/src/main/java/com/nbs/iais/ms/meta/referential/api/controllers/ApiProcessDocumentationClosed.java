@@ -1,11 +1,9 @@
 package com.nbs.iais.ms.meta.referential.api.controllers;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.nbs.iais.ms.common.enums.RoleType;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,16 +22,6 @@ import com.nbs.iais.ms.common.dto.impl.ProcessDocumentationDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.Frequency;
 import com.nbs.iais.ms.common.enums.Language;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationDocumentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationInputCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationMethodCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationQualityCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationStandardCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationVersionCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.DeleteProcessDocumentationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
 
 @RestController
 @RequestMapping(value = "/api/v1/close/referential/process/documentations", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,7 +51,8 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/program/{statistical_program}/function/{business_function}")
-	public ProcessDocumentationDTO createProcessDocumentation(@RequestHeader(name = "jwt-auth") final String jwt,
+	public ProcessDocumentationDTO createProcessDocumentation(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id", required = false) final String localId,
@@ -108,7 +97,8 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/program/{statistical_program}/function/{business_function}/version/{version}")
-	public ProcessDocumentationDTO addProcessDocumentationVersion(@RequestHeader(name = "jwt-auth") final String jwt,
+	public ProcessDocumentationDTO addProcessDocumentationVersion(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id", required = false) final String localId,
@@ -154,8 +144,10 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PatchMapping("/{id}")
-	public ProcessDocumentationDTO updateProcessDocumentation(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @RequestParam(name = "name", required = false) final String name,
+	public ProcessDocumentationDTO updateProcessDocumentation(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "local_id", required = false) final String localId,
 			@RequestParam(name = "version", required = false) final String version,
@@ -183,7 +175,8 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@DeleteMapping("/{id}")
-	public DTOBoolean deleteProcessDocumentation(@RequestHeader(name = "jwt-auth") final String jwt,
+	public DTOBoolean deleteProcessDocumentation(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id) {
 
 		final DeleteProcessDocumentationCommand command = DeleteProcessDocumentationCommand.create(jwt, id);
@@ -202,8 +195,10 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/{id}/standards/{standard}")
-	public ProcessDocumentationDTO addProcessDocumentationStandard(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @PathVariable(name = "standard") final Long standard,
+	public ProcessDocumentationDTO addProcessDocumentationStandard(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "standard") final Long standard,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final AddProcessDocumentationStandardCommand command = AddProcessDocumentationStandardCommand.create(jwt, id,
@@ -224,8 +219,10 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/{id}/document/{document}")
-	public ProcessDocumentationDTO addProcessDocumentationDocument(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @PathVariable(name = "document") final Long document,
+	public ProcessDocumentationDTO addProcessDocumentationDocument(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "document") final Long document,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final AddProcessDocumentationDocumentCommand command = AddProcessDocumentationDocumentCommand.create(jwt, id,
@@ -246,7 +243,8 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/{id}/input/{input_specification}")
-	public ProcessDocumentationDTO addProcessDocumentationInput(@RequestHeader(name = "jwt-auth") final String jwt,
+	public ProcessDocumentationDTO addProcessDocumentationInput(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id,
 			@PathVariable(name = "input_specification") final Long inputSpecification,
 			@RequestParam(name = "language", required = false) final String language) {
@@ -269,8 +267,10 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/{id}/method/{method}")
-	public ProcessDocumentationDTO addProcessDocumentationMethod(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @PathVariable(name = "method") final Long method,
+	public ProcessDocumentationDTO addProcessDocumentationMethod(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "method") final Long method,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final AddProcessDocumentationMethodCommand command = AddProcessDocumentationMethodCommand.create(jwt, id,
@@ -292,7 +292,8 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/{id}/output/{output_specification}")
-	public ProcessDocumentationDTO addProcessDocumentationOutput(@RequestHeader(name = "jwt-auth") final String jwt,
+	public ProcessDocumentationDTO addProcessDocumentationOutput(
+			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id,
 			@PathVariable(name = "output_specification") final Long outputSpecification,
 			@RequestParam(name = "language", required = false) final String language) {
@@ -315,8 +316,10 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PutMapping("/{id}/quality/{quality}")
-	public ProcessDocumentationDTO addProcessDocumentationQuality(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id, @PathVariable(name = "quality") final Long quality,
+	public ProcessDocumentationDTO addProcessDocumentationQuality(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "quality") final Long quality,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final AddProcessDocumentationQualityCommand command = AddProcessDocumentationQualityCommand.create(jwt, id,
@@ -325,5 +328,48 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 		return sendCommand(command, "process_documentation").getEvent().getData();
 
 	}
- 
+
+	/**
+	 * API to add maintainer on process documentation
+	 * @param jwt the auth token
+	 * @param id the id of the process documentation
+	 * @param agent the id of the maintainer division
+	 * @param language the language to use
+	 * @return ProcessDocumentationDTO
+	 */
+	@JsonView(Views.Extended.class)
+	@PutMapping("{id}/maintainer/{agent}")
+	public ProcessDocumentationDTO addProcessDocumentationMaintainer(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "agent") final Long agent,
+			@RequestParam(name = "language", required = false) final String language) {
+		final AddProcessDocumentationAdministratorCommand command = AddProcessDocumentationAdministratorCommand
+				.create(jwt, id, agent, RoleType.MAINTAINER, Language.getLanguage(language));
+
+		return sendCommand(command, "process_documentation").getEvent().getData();
+	}
+
+	/**
+	 * API to remove maintainer from a process documentation
+	 * @param jwt the auth token
+	 * @param id the id of the process documentation
+	 * @param agent the id of the maintainer division
+	 * @param language the language to use
+	 * @return ProcessDocumentationDTO
+	 */
+	@JsonView(Views.Extended.class)
+	@DeleteMapping("/{id}/maintainer/{agent}")
+	public ProcessDocumentationDTO removeProcessDocumentationMaintainer(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "agent") final Long agent,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final RemoveProcessDocumentationAdministratorCommand command = RemoveProcessDocumentationAdministratorCommand
+				.create(jwt, id, agent, RoleType.MAINTAINER, Language.getLanguage(language));
+
+		return sendCommand(command ,"process_documentation").getEvent().getData();
+
+	}
 }
