@@ -208,6 +208,8 @@ public class ApplicationConfig {
 				.channelMapping(RemoveProcessDocumentationAdministratorCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(RemoveProcessDocumentationStandardCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(RemoveProcessDocumentationMethodCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationServiceCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(RemoveProcessDocumentationServiceCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				//PROCESS METHOD
 				.channelMapping(CreateProcessMethodCommand.class, Channels.PROCESS_METHOD_COMMAND_INPUT)
 				.channelMapping(UpdateProcessMethodCommand.class, Channels.PROCESS_METHOD_COMMAND_INPUT)
@@ -538,7 +540,15 @@ public class ApplicationConfig {
 								.subFlowMapping(RemoveProcessDocumentationMethodCommand.class,
 										sf -> sf.<RemoveProcessDocumentationMethodCommand>handle((p, h) ->
 												processDocumentationCommandService
-														.removeProcessDocumentationMethod(p))))
+														.removeProcessDocumentationMethod(p)))
+								.subFlowMapping(AddProcessDocumentationServiceCommand.class,
+										sf -> sf.<AddProcessDocumentationServiceCommand>handle(
+												(p, h) -> processDocumentationCommandService
+														.addProcessDocumentationService(p)))
+								.subFlowMapping(RemoveProcessDocumentationServiceCommand.class,
+										sf -> sf.<RemoveProcessDocumentationServiceCommand>handle(
+												(p, h) -> processDocumentationCommandService
+														.removeProcessDocumentationService(p))))
 				.get();
 	}
 

@@ -328,6 +328,54 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 
 	}
 
+	/**
+	 * API method to add an existent business service to a process documentation
+	 *
+	 * @param id       id of the process documentation
+	 * @param service   id of the business service to add
+	 * @param jwt      token in the header of the request
+	 * @param language to present the returned DTO
+	 * @return ProcessDocumentationDTO (the updated process documentation)
+	 */
+	@JsonView(Views.Secure.class)
+	@PutMapping("/{id}/service/{service}")
+	public ProcessDocumentationDTO addProcessDocumentationService(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "service") final Long service,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final AddProcessDocumentationServiceCommand command = AddProcessDocumentationServiceCommand.create(jwt, id,
+				service, Language.getLanguage(language));
+
+		return sendCommand(command, "process_documentation").getEvent().getData();
+
+	}
+
+	/**
+	 * API method to remove a business servcie to a process documentation
+	 *
+	 * @param id       id of the process documentation
+	 * @param service   id of the business service to remove
+	 * @param jwt      token in the header of the request
+	 * @param language to present the returned DTO
+	 * @return ProcessDocumentationDTO (the update process documentation)
+	 */
+	@JsonView(Views.Secure.class)
+	@DeleteMapping("/{id}/service/{service}")
+	public ProcessDocumentationDTO removeProcessDocumentationService(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "service") final Long service,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final RemoveProcessDocumentationServiceCommand command = RemoveProcessDocumentationServiceCommand.create(jwt, id,
+				service, Language.getLanguage(language));
+
+		return sendCommand(command, "process_documentation").getEvent().getData();
+
+	}
+
 
 	/**
 	 * API method to add an existent output specification to a process documentation

@@ -5,6 +5,8 @@ import javax.transaction.Transactional;
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.AgentInRole;
 import com.nbs.iais.ms.common.utils.StringTools;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.*;
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.*;
+import com.nbs.iais.ms.meta.referential.db.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +18,6 @@ import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.enums.RoleType;
 import com.nbs.iais.ms.common.exceptions.AuthorizationException;
 import com.nbs.iais.ms.common.exceptions.EntityException;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentInRoleEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessInputSpecificationEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessMethodEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessOutputSpecificationEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessQualityEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
-import com.nbs.iais.ms.meta.referential.db.repositories.AgentInRoleRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentationRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.ProcessInputSpecificationRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.ProcessMethodRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.ProcessOutputSpecificationRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.ProcessQualityRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalStandardReferenceRepository;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
 
 @Service
@@ -77,6 +57,9 @@ public class ProcessDocumentationCommandService {
 
 	@Autowired
 	private ProcessQualityRepository processQualityRepository;
+
+	@Autowired
+	private BusinessServiceRepository businessServiceRepository;
 
 	/**
 	 * Method to create an process documentation
@@ -381,6 +364,58 @@ public class ProcessDocumentationCommandService {
 	}
 
 	/**
+	 * Method to add a business service to process documentation
+	 *
+	 * @param command the command execute
+	 * @return AddProcessDocumentationServiceCommand including process
+	 *         documentation dto in the event
+	 * @throws EntityException when process documentation or business service not
+	 *                         found
+	 */
+	public AddProcessDocumentationServiceCommand addProcessDocumentationService(
+			final AddProcessDocumentationServiceCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final BusinessServiceEntity service = businessServiceRepository.findById(command.getBusinessService())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.BUSINESS_SERVICE_NOT_FOUND));
+
+		if(!pd.getBusinessServices().contains(service)) { //added only if not present
+			pd.getBusinessServices().add(service);
+		}
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+
+	/**
+	 * Method to remove a business service to process documentation
+	 *
+	 * @param command the command execute
+	 * @return RemoveProcessDocumentationServiceCommand including process
+	 *         documentation dto in the event
+	 * @throws EntityException when process documentation or business service not
+	 *                         found
+	 */
+	public RemoveProcessDocumentationServiceCommand removeProcessDocumentationService(
+			final RemoveProcessDocumentationServiceCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final BusinessServiceEntity service = businessServiceRepository.findById(command.getBusinessService())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.BUSINESS_SERVICE_NOT_FOUND));
+
+		pd.getBusinessServices().remove(service);
+
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+
+
+	/**
 	 * FIXME This is a oneToMany relation and it is better to create the document directly when this command is executed
 	 * Quality to add a process quality to process documentation
 	 * 
@@ -471,6 +506,12 @@ public class ProcessDocumentationCommandService {
 		return command;
 	}
 
+	/**
+	 * Method to remove an administrator from process documentation
+	 * usually a maintainer division
+	 * @param command the command to execute
+	 * @return RemoveProcessDocumentationAdministratorCommand including process documentation dto
+	 */
 	public RemoveProcessDocumentationAdministratorCommand removeProcessDocumentationAdministrator(final RemoveProcessDocumentationAdministratorCommand command) {
 
 
