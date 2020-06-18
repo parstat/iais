@@ -304,6 +304,30 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 
 	}
 
+	/**
+	 * API method to remove a process method to a process documentation
+	 *
+	 * @param id       id of the process documentation
+	 * @param method   id of the process method to remove
+	 * @param jwt      token in the header of the request
+	 * @param language to present the returned DTO
+	 * @return ProcessDocumentationDTO (the update process documentation)
+	 */
+	@JsonView(Views.Secure.class)
+	@DeleteMapping("/{id}/method/{method}")
+	public ProcessDocumentationDTO removeProcessDocumentationMethod(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "id") final Long id,
+			@PathVariable(name = "method") final Long method,
+			@RequestParam(name = "language", required = false) final String language) {
+
+		final RemoveProcessDocumentationMethodCommand command = RemoveProcessDocumentationMethodCommand.create(jwt, id,
+				method, Language.getLanguage(language));
+
+		return sendCommand(command, "process_documentation").getEvent().getData();
+
+	}
+
 
 	/**
 	 * API method to add an existent output specification to a process documentation

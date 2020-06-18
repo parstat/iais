@@ -1,6 +1,5 @@
 package com.nbs.iais.ms.meta.referential.db.config;
 
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.StatisticalStandardReference;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.service.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.*;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.CreateProcessMethodCommand;
@@ -208,6 +207,7 @@ public class ApplicationConfig {
 				.channelMapping(AddProcessDocumentationAdministratorCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(RemoveProcessDocumentationAdministratorCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(RemoveProcessDocumentationStandardCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(RemoveProcessDocumentationMethodCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				//PROCESS METHOD
 				.channelMapping(CreateProcessMethodCommand.class, Channels.PROCESS_METHOD_COMMAND_INPUT)
 				.channelMapping(UpdateProcessMethodCommand.class, Channels.PROCESS_METHOD_COMMAND_INPUT)
@@ -498,31 +498,31 @@ public class ApplicationConfig {
 								.subFlowMapping(AddProcessDocumentationDocumentCommand.class,
 										sf -> sf.<AddProcessDocumentationDocumentCommand>handle(
 												(p, h) -> processDocumentationCommandService
-														.addProcessDocumentationDocumentCommand(p)))
+														.addProcessDocumentationDocument(p)))
 								.subFlowMapping(AddProcessDocumentationMethodCommand.class,
 										sf -> sf.<AddProcessDocumentationMethodCommand>handle(
 												(p, h) -> processDocumentationCommandService
-														.addProcessDocumentationMethodCommand(p)))
+														.addProcessDocumentationMethod(p)))
 								.subFlowMapping(AddProcessDocumentationInputCommand.class,
 										sf -> sf.<AddProcessDocumentationInputCommand>handle(
 												(p, h) -> processDocumentationCommandService
-														.addProcessDocumentationInputCommand(p)))
+														.addProcessDocumentationInput(p)))
 								.subFlowMapping(AddProcessDocumentationOutputCommand.class,
 										sf -> sf.<AddProcessDocumentationOutputCommand>handle(
 												(p, h) -> processDocumentationCommandService
-														.addProcessDocumentationOutputCommand(p)))
+														.addProcessDocumentationOutput(p)))
 								.subFlowMapping(AddProcessDocumentationQualityCommand.class,
 										sf -> sf.<AddProcessDocumentationQualityCommand>handle(
 												(p, h) -> processDocumentationCommandService
-														.addProcessDocumentationQualityCommand(p)))
+														.addProcessDocumentationQuality(p)))
 								.subFlowMapping(AddProcessDocumentationStandardCommand.class,
 										sf -> sf.<AddProcessDocumentationStandardCommand>handle(
 												(p, h) -> processDocumentationCommandService
-														.addProcessDocumentationStandardCommand(p)))
+														.addProcessDocumentationStandard(p)))
 								.subFlowMapping(AddProcessDocumentationVersionCommand.class,
 										sf -> sf.<AddProcessDocumentationVersionCommand>handle(
 												(p, h) -> processDocumentationCommandService
-														.addProcessDocumentationVersionCommand(p)))
+														.addProcessDocumentationVersion(p)))
 								.subFlowMapping(AddProcessDocumentationAdministratorCommand.class,
 										sf -> sf.<AddProcessDocumentationAdministratorCommand>handle(
 												(p, h) -> processDocumentationCommandService
@@ -534,7 +534,11 @@ public class ApplicationConfig {
 								.subFlowMapping(RemoveProcessDocumentationStandardCommand.class,
 										sf -> sf.<RemoveProcessDocumentationStandardCommand>handle(
 												(p, h) -> processDocumentationCommandService.
-														removeProcessDocumentationStandardCommand(p))))
+														removeProcessDocumentationStandard(p)))
+								.subFlowMapping(RemoveProcessDocumentationMethodCommand.class,
+										sf -> sf.<RemoveProcessDocumentationMethodCommand>handle((p, h) ->
+												processDocumentationCommandService
+														.removeProcessDocumentationMethod(p))))
 				.get();
 	}
 

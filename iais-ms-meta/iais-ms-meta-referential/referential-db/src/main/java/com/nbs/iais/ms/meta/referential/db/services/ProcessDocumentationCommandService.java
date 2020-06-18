@@ -207,7 +207,7 @@ public class ProcessDocumentationCommandService {
 	 * @throws EntityException when process documentation or statistical standard
 	 *                         not found
 	 */
-	public AddProcessDocumentationStandardCommand addProcessDocumentationStandardCommand(
+	public AddProcessDocumentationStandardCommand addProcessDocumentationStandard(
 			final AddProcessDocumentationStandardCommand command) throws EntityException {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
@@ -234,7 +234,7 @@ public class ProcessDocumentationCommandService {
 	 * @throws EntityException when process documentation or statistical standard
 	 *                         not found
 	 */
-	public RemoveProcessDocumentationStandardCommand removeProcessDocumentationStandardCommand(
+	public RemoveProcessDocumentationStandardCommand removeProcessDocumentationStandard(
 			final RemoveProcessDocumentationStandardCommand command) throws EntityException {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
@@ -261,7 +261,7 @@ public class ProcessDocumentationCommandService {
 	 * @throws EntityException when process documentation or process document not
 	 *                         found
 	 */
-	public AddProcessDocumentationDocumentCommand addProcessDocumentationDocumentCommand(
+	public AddProcessDocumentationDocumentCommand addProcessDocumentationDocument(
 			final AddProcessDocumentationDocumentCommand command) throws EntityException {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
@@ -287,7 +287,7 @@ public class ProcessDocumentationCommandService {
 	 * @throws EntityException when process documentation or input specification not
 	 *                         found
 	 */
-	public AddProcessDocumentationInputCommand addProcessDocumentationInputCommand(
+	public AddProcessDocumentationInputCommand addProcessDocumentationInput(
 			final AddProcessDocumentationInputCommand command) throws EntityException {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
@@ -313,7 +313,7 @@ public class ProcessDocumentationCommandService {
 	 * @throws EntityException when process documentation or output specification
 	 *                         not found
 	 */
-	public AddProcessDocumentationOutputCommand addProcessDocumentationOutputCommand(
+	public AddProcessDocumentationOutputCommand addProcessDocumentationOutput(
 			final AddProcessDocumentationOutputCommand command) throws EntityException {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
@@ -338,7 +338,7 @@ public class ProcessDocumentationCommandService {
 	 * @throws EntityException when process documentation or process method not
 	 *                         found
 	 */
-	public AddProcessDocumentationMethodCommand addProcessDocumentationMethodCommand(
+	public AddProcessDocumentationMethodCommand addProcessDocumentationMethod(
 			final AddProcessDocumentationMethodCommand command) throws EntityException {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
@@ -356,6 +356,31 @@ public class ProcessDocumentationCommandService {
 	}
 
 	/**
+	 * Method to remove a process method to process documentation
+	 *
+	 * @param command to execute
+	 * @return RemoveProcessDocumentationMethodCommand including process
+	 *         documentation dto in the event
+	 * @throws EntityException when process documentation or process method not
+	 *                         found
+	 */
+	public RemoveProcessDocumentationMethodCommand removeProcessDocumentationMethod(
+			final RemoveProcessDocumentationMethodCommand command) throws EntityException {
+		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
+
+		final ProcessMethodEntity method = processMethodRepository.findById(command.getProcessMethod())
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_METHOD_NOT_FOUND));
+
+		pd.getProcessMethods().remove(method);
+
+		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
+				.ifPresent(command.getEvent()::setData);
+
+		return command;
+	}
+
+	/**
 	 * FIXME This is a oneToMany relation and it is better to create the document directly when this command is executed
 	 * Quality to add a process quality to process documentation
 	 * 
@@ -365,7 +390,7 @@ public class ProcessDocumentationCommandService {
 	 * @throws EntityException when process documentation or process quality not
 	 *                         found
 	 */
-	public AddProcessDocumentationQualityCommand addProcessDocumentationQualityCommand(
+	public AddProcessDocumentationQualityCommand addProcessDocumentationQuality(
 			final AddProcessDocumentationQualityCommand command) throws EntityException {
 		final ProcessDocumentationEntity pd = processDocumentationRepository.findById(command.getProcessDocumentation())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND));
@@ -389,7 +414,7 @@ public class ProcessDocumentationCommandService {
 	 * @throws EntityException when process documentation or process version not
 	 *                         found
 	 */
-	public AddProcessDocumentationVersionCommand addProcessDocumentationVersionCommand(
+	public AddProcessDocumentationVersionCommand addProcessDocumentationVersion(
 			final AddProcessDocumentationVersionCommand command) throws EntityException {
 
 		final BusinessFunctionEntity businessFunction = businessFunctionRepository
