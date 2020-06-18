@@ -477,10 +477,13 @@ public class Translator {
 				.ifPresent(processDocumentationDTO::setProcessQualityList);
 		
 		translateInputSpecifications(processDocumentation.getProcessInputs(), language)
-		.ifPresent(processDocumentationDTO::setProcessInputSpecifications);
+				.ifPresent(processDocumentationDTO::setProcessInputSpecifications);
 		
 		translateOutputSpecifications(processDocumentation.getProcessOutputs(), language)
-		.ifPresent(processDocumentationDTO::setProcessOutputSpecifications);
+				.ifPresent(processDocumentationDTO::setProcessOutputSpecifications);
+
+		translateBusinessServices(processDocumentation.getBusinessServices(), language)
+				.ifPresent(processDocumentationDTO::setBusinessServices);
 
 		return Optional.of(processDocumentationDTO);
 	}
