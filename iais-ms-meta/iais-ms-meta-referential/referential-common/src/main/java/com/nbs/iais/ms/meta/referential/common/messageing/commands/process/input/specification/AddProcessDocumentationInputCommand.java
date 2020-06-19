@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.process.input.specification.CreateInputSpecificationEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.process.input.specification.AddProcessDocumentationInputEvent;
 
-public class CreateInputSpecificationCommand extends AbstractCommand<CreateInputSpecificationEvent> {
+public class AddProcessDocumentationInputCommand extends AbstractCommand<AddProcessDocumentationInputEvent> {
 
 	private static final long serialVersionUID = 2300L;
 
 	/**
 	 * The process documentationation id
 	 */
-	private Long processDocumentation;
+	private Long documentation;
 	/**
 	 * The input specification name in selected language
 	 */
@@ -46,16 +46,16 @@ public class CreateInputSpecificationCommand extends AbstractCommand<CreateInput
  
 	
 
-	private CreateInputSpecificationCommand() {
-		super(new CreateInputSpecificationEvent());
+	private AddProcessDocumentationInputCommand() {
+		super(new AddProcessDocumentationInputEvent());
 	}
 
-	private CreateInputSpecificationCommand(final String jwt, final Long processDocumentation,final String name, final String description,
-			final String localId,  final String version,
-			final LocalDateTime versionDate, final String versionRationale, final Language language) {
-		super(new CreateInputSpecificationEvent());
+	private AddProcessDocumentationInputCommand(final String jwt, final Long documentation, final String name, final String description,
+												final String localId, final String version,
+												final LocalDateTime versionDate, final String versionRationale, final Language language) {
+		super(new AddProcessDocumentationInputEvent());
 		setJwt(jwt);
-		this.processDocumentation = processDocumentation;
+		this.documentation = documentation;
 		this.name = name;
 		this.description = description;
 		this.localId = localId;
@@ -71,11 +71,11 @@ public class CreateInputSpecificationCommand extends AbstractCommand<CreateInput
 	}
 
 	 
-	public static CreateInputSpecificationCommand create(final String jwt,final Long processDocumentation, final String name, final String description,
-			final String localId,  final String version,
-			final LocalDateTime versionDate, final String versionRationale, final Language language) {
+	public static AddProcessDocumentationInputCommand create(final String jwt, final Long processDocumentation, final String name, final String description,
+															 final String localId, final String version,
+															 final LocalDateTime versionDate, final String versionRationale, final Language language) {
 
-		return new CreateInputSpecificationCommand(jwt, processDocumentation,name, description, localId, version, versionDate,
+		return new AddProcessDocumentationInputCommand(jwt, processDocumentation,name, description, localId, version, versionDate,
 				versionRationale, language);
 
 	}
@@ -128,12 +128,12 @@ public class CreateInputSpecificationCommand extends AbstractCommand<CreateInput
 		this.versionDate = versionDate;
 	}
 
-	public Long getProcessDocumentation() {
-		return processDocumentation;
+	public Long getDocumentation() {
+		return documentation;
 	}
 
-	public void setProcessDocumentation(Long processDocumentation) {
-		this.processDocumentation = processDocumentation;
+	public void setDocumentation(final Long documentation) {
+		this.documentation = documentation;
 	}
 
 }

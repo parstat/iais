@@ -4,16 +4,21 @@ import java.time.LocalDateTime;
 
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.process.input.specification.UpdateInputSpecificationEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.process.input.specification.UpdateProcessDocumentationInputEvent;
 
-public class UpdateInputSpecificationCommand extends AbstractCommand<UpdateInputSpecificationEvent> {
+public class UpdateProcessDocumentationInputCommand extends AbstractCommand<UpdateProcessDocumentationInputEvent> {
 
 	private static final long serialVersionUID = 2610L;
 
 	/**
-	 * StatisticalStandard id
+	 * Process documentation id
 	 */
-	private Long id;
+	private Long documentation;
+
+	/**
+	 * Process input id
+	 */
+	private Long input;
 	/**
 	 * StatisticalStandard name in selected language
 	 */
@@ -68,15 +73,16 @@ public class UpdateInputSpecificationCommand extends AbstractCommand<UpdateInput
 	 */
 	private LocalDateTime versionDate = LocalDateTime.now();
 
-	private UpdateInputSpecificationCommand() {
-		super(new UpdateInputSpecificationEvent());
+	private UpdateProcessDocumentationInputCommand() {
+		super(new UpdateProcessDocumentationInputEvent());
 	}
 
-	private UpdateInputSpecificationCommand(final String jwt, final Long id, final String name,
-			final String description, final String localId, final String version, final LocalDateTime versionDate,
-			final String versionRationale, final Language language) {
-		super(new UpdateInputSpecificationEvent());
-		this.setId(id);
+	private UpdateProcessDocumentationInputCommand(final String jwt, final Long documentation, final Long input, final String name,
+												   final String description, final String localId, final String version, final LocalDateTime versionDate,
+												   final String versionRationale, final Language language) {
+		super(new UpdateProcessDocumentationInputEvent());
+		this.documentation = documentation;
+		this.input = input;
 		this.name = name;
 		this.description = description;
 
@@ -90,11 +96,11 @@ public class UpdateInputSpecificationCommand extends AbstractCommand<UpdateInput
 		setJwt(jwt);
 	}
 
-	public static UpdateInputSpecificationCommand create(final String jwt, final Long id, final String name,
-			final String description, final String localId, final String version, final LocalDateTime versionDate,
-			final String versionRationale, final Language language) {
+	public static UpdateProcessDocumentationInputCommand create(final String jwt, final Long documentation, final Long input, final String name,
+																final String description, final String localId, final String version, final LocalDateTime versionDate,
+																final String versionRationale, final Language language) {
 
-		return new UpdateInputSpecificationCommand(jwt, id, name, description, localId, version, versionDate,
+		return new UpdateProcessDocumentationInputCommand(jwt, documentation, input, name, description, localId, version, versionDate,
 				versionRationale, language);
 
 	}
@@ -123,11 +129,19 @@ public class UpdateInputSpecificationCommand extends AbstractCommand<UpdateInput
 		this.localId = localId;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getInput() {
+		return input;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setInput(final Long input) {
+		this.input = input;
+	}
+
+	public Long getDocumentation() {
+		return documentation;
+	}
+
+	public void setDocumentation(final Long documentation) {
+		this.documentation = documentation;
 	}
 }

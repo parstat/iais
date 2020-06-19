@@ -6,15 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nbs.iais.ms.common.db.domains.translators.Translator;
-import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.exceptions.AuthorizationException;
 import com.nbs.iais.ms.common.exceptions.EntityException;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.AddInputSpecificationTypeCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.CreateInputSpecificationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.DeleteInputSpecificationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.RemoveInputSpecificationTypeCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.UpdateInputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.AddProcessDocumentationInputTypeCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.AddProcessDocumentationInputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.RemoveProcessDocumentationInputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.RemoveProcessDocumentationInputTypeCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.UpdateProcessDocumentationInputCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessInputSpecificationEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentationRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessInputSpecificationRepository;
@@ -39,16 +38,16 @@ public class ProcessInputSpecificationCommandService {
 	 *         ProcessInputSpecification in the event
 	 * 
 	 */
-	public CreateInputSpecificationCommand createProcessInputSpecification(
-			final CreateInputSpecificationCommand command) throws AuthorizationException, EntityException {
+	public AddProcessDocumentationInputCommand createProcessInputSpecification(
+			final AddProcessDocumentationInputCommand command) throws AuthorizationException, EntityException {
 
-		processDocumentationRepository.findById(command.getProcessDocumentation()).ifPresentOrElse(documentation -> {
+		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(documentation -> {
 
-			ProcessInputSpecificationEntity InputSpecificationEntity = CommandTranslator.translate(command);
-			InputSpecificationEntity.setProcessDocumentation(documentation);
-			InputSpecificationEntity = processInputSpecificationRepository.save(InputSpecificationEntity);
+			final ProcessInputSpecificationEntity inputSpecification = CommandTranslator.translate(command);
 
-			Translator.translate(InputSpecificationEntity, command.getLanguage())
+			documentation.getProcessInputs().add(inputSpecification);
+
+			Translator.translate(processDocumentationRepository.save(documentation), command.getLanguage())
 					.ifPresent(command.getEvent()::setData);
 
 		}, () -> {
@@ -67,21 +66,20 @@ public class ProcessInputSpecificationCommandService {
 	 * @throws EntityException PROCESS_INPUT_SPECIFICATION__NOT_FOUND when the
 	 *                         Process InputSpecification can not be found
 	 */
-	public UpdateInputSpecificationCommand updateProcessInputSpecification(
-			final UpdateInputSpecificationCommand command) throws AuthorizationException {
+	public UpdateProcessDocumentationInputCommand updateProcessInputSpecification(
+			final UpdateProcessDocumentationInputCommand command) throws AuthorizationException {
 
-		if (command.getId() != null) {
-			processInputSpecificationRepository.findById(command.getId()).ifPresentOrElse(inputSpecification -> {
-				CommandTranslator.translate(command, inputSpecification);
+			processInputSpecificationRepository.findByIdAndProcessDocumentation(command.getInput(), command.getDocumentation()).ifPresentOrElse(inputSpecification -> {
+					CommandTranslator.translate(command, inputSpecification);
 
-				Translator
-						.translate(processInputSpecificationRepository.save(inputSpecification), command.getLanguage())
-						.ifPresent(command.getEvent()::setData);
+					Translator.translate(processInputSpecificationRepository.save(inputSpecification)
+							.getProcessDocumentation(), command.getLanguage())
+							.ifPresent(command.getEvent()::setData);
+
 			}, () -> {
-				throw new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND);
+				throw new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION_NOT_FOUND);
 			});
 
-		}
 
 		return command;
 	}
@@ -95,27 +93,21 @@ public class ProcessInputSpecificationCommandService {
 	 * @throws EntityException PROCESS_INPUT_SPECIFICATION__NOT_FOUND when the
 	 *                         Process InputSpecification can not be found
 	 */
-	public AddInputSpecificationTypeCommand addInputSpecificationTypeCommand(
-			final AddInputSpecificationTypeCommand command) throws AuthorizationException {
+	public AddProcessDocumentationInputTypeCommand addInputSpecificationTypeCommand(
+			final AddProcessDocumentationInputTypeCommand command) throws AuthorizationException {
 
-		if (command.getId() != null) {
-			processInputSpecificationRepository.findById(command.getId()).ifPresentOrElse(inputSpecification -> {
-
-				if (!inputSpecification.getProcessInputTypes().contains(command.getType())) {
-					inputSpecification.getProcessInputTypes().add(command.getType());
-					Translator.translate(processInputSpecificationRepository.save(inputSpecification),
-							command.getLanguage()).ifPresent(command.getEvent()::setData);
-				} else {
-					Translator.translate(inputSpecification, command.getLanguage())
-							.ifPresent(command.getEvent()::setData);
-				}
-
-			}, () -> {
-				throw new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND);
-			});
-
-		}
-
+		processInputSpecificationRepository.findByIdAndProcessDocumentation(command.getInput(),
+				command.getDocumentation()).ifPresentOrElse(processInputSpecification -> {
+					if(!processInputSpecification.getProcessInputTypes().contains(command.getType())) {
+						processInputSpecification.getProcessInputTypes().add(command.getType());
+						Translator.translate(processInputSpecificationRepository.save(processInputSpecification)
+								.getProcessDocumentation(), command.getLanguage())
+								.ifPresent(command.getEvent()::setData);
+					}
+				},
+				() -> {
+					throw new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION_NOT_FOUND);
+				});
 		return command;
 	}
 
@@ -128,27 +120,21 @@ public class ProcessInputSpecificationCommandService {
 	 * @throws EntityException PROCESS_INPUT_SPECIFICATION__NOT_FOUND when the
 	 *                         Process InputSpecification can not be found
 	 */
-	public RemoveInputSpecificationTypeCommand removeInputSpecificationTypeCommand(
-			final RemoveInputSpecificationTypeCommand command) throws AuthorizationException {
+	public RemoveProcessDocumentationInputTypeCommand removeInputSpecificationTypeCommand(
+			final RemoveProcessDocumentationInputTypeCommand command) throws AuthorizationException {
 
-		if (command.getId() != null) {
-			processInputSpecificationRepository.findById(command.getId()).ifPresentOrElse(inputSpecification -> {
-
-				if (inputSpecification.getProcessInputTypes().contains(command.getType())) {
-					inputSpecification.getProcessInputTypes().remove(command.getType());
-					Translator.translate(processInputSpecificationRepository.save(inputSpecification),
-							command.getLanguage()).ifPresent(command.getEvent()::setData);
-				} else {
-					Translator.translate(inputSpecification, command.getLanguage())
-							.ifPresent(command.getEvent()::setData);
-				}
-
-			}, () -> {
-				throw new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND);
-			});
-
-		}
-
+		processInputSpecificationRepository.findByIdAndProcessDocumentation(command.getInput(),
+				command.getDocumentation()).ifPresentOrElse(processInputSpecification -> {
+					if(processInputSpecification.getProcessInputTypes().contains(command.getType())) {
+						processInputSpecification.getProcessInputTypes().remove(command.getType());
+						Translator.translate(processInputSpecificationRepository.save(processInputSpecification)
+								.getProcessDocumentation(), command.getLanguage())
+								.ifPresent(command.getEvent()::setData);
+					}
+				},
+				() -> {
+					throw new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION_NOT_FOUND);
+				});
 		return command;
 	}
 
@@ -161,22 +147,17 @@ public class ProcessInputSpecificationCommandService {
 	 *                         Process InputSpecification can not be found
 	 */
 
-	public DeleteInputSpecificationCommand deleteProcessInputSpecification(
-			final DeleteInputSpecificationCommand command) throws AuthorizationException, EntityException {
-
-		try {
-			final ProcessInputSpecificationEntity InputSpecificationEntity = processInputSpecificationRepository
-					.findById(command.getId())
-					.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND));
-
-			processInputSpecificationRepository.delete(InputSpecificationEntity);
-		} catch (Exception e) {
-			LOG.debug("Error deleting Process Input Specification: " + e.getMessage());
-			command.getEvent().setData(DTOBoolean.FAIL);
-			return command;
-		}
-
-		command.getEvent().setData(DTOBoolean.TRUE);
+	public RemoveProcessDocumentationInputCommand deleteProcessInputSpecification(
+			final RemoveProcessDocumentationInputCommand command) throws AuthorizationException, EntityException {
+		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(processDocumentation ->
+			processDocumentation.getProcessInputs().stream().filter(processInput -> processInput.getId()
+					.equals(command.getInput())).findFirst().ifPresent(processInputSpecification -> {
+						processDocumentation.getProcessInputs().remove(processInputSpecification);
+						Translator.translate(processDocumentationRepository.save(processDocumentation),
+								command.getLanguage()).ifPresent(command.getEvent()::setData);
+					}), () -> {
+				throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
+			});
 
 		return command;
 	}

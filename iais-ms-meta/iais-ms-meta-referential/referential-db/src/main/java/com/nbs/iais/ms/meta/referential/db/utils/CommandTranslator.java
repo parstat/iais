@@ -19,8 +19,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.docum
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.UpdateProcessDocumentationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.CreateInputSpecificationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.UpdateInputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.AddProcessDocumentationInputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.UpdateProcessDocumentationInputCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.CreateProcessMethodCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.UpdateProcessMethodCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.CreateOutputSpecificationCommand;
@@ -569,7 +569,7 @@ public class CommandTranslator {
 		return processQuality;
 	}
 	
-	public static ProcessInputSpecificationEntity translate(final CreateInputSpecificationCommand command) {
+	public static ProcessInputSpecificationEntity translate(final AddProcessDocumentationInputCommand command) {
 
 		final ProcessInputSpecificationEntity processInputSpecification = new ProcessInputSpecificationEntity();
 
@@ -591,7 +591,7 @@ public class CommandTranslator {
 		return processInputSpecification;
 	}
 
-	public static ProcessInputSpecificationEntity translate(final UpdateInputSpecificationCommand command,
+	public static ProcessInputSpecificationEntity translate(final UpdateProcessDocumentationInputCommand command,
 			ProcessInputSpecificationEntity processInputSpecification) {
 
 		if (StringTools.isNotEmpty(command.getName())) {

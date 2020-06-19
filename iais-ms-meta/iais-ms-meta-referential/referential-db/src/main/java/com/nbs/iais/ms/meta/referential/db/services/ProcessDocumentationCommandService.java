@@ -277,7 +277,7 @@ public class ProcessDocumentationCommandService {
 
 		final ProcessInputSpecificationEntity input = processInputSpecificationRepository
 				.findById(command.getInputSpecification())
-				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND));
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION_NOT_FOUND));
 
 		pd.getProcessInputs().add(input);
 		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
@@ -303,7 +303,7 @@ public class ProcessDocumentationCommandService {
 
 		final ProcessOutputSpecificationEntity output = processOutputSpecificationRepository
 				.findById(command.getOutputSpecification())
-				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION__NOT_FOUND));
+				.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION_NOT_FOUND));
 
 		pd.getProcessOutputs().add(output);
 		Translator.translate(processDocumentationRepository.save(pd), command.getLanguage())
