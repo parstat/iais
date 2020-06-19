@@ -289,4 +289,14 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 		this.administrators = administrators;
 	}
 
+	public void addProcessInput(final ProcessInputSpecificationEntity input) {
+		processInputSpecifications.add(input);
+		input.setProcessDocumentation(this);
+	}
+
+	public void removeProcessInput(final ProcessInputSpecificationEntity input) {
+		processInputSpecifications.remove(input);
+		input.setProcessDocumentation(null);
+	}
+
 }

@@ -45,7 +45,7 @@ public class ProcessInputSpecificationCommandService {
 
 			final ProcessInputSpecificationEntity inputSpecification = CommandTranslator.translate(command);
 
-			documentation.getProcessInputs().add(inputSpecification);
+			documentation.addProcessInput(inputSpecification);
 
 			Translator.translate(processDocumentationRepository.save(documentation), command.getLanguage())
 					.ifPresent(command.getEvent()::setData);
@@ -150,13 +150,16 @@ public class ProcessInputSpecificationCommandService {
 	public RemoveProcessDocumentationInputCommand deleteProcessInputSpecification(
 			final RemoveProcessDocumentationInputCommand command) throws AuthorizationException, EntityException {
 		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(processDocumentation ->
-			processDocumentation.getProcessInputs().stream().filter(processInput -> processInput.getId()
-					.equals(command.getInput())).findFirst().ifPresent(processInputSpecification -> {
-						processDocumentation.getProcessInputs().remove(processInputSpecification);
-						Translator.translate(processDocumentationRepository.save(processDocumentation),
-								command.getLanguage()).ifPresent(command.getEvent()::setData);
+			processInputSpecificationRepository.findById(command.getInput()).ifPresentOrElse(processInputSpecification -> {
+					processDocumentation.removeProcessInput(processInputSpecification);
+
+					Translator.translate(processDocumentationRepository.save(processDocumentation),
+							command.getLanguage()).ifPresent(command.getEvent()::setData);
+					},
+					() -> {
+						throw new EntityException(ExceptionCodes.PROCESS_INPUT_SPECIFICATION_NOT_FOUND);
 					}), () -> {
-				throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
+						throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
 			});
 
 		return command;
