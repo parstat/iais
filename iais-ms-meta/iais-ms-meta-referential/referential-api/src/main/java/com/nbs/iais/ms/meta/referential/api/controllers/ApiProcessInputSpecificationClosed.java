@@ -54,7 +54,7 @@ public class ApiProcessInputSpecificationClosed extends AbstractController {
 			@PathVariable(name = "documentation") final Long documentation,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "description", required = false) final String description,
-			@RequestParam(name = "local_id") final String localId,
+			@RequestParam(name = "local_id", required = false) final String localId,
 			@RequestParam(name = "version", required = false) final String version,
 			@RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
