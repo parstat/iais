@@ -1,5 +1,6 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
+import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,10 @@ public class ProcessInputSpecificationCommandService {
 
 			documentation.addProcessInput(inputSpecification);
 
-			LOG.debug("inputs: " + documentation.getProcessInputs().get(0).getName());
-			Translator.translate(processDocumentationRepository.save(documentation), command.getLanguage())
+			final ProcessDocumentationEntity processDocumentation =
+					processDocumentationRepository.save(documentation);
+			LOG.debug("inputs: " + processDocumentation.getProcessInputs().get(0).getName());
+			Translator.translate(processDocumentation, command.getLanguage())
 					.ifPresent(command.getEvent()::setData);
 
 		}, () -> {

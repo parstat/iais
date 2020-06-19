@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProcessDocumentationRepositoryTest extends RepositoryTest {
 
@@ -37,6 +37,7 @@ public class ProcessDocumentationRepositoryTest extends RepositoryTest {
         saved.addProcessInput(getInput());
         final ProcessDocumentationEntity saved2 = processDocumentationRepository.save(saved);
         assertNotNull(saved2.getProcessInputs());
+        assertEquals(saved2.getProcessInputs().size(), 1);
 
     }
     private ProcessDocumentationEntity saveProcessDocumentation() {
