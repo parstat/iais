@@ -171,10 +171,10 @@ public class ApiProcessInputSpecificationClosed extends AbstractController {
 	public ProcessDocumentationDTO deleteInputSpecification(
 			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "documentation") final Long documentation,
-			@PathVariable(name = "input") final Long input) {
-
+			@PathVariable(name = "input") final Long input,
+			@RequestParam(name = "language") final String language) {
 		final RemoveProcessDocumentationInputCommand command = RemoveProcessDocumentationInputCommand.create(jwt,
-				documentation, input);
+				documentation, input, Language.getLanguage(language));
 
 		return sendCommand(command, "process_inputs").getEvent().getData();
 	}
