@@ -1,5 +1,6 @@
 package com.nbs.iais.ms.meta.referential.db.services;
 
+import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,9 +159,9 @@ public class ProcessInputSpecificationCommandService {
 		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(processDocumentation ->
 			processInputSpecificationRepository.findById(command.getInput()).ifPresentOrElse(processInputSpecification -> {
 					processDocumentation.removeProcessInput(processInputSpecification);
-					final ProcessDocumentationEntity processDocumentationEntity =
-							processDocumentationRepository.save(processDocumentation);
-					Translator.translate(processDocumentationEntity,
+					//final ProcessDocumentationEntity processDocumentationEntity =
+					//		processDocumentationRepository.save(processDocumentation);
+					Translator.translate(processDocumentationRepository.save(processDocumentation),
 							command.getLanguage()).ifPresent(command.getEvent()::setData);
 					},
 					() -> {
