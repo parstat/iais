@@ -66,7 +66,7 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 	// referencedColumnName = "id" ))
 	private List<ProcessQuality> processQualityList = new ArrayList<>();
 
-	@OneToMany(targetEntity = ProcessInputSpecificationEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
+	@OneToMany(targetEntity = ProcessInputSpecificationEntity.class, mappedBy = "processDocumentation", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProcessInputSpecification> processInputSpecifications = new ArrayList<>();
 
 	@OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
@@ -289,12 +289,12 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 		this.administrators = administrators;
 	}
 
-	public void addProcessInput(final ProcessInputSpecificationEntity input) {
+	public void addProcessInput(final ProcessInputSpecification input) {
 		processInputSpecifications.add(input);
 		input.setProcessDocumentation(this);
 	}
 
-	public void removeProcessInput(final ProcessInputSpecificationEntity input) {
+	public void removeProcessInput(final ProcessInputSpecification input) {
 		processInputSpecifications.remove(input);
 		input.setProcessDocumentation(null);
 	}

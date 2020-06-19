@@ -2,6 +2,7 @@ package com.nbs.iais.ms.meta.referential.db.utils;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.auth0.jwt.JWT;
 import com.nbs.iais.ms.common.enums.Language;
@@ -583,9 +584,11 @@ public class CommandTranslator {
 
 		if (StringTools.isNotEmpty(command.getLocalId())) {
 			processInputSpecification.setLocalId(command.getLocalId());
+		} else {
+			processInputSpecification.setLocalId(UUID.randomUUID().toString());
 		}
-    	processInputSpecification.setVersion(command.getVersion());
-		processInputSpecification.setVersionDate(LocalDateTime.now());
+		processInputSpecification.setVersion(command.getVersion());
+		processInputSpecification.setVersionDate(command.getVersionDate());
 		processInputSpecification.setVersionRationale(command.getVersionRationale());
 
 		return processInputSpecification;

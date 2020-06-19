@@ -676,7 +676,7 @@ public class ApplicationConfig {
 		return IntegrationFlows.from(processInputSpecificationCommandInput()).<Object, Class<?>>route(Object::getClass,
 				rs -> rs.subFlowMapping(AddProcessDocumentationInputCommand.class,
 						sf -> sf.<AddProcessDocumentationInputCommand>handle(
-								(p, h) -> processInputSpecificationCommandService.createProcessInputSpecification(p)))
+								(p, h) -> processInputSpecificationCommandService.addProcessInputSpecification(p)))
 						.subFlowMapping(UpdateProcessDocumentationInputCommand.class,
 								sf -> sf.<UpdateProcessDocumentationInputCommand>handle(
 										(p, h) -> processInputSpecificationCommandService

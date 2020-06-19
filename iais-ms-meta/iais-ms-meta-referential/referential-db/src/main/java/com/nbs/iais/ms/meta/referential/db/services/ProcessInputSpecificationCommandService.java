@@ -38,15 +38,18 @@ public class ProcessInputSpecificationCommandService {
 	 *         ProcessInputSpecification in the event
 	 * 
 	 */
-	public AddProcessDocumentationInputCommand createProcessInputSpecification(
+	public AddProcessDocumentationInputCommand addProcessInputSpecification(
 			final AddProcessDocumentationInputCommand command) throws AuthorizationException, EntityException {
 
 		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(documentation -> {
 
 			final ProcessInputSpecificationEntity inputSpecification = CommandTranslator.translate(command);
 
+			LOG.debug("Here: " + inputSpecification.getName(command.getLanguage()));
+
 			documentation.addProcessInput(inputSpecification);
 
+			LOG.debug("inputs: " + documentation.getProcessInputs().get(0).getName());
 			Translator.translate(processDocumentationRepository.save(documentation), command.getLanguage())
 					.ifPresent(command.getEvent()::setData);
 
