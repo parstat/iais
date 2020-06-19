@@ -52,7 +52,7 @@ public class ProcessInputSpecificationCommandService {
 
 			final ProcessDocumentationEntity processDocumentation =
 					processDocumentationRepository.save(documentation);
-			LOG.debug("inputs: " + processDocumentation.getProcessInputs().get(0).getName());
+
 			Translator.translate(processDocumentation, command.getLanguage())
 					.ifPresent(command.getEvent()::setData);
 
@@ -158,8 +158,9 @@ public class ProcessInputSpecificationCommandService {
 		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(processDocumentation ->
 			processInputSpecificationRepository.findById(command.getInput()).ifPresentOrElse(processInputSpecification -> {
 					processDocumentation.removeProcessInput(processInputSpecification);
-
-					Translator.translate(processDocumentationRepository.save(processDocumentation),
+					final ProcessDocumentationEntity processDocumentationEntity =
+							processDocumentationRepository.save(processDocumentation);
+					Translator.translate(processDocumentationEntity,
 							command.getLanguage()).ifPresent(command.getEvent()::setData);
 					},
 					() -> {

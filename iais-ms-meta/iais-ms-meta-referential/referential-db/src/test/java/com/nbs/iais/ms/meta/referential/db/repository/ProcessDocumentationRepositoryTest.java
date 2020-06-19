@@ -35,9 +35,9 @@ public class ProcessDocumentationRepositoryTest extends RepositoryTest {
     public void testAddInputsToProcess() {
         final ProcessDocumentationEntity saved = processDocumentationRepository.save(saveProcessDocumentation());
         saved.addProcessInput(getInput());
-        final ProcessDocumentationEntity saved2 = processDocumentationRepository.save(saved);
-        assertNotNull(saved2.getProcessInputs());
-        assertEquals(saved2.getProcessInputs().size(), 1);
+        //final ProcessDocumentationEntity saved2 = processDocumentationRepository.save(saved);
+        //assertNotNull(saved2.getProcessInputs());
+        assertEquals(processDocumentationRepository.save(saved).getProcessInputs().size(), 1);
 
     }
     private ProcessDocumentationEntity saveProcessDocumentation() {
