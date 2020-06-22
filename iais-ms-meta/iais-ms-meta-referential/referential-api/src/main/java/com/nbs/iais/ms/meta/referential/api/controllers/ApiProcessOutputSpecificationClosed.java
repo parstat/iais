@@ -2,6 +2,8 @@ package com.nbs.iais.ms.meta.referential.api.controllers;
 
 import java.time.LocalDateTime;
 
+import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.gsbpm.ProcessDocumentation;
+import com.nbs.iais.ms.common.dto.impl.ProcessDocumentationDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,20 +23,20 @@ import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.ProcessOutputType;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.AddOutputSpecificationTypeCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.CreateOutputSpecificationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.DeleteOutputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.AddProcessDocumentationOutputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.RemoveProcessDocumentationOutputCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.RemoveOutputSpecificationTypeCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
 
 @RestController
-@RequestMapping(value = "/api/v1/close/referential/process/outputs", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/close/referential/process/documentation/{documentation}/outputs", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 public class ApiProcessOutputSpecificationClosed extends AbstractController {
 
 	/**
 	 * Method to create a process output specification
 	 *
 	 * @param jwt                  authorization token
-	 * @param processDocumentation id of the process documentation
+	 * @param documentation id of the process documentation
 	 * @param name                 of the process output specification in selected
 	 *                             language
 	 * @param description          of the process output specification in the
@@ -49,19 +51,20 @@ public class ApiProcessOutputSpecificationClosed extends AbstractController {
 	 * @return ProcessOutputSpecificationDTO
 	 */
 	@JsonView(Views.Extended.class)
-	@PostMapping("/{processDocumentation}")
-	public ProcessOutputSpecificationDTO createOutputSpecification(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "processDocumentation") final Long processDocumentation,
+	@PostMapping("/")
+	public ProcessDocumentationDTO addProcessDocumentationOutput(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "documentation") final Long documentation,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "description", required = false) final String description,
-			@RequestParam(name = "local_id") final String localId,
+			@RequestParam(name = "localId") final String localId,
 			@RequestParam(name = "version", required = false) final String version,
 			@RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "language", required = false) final String language) {
 
-		final CreateOutputSpecificationCommand command = CreateOutputSpecificationCommand.create(jwt,
-				processDocumentation, name, description, localId, version, versionDate, versionRationale,
+		final AddProcessDocumentationOutputCommand command = AddProcessDocumentationOutputCommand.create(jwt,
+				documentation, name, description, localId, version, versionDate, versionRationale,
 				Language.getLanguage(language));
 		return sendCommand(command, "process_outputs").getEvent().getData();
 
@@ -154,15 +157,18 @@ public class ApiProcessOutputSpecificationClosed extends AbstractController {
 	 * Method to delete an process output specification
 	 *
 	 * @param jwt authorization token
-	 * @param id  of process output specification to delete
+	 * @param documentation the id of the process documentation
+	 * @param output  of process output specification to delete
 	 * @return DTOBoolean true if the agent has been deleted
 	 */
 	@JsonView(Views.Extended.class)
-	@DeleteMapping("/{id}")
-	public DTOBoolean deleteOutputSpecification(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id) {
+	@DeleteMapping("/{output}")
+	public ProcessDocumentationDTO deleteOutputSpecification(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "documentation") final Long documentation,
+			@PathVariable(name = "output") final Long output) {
 
-		final DeleteOutputSpecificationCommand command = DeleteOutputSpecificationCommand.create(jwt, id);
+		final RemoveProcessDocumentationOutputCommand command = RemoveProcessDocumentationOutputCommand.create(jwt, documentation, output);
 
 		return sendCommand(command, "process_outputs").getEvent().getData();
 	}

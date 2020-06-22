@@ -24,7 +24,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.UpdateProcessDocumentationInputCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.CreateProcessMethodCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.UpdateProcessMethodCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.CreateOutputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.AddProcessDocumentationOutputCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.CreateProcessQualityCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.UpdateProcessQualityCommand;
@@ -620,7 +620,7 @@ public class CommandTranslator {
 		return processInputSpecification;
 	}
 	
-	public static ProcessOutputSpecificationEntity translate(final CreateOutputSpecificationCommand command) {
+	public static ProcessOutputSpecificationEntity translate(final AddProcessDocumentationOutputCommand command) {
 
 		final ProcessOutputSpecificationEntity processOutputSpecification = new ProcessOutputSpecificationEntity();
 

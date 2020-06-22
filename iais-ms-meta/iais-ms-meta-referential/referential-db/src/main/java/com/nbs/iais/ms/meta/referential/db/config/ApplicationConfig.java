@@ -43,8 +43,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.RemoveProcessDocumentationInputTypeCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.UpdateProcessDocumentationInputCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.AddOutputSpecificationTypeCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.CreateOutputSpecificationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.DeleteOutputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.AddProcessDocumentationOutputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.RemoveProcessDocumentationOutputCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.RemoveOutputSpecificationTypeCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.CreateProcessQualityCommand;
@@ -200,7 +200,7 @@ public class ApplicationConfig {
 				.channelMapping(AddProcessDocumentationDocumentCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationMethodCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationInputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
-				.channelMapping(AddProcessDocumentationOutputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationStandardCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationQualityCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationVersionCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
@@ -243,9 +243,9 @@ public class ApplicationConfig {
 				.channelMapping(AddProcessDocumentationInputTypeCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
 				.channelMapping(RemoveProcessDocumentationInputTypeCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
 				//STATISTICAL OUTPUT SPECIFICATION
-				.channelMapping(CreateOutputSpecificationCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationOutputCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
 				.channelMapping(UpdateOutputSpecificationCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
-				.channelMapping(DeleteOutputSpecificationCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
+				.channelMapping(RemoveProcessDocumentationOutputCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
 				.channelMapping(AddOutputSpecificationTypeCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
 				.channelMapping(RemoveOutputSpecificationTypeCommand.class, Channels.PROCESS_OUTPUT_SPECIFICATION_COMMAND_INPUT)
 
@@ -509,8 +509,8 @@ public class ApplicationConfig {
 										sf -> sf.<com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationInputCommand>handle(
 												(p, h) -> processDocumentationCommandService
 														.addProcessDocumentationInput(p)))
-								.subFlowMapping(AddProcessDocumentationOutputCommand.class,
-										sf -> sf.<AddProcessDocumentationOutputCommand>handle(
+								.subFlowMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand.class,
+										sf -> sf.<com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand>handle(
 												(p, h) -> processDocumentationCommandService
 														.addProcessDocumentationOutput(p)))
 								.subFlowMapping(AddProcessDocumentationQualityCommand.class,
@@ -700,9 +700,9 @@ public class ApplicationConfig {
 	public IntegrationFlow processOutputSpecificationCommandIntegrationFlow(
 			final ProcessOutputSpecificationCommandService processOutputSpecificationCommandService) {
 		return IntegrationFlows.from(processOutputSpecificationCommandInput()).<Object, Class<?>>route(Object::getClass,
-				rs -> rs.subFlowMapping(CreateOutputSpecificationCommand.class,
-						sf -> sf.<CreateOutputSpecificationCommand>handle(
-								(p, h) -> processOutputSpecificationCommandService.createProcessOutputSpecification(p)))
+				rs -> rs.subFlowMapping(AddProcessDocumentationOutputCommand.class,
+						sf -> sf.<AddProcessDocumentationOutputCommand>handle(
+								(p, h) -> processOutputSpecificationCommandService.addProcessDocumentationOutput(p)))
 						.subFlowMapping(UpdateOutputSpecificationCommand.class,
 								sf -> sf.<UpdateOutputSpecificationCommand>handle(
 										(p, h) -> processOutputSpecificationCommandService
@@ -715,8 +715,8 @@ public class ApplicationConfig {
 								sf -> sf.<RemoveOutputSpecificationTypeCommand>handle(
 										(p, h) -> processOutputSpecificationCommandService
 												.removeOutputSpecificationTypeCommand(p)))
-						.subFlowMapping(DeleteOutputSpecificationCommand.class,
-								sf -> sf.<DeleteOutputSpecificationCommand>handle(
+						.subFlowMapping(RemoveProcessDocumentationOutputCommand.class,
+								sf -> sf.<RemoveProcessDocumentationOutputCommand>handle(
 										(p, h) -> processOutputSpecificationCommandService
 												.deleteProcessOutputSpecification(p))))
 				.get();

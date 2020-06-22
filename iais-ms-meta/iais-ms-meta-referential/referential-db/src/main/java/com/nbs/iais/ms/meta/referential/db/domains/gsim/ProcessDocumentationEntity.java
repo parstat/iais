@@ -299,4 +299,13 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 		input.setProcessDocumentation(null);
 	}
 
+	public void addProcessOutput(final ProcessOutputSpecification output) {
+		processOutputSpecifications.add(output);
+		output.setProcessDocumentation(this);
+	}
+
+	public void removeProcessOutput(final ProcessOutputSpecification output) {
+		processOutputSpecifications.remove(output);
+		output.setProcessDocumentation(null);
+	}
 }

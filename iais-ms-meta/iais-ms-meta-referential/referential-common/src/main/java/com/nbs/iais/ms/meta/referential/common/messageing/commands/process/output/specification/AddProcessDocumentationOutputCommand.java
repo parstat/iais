@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.process.output.specification.CreateOutputSpecificationEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.process.output.specification.AddProcessDocumentationOutputEvent;
 
-public class CreateOutputSpecificationCommand extends AbstractCommand<CreateOutputSpecificationEvent> {
+public class AddProcessDocumentationOutputCommand extends AbstractCommand<AddProcessDocumentationOutputEvent> {
 
 	private static final long serialVersionUID = 23070L;
 
 	/**
-	 * The process documentationation id
+	 * The process documentation id
 	 */
-	private Long processDocumentation;
+	private Long documentation;
 
 	/**
 	 * The output specification name in selected language
@@ -46,16 +46,16 @@ public class CreateOutputSpecificationCommand extends AbstractCommand<CreateOutp
 	private LocalDateTime versionDate = LocalDateTime.now();
 
 
-	private CreateOutputSpecificationCommand() {
-		super(new CreateOutputSpecificationEvent());
+	private AddProcessDocumentationOutputCommand() {
+		super(new AddProcessDocumentationOutputEvent());
 	}
 
-	private CreateOutputSpecificationCommand(final String jwt, final Long processDocumentation, final String name,
-			final String description, final String localId, final String version,
-			final LocalDateTime versionDate, final String versionRationale, final Language language) {
-		super(new CreateOutputSpecificationEvent());
+	private AddProcessDocumentationOutputCommand(final String jwt, final Long documentation, final String name,
+												 final String description, final String localId, final String version,
+												 final LocalDateTime versionDate, final String versionRationale, final Language language) {
+		super(new AddProcessDocumentationOutputEvent());
 		setJwt(jwt);
-		this.setProcessDocumentation(processDocumentation);
+		this.setDocumentation(documentation);
 		this.name = name;
 		this.description = description;
 		this.localId = localId;
@@ -72,12 +72,12 @@ public class CreateOutputSpecificationCommand extends AbstractCommand<CreateOutp
 
 	
 
-	public static CreateOutputSpecificationCommand create(final String jwt, final Long processDocumentation,
-			final String name, final String description, final String localId,
-			final String version, final LocalDateTime versionDate, final String versionRationale,
-			final Language language) {
+	public static AddProcessDocumentationOutputCommand create(final String jwt, final Long processDocumentation,
+															  final String name, final String description, final String localId,
+															  final String version, final LocalDateTime versionDate, final String versionRationale,
+															  final Language language) {
 
-		return new CreateOutputSpecificationCommand(jwt, processDocumentation, name, description, localId,
+		return new AddProcessDocumentationOutputCommand(jwt, processDocumentation, name, description, localId,
 				version, versionDate, versionRationale, language);
 
 	}
@@ -130,12 +130,12 @@ public class CreateOutputSpecificationCommand extends AbstractCommand<CreateOutp
 		this.versionDate = versionDate;
 	}
 
-	public Long getProcessDocumentation() {
-		return processDocumentation;
+	public Long getDocumentation() {
+		return documentation;
 	}
 
-	public void setProcessDocumentation(Long processDocumentation) {
-		this.processDocumentation = processDocumentation;
+	public void setDocumentation(Long documentation) {
+		this.documentation = documentation;
 	}
 
 }

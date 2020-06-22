@@ -11,8 +11,8 @@ import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.exceptions.AuthorizationException;
 import com.nbs.iais.ms.common.exceptions.EntityException;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.AddOutputSpecificationTypeCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.CreateOutputSpecificationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.DeleteOutputSpecificationCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.AddProcessDocumentationOutputCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.RemoveProcessDocumentationOutputCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.RemoveOutputSpecificationTypeCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessOutputSpecificationEntity;
@@ -39,15 +39,16 @@ public class ProcessOutputSpecificationCommandService {
 	 *         ProcessOutputSpecification in the event
 	 * 
 	 */
-	public CreateOutputSpecificationCommand createProcessOutputSpecification(
-			final CreateOutputSpecificationCommand command) throws AuthorizationException, EntityException {
+	public AddProcessDocumentationOutputCommand addProcessDocumentationOutput(
+			final AddProcessDocumentationOutputCommand command) throws AuthorizationException, EntityException {
 
-		processDocumentationRepository.findById(command.getProcessDocumentation()).ifPresentOrElse(documentation -> {
+		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(documentation -> {
 
 			ProcessOutputSpecificationEntity outputSpecificationEntity = CommandTranslator.translate(command);
-			outputSpecificationEntity.setProcessDocumentation(documentation);
-			outputSpecificationEntity = processOutputSpecificationRepository.save(outputSpecificationEntity);
-			Translator.translate(outputSpecificationEntity, command.getLanguage())
+
+			documentation.addProcessOutput(outputSpecificationEntity);
+
+			Translator.translate(processDocumentationRepository.save(documentation), command.getLanguage())
 					.ifPresent(command.getEvent()::setData);
 
 		}, () -> {
@@ -76,7 +77,7 @@ public class ProcessOutputSpecificationCommandService {
 				Translator.translate(processOutputSpecificationRepository.save(OutputSpecification),
 						command.getLanguage()).ifPresent(command.getEvent()::setData);
 			}, () -> {
-				throw new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION__NOT_FOUND);
+				throw new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION_NOT_FOUND);
 			});
 
 		}
@@ -109,7 +110,7 @@ public class ProcessOutputSpecificationCommandService {
 				}
 
 			}, () -> {
-				throw new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION__NOT_FOUND);
+				throw new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION_NOT_FOUND);
 			});
 
 		}
@@ -142,7 +143,7 @@ public class ProcessOutputSpecificationCommandService {
 				}
 
 			}, () -> {
-				throw new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION__NOT_FOUND);
+				throw new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION_NOT_FOUND);
 			});
 
 		}
@@ -159,22 +160,19 @@ public class ProcessOutputSpecificationCommandService {
 	 *                         Process OutputSpecification can not be found
 	 */
 
-	public DeleteOutputSpecificationCommand deleteProcessOutputSpecification(
-			final DeleteOutputSpecificationCommand command) throws AuthorizationException, EntityException {
+	public RemoveProcessDocumentationOutputCommand deleteProcessOutputSpecification(
+			final RemoveProcessDocumentationOutputCommand command) throws AuthorizationException, EntityException {
 
-		try {
-			final ProcessOutputSpecificationEntity OutputSpecificationEntity = processOutputSpecificationRepository
-					.findById(command.getId())
-					.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION__NOT_FOUND));
-
-			processOutputSpecificationRepository.delete(OutputSpecificationEntity);
-		} catch (Exception e) {
-			LOG.debug("Error deleting Process Output Specification: " + e.getMessage());
-			command.getEvent().setData(DTOBoolean.FAIL);
-			return command;
-		}
-
-		command.getEvent().setData(DTOBoolean.TRUE);
+			processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(processDocumentation -> {
+				final ProcessOutputSpecificationEntity outputSpecification = processOutputSpecificationRepository
+						.findById(command.getOutput())
+						.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION_NOT_FOUND));
+				processDocumentation.removeProcessOutput(outputSpecification);
+				Translator.translate(processDocumentationRepository.save(processDocumentation), command.getLanguage())
+						.ifPresent(command.getEvent()::setData);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
+			});
 
 		return command;
 	}
