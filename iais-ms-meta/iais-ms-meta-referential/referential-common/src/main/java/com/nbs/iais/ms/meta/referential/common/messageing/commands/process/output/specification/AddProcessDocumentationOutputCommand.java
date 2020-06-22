@@ -52,7 +52,8 @@ public class AddProcessDocumentationOutputCommand extends AbstractCommand<AddPro
 
 	private AddProcessDocumentationOutputCommand(final String jwt, final Long documentation, final String name,
 												 final String description, final String localId, final String version,
-												 final LocalDateTime versionDate, final String versionRationale, final Language language) {
+												 final LocalDateTime versionDate, final String versionRationale,
+												 final Language language) {
 		super(new AddProcessDocumentationOutputEvent());
 		setJwt(jwt);
 		this.setDocumentation(documentation);
@@ -73,9 +74,10 @@ public class AddProcessDocumentationOutputCommand extends AbstractCommand<AddPro
 	
 
 	public static AddProcessDocumentationOutputCommand create(final String jwt, final Long processDocumentation,
-															  final String name, final String description, final String localId,
-															  final String version, final LocalDateTime versionDate, final String versionRationale,
-															  final Language language) {
+															  final String name, final String description,
+															  final String localId, final String version,
+															  final LocalDateTime versionDate,
+															  final String versionRationale, final Language language) {
 
 		return new AddProcessDocumentationOutputCommand(jwt, processDocumentation, name, description, localId,
 				version, versionDate, versionRationale, language);

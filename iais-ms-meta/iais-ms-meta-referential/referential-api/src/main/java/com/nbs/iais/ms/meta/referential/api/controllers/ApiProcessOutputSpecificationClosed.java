@@ -166,9 +166,11 @@ public class ApiProcessOutputSpecificationClosed extends AbstractController {
 	public ProcessDocumentationDTO deleteOutputSpecification(
 			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "documentation") final Long documentation,
-			@PathVariable(name = "output") final Long output) {
+			@PathVariable(name = "output") final Long output,
+			@RequestParam(name = "language", required = false) final String language) {
 
-		final RemoveProcessDocumentationOutputCommand command = RemoveProcessDocumentationOutputCommand.create(jwt, documentation, output);
+		final RemoveProcessDocumentationOutputCommand command = RemoveProcessDocumentationOutputCommand.create(jwt,
+				documentation, output, Language.getLanguage(language));
 
 		return sendCommand(command, "process_outputs").getEvent().getData();
 	}
