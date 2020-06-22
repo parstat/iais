@@ -26,7 +26,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.metho
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.method.UpdateProcessMethodCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.AddProcessDocumentationOutputCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.CreateProcessQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.AddProcessDocumentationQualityCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.UpdateProcessQualityCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.CreateStatisticalProgramCommand;
@@ -518,7 +518,7 @@ public class CommandTranslator {
 		return processDocument;
 	}
 	
-	public static ProcessQualityEntity translate(final CreateProcessQualityCommand command) {
+	public static ProcessQualityEntity translate(final AddProcessDocumentationQualityCommand command) {
 
 		final ProcessQualityEntity processQuality = new ProcessQualityEntity();
 
@@ -532,6 +532,8 @@ public class CommandTranslator {
 
 		if (StringTools.isNotEmpty(command.getLocalId())) {
 			processQuality.setLocalId(command.getLocalId());
+		} else {
+			processQuality.setLocalId(UUID.randomUUID().toString());
 		}
    
 		processQuality.setQualityType(command.getType());

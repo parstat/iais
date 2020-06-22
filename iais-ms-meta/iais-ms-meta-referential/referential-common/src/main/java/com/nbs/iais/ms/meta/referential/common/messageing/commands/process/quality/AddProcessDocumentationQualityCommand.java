@@ -5,16 +5,16 @@ import java.time.LocalDateTime;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.QualityType;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.process.quaity.CreateProcessQualityEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.process.quaity.AddProcessDocumentationQualityEvent;
 
-public class CreateProcessQualityCommand extends AbstractCommand<CreateProcessQualityEvent> {
+public class AddProcessDocumentationQualityCommand extends AbstractCommand<AddProcessDocumentationQualityEvent> {
 
 	private static final long serialVersionUID = 2300L;
 
 	/**
 	 * The process documentation id
 	 */
-	private Long processDocumentation;
+	private Long documentation;
 	/**
 	 * The process quality name in selected language
 	 */
@@ -49,16 +49,16 @@ public class CreateProcessQualityCommand extends AbstractCommand<CreateProcessQu
 	 **/
 	private QualityType type;
 
-	private CreateProcessQualityCommand() {
-		super(new CreateProcessQualityEvent());
+	private AddProcessDocumentationQualityCommand() {
+		super(new AddProcessDocumentationQualityEvent());
 	}
 
-	private CreateProcessQualityCommand(final String jwt, final Long processDocumentation, final String name,
-			final String description, final String localId, final QualityType type, final String version,
-			final LocalDateTime versionDate, final String versionRationale, final Language language) {
-		super(new CreateProcessQualityEvent());
+	private AddProcessDocumentationQualityCommand(final String jwt, final Long documentation, final String name,
+												  final String description, final String localId, final QualityType type, final String version,
+												  final LocalDateTime versionDate, final String versionRationale, final Language language) {
+		super(new AddProcessDocumentationQualityEvent());
 		setJwt(jwt);
-		this.processDocumentation = processDocumentation;
+		this.documentation = documentation;
 		this.name = name;
 		this.description = description;
 		this.localId = localId;
@@ -81,12 +81,12 @@ public class CreateProcessQualityCommand extends AbstractCommand<CreateProcessQu
 		this.type = type;
 	}
 
-	public static CreateProcessQualityCommand create(final String jwt, final Long processDocumentation,
-			final String name, final String description, final String localId, final QualityType type,
-			final String version, final LocalDateTime versionDate, final String versionRationale,
-			final Language language) {
+	public static AddProcessDocumentationQualityCommand create(final String jwt, final Long processDocumentation,
+															   final String name, final String description, final String localId, final QualityType type,
+															   final String version, final LocalDateTime versionDate, final String versionRationale,
+															   final Language language) {
 
-		return new CreateProcessQualityCommand(jwt, processDocumentation, name, description, localId, type, version,
+		return new AddProcessDocumentationQualityCommand(jwt, processDocumentation, name, description, localId, type, version,
 				versionDate, versionRationale, language);
 
 	}
@@ -139,12 +139,12 @@ public class CreateProcessQualityCommand extends AbstractCommand<CreateProcessQu
 		this.versionDate = versionDate;
 	}
 
-	public Long getProcessDocumentation() {
-		return processDocumentation;
+	public Long getDocumentation() {
+		return documentation;
 	}
 
-	public void setProcessDocumentation(Long processDocumentation) {
-		this.processDocumentation = processDocumentation;
+	public void setDocumentation(Long documentation) {
+		this.documentation = documentation;
 	}
 
 }

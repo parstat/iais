@@ -2,6 +2,7 @@ package com.nbs.iais.ms.meta.referential.api.controllers;
 
 import java.time.LocalDateTime;
 
+import com.nbs.iais.ms.common.dto.impl.ProcessDocumentationDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,22 +17,21 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.ProcessQualityDTO;
-import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.QualityType;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.CreateProcessQualityCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.DeleteProcessQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.AddProcessDocumentationQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.RemoveProcessDocumentationQualityCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.UpdateProcessQualityCommand;
 
 @RestController
-@RequestMapping(value = "/api/v1/close/referential/process/qualities", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/close/referential/process/documentations/{documentation}/qualities", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 public class ApiProcessQualityClosed extends AbstractController {
 
 	/**
 	 * Method to create a process quality
 	 *
 	 * @param jwt              authorization token
-	 * @param processDocumentation id of the process documentation
+	 * @param documentation id of the process documentation
 	 * @param name             of the process quality in selected language
 	 * @param type             of process quality: INDICATOR, CONTROL
 	 * @param description      of the process quality in the selected language
@@ -44,9 +44,10 @@ public class ApiProcessQualityClosed extends AbstractController {
 	 * @return ProcessQualityDTO
 	 */
 	@JsonView(Views.Extended.class)
-	@PostMapping("/{processDocumentation}")
-	public ProcessQualityDTO createProcessQuality(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "processDocumentation") final Long processDocumentation,
+	@PostMapping("/")
+	public ProcessDocumentationDTO addProcessDocumentationQuality(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "documentation") final Long documentation,
 			@RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "type", required = false) final QualityType type,
 			@RequestParam(name = "description", required = false) final String description,
@@ -56,7 +57,7 @@ public class ApiProcessQualityClosed extends AbstractController {
 			@RequestParam(name = "versionRationale", required = false) final String versionRationale,
 			@RequestParam(name = "language", required = false) final String language) {
 
-		final CreateProcessQualityCommand command = CreateProcessQualityCommand.create(jwt, processDocumentation, name,
+		final AddProcessDocumentationQualityCommand command = AddProcessDocumentationQualityCommand.create(jwt, documentation, name,
 				description, localId, type, version, versionDate, versionRationale, Language.getLanguage(language));
 		return sendCommand(command, "process_qualities").getEvent().getData();
 
@@ -100,15 +101,20 @@ public class ApiProcessQualityClosed extends AbstractController {
 	 * Method to delete an process quality
 	 *
 	 * @param jwt authorization token
-	 * @param id  of process quality to delete
+	 * @param documentation  the id of the process documentation to remove quality
+	 * @param quality the id of process quality to remove
 	 * @return DTOBoolean true if the agent has been deleted
 	 */
 	@JsonView(Views.Extended.class)
-	@DeleteMapping("/{id}")
-	public DTOBoolean deleteProcessQuality(@RequestHeader(name = "jwt-auth") final String jwt,
-			@PathVariable(name = "id") final Long id) {
+	@DeleteMapping("/{quality}")
+	public ProcessDocumentationDTO deleteProcessQuality(
+			@RequestHeader(name = "jwt-auth") final String jwt,
+			@PathVariable(name = "documentation") final Long documentation,
+			@PathVariable(name = "quality") final Long quality,
+			@RequestParam(name = "language", required = false) final String language) {
 
-		final DeleteProcessQualityCommand command = DeleteProcessQualityCommand.create(jwt, id);
+		final RemoveProcessDocumentationQualityCommand command = RemoveProcessDocumentationQualityCommand.create(jwt,
+				documentation, quality, Language.getLanguage(language));
 
 		return sendCommand(command, "process_qualities").getEvent().getData();
 	}

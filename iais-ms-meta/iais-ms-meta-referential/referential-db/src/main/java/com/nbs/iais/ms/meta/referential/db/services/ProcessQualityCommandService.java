@@ -10,8 +10,8 @@ import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.exceptions.AuthorizationException;
 import com.nbs.iais.ms.common.exceptions.EntityException;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.CreateProcessQualityCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.DeleteProcessQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.AddProcessDocumentationQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.RemoveProcessDocumentationQualityCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.UpdateProcessQualityCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessQualityEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentationRepository;
@@ -37,16 +37,17 @@ public class ProcessQualityCommandService {
 	 *         the event
 	 * 
 	 */
-	public CreateProcessQualityCommand createProcessQuality(final CreateProcessQualityCommand command)
+	public AddProcessDocumentationQualityCommand createProcessQuality(final AddProcessDocumentationQualityCommand command)
 			throws AuthorizationException, EntityException {
 
-		processDocumentationRepository.findById(command.getProcessDocumentation()).ifPresentOrElse(documentation -> {
+		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(documentation -> {
 
-			ProcessQualityEntity qualityEntity = CommandTranslator.translate(command);
-			qualityEntity.setProcessDocumentation(documentation);
-			qualityEntity = processQualityRepository.save(qualityEntity);
+			ProcessQualityEntity processQuality = CommandTranslator.translate(command);
+
+			documentation.addProcessQuality(processQuality);
 			 
-			Translator.translate(qualityEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+			Translator.translate(processDocumentationRepository.save(documentation), command.getLanguage())
+					.ifPresent(command.getEvent()::setData);
 
 		}, () -> {
 			throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
@@ -91,21 +92,19 @@ public class ProcessQualityCommandService {
 	 *                         can not be found
 	 */
 
-	public DeleteProcessQualityCommand deleteProcessQuality(final DeleteProcessQualityCommand command)
+	public RemoveProcessDocumentationQualityCommand deleteProcessQuality(final RemoveProcessDocumentationQualityCommand command)
 			throws AuthorizationException, EntityException {
 
-		try {
-			final ProcessQualityEntity QualityEntity = processQualityRepository.findById(command.getId())
+		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(processDocumentation -> {
+			final ProcessQualityEntity processQuality = processQualityRepository.findById(command.getDocumentation())
 					.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_QUALITY_NOT_FOUND));
 
-			processQualityRepository.delete(QualityEntity);
-		} catch (Exception e) {
-			LOG.debug("Error deleting Process Quality: " + e.getMessage());
-			command.getEvent().setData(DTOBoolean.FAIL);
-			return command;
-		}
-
-		command.getEvent().setData(DTOBoolean.TRUE);
+			processDocumentation.removeProcessQuality(processQuality);
+			Translator.translate(processDocumentationRepository.save(processDocumentation), command.getLanguage())
+					.ifPresent(command.getEvent()::setData);
+		}, () -> {
+			throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
+		});
 
 		return command;
 	}

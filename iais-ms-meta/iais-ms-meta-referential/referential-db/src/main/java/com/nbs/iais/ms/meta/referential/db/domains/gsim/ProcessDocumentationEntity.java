@@ -58,7 +58,7 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 			uniqueConstraints = @UniqueConstraint(columnNames = {"process_documentation_id", "service_id"}))
 	private List<BusinessService> businessServices = new ArrayList<>();
 
-	@OneToMany(targetEntity = ProcessQualityEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
+	@OneToMany(targetEntity = ProcessQualityEntity.class, mappedBy = "processDocumentation", cascade = CascadeType.ALL, orphanRemoval = true)
 	// @JoinTable(name = "process_documentation_quality_indicators",
 	// joinColumns = @JoinColumn(name = "process_documentation_id",
 	// referencedColumnName = "id"),
@@ -318,4 +318,15 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 		processDocuments.remove(processDocument);
 		processDocument.setProcessDocumentation(null);
 	}
+
+	public void addProcessQuality(final ProcessQuality processQuality) {
+		processQualityList.add(processQuality);
+		processQuality.setProcessDocumentation(this);
+	}
+
+	public void removeProcessQuality(final ProcessQuality processQuality) {
+		processQualityList.remove(processQuality);
+		processQuality.setProcessDocumentation(null);
+	}
+
 }

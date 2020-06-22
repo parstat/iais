@@ -47,8 +47,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.outpu
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.RemoveProcessDocumentationOutputCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.RemoveOutputSpecificationTypeCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.CreateProcessQualityCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.DeleteProcessQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.AddProcessDocumentationQualityCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.RemoveProcessDocumentationQualityCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.quality.UpdateProcessQualityCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramAdministratorCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.program.AddStatisticalProgramLegislativeReferenceCommand;
@@ -202,7 +202,7 @@ public class ApplicationConfig {
 				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationInputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationStandardCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
-				.channelMapping(AddProcessDocumentationQualityCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationQualityCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationVersionCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationAdministratorCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(RemoveProcessDocumentationAdministratorCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
@@ -233,9 +233,9 @@ public class ApplicationConfig {
 				.channelMapping(AddProcessDocumentationDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
 				.channelMapping(UpdateProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
 				.channelMapping(RemoveProcessDocumentationDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
-				.channelMapping(CreateProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
 				.channelMapping(UpdateProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
-				.channelMapping(DeleteProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
+				.channelMapping(RemoveProcessDocumentationQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
 				//STATISTICAL INPUT SPECIFICATION
 				.channelMapping(AddProcessDocumentationInputCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
 				.channelMapping(UpdateProcessDocumentationInputCommand.class, Channels.PROCESS_INPUT_SPECIFICATION_COMMAND_INPUT)
@@ -513,8 +513,8 @@ public class ApplicationConfig {
 										sf -> sf.<com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand>handle(
 												(p, h) -> processDocumentationCommandService
 														.addProcessDocumentationOutput(p)))
-								.subFlowMapping(AddProcessDocumentationQualityCommand.class,
-										sf -> sf.<AddProcessDocumentationQualityCommand>handle(
+								.subFlowMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationQualityCommand.class,
+										sf -> sf.<com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationQualityCommand>handle(
 												(p, h) -> processDocumentationCommandService
 														.addProcessDocumentationQuality(p)))
 								.subFlowMapping(AddProcessDocumentationStandardCommand.class,
@@ -629,13 +629,13 @@ public class ApplicationConfig {
 			final ProcessQualityCommandService processQualityCommandService) {
 		return IntegrationFlows.from(processQualityCommandInput())
 				.<Object, Class<?>>route(Object::getClass, rs -> rs
-						.subFlowMapping(CreateProcessQualityCommand.class,
-								sf -> sf.<CreateProcessQualityCommand>handle(
+						.subFlowMapping(AddProcessDocumentationQualityCommand.class,
+								sf -> sf.<AddProcessDocumentationQualityCommand>handle(
 										(p, h) -> processQualityCommandService.createProcessQuality(p)))
 						.subFlowMapping(UpdateProcessQualityCommand.class,
 								sf -> sf.<UpdateProcessQualityCommand>handle(
 										(p, h) -> processQualityCommandService.updateProcessQuality(p)))
-						.subFlowMapping(DeleteProcessQualityCommand.class, sf -> sf.<DeleteProcessQualityCommand>handle(
+						.subFlowMapping(RemoveProcessDocumentationQualityCommand.class, sf -> sf.<RemoveProcessDocumentationQualityCommand>handle(
 								(p, h) -> processQualityCommandService.deleteProcessQuality(p))))
 				.get();
 	}
