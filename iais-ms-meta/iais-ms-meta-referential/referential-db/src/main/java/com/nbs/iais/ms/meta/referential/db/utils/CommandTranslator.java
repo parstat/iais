@@ -634,6 +634,8 @@ public class CommandTranslator {
 
 		if (StringTools.isNotEmpty(command.getLocalId())) {
 			processOutputSpecification.setLocalId(command.getLocalId());
+		} else {
+			processOutputSpecification.setLocalId(UUID.randomUUID().toString());
 		}
    
 		processOutputSpecification.setVersion(command.getVersion());
