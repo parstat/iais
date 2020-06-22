@@ -96,7 +96,7 @@ public class ProcessQualityCommandService {
 			throws AuthorizationException, EntityException {
 
 		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(processDocumentation -> {
-			final ProcessQualityEntity processQuality = processQualityRepository.findById(command.getDocumentation())
+			final ProcessQualityEntity processQuality = processQualityRepository.findById(command.getQuality())
 					.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_QUALITY_NOT_FOUND));
 
 			processDocumentation.removeProcessQuality(processQuality);
