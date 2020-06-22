@@ -29,7 +29,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.outpu
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.output.specification.UpdateOutputSpecificationCommand;
 
 @RestController
-@RequestMapping(value = "/api/v1/close/referential/process/documentation/{documentation}/outputs", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/close/referential/process/documentations/{documentation}/outputs", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 public class ApiProcessOutputSpecificationClosed extends AbstractController {
 
 	/**
