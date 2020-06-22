@@ -69,7 +69,7 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 	@OneToMany(targetEntity = ProcessInputSpecificationEntity.class, mappedBy = "processDocumentation", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProcessInputSpecification> processInputSpecifications = new ArrayList<>();
 
-	@OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
+	@OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDocumentation", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProcessOutputSpecification> processOutputSpecifications = new ArrayList<>();
 
 	@OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)

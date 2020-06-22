@@ -35,7 +35,7 @@ public class ProcessOutputSpecificationEntity extends AbstractIdentifiableArtefa
     @Column(name="type")
     private List<ProcessOutputType> processOutputTypes;
 
-    @ManyToOne(targetEntity = ProcessDocumentationEntity.class)
+    @ManyToOne(targetEntity = ProcessDocumentationEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "process_documentation_id", referencedColumnName = "id")
     private ProcessDocumentation processDocumentation;
 
