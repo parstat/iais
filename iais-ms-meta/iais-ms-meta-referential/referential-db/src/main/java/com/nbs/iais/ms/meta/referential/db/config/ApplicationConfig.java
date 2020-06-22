@@ -34,8 +34,8 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.func
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.DeleteLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.CreateProcessDocumentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.DeleteProcessDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.AddProcessDocumentationDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.RemoveProcessDocumentationDocumentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.UpdateProcessDocumentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.AddProcessDocumentationInputTypeCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.AddProcessDocumentationInputCommand;
@@ -197,7 +197,7 @@ public class ApplicationConfig {
 				//PROCESS DOCUMENTATION
 				.channelMapping(CreateProcessDocumentationCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(UpdateProcessDocumentationCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
-				.channelMapping(AddProcessDocumentationDocumentCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationDocumentCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationMethodCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationInputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationOutputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
@@ -230,9 +230,9 @@ public class ApplicationConfig {
 				.channelMapping(UpdateStatisticalStandardCommand.class, Channels.STATISTICAL_STANDARD_COMMAND_INPUT)
 				.channelMapping(DeleteStatisticalStandardCommand.class, Channels.STATISTICAL_PROGRAM_COMMAND_INPUT)
 				//PROCESS DOCUMENT
-				.channelMapping(CreateProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
+				.channelMapping(AddProcessDocumentationDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
 				.channelMapping(UpdateProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
-				.channelMapping(DeleteProcessDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
+				.channelMapping(RemoveProcessDocumentationDocumentCommand.class, Channels.PROCESS_DOCUMENT_COMMAND_INPUT)
 				.channelMapping(CreateProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
 				.channelMapping(UpdateProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
 				.channelMapping(DeleteProcessQualityCommand.class, Channels.PROCESS_QUALITY_COMMAND_INPUT)
@@ -497,8 +497,8 @@ public class ApplicationConfig {
 								.subFlowMapping(DeleteProcessDocumentationCommand.class,
 										sf -> sf.<DeleteProcessDocumentationCommand>handle((p,
 												h) -> processDocumentationCommandService.deleteProcessDocumentation(p)))
-								.subFlowMapping(AddProcessDocumentationDocumentCommand.class,
-										sf -> sf.<AddProcessDocumentationDocumentCommand>handle(
+								.subFlowMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationDocumentCommand.class,
+										sf -> sf.<com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationDocumentCommand>handle(
 												(p, h) -> processDocumentationCommandService
 														.addProcessDocumentationDocument(p)))
 								.subFlowMapping(AddProcessDocumentationMethodCommand.class,
@@ -572,13 +572,13 @@ public class ApplicationConfig {
 			final ProcessDocumentCommandService processDocumentCommandService) {
 		return IntegrationFlows.from(processDocumentCommandInput())
 				.<Object, Class<?>>route(Object::getClass, rs -> rs
-				.subFlowMapping(CreateProcessDocumentCommand.class,
-						sf -> sf.<CreateProcessDocumentCommand>handle(
+				.subFlowMapping(AddProcessDocumentationDocumentCommand.class,
+						sf -> sf.<AddProcessDocumentationDocumentCommand>handle(
 								(p, h) -> processDocumentCommandService.createProcessDocument(p)))
 				.subFlowMapping(UpdateProcessDocumentCommand.class,
 						sf -> sf.<UpdateProcessDocumentCommand>handle(
 								(p, h) -> processDocumentCommandService.updateProcessDocument(p)))
-				.subFlowMapping(DeleteProcessDocumentCommand.class, sf -> sf.<DeleteProcessDocumentCommand>handle(
+				.subFlowMapping(RemoveProcessDocumentationDocumentCommand.class, sf -> sf.<RemoveProcessDocumentationDocumentCommand>handle(
 						(p, h) -> processDocumentCommandService.deleteProcessDocument(p))))
 				.get();
 	}

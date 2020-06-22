@@ -10,13 +10,15 @@ import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.ExceptionCodes;
 import com.nbs.iais.ms.common.exceptions.AuthorizationException;
 import com.nbs.iais.ms.common.exceptions.EntityException;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.CreateProcessDocumentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.DeleteProcessDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.AddProcessDocumentationDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.RemoveProcessDocumentationDocumentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.UpdateProcessDocumentCommand;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentationRepository;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class ProcessDocumentCommandService {
@@ -37,18 +39,16 @@ public class ProcessDocumentCommandService {
 	 *         the event
 	 * 
 	 */
-	public CreateProcessDocumentCommand createProcessDocument(final CreateProcessDocumentCommand command)
+	public AddProcessDocumentationDocumentCommand createProcessDocument(final AddProcessDocumentationDocumentCommand command)
 			throws AuthorizationException, EntityException {
 
-		processDocumentationRepository.findById(command.getProcessDocumentation()).ifPresentOrElse(documentation -> {
+		processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(documentation -> {
 
-			ProcessDocumentEntity documentEntity = CommandTranslator.translate(command);
-			documentEntity.setProcessDocumentation(documentation);
-			documentEntity = processDocumentRepository.save(documentEntity);
-			documentation.getProcessDocuments().add(documentEntity);
-			processDocumentationRepository.save(documentation);
+			ProcessDocumentEntity document = CommandTranslator.translate(command);
+			documentation.addProcessDocument(document);
 
-			Translator.translate(documentEntity, command.getLanguage()).ifPresent(command.getEvent()::setData);
+			Translator.translate(processDocumentationRepository.save(documentation), command.getLanguage())
+					.ifPresent(command.getEvent()::setData);
 
 		}, () -> {
 			throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
@@ -93,21 +93,20 @@ public class ProcessDocumentCommandService {
 	 *                         can not be found
 	 */
 
-	public DeleteProcessDocumentCommand deleteProcessDocument(final DeleteProcessDocumentCommand command)
+	public RemoveProcessDocumentationDocumentCommand deleteProcessDocument(final RemoveProcessDocumentationDocumentCommand command)
 			throws AuthorizationException, EntityException {
 
-		try {
-			final ProcessDocumentEntity documentEntity = processDocumentRepository.findById(command.getId())
-					.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENT_NOT_FOUND));
+			processDocumentationRepository.findById(command.getDocumentation()).ifPresentOrElse(processDocumentation -> {
+				final ProcessDocumentEntity document = processDocumentRepository.findById(command.getDocument())
+						.orElseThrow(() -> new EntityException(ExceptionCodes.PROCESS_DOCUMENT_NOT_FOUND));
 
-			processDocumentRepository.delete(documentEntity);
-		} catch (Exception e) {
-			LOG.debug("Error deleting Process Document: " + e.getMessage());
-			command.getEvent().setData(DTOBoolean.FAIL);
-			return command;
-		}
+				processDocumentation.removeProcessDocument(document);
 
-		command.getEvent().setData(DTOBoolean.TRUE);
+				Translator.translate(processDocumentationRepository.save(processDocumentation), command.getLanguage())
+						.ifPresent(command.getEvent()::setData);
+			}, () -> {
+				throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_NOT_FOUND);
+			});
 
 		return command;
 	}

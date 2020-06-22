@@ -5,16 +5,16 @@ import java.time.LocalDateTime;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.MediaType;
 import com.nbs.iais.ms.common.messaging.commands.abstracts.AbstractCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.events.process.document.CreateProcessDocumentEvent;
+import com.nbs.iais.ms.meta.referential.common.messageing.events.process.document.AddProcessDocumentationDocumentEvent;
 
-public class CreateProcessDocumentCommand extends AbstractCommand<CreateProcessDocumentEvent> {
+public class AddProcessDocumentationDocumentCommand extends AbstractCommand<AddProcessDocumentationDocumentEvent> {
 
 	private static final long serialVersionUID = 2300L;
 
 	/**
 	 * The process documentation id
 	 */
-	private Long processDocumentation;
+	private Long documentation;
 
 	/**
 	 * The process document name in selected language
@@ -56,16 +56,16 @@ public class CreateProcessDocumentCommand extends AbstractCommand<CreateProcessD
 	 **/
 	private MediaType type;
 
-	private CreateProcessDocumentCommand() {
-		super(new CreateProcessDocumentEvent());
+	private AddProcessDocumentationDocumentCommand() {
+		super(new AddProcessDocumentationDocumentEvent());
 	}
 
-	private CreateProcessDocumentCommand(final String jwt, final Long processDocumentation, final String name,
-			final String description, final String localId,final String link, final MediaType type, final String version,
-			final LocalDateTime versionDate, final String versionRationale, final Language language) {
-		super(new CreateProcessDocumentEvent());
+	private AddProcessDocumentationDocumentCommand(final String jwt, final Long documentation, final String name,
+												   final String description, final String localId, final String link, final MediaType type, final String version,
+												   final LocalDateTime versionDate, final String versionRationale, final Language language) {
+		super(new AddProcessDocumentationDocumentEvent());
 		setJwt(jwt);
-		this.processDocumentation = processDocumentation;
+		this.documentation = documentation;
 		this.name = name;
 		this.description = description;
 		this.localId = localId;
@@ -89,12 +89,12 @@ public class CreateProcessDocumentCommand extends AbstractCommand<CreateProcessD
 		this.type = type;
 	}
 
-	public static CreateProcessDocumentCommand create(final String jwt, final Long processDocumentation,
-			final String name, final String description, final String localId, final String link, final MediaType type,
-			final String version, final LocalDateTime versionDate, final String versionRationale,
-			final Language language) {
+	public static AddProcessDocumentationDocumentCommand create(final String jwt, final Long processDocumentation,
+																final String name, final String description, final String localId, final String link, final MediaType type,
+																final String version, final LocalDateTime versionDate, final String versionRationale,
+																final Language language) {
 
-		return new CreateProcessDocumentCommand(jwt, processDocumentation, name, description, localId,link, type, version,
+		return new AddProcessDocumentationDocumentCommand(jwt, processDocumentation, name, description, localId,link, type, version,
 				versionDate, versionRationale, language);
 
 	}
@@ -147,12 +147,12 @@ public class CreateProcessDocumentCommand extends AbstractCommand<CreateProcessD
 		this.versionDate = versionDate;
 	}
 
-	public Long getProcessDocumentation() {
-		return processDocumentation;
+	public Long getDocumentation() {
+		return documentation;
 	}
 
-	public void setProcessDocumentation(Long processDocumentation) {
-		this.processDocumentation = processDocumentation;
+	public void setDocumentation(Long documentation) {
+		this.documentation = documentation;
 	}
 
 	public String getLink() {

@@ -72,7 +72,7 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 	@OneToMany(targetEntity = ProcessOutputSpecificationEntity.class, mappedBy = "processDocumentation", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProcessOutputSpecification> processOutputSpecifications = new ArrayList<>();
 
-	@OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDocumentation", orphanRemoval = true)
+	@OneToMany(targetEntity = ProcessDocumentEntity.class, mappedBy = "processDocumentation", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProcessDocument> processDocuments = new ArrayList<>();
 
 	@OneToOne(orphanRemoval = true, targetEntity = AdministrativeDetailsEntity.class)
@@ -307,5 +307,15 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 	public void removeProcessOutput(final ProcessOutputSpecification output) {
 		processOutputSpecifications.remove(output);
 		output.setProcessDocumentation(null);
+	}
+
+	public void addProcessDocument(final ProcessDocument processDocument) {
+		processDocuments.add(processDocument);
+		processDocument.setProcessDocumentation(this);
+	}
+
+	public void removeProcessDocument(final ProcessDocument processDocument) {
+		processDocuments.remove(processDocument);
+		processDocument.setProcessDocumentation(null);
 	}
 }

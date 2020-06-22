@@ -1,47 +1,16 @@
 package com.nbs.iais.ms.meta.referential.api;
 
-import com.nbs.iais.ms.common.api.messaging.gateway.IAISGateway;
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.ProcessInput;
-import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
-import com.nbs.iais.ms.common.dto.wrappers.DTOList;
-import com.nbs.iais.ms.common.enums.Language;
-import com.nbs.iais.ms.common.enums.ProcessInputType;
 import com.nbs.iais.ms.meta.referential.api.controllers.ApiProcessInputSpecificationClosed;
-import com.nbs.iais.ms.meta.referential.api.controllers.ApiProcessInputSpecificationOpen;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.DeleteProcessDocumentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.UpdateProcessDocumentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.input.specification.*;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.process.input.specification.GetProcessInputSpecificationQuery;
-import com.nbs.iais.ms.meta.referential.common.messageing.queries.process.input.specification.GetProcessInputSpecificationsQuery;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static com.nbs.iais.ms.common.utils.DTOMocks.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ApiProcessInputSpecificationClosed.class)

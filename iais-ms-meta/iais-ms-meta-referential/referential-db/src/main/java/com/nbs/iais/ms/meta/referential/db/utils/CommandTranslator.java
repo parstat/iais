@@ -15,7 +15,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.serv
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.business.service.UpdateBusinessServiceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.CreateLegislativeReferenceCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.legislative.reference.UpdateLegislativeReferenceCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.CreateProcessDocumentCommand;
+import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.AddProcessDocumentationDocumentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.UpdateProcessDocumentCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationVersionCommand;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.CreateProcessDocumentationCommand;
@@ -457,7 +457,7 @@ public class CommandTranslator {
 		return processDocumentation;
 	}
 	
-	public static ProcessDocumentEntity translate(final CreateProcessDocumentCommand command) {
+	public static ProcessDocumentEntity translate(final AddProcessDocumentationDocumentCommand command) {
 
 		final ProcessDocumentEntity processDocument = new ProcessDocumentEntity();
 
@@ -471,6 +471,8 @@ public class CommandTranslator {
 
 		if (StringTools.isNotEmpty(command.getLocalId())) {
 			processDocument.setLocalId(command.getLocalId());
+		} else {
+			processDocument.setLocalId(UUID.randomUUID().toString());
 		}
 		if (StringTools.isNotEmpty(command.getLink())) {
 			processDocument.setLink(command.getLink(), command.getLanguage());

@@ -29,7 +29,7 @@ public class ProcessDocumentEntity extends AbstractIdentifiableArtefact implemen
     @JoinColumn(name = "key_link")
     private MultilingualText link;
 
-    @ManyToOne(targetEntity = ProcessDocumentationEntity.class)
+    @ManyToOne(targetEntity = ProcessDocumentationEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "process_documentation_id", referencedColumnName = "id")
     private ProcessDocumentation processDocumentation;
 
