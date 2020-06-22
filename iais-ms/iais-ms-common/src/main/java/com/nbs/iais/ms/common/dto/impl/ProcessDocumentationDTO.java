@@ -50,7 +50,7 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
 
     @JsonProperty
     @JsonView(Views.Basic.class)
-    private DTOList<ProcessQualityDTO> processQualityList;
+    private DTOList<ProcessQualityDTO> processQualities;
 
     @JsonProperty
     @JsonView(Views.Basic.class)
@@ -136,12 +136,12 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
         this.businessServices = businessServices;
     }
 
-    public DTOList<ProcessQualityDTO> getProcessQualityList() {
-        return processQualityList;
+    public DTOList<ProcessQualityDTO> getProcessQualities() {
+        return processQualities;
     }
 
-    public void setProcessQualityList(final DTOList<ProcessQualityDTO> processQualityList) {
-        this.processQualityList = processQualityList;
+    public void setProcessQualities(final DTOList<ProcessQualityDTO> processQualities) {
+        this.processQualities = processQualities;
     }
 
     public BusinessFunctionMiniDTO getNextSubPhase() {

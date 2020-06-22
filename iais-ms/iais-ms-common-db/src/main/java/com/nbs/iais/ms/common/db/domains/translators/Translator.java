@@ -474,7 +474,7 @@ public class Translator {
 				.ifPresent(processDocumentationDTO::setProcessMethods);
 
 		translateProcessQualities(processDocumentation.getProcessQualityIndicators(), language)
-				.ifPresent(processDocumentationDTO::setProcessQualityList);
+				.ifPresent(processDocumentationDTO::setProcessQualities);
 		
 		translateInputSpecifications(processDocumentation.getProcessInputs(), language)
 				.ifPresent(processDocumentationDTO::setProcessInputSpecifications);
