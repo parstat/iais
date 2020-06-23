@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.api.controllers.AbstractController;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.impl.ProcessDocumentDTO;
-import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.MediaType;
 import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.AddProcessDocumentationDocumentCommand;
@@ -57,7 +56,7 @@ public class ApiProcessDocumentClosed extends AbstractController {
 			@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "documentation") final Long documentation,
 			@RequestParam(name = "name") final String name,
-			@RequestParam(name = "type") final MediaType type,
+			@RequestParam(name = "type", required = false) final MediaType type,
 			@RequestParam(name = "description", required = false) final String description,
 			@RequestParam(name = "localId") final String localId,
 			@RequestParam(name = "link", required = false) final String link,
@@ -67,7 +66,7 @@ public class ApiProcessDocumentClosed extends AbstractController {
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final AddProcessDocumentationDocumentCommand command = AddProcessDocumentationDocumentCommand.create(jwt, documentation,
-				name, description, localId, link,type, version, versionDate, versionRationale,
+				name, description, localId, link, type, version, versionDate, versionRationale,
 				Language.getLanguage(language));
 		return sendCommand(command, "process_documents").getEvent().getData();
 

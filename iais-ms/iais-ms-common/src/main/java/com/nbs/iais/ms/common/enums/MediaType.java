@@ -17,6 +17,7 @@ public enum MediaType {
     IMAGE_SVG,
     TEXT_PLAIN,
     TEXT_HTML,
-    TEXT_CSV
+    TEXT_CSV,
+    EXTERNAL_LINK
 
 }
