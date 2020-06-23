@@ -58,7 +58,7 @@ public class ApiProcessDocumentClosed extends AbstractController {
 			@RequestParam(name = "name") final String name,
 			@RequestParam(name = "type", required = false) final MediaType type,
 			@RequestParam(name = "description", required = false) final String description,
-			@RequestParam(name = "localId") final String localId,
+			@RequestParam(name = "localId", required = false) final String localId,
 			@RequestParam(name = "link", required = false) final String link,
 			@RequestParam(name = "version", required = false) final String version,
 			@RequestParam(name = "versionDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime versionDate,
