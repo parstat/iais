@@ -23,6 +23,7 @@ public class RemoveProcessDocumentationDocumentCommand extends AbstractCommand<R
         setLanguage(language);
         setClosed(true);
         this.document = document;
+        this.documentation = documentation;
     }
 
     public static RemoveProcessDocumentationDocumentCommand create(final String jwt, final Long documentation,

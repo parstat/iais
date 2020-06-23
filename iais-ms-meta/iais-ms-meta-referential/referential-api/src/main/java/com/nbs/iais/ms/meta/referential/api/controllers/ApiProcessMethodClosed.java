@@ -12,7 +12,6 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.metho
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.View;
 import java.time.LocalDateTime;
 
 @RestController
