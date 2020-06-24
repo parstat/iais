@@ -21,6 +21,11 @@ public class AgentMiniDTO extends LinkableEntityDTO {
     @JsonView(Views.Minimal.class)
     private AgentType type;
 
+    @JsonProperty
+    @JsonView(Views.Minimal.class)
+    private String localId;
+
+
     public AgentMiniDTO() {
         super();
     }
@@ -45,4 +50,11 @@ public class AgentMiniDTO extends LinkableEntityDTO {
         this.type = type;
     }
 
+    public String getLocalId() {
+        return localId;
+    }
+
+    public void setLocalId(final String localId) {
+        this.localId = localId;
+    }
 }
