@@ -56,7 +56,7 @@ public class ApiProcessDocumentationOpen extends AbstractController {
 	public DTOList<ProcessDocumentationDTO> getProcessDocumentationsQuery(@RequestParam(name = "language") final String language) {
 
 		final GetProcessDocumentationsQuery getProcessDocumentationsQuery = GetProcessDocumentationsQuery.create(Language.getLanguage(language));
-		return sendQuery(getProcessDocumentationsQuery, "referential").getRead().getData();
+		return sendQuery(getProcessDocumentationsQuery, "process_documentation").getRead().getData();
 
 	}
 
@@ -69,13 +69,33 @@ public class ApiProcessDocumentationOpen extends AbstractController {
 	 */
 	@JsonView(Views.Secure.class)
 	@GetMapping("/{id}")
-	public ProcessDocumentationDTO getProcessDocumentationQuery(
+	public ProcessDocumentationDTO getProcessDocumentation(
 			@PathVariable(name = "id") final Long id,
 			@RequestParam(name = "language") final String language) {
 
-		final GetProcessDocumentationQuery getProcessDocumentationQuery = GetProcessDocumentationQuery.create(id);
-		getProcessDocumentationQuery.setLanguage(Language.getLanguage(language));
-		return sendQuery(getProcessDocumentationQuery, "referential").getRead().getData();
+		final GetProcessDocumentationQuery getProcessDocumentationQuery = GetProcessDocumentationQuery.create(id,
+				Language.getLanguage(language));
+		return sendQuery(getProcessDocumentationQuery, "process_documentation").getRead().getData();
+	}
+
+	/**
+	 * Method to get the latest process documentations by statistical prgram and business function
+	 *
+	 * @param program  the id of the statistical program
+	 * @param function the id of the business function
+	 * @param language the language to present the returned DTO (en, ro, ru)
+	 * @return ProcessDocumentationDTO in the selected language
+	 */
+	@JsonView(Views.Secure.class)
+	@GetMapping("/program/{program}/function/{function}")
+	public ProcessDocumentationDTO getProcessDocumentation(
+			@PathVariable(name = "program") final Long program,
+			@PathVariable(name = "function") final Long function,
+			@RequestParam(name = "language") final String language) {
+
+		final GetProcessDocumentationQuery getProcessDocumentationQuery = GetProcessDocumentationQuery
+				.create(program, function, Language.getLanguage(language));
+		return sendQuery(getProcessDocumentationQuery, "process_documentation").getRead().getData();
 	}
 	
 }

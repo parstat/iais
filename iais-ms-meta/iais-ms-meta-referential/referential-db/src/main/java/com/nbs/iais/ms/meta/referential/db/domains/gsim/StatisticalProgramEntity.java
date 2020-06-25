@@ -53,7 +53,7 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @Column(name = "source_of_funding")
     private String sourceOfFunding;
 
-    @ManyToMany(targetEntity = AgentInRoleEntity.class)
+    @ManyToMany(targetEntity = AgentInRoleEntity.class, fetch = FetchType.LAZY)
     @JoinTable(name = "sp_agent_in_role",
                 joinColumns = @JoinColumn(name = "sp_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "agent_in_role_id", referencedColumnName = "id"),
@@ -64,21 +64,21 @@ public class StatisticalProgramEntity extends AbstractIdentifiableArtefact imple
     @JoinColumn(name = "administrative_details_id", referencedColumnName = "id")
     private AdministrativeDetails administrativeDetails;
 
-    @ManyToMany(targetEntity = LegislativeReferenceEntity.class)
+    @ManyToMany(targetEntity = LegislativeReferenceEntity.class, fetch = FetchType.LAZY)
     @JoinTable(name = "statistical_program_legislative_references",
             joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "legislative_reference_id", referencedColumnName = "id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"statistical_program_id", "legislative_reference_id"}))
     private List<LegislativeReference> legislativeReferences = new ArrayList<>();
 
-    @ManyToMany(targetEntity = StatisticalStandardReferenceEntity.class)
+    @ManyToMany(targetEntity = StatisticalStandardReferenceEntity.class, fetch = FetchType.LAZY)
     @JoinTable(name = "statistical_program_standards",
             joinColumns = @JoinColumn(name = "statistical_program_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "statistical_standard_reference_id", referencedColumnName = "id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"statistical_program_id", "statistical_standard_reference_id"}))
     private List<StatisticalStandardReference> statisticalStandardReferences = new ArrayList<>();
 
-    @OneToMany(targetEntity = ProcessDocumentationEntity.class, mappedBy = "statisticalProgram")
+    @OneToMany(targetEntity = ProcessDocumentationEntity.class, mappedBy = "statisticalProgram", fetch = FetchType.LAZY)
     private List<ProcessDocumentation> processDocumentations = new ArrayList<>();
 
     @Column(name = "creator", nullable = false)
