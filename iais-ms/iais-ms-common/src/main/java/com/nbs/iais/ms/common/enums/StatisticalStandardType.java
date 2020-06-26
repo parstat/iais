@@ -5,10 +5,12 @@ public enum StatisticalStandardType {
     CLASSIFICATIONS,
     CONCEPTS,
     DEFINITIONS,
+    FRAMEWORK,
+    NOMENCLATURES,
     METHODOLOGIES,
     PROCEDURES,
     RECOMMENDATIONS,
-    STANDARDS,
     PROTOCOLS,
-    FRAMEWORK
+    OTHER,
+
 }

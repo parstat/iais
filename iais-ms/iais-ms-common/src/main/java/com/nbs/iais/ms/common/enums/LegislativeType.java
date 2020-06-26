@@ -10,6 +10,6 @@ public enum LegislativeType {
     PROTOCOL,
     RECOMMENDATION,
     REGULATION,
-    RESOLUTION
-
+    RESOLUTION,
+    OTHER
 }
