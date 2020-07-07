@@ -1,0 +1,56 @@
+= IAIS API Guide: Process Method
+:revnumber: {iais.version}
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+
+[[resources-create-process-method]]
+=== Create Process Method
+==== Request
+include::{snippets}/create-process-method/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-process-method/request-body.adoc[]
+===== Request parameters
+include::{snippets}/create-process-method/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/create-process-method/curl-request.adoc[]
+==== Response
+include::{snippets}/create-process-method/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-process-method/http-response.adoc[]
+
+[[resources-update-process-method]]
+=== Update Process Method
+==== Request
+include::{snippets}/update-process-method/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-process-method/request-body.adoc[]
+===== Path parameters
+include::{snippets}/update-process-method/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/update-process-method/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/update-process-method/curl-request.adoc[]
+==== Response
+include::{snippets}/update-process-method/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-process-method/http-response.adoc[]
+
+[[resources-delete-process-method]]
+=== Delete Process Method
+==== Request
+include::{snippets}/delete-process-method/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-process-method/request-body.adoc[]
+===== Path parameters
+include::{snippets}/delete-process-method/path-parameters.adoc[]
+===== CURL request
+include::{snippets}/delete-process-method/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-process-method/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-process-method/http-response.adoc[]
