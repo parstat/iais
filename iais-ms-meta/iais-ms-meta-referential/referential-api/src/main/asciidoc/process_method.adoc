@@ -1,0 +1,89 @@
+= IAIS API Guide: Process Method
+:revnumber: {iais.version}
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+
+[[resources-create-process-method]]
+=== Create Process Method
+==== Request
+include::{snippets}/create-process-method/http-request.adoc[]
+===== Request Body
+include::{snippets}/create-process-method/request-body.adoc[]
+===== Request parameters
+include::{snippets}/create-process-method/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/create-process-method/curl-request.adoc[]
+==== Response
+include::{snippets}/create-process-method/response-fields.adoc[]
+===== Response Example
+include::{snippets}/create-process-method/http-response.adoc[]
+
+[[resources-update-process-method]]
+=== Update Process Method
+==== Request
+include::{snippets}/update-process-method/http-request.adoc[]
+===== Request Body
+include::{snippets}/update-process-method/request-body.adoc[]
+===== Path parameters
+include::{snippets}/update-process-method/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/update-process-method/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/update-process-method/curl-request.adoc[]
+==== Response
+include::{snippets}/update-process-method/response-fields.adoc[]
+===== Response Example
+include::{snippets}/update-process-method/http-response.adoc[]
+
+[[resources-delete-process-method]]
+=== Delete Process Method
+==== Request
+include::{snippets}/delete-process-method/http-request.adoc[]
+===== Request Body
+include::{snippets}/delete-process-method/request-body.adoc[]
+===== Path parameters
+include::{snippets}/delete-process-method/path-parameters.adoc[]
+===== CURL request
+include::{snippets}/delete-process-method/curl-request.adoc[]
+==== Response
+include::{snippets}/delete-process-method/response-fields.adoc[]
+===== Response Example
+include::{snippets}/delete-process-method/http-response.adoc[]
+
+[[resources-get-process-method]]
+=== Get Process Method
+==== Request
+include::{snippets}/get-process-method/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-process-method/request-body.adoc[]
+===== Path parameters
+include::{snippets}/get-process-method/path-parameters.adoc[]
+===== Request parameters
+include::{snippets}/get-process-method/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-process-method/curl-request.adoc[]
+==== Response
+include::{snippets}/get-process-method/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-process-method/http-response.adoc[]
+
+[[resources-get-process-methods]]
+== APIs
+=== Get Process Methods
+==== Request
+include::{snippets}/get-process-methods/http-request.adoc[]
+===== Request Body
+include::{snippets}/get-process-methods/request-body.adoc[]
+===== Request parameters
+include::{snippets}/get-process-methods/request-parameters.adoc[]
+===== CURL request
+include::{snippets}/get-process-methods/curl-request.adoc[]
+==== Response
+include::{snippets}/get-process-methods/response-fields.adoc[]
+===== Response Example
+include::{snippets}/get-process-methods/http-response.adoc[]

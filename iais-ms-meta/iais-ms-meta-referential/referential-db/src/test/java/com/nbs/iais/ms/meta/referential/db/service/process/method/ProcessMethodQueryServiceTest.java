@@ -58,7 +58,7 @@ public class ProcessMethodQueryServiceTest extends ServiceTest {
     @Test
     public void getProcessMethodsByNameTest() {
         //setup
-        final GetProcessMethodsQuery query = GetProcessMethodsQuery.crate("Nam", Language.ENG);
+        final GetProcessMethodsQuery query = GetProcessMethodsQuery.create("Nam", Language.ENG);
 
         final ProcessMethodEntity processMethod = getProcessMethod(query.getLanguage());
 
@@ -75,7 +75,7 @@ public class ProcessMethodQueryServiceTest extends ServiceTest {
     @Test
     public void getAllProcessMethodsTest() {
         //setup
-        final GetProcessMethodsQuery query = GetProcessMethodsQuery.crate(null, Language.ENG);
+        final GetProcessMethodsQuery query = GetProcessMethodsQuery.create(null, Language.ENG);
 
         final ProcessMethodEntity processMethod = getProcessMethod(query.getLanguage());
 

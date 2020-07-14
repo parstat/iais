@@ -21,7 +21,7 @@ public class GetProcessMethodsQuery extends AbstractQuery<GetProcessMethodsRead>
         setClosed(false);
     }
 
-    public static GetProcessMethodsQuery crate(final String name, final Language language) {
+    public static GetProcessMethodsQuery create(final String name, final Language language) {
         return new GetProcessMethodsQuery(name, language);
     }
 

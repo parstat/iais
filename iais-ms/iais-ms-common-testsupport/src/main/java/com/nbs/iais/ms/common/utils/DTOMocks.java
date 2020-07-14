@@ -190,6 +190,18 @@ public class DTOMocks {
         return processDocumentationMiniDTO;
     }
 
+    public static ProcessMethodDTO processMethod(){
+        final ProcessMethodDTO processMethodDTO = new ProcessMethodDTO(1L);
+        processMethodDTO.setName("Name");
+        processMethodDTO.setDescription("Description");
+        processMethodDTO.setLocalId("localId");
+        processMethodDTO.setVersion("1.0");
+        processMethodDTO.setVersionDate(LocalDateTime.now());
+        processMethodDTO.setVersionRationale("First version");
+
+        return processMethodDTO;
+    }
+
     public static StatisticalStandardDTO statisticalStandard() {
 
         final StatisticalStandardDTO statisticalStandardDTO = new StatisticalStandardDTO(1L);

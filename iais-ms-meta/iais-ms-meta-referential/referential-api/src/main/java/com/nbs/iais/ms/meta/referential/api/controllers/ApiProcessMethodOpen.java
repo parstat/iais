@@ -44,7 +44,7 @@ public class ApiProcessMethodOpen extends AbstractController {
             @RequestParam(name = "name", required = false) final String name,
             @RequestParam(name = "language", required = false) final String language) {
 
-        final GetProcessMethodsQuery query = GetProcessMethodsQuery.crate(name, Language.getLanguage(language));
+        final GetProcessMethodsQuery query = GetProcessMethodsQuery.create(name, Language.getLanguage(language));
 
         return sendQuery(query, "process_method").getRead().getData();
     }
