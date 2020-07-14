@@ -19,6 +19,10 @@ public class AgentMiniDTO extends LinkableEntityDTO {
 
     @JsonProperty
     @JsonView(Views.Minimal.class)
+    private String description;
+
+    @JsonProperty
+    @JsonView(Views.Minimal.class)
     private AgentType type;
 
     @JsonProperty
@@ -40,6 +44,14 @@ public class AgentMiniDTO extends LinkableEntityDTO {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public AgentType getType() {

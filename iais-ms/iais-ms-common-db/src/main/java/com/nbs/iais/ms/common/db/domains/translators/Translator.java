@@ -216,6 +216,7 @@ public class Translator {
 		agentMiniDTO.setLink("/metadata/referential/gsim/agent/view/" + agent.getId());
 		agentMiniDTO.setType(agent.getType());
 		agentMiniDTO.setName(agent.getName(language));
+		agentMiniDTO.setDescription(agent.getDescription(language));
 		agentMiniDTO.setLocalId(agent.getLocalId());
 		return Optional.of(agentMiniDTO);
 	}
