@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "ProcessDocumentation")
-@Table(name = "process_documentation", uniqueConstraints = @UniqueConstraint(columnNames = { "business_function_id",
-		"statistical_program_id", "version" }))
+@Table(name = "process_documentation")
 public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact implements ProcessDocumentation {
 
 	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, targetEntity = MultiLanguageTextEntity.class)

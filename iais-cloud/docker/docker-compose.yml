@@ -48,6 +48,13 @@ services:
         max-file: "1"
     restart: always
 
+  iais-structural-api:
+    networks:
+      - iais-network
+    image: parstat.azurecr.io/iais-structural-api
+    hostname: iais-structural-api
+    restart: always
+
   iais-frontend:
     image: parstat.azurecr.io/iais-frontend
     hostname: iais-frontend

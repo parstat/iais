@@ -3,7 +3,6 @@ package com.nbs.iais.ms.common.db.domains.abstracts;
 import com.nbs.iais.ms.common.db.domains.interfaces.MultilingualText;
 
 import javax.persistence.MappedSuperclass;
-import java.util.Map;
 
 @MappedSuperclass
 public abstract class AbstractMultiLanguageText extends AbstractDomainObject implements MultilingualText {

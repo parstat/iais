@@ -38,6 +38,10 @@ zuul:
       path: /v1/**/referential/**
       serviceId: referential
       stripPrefix: false
+    structural:
+      path: /v1/structural/**
+      serviceId: structural
+      stripPrefix: false
 
 ribbon:
   eureka:
@@ -51,3 +55,7 @@ security:
 referential:
   ribbon:
     listOfServers: iais-referential-api:8080
+
+structural:
+  ribbon:
+    listOfServers: iais-structural-api:80
