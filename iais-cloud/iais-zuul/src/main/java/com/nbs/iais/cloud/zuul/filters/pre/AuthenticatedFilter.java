@@ -41,7 +41,7 @@ public class AuthenticatedFilter extends ZuulFilter {
         final String method = request.getMethod();
 
         return !method.equals(HttpMethod.OPTIONS.toString())
-                && requestUri.matches(".*/api/v\\d+\\.?(\\d+\\.?)?(\\d+)?/\\w*/?\\w*/?close.*");
+                && requestUri.matches(".*/api/v\\d+\\.?(\\d+\\.?)?(\\d+)?/\\w*/?\\w*/?[cC][lL][oO][sS][eE].*");
     }
 
     @Override
