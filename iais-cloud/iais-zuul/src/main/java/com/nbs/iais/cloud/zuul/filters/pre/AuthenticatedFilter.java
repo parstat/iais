@@ -59,11 +59,11 @@ public class AuthenticatedFilter extends ZuulFilter {
             final String jwt = securityService.refreshToken(jwtAuthHeader);
             ctx.addZuulResponseHeader(jwtHeaderName, jwt);
         }
-        catch (AlgorithmMismatchException | InvalidClaimException |
-                JWTDecodeException | SignatureVerificationException ex) {
+        catch (Exception ex) {
             //any other case return a unauthorized response status
             ZuulUtils.stopRequest(ctx, HttpStatus.UNAUTHORIZED, jwtHeaderName);
         }
+
         return null;
     }
 

@@ -68,8 +68,7 @@ public class AuthenticateFilter extends ZuulFilter {
             ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(HttpStatus.CREATED.value());
             return null;
-        } catch (AlgorithmMismatchException | InvalidClaimException |
-                JWTDecodeException | SignatureVerificationException ex) {
+        } catch (Exception ex) {
             //Shouldn't go here Zuul will mark as bad request if jwt is empty or jwt is not provided by iais
             ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
