@@ -53,7 +53,7 @@ public class ApiProcessDocumentationClosedTest {
     @Test
     public void createProcessDocumentation() throws Exception {
         final String jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpc3MiOiJpYWlzIiwibmFtZSI6IkZsb3JpYW4gTmlrYSIsImV4cCI6MTU4NjE4MzUwNSwiaWF0IjoxNTg2MTc5OTA1LCJ1c2VyIjoxfQ.xs5EaJie5DsmrUBRoUSHysKUoKXuuuKJ-8YPGIk1OqU";
-        final CreateProcessDocumentationCommand command = CreateProcessDocumentationCommand.create(jwt, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 0, 0),"First version", 1L, 1L, Frequency.YEARLY, 1L, "1.2", Language.ENG);
+        final CreateProcessDocumentationCommand command = CreateProcessDocumentationCommand.create(jwt, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 0, 0),"First version", 1L, 1L, Frequency.YEARLY, 1L, "1.2", LocalDateTime.of(2020,1,1, 0, 0), Language.ENG);
         command.getEvent().setData(processDocumentation());
 
         when(iaisGateway.sendCommand(any(), anyString())).thenReturn(command);
@@ -80,7 +80,7 @@ public class ApiProcessDocumentationClosedTest {
     @Test
     public void docuemntCreateProcessDocumentation() throws Exception {
         final String jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpc3MiOiJpYWlzIiwibmFtZSI6IkZsb3JpYW4gTmlrYSIsImV4cCI6MTU4NjE4MzUwNSwiaWF0IjoxNTg2MTc5OTA1LCJ1c2VyIjoxfQ.xs5EaJie5DsmrUBRoUSHysKUoKXuuuKJ-8YPGIk1OqU";
-        final CreateProcessDocumentationCommand command = CreateProcessDocumentationCommand.create(jwt, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 0, 0),"First version", 1L, 1L, Frequency.YEARLY, 1L, "1.2", Language.ENG);
+        final CreateProcessDocumentationCommand command = CreateProcessDocumentationCommand.create(jwt, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 0, 0),"First version", 1L, 1L, Frequency.YEARLY, 1L, "1.2", LocalDateTime.of(2020,1,1, 0, 0), Language.ENG);
         command.getEvent().setData(processDocumentation());
 
         when(iaisGateway.sendCommand(any(), anyString())).thenReturn(command);
@@ -232,7 +232,7 @@ public class ApiProcessDocumentationClosedTest {
     @Test
     public void updateProcessDocumentation() throws Exception {
         final String jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpc3MiOiJpYWlzIiwibmFtZSI6IkZsb3JpYW4gTmlrYSIsImV4cCI6MTU4NjE4MzUwNSwiaWF0IjoxNTg2MTc5OTA1LCJ1c2VyIjoxfQ.xs5EaJie5DsmrUBRoUSHysKUoKXuuuKJ-8YPGIk1OqU";
-        final UpdateProcessDocumentationCommand command = UpdateProcessDocumentationCommand.create(jwt, 1L, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 0, 0),"First version", 1L, Frequency.YEARLY, 1L, "1.2", Language.ENG);
+        final UpdateProcessDocumentationCommand command = UpdateProcessDocumentationCommand.create(jwt, 1L, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 0, 0),"First version", 1L, Frequency.YEARLY, 1L, "1.2", LocalDateTime.of(2020,1,1, 0, 0), Language.ENG);
         command.getEvent().setData(processDocumentation());
         when(iaisGateway.sendCommand(any(), anyString())).thenReturn(command);
         mockMvc.perform(patch("/api/v1/close/referential/process/documentations/{id}", 1L)
@@ -256,7 +256,7 @@ public class ApiProcessDocumentationClosedTest {
     @Test
     public void documentupdateProcessDocumentation() throws Exception {
         final String jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpc3MiOiJpYWlzIiwibmFtZSI6IkZsb3JpYW4gTmlrYSIsImV4cCI6MTU4NjE4MzUwNSwiaWF0IjoxNTg2MTc5OTA1LCJ1c2VyIjoxfQ.xs5EaJie5DsmrUBRoUSHysKUoKXuuuKJ-8YPGIk1OqU";
-        final UpdateProcessDocumentationCommand command = UpdateProcessDocumentationCommand.create(jwt, 1L, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 0, 0),"First version", 1L, Frequency.YEARLY, 1L, "1.2", Language.ENG);
+        final UpdateProcessDocumentationCommand command = UpdateProcessDocumentationCommand.create(jwt, 1L, "name", "description", "localId", "1.0", LocalDateTime.of(2020,1,1, 0, 0),"First version", 1L, Frequency.YEARLY, 1L, "1.2", LocalDateTime.of(2020,1,1, 0, 0), Language.ENG);
         command.getEvent().setData(processDocumentation());
         when(iaisGateway.sendCommand(any(), anyString())).thenReturn(command);
         mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/v1/close/referential/process/documentations/{id}", 1L)

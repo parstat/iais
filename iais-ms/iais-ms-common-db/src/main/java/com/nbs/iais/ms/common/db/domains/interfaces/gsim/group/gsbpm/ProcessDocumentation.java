@@ -5,10 +5,15 @@ import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Identifiable
 import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.business.*;
 import com.nbs.iais.ms.common.enums.Frequency;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 public interface ProcessDocumentation extends IdentifiableArtefact {
+
+    LocalDateTime getValidTo();
+
+    void setValidTo(LocalDateTime validTo);
 
     List<BusinessService> getBusinessServices();
 

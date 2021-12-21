@@ -51,6 +51,8 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 
 	private String nextSubPhase;
 
+	private LocalDateTime validTo;
+
 	private CreateProcessDocumentationCommand() {
 		super(new CreateProcessDocumentationEvent());
 	}
@@ -58,7 +60,7 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 	private CreateProcessDocumentationCommand(final String jwt, final String name, final String description,
 			final String localId, final String version, final LocalDateTime versionDate, final String versionRationale,
 			final Long businessFunction, final Long statisticalProgram, final Frequency frequency,
-			final Long maintainer, final String nextSubPhase, final Language language) {
+			final Long maintainer, final String nextSubPhase, final LocalDateTime validTo, final Language language) {
 		super(new CreateProcessDocumentationEvent());
 		setJwt(jwt);
 		this.name = name;
@@ -75,6 +77,7 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 		this.frequency = frequency;
 		this.maintainer = maintainer;
 		this.nextSubPhase = nextSubPhase;
+		this.validTo = validTo;
 		setLanguage(language);
 		setClosed(true);
 	}
@@ -82,11 +85,10 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 	public static CreateProcessDocumentationCommand create(final String jwt, final String name,
 			final String description, final String localId, final String version, final LocalDateTime versionDate,
 			final String versionRationale, final Long businessFunction, final Long statisticalProgram,
-			final Frequency frequency, final Long maintainer, final String nextSubPhase, final Language language) {
+			final Frequency frequency, final Long maintainer, final String nextSubPhase, final LocalDateTime validTo, final Language language) {
 
 		return new CreateProcessDocumentationCommand(jwt, name, description, localId, version, versionDate,
-				versionRationale, businessFunction, statisticalProgram, frequency, maintainer, nextSubPhase,
-				language);
+				versionRationale, businessFunction, statisticalProgram, frequency, maintainer, nextSubPhase, validTo, language);
 	}
 
 	public String getName() {
@@ -171,6 +173,14 @@ public class CreateProcessDocumentationCommand extends AbstractCommand<CreatePro
 
 	public String getNextSubPhase() {
 		return nextSubPhase;
+	}
+
+	public LocalDateTime getValidTo() {
+		return validTo;
+	}
+
+	public void setValidTo(final LocalDateTime validTo) {
+		this.validTo = validTo;
 	}
 
 	public void setNextSubPhase(String nextSubPhase) {

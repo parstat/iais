@@ -415,15 +415,15 @@ public class Translator {
 	}
 
 	public static <PQ extends ProcessQuality> Optional<DTOList<ProcessQualityDTO>> translateProcessQualities(
-			final Iterable<PQ> processQualitys, final Language language) {
+			final Iterable<PQ> processQualities, final Language language) {
 
-		if (processQualitys == null || !processQualitys.iterator().hasNext()) {
+		if (processQualities == null || !processQualities.iterator().hasNext()) {
 			return Optional.empty();
 		}
 
 		final DTOList<ProcessQualityDTO> processQualityDTOS = DTOList.empty(ProcessQualityDTO.class);
 
-		processQualitys.forEach(pq -> translate(pq, language).ifPresent(processQualityDTOS::add));
+		processQualities.forEach(pq -> translate(pq, language).ifPresent(processQualityDTOS::add));
 
 		return Optional.of(processQualityDTOS);
 	}
@@ -443,6 +443,7 @@ public class Translator {
 		processDocumentationDTO.setLocalId(processDocumentation.getLocalId());
 		processDocumentationDTO.setVersion(processDocumentation.getVersion());
 		processDocumentationDTO.setVersionDate(processDocumentation.getVersionDate());
+		processDocumentationDTO.setValidTo(processDocumentation.getValidTo());
 		processDocumentationDTO.setVersionRationale(processDocumentation.getVersionRationale());
 
 		processDocumentationDTO.setFrequency(processDocumentation.getFrequency());

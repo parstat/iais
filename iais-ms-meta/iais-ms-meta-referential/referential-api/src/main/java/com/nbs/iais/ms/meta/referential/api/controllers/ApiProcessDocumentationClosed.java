@@ -64,11 +64,12 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 			@RequestParam(name = "frequency", required = false) final Frequency frequency,
 			@RequestParam(name = "maintainer", required = false) final Long maintainer,
 			@RequestParam(name = "nextSubPhase", required = false) final String nextSubPhase,
+			@RequestParam(name = "validTo", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime validTo,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final CreateProcessDocumentationCommand command = CreateProcessDocumentationCommand.create(jwt, name,
 				description, localId, version, versionDate, versionRationale, businessFunction, statisticalProgram,
-				frequency, maintainer, nextSubPhase, Language.getLanguage(language));
+				frequency, maintainer, nextSubPhase, validTo, Language.getLanguage(language));
 		return sendCommand(command, "process_documentation").getEvent().getData();
 
 	}
@@ -157,11 +158,12 @@ public class ApiProcessDocumentationClosed extends AbstractController {
 			@RequestParam(name = "frequency", required = false) final Frequency frequency,
 			@RequestParam(name = "maintainer", required = false) final Long maintainer,
 			@RequestParam(name = "nextSubPhase", required = false) final String nextSubPhase,
+			@RequestParam(name = "validTo", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime validTo,
 			@RequestParam(name = "language", required = false) final String language) {
 
 		final UpdateProcessDocumentationCommand command = UpdateProcessDocumentationCommand.create(jwt, id, name,
 				description, localId, version, versionDate, versionRationale, owner, frequency, maintainer,
-				nextSubPhase, Language.getLanguage(language));
+				nextSubPhase, validTo, Language.getLanguage(language));
 		return sendCommand(command, "process_documentation").getEvent().getData();
 
 	}

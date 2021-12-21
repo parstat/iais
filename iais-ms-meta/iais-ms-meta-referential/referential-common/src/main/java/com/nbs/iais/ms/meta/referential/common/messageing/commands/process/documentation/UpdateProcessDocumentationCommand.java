@@ -52,6 +52,8 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 	 */
 	private LocalDateTime versionDate = LocalDateTime.now();
 
+	private LocalDateTime validTo;
+
 	private UpdateProcessDocumentationCommand() {
 		super(new UpdateProcessDocumentationEvent());
 	}
@@ -59,7 +61,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 	private UpdateProcessDocumentationCommand(final String jwt, final Long id, final String name,
 			final String description, final String localId, final String version, final LocalDateTime versionDate,
 			final String versionRationale, final Long owner,
-			final Frequency frequency, final Long maintainer, final String nextSubPhase, final Language language) {
+			final Frequency frequency, final Long maintainer, final String nextSubPhase, final LocalDateTime validTo, final Language language) {
 		super(new UpdateProcessDocumentationEvent());
 		this.setId(id);
 		this.name = name;
@@ -74,6 +76,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		this.frequency = frequency;
 		this.maintainer = maintainer;
 		this.nextSubPhase = nextSubPhase;
+		this.validTo = validTo;
 		setLanguage(language);
 		setClosed(true);
 		setJwt(jwt);
@@ -82,10 +85,10 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 	public static UpdateProcessDocumentationCommand create(final String jwt, final Long id, final String name,
 			final String description, final String localId, final String version, final LocalDateTime versionDate,
 			final String versionRationale, final Long owner,
-			final Frequency frequency, final Long maintainer, final String nextSubPhase, final Language language) {
+			final Frequency frequency, final Long maintainer, final String nextSubPhase, final LocalDateTime validTo, final Language language) {
 
 		return new UpdateProcessDocumentationCommand(jwt, id, name, description, localId, version, versionDate,
-				versionRationale, owner, frequency, maintainer, nextSubPhase,
+				versionRationale, owner, frequency, maintainer, nextSubPhase, validTo,
 				language);
 
 	}
@@ -118,7 +121,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 
@@ -126,7 +129,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		return owner;
 	}
 
-	public void setOwner(Long owner) {
+	public void setOwner(final Long owner) {
 		this.owner = owner;
 	}
 
@@ -134,7 +137,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		return frequency;
 	}
 
-	public void setFrequency(Frequency frequency) {
+	public void setFrequency(final Frequency frequency) {
 		this.frequency = frequency;
 	}
 
@@ -142,7 +145,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		return maintainer;
 	}
 
-	public void setMaintainer(Long maintainer) {
+	public void setMaintainer(final Long maintainer) {
 		this.maintainer = maintainer;
 	}
 
@@ -150,7 +153,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		return nextSubPhase;
 	}
 
-	public void setNextSubPhase(String nextSubPhase) {
+	public void setNextSubPhase(final String nextSubPhase) {
 		this.nextSubPhase = nextSubPhase;
 	}
 
@@ -158,7 +161,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(final String version) {
 		this.version = version;
 	}
 
@@ -166,7 +169,7 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		return versionRationale;
 	}
 
-	public void setVersionRationale(String versionRationale) {
+	public void setVersionRationale(final String versionRationale) {
 		this.versionRationale = versionRationale;
 	}
 
@@ -174,8 +177,15 @@ public class UpdateProcessDocumentationCommand extends AbstractCommand<UpdatePro
 		return versionDate;
 	}
 
-	public void setVersionDate(LocalDateTime versionDate) {
+	public void setVersionDate(final LocalDateTime versionDate) {
 		this.versionDate = versionDate;
 	}
 
+	public LocalDateTime getValidTo() {
+		return validTo;
+	}
+
+	public void setValidTo(final LocalDateTime validTo) {
+		this.validTo = validTo;
+	}
 }

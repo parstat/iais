@@ -14,12 +14,16 @@ import com.nbs.iais.ms.common.enums.Language;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "ProcessDocumentation")
 @Table(name = "process_documentation")
 public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact implements ProcessDocumentation {
+
+	@Column(name = "valid_to_date")
+	private LocalDateTime validTo;
 
 	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, targetEntity = MultiLanguageTextEntity.class)
 	@JoinColumn(name = "key_name")
@@ -166,6 +170,16 @@ public class ProcessDocumentationEntity extends AbstractIdentifiableArtefact imp
 	@Override
 	public void setAdministrativeDetails(final AdministrativeDetails administrativeDetails) {
 		this.administrativeDetails = administrativeDetails;
+	}
+
+	@Override
+	public LocalDateTime getValidTo() {
+		return validTo;
+	}
+
+	@Override
+	public void setValidTo(LocalDateTime validTo) {
+		this.validTo = validTo;
 	}
 
 	@Override

@@ -2,14 +2,18 @@ package com.nbs.iais.ms.common.dto.impl;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nbs.iais.ms.common.dto.Views;
 import com.nbs.iais.ms.common.dto.abstracts.IdentifiableArtefactDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.BusinessFunctionMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.AgentMiniDTO;
+import com.nbs.iais.ms.common.dto.impl.mini.ProcessDocumentationMiniDTO;
 import com.nbs.iais.ms.common.dto.impl.mini.StatisticalProgramMiniDTO;
 import com.nbs.iais.ms.common.dto.wrappers.DTOList;
 import com.nbs.iais.ms.common.enums.Frequency;
+
+import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
@@ -55,6 +59,10 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
     @JsonProperty
     @JsonView(Views.Basic.class)
     private BusinessFunctionMiniDTO nextSubPhase;
+
+    @JsonProperty
+    @JsonView(Views.Minimal.class)
+    private LocalDateTime validTo;
 
     @JsonProperty
     @JsonView(Views.Basic.class)
@@ -150,6 +158,14 @@ public class ProcessDocumentationDTO extends IdentifiableArtefactDTO {
 
     public void setNextSubPhase(final BusinessFunctionMiniDTO nextSubPhase) {
         this.nextSubPhase = nextSubPhase;
+    }
+
+    public LocalDateTime getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(final LocalDateTime validTo) {
+        this.validTo = validTo;
     }
 
     public DTOList<ProcessDocumentDTO> getDocuments() {

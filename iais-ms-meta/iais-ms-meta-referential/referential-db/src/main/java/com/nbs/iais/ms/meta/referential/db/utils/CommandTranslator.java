@@ -382,6 +382,7 @@ public class CommandTranslator {
 		processDocumentation.setVersion(command.getVersion());
 		processDocumentation.setVersionDate(LocalDateTime.now());
 		processDocumentation.setVersionRationale(command.getVersionRationale());
+		processDocumentation.setValidTo(command.getValidTo());
 
 		return processDocumentation;
 	}
@@ -453,7 +454,9 @@ public class CommandTranslator {
 		if (command.getFrequency() != null) {
 			processDocumentation.setFrequency(command.getFrequency());
 		}
-
+		if(command.getValidTo() != null) {
+			processDocumentation.setValidTo(command.getValidTo());
+		}
 		return processDocumentation;
 	}
 	
