@@ -28,6 +28,12 @@ public class AgentQueryService {
      */
     public GetAgentsQuery getAgents(final GetAgentsQuery query) {
 
+        if (StringTools.isNotEmpty(query.getName()) && query.getAgentType() != null) {
+            translateAgents(agentRepository.findAllByNameInLanguageAndTypeContaining(query.getLanguage().getShortName(),
+                    query.getName(), query.getAgentType()), query.getLanguage()).ifPresent(query.getRead()::setData);
+            return query;
+        }
+
         if (StringTools.isNotEmpty(query.getName())) {
             translateAgents(agentRepository.findAllByNameInLanguageContaining(query.getLanguage().getShortName(),
                     query.getName()), query.getLanguage()).ifPresent(query.getRead()::setData);

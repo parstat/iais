@@ -56,4 +56,9 @@ public interface AgentRepository extends CrudRepository<AgentEntity, Long> {
 	@Query("SELECT a FROM Agent a INNER JOIN a.name n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :name, '%'))")
 	Iterable<AgentEntity> findAllByNameInLanguageContaining(@Param(value = "language") final String language,
 															@Param(value = "name") final String name);
+
+	@Query("SELECT a FROM Agent a INNER JOIN a.name n INNER JOIN n.map m WHERE KEY(m) = :language AND LOWER(m) LIKE LOWER(CONCAT('%', :name, '%')) AND a.type = :type")
+	Iterable<AgentEntity> findAllByNameInLanguageAndTypeContaining(@Param(value = "language") final String language,
+															@Param(value = "name") final String name,
+																   @Param(value = "type") final AgentType type);
 }
