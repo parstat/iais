@@ -138,7 +138,12 @@ public class ProcessDocumentationCommandService {
 		if (command.getId() != null) {
 			processDocumentationRepository.findById(command.getId()).ifPresentOrElse(processDocumentation -> {
 				CommandTranslator.translate(command, processDocumentation);
-
+				if(StringTools.isNotEmpty(command.getNextSubPhase())) {
+					businessFunctionRepository.findByLocalIdAndVersion(command.getNextSubPhase(), "5.1")
+							.ifPresentOrElse(processDocumentation::setNextBusinessFunction, () -> {
+								throw new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND);
+							});
+				}
 				// TODO fields
 				Translator.translate(processDocumentationRepository.save(processDocumentation), command.getLanguage())
 						.ifPresent(command.getEvent()::setData);
