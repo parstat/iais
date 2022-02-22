@@ -197,6 +197,7 @@ public class ApplicationConfig {
 				//PROCESS DOCUMENTATION
 				.channelMapping(CreateProcessDocumentationCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(UpdateProcessDocumentationCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
+				.channelMapping(DeleteProcessDocumentationCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationDocumentCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(AddProcessDocumentationMethodCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
 				.channelMapping(com.nbs.iais.ms.meta.referential.common.messageing.commands.process.documentation.AddProcessDocumentationInputCommand.class, Channels.PROCESS_DOCUMENTATION_COMMAND_INPUT)
