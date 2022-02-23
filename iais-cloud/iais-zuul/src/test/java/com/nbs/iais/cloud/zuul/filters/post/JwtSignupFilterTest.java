@@ -5,11 +5,11 @@ import com.nbs.iais.cloud.zuul.jwt.repository.TokenRepository;
 import com.nbs.iais.cloud.zuul.jwt.service.SecurityService;
 import com.nbs.iais.cloud.zuul.utils.SecurityTools;
 import com.netflix.zuul.context.RequestContext;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,7 +24,7 @@ import org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter;
 import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -34,9 +34,9 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Import(FilterConfig.class)
 public class JwtSignupFilterTest {
 
@@ -61,9 +61,9 @@ public class JwtSignupFilterTest {
     private ZuulProperties zuulProperties;
 
 
-    @Before
+    @BeforeAll
     public void setUp() {
-        initMocks(this);
+        openMocks(this);
 
         zuulProperties = new ZuulProperties();
 
@@ -78,8 +78,8 @@ public class JwtSignupFilterTest {
         ctx.setResponse(response);
     }
 
-    @After
-    public void clear() {
+    @AfterAll
+    static void clear() {
         RequestContext.getCurrentContext().clear();
     }
 
@@ -91,7 +91,7 @@ public class JwtSignupFilterTest {
         RequestContext.getCurrentContext();
 
         //Verify
-        Assert.assertTrue(signupJwtFilter.shouldFilter());
+        Assertions.assertTrue(signupJwtFilter.shouldFilter());
     }
 
     @Test
@@ -122,6 +122,6 @@ public class JwtSignupFilterTest {
 
 
         //Verify
-        Assert.assertEquals(requestContext.getZuulResponseHeaders().get(0).first(), "jwt-auth");
+        Assertions.assertEquals(requestContext.getZuulResponseHeaders().get(0).first(), "jwt-auth");
     }
 }

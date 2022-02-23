@@ -10,10 +10,11 @@ import com.nbs.iais.cloud.zuul.jwt.repository.TokenRepository;
 import com.nbs.iais.cloud.zuul.jwt.service.SecurityService;
 import com.nbs.iais.cloud.zuul.utils.SecurityTools;
 import com.netflix.zuul.context.RequestContext;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,17 +30,14 @@ import org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter;
 import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringRunner;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Collections;
-
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Import(FilterConfig.class)
 public class FilterTests {
 
@@ -71,9 +69,9 @@ public class FilterTests {
     private ZuulProperties zuulProperties;
 
 
-    @Before
+    @BeforeAll
     public void setUp() {
-        initMocks(this);
+        openMocks(this);
         zuulProperties = new ZuulProperties();
         zuulProperties.setPrefix("/api");
         zuulProperties.setStripPrefix(false);
@@ -89,8 +87,8 @@ public class FilterTests {
         ctx.setResponse(response);
     }
 
-    @After
-    public void clear() {
+    @AfterAll
+    static void clear() {
         RequestContext.getCurrentContext().clear();
     }
 
@@ -106,7 +104,7 @@ public class FilterTests {
         routeLocator.addRoute(new ZuulProperties.ZuulRoute("foo", "/foo/**", "foo",
                 null, false, null, null));
         preDecorationFilter.run();
-        assertTrue(languageFilter.shouldFilter());
+        Assertions.assertTrue(languageFilter.shouldFilter());
     }
 
 
@@ -118,7 +116,7 @@ public class FilterTests {
         request.addHeader("jwt-auth",
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRoZW50aWNhdGVkIjp0cnVlLCJyb2xlIjoiUk9PVCIsInZpc2l0SUQiOiJlM2VjNjJkOC1kZTljLTRkN2MtOTJmMi0yNzRhODllNTVlMjMiLCJwcm9maWxlSUQiOiIxYTk0YTc4NC0yM2M1LTQwMWYtYTA3Mi1iZGIyNTZmODk3YWMiLCJuYW1lIjoiRG9Ub2RheUFkbWluIiwiaXNzIjoiZG90b2RheSIsImV4cCI6MTUwMjM2NzkzOSwidXNlciI6IjIxIiwiaWF0IjoxNTAyMzY0MzM5LCJqdGkiOiJlY2M0YmY3My1mOGMyLTRiMDUtOTc5ZS0zYTAwYzFhNTc4MDIifQ.8A6CHyJ3SH7mmAfCTquKFBVRAQ3tWQ7xnY5EO9E5SZo");
         preDecorationFilter.run();
-        assertTrue(authenticatedFilter.shouldFilter());
+        Assertions.assertTrue(authenticatedFilter.shouldFilter());
     }
 
 
@@ -129,7 +127,7 @@ public class FilterTests {
         request.setServerPort(8080);
         request.setMethod("OPTIONS");
         RequestContext.getCurrentContext();
-        assertFalse(authenticatedFilter.shouldFilter());
+        Assertions.assertTrue(authenticatedFilter.shouldFilter());
     }
 
     @Test
@@ -153,8 +151,8 @@ public class FilterTests {
         authenticatedFilter.run();
 
         //Verify
-        assertEquals(401, requestContext.getResponse().getStatus());
-        assertTrue(authenticatedFilter.shouldFilter());
+        Assertions.assertEquals(401, requestContext.getResponse().getStatus());
+        Assertions.assertTrue(authenticatedFilter.shouldFilter());
     }
 
     @Test
@@ -178,7 +176,7 @@ public class FilterTests {
         authenticatedFilter.run();
 
         //Verify
-        assertEquals(200, requestContext.getResponse().getStatus());
-        assertTrue(authenticatedFilter.shouldFilter());
+        Assertions.assertEquals(200, requestContext.getResponse().getStatus());
+        Assertions.assertTrue(authenticatedFilter.shouldFilter());
     }
 }

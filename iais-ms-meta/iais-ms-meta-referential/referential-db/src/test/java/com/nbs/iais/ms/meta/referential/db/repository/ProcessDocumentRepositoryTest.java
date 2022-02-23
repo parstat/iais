@@ -7,8 +7,8 @@ import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ public class ProcessDocumentRepositoryTest extends RepositoryTest {
     public void testSaveBusinessFunction () {
     final  ProcessDocumentEntity toSaveDoc = saveProcessDocumentRepository();
     final  ProcessDocumentEntity saveDoc = processDocumentRepository.save(toSaveDoc);
-    Assert.assertNotNull(saveDoc);
+    Assertions.assertNotNull(saveDoc);
 
     }
 
@@ -43,9 +43,7 @@ public class ProcessDocumentRepositoryTest extends RepositoryTest {
         toSave.setDescription("Description",Language.ENG);
         toSave.setDescription("Descriere",Language.ROM);
         toSave.setDescription("Oписание",Language.RUS);
-
-
-            return toSave;
+        return toSave;
 
     }
 

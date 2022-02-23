@@ -1,6 +1,5 @@
 package com.nbs.iais.ms.meta.referential.db.service.agent;
 
-import com.nbs.iais.ms.common.db.domains.interfaces.gsim.group.base.Agent;
 import com.nbs.iais.ms.common.db.service.tests.ServiceTest;
 import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
@@ -10,7 +9,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.agent.UpdateA
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.services.AgentCommandService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;

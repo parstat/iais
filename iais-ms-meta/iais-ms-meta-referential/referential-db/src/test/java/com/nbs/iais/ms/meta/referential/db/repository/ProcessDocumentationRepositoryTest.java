@@ -1,19 +1,14 @@
 package com.nbs.iais.ms.meta.referential.db.repository;
 
 import com.nbs.iais.ms.common.db.repository.tests.RepositoryTest;
-import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessDocumentationEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessInputSpecificationEntity;
-import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessDocumentationRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;

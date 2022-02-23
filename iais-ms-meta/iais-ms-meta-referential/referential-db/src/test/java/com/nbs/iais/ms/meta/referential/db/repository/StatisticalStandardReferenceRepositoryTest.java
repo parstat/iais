@@ -1,19 +1,15 @@
 package com.nbs.iais.ms.meta.referential.db.repository;
 
 import com.nbs.iais.ms.common.db.repository.tests.RepositoryTest;
-import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.StatisticalStandardType;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
-import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalStandardReferenceRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 public class StatisticalStandardReferenceRepositoryTest extends RepositoryTest {
 
@@ -26,7 +22,7 @@ public class StatisticalStandardReferenceRepositoryTest extends RepositoryTest {
         final StatisticalStandardReferenceEntity toSave = saveStatisticaStandard();
         final StatisticalStandardReferenceEntity saved = statisticalStandardRepository.save(toSave);
 
-        Assert.assertNotNull(saved);
+        Assertions.assertNotNull(saved);
     }
 
     @Test
@@ -35,7 +31,7 @@ public class StatisticalStandardReferenceRepositoryTest extends RepositoryTest {
         final StatisticalStandardReferenceEntity saved = statisticalStandardRepository.save(toSave);
 
         Iterable<StatisticalStandardReferenceEntity> statisticalStandard = statisticalStandardRepository.findByType(StatisticalStandardType.CONCEPTS);
-        Assert.assertTrue(statisticalStandard.iterator().hasNext());
+        Assertions.assertTrue(statisticalStandard.iterator().hasNext());
     }
 
     @Test
@@ -44,7 +40,7 @@ public class StatisticalStandardReferenceRepositoryTest extends RepositoryTest {
         final StatisticalStandardReferenceEntity saved = statisticalStandardRepository.save(toSave);
 
         Iterable<StatisticalStandardReferenceEntity> statisticaStandard = statisticalStandardRepository.findAllByNameInLanguageContaining(Language.ENG.getShortName(), "name");
-        Assert.assertTrue(statisticaStandard.iterator().hasNext());
+        Assertions.assertTrue(statisticaStandard.iterator().hasNext());
     }
 
     private StatisticalStandardReferenceEntity saveStatisticaStandard() {

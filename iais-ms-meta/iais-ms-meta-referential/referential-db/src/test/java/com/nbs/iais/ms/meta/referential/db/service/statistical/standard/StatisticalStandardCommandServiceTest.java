@@ -10,7 +10,7 @@ import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardRefer
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalStandardReferenceRepository;
 import com.nbs.iais.ms.meta.referential.db.services.StatisticalStandardCommandService;
 import com.nbs.iais.ms.meta.referential.db.utils.CommandTranslator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 

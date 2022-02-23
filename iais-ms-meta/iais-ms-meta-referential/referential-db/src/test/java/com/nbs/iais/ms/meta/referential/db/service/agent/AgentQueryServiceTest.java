@@ -8,7 +8,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.agent.GetAgent
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.services.AgentQueryService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;

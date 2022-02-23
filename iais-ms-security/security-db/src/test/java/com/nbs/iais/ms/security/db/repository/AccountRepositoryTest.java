@@ -6,8 +6,8 @@ import com.nbs.iais.ms.common.enums.AccountRole;
 import com.nbs.iais.ms.common.enums.AccountStatus;
 import com.nbs.iais.ms.security.db.domains.AccountEntity;
 import com.nbs.iais.ms.security.db.repositories.AccountRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class AccountRepositoryTest extends RepositoryTest {
@@ -18,20 +18,20 @@ public class AccountRepositoryTest extends RepositoryTest {
     @Test
     public void save() {
         final Account account = saveAccount("username", "username@email.com");
-        Assert.assertNotNull(account);
-        Assert.assertNotNull(account.getId());
+        Assertions.assertNotNull(account);
+        Assertions.assertNotNull(account.getId());
     }
 
     @Test
     public void getById()  {
         final Account save = saveAccount("username2", "username2@email.com");
-        Assert.assertTrue(accountRepository.findById(save.getId()).isPresent());
+        Assertions.assertTrue(accountRepository.findById(save.getId()).isPresent());
     }
 
     @Test
     public void getByUsername() {
         final Account save = saveAccount("username3", "username3@email.com");
-        Assert.assertTrue(accountRepository.findByUsername(save.getUsername()).isPresent());
+        Assertions.assertTrue(accountRepository.findByUsername(save.getUsername()).isPresent());
     }
 
     private AccountEntity saveAccount(final String username, final String email) {
@@ -51,7 +51,7 @@ public class AccountRepositoryTest extends RepositoryTest {
         final Account save = saveAccount("username4", "username4@email.com");
 
         Iterable<AccountEntity> accountEntities = accountRepository.findAllByStatus(AccountStatus.ACTIVE);
-        Assert.assertTrue(accountEntities.iterator().hasNext());
+        Assertions.assertTrue(accountEntities.iterator().hasNext());
 
     }
 
@@ -59,6 +59,6 @@ public class AccountRepositoryTest extends RepositoryTest {
     public void getAccountsByName() {
         final Account save = saveAccount("username5", "username5@email.com");
         Iterable<AccountEntity> accountEntities = accountRepository.findAllByNameContaining("name");
-        Assert.assertTrue(accountEntities.iterator().hasNext());
+        Assertions.assertTrue(accountEntities.iterator().hasNext());
     }
 }

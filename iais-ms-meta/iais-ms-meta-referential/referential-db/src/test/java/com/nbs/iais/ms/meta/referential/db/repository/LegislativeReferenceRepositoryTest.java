@@ -3,13 +3,10 @@ package com.nbs.iais.ms.meta.referential.db.repository;
 import com.nbs.iais.ms.common.db.repository.tests.RepositoryTest;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.LegislativeType;
-import com.nbs.iais.ms.common.enums.StatisticalStandardType;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEntity;
-import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalStandardReferenceEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.LegislativeReferenceRepository;
-import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalStandardReferenceRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -25,7 +22,7 @@ public class LegislativeReferenceRepositoryTest extends RepositoryTest {
         final LegislativeReferenceEntity toSave = saveLegislativeReference();
         final LegislativeReferenceEntity saved = legislativeReferenceRepository.save(toSave);
 
-        Assert.assertNotNull(saved);
+        Assertions.assertNotNull(saved);
     }
 
     @Test
@@ -34,7 +31,7 @@ public class LegislativeReferenceRepositoryTest extends RepositoryTest {
         final LegislativeReferenceEntity saved = legislativeReferenceRepository.save(toSave);
 
         Iterable<LegislativeReferenceEntity> legislativeReference = legislativeReferenceRepository.findByType(LegislativeType.REGULATION);
-        Assert.assertTrue(legislativeReference.iterator().hasNext());
+        Assertions.assertTrue(legislativeReference.iterator().hasNext());
     }
 
     @Test
@@ -43,7 +40,7 @@ public class LegislativeReferenceRepositoryTest extends RepositoryTest {
         final LegislativeReferenceEntity saved = legislativeReferenceRepository.save(toSave);
 
         Iterable<LegislativeReferenceEntity> legislativeReference = legislativeReferenceRepository.findAllByNameInLanguageContaining(Language.ENG.getShortName(),"name");
-        Assert.assertTrue(legislativeReference.iterator().hasNext());
+        Assertions.assertTrue(legislativeReference.iterator().hasNext());
     }
 
     private LegislativeReferenceEntity saveLegislativeReference(){

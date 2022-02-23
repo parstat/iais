@@ -1,10 +1,10 @@
 package com.nbs.iais.ms.meta.referential.api;
 
 import com.nbs.iais.ms.meta.referential.api.controllers.ApiProcessInputSpecificationClosed;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -12,7 +12,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(ApiProcessInputSpecificationClosed.class)
 @AutoConfigureRestDocs
 public class ApiProcessInputSpecificationClosedTest {

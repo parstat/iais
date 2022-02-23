@@ -3,20 +3,20 @@ package com.nbs.iais.cloud.zuul.jwt.service;
 import com.auth0.jwt.JWT;
 import com.nbs.iais.cloud.zuul.jwt.model.PrivateJwt;
 import com.nbs.iais.cloud.zuul.jwt.repository.TokenRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class SecurityServiceTest {
 
     @Mock
@@ -25,9 +25,9 @@ public class SecurityServiceTest {
     @InjectMocks
     private SecurityService securityService;
 
-    @Before
+    @BeforeAll
     public void setUp() {
-        initMocks(this);
+        openMocks(this);
     }
 
     @Test
@@ -47,12 +47,12 @@ public class SecurityServiceTest {
                 "    \"status\": \"ACTIVE\"\n" +
                 "}");
 
-        Assert.assertTrue(jwtOptional.isPresent());
+        Assertions.assertTrue(jwtOptional.isPresent());
         final String jwt = jwtOptional.get();
         final String name = JWT.decode(jwt).getClaim("name").asString();
         final Long id = JWT.decode(jwt).getClaim("user").asLong();
-        Assert.assertEquals("Florian Nika",name);
-        Assert.assertEquals(1L, (long) id);
+        Assertions.assertEquals("Florian Nika",name);
+        Assertions.assertEquals(1L, (long) id);
     }
 
 }

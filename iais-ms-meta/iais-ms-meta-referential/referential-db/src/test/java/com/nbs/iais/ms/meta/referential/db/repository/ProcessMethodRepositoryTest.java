@@ -4,8 +4,8 @@ import com.nbs.iais.ms.common.db.repository.tests.RepositoryTest;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessMethodEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessMethodRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public class ProcessMethodRepositoryTest extends RepositoryTest {
         final ProcessMethodEntity toSaveEntity = createEntity();
         final ProcessMethodEntity savedEntity = processMethodRepository.save(toSaveEntity);
 
-        Assert.assertNotNull(savedEntity);
+        Assertions.assertNotNull(savedEntity);
     }
 
     private ProcessMethodEntity createEntity() {

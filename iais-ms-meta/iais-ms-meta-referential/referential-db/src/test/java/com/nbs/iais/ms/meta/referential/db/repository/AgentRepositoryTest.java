@@ -5,8 +5,8 @@ import com.nbs.iais.ms.common.enums.AgentType;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.AgentEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ public class AgentRepositoryTest extends RepositoryTest {
         final AgentEntity toSave = saveAgent();
         final AgentEntity saved = agentRepository.save(toSave);
 
-        Assert.assertNotNull(saved);
+        Assertions.assertNotNull(saved);
 
     }
 
@@ -32,7 +32,7 @@ public class AgentRepositoryTest extends RepositoryTest {
         final AgentEntity toSave = saveAgent();
         final AgentEntity saved = agentRepository.save(toSave);
 
-        Assert.assertTrue(agentRepository.findByAccount(saved.getAccount()).isPresent());
+        Assertions.assertTrue(agentRepository.findByAccount(saved.getAccount()).isPresent());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class AgentRepositoryTest extends RepositoryTest {
         final AgentEntity toSave = saveAgent();
         final AgentEntity saved = agentRepository.save(toSave);
 
-        Assert.assertTrue(agentRepository.findByLocalId(saved.getLocalId()).isPresent());
+        Assertions.assertTrue(agentRepository.findByLocalId(saved.getLocalId()).isPresent());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class AgentRepositoryTest extends RepositoryTest {
         final AgentEntity saved = agentRepository.save(toSave);
 
         Iterable<AgentEntity> agent = agentRepository.findByIdIn(Arrays.asList(saved.getId(),2L,3L));
-        Assert.assertTrue(agent.iterator().hasNext());
+        Assertions.assertTrue(agent.iterator().hasNext());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class AgentRepositoryTest extends RepositoryTest {
         agentRepository.save(child2);
 
         Iterable<AgentEntity> children = agentRepository.findByParent(parent);
-        Assert.assertTrue(children.iterator().hasNext());
+        Assertions.assertTrue(children.iterator().hasNext());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class AgentRepositoryTest extends RepositoryTest {
         final AgentEntity parent = agentRepository.save(saveAgent("Parent", AgentType.ORGANIZATION));
 
         Iterable<AgentEntity> agent = agentRepository.findAllByNameInLanguageContaining(Language.ENG.getShortName(), "Parent");
-        Assert.assertTrue(agent.iterator().hasNext());
+        Assertions.assertTrue(agent.iterator().hasNext());
     }
 
     private AgentEntity saveAgent() {

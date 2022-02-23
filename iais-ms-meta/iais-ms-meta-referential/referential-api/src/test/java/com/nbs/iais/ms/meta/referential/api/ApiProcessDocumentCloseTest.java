@@ -5,11 +5,7 @@ import com.nbs.iais.ms.common.dto.wrappers.DTOBoolean;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.common.enums.MediaType;
 import com.nbs.iais.ms.meta.referential.api.controllers.ApiProcessDocumentClosed;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.AddProcessDocumentationDocumentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.RemoveProcessDocumentationDocumentCommand;
-import com.nbs.iais.ms.meta.referential.common.messageing.commands.process.document.UpdateProcessDocumentCommand;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -17,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -38,7 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(ApiProcessDocumentClosed.class)
 @AutoConfigureRestDocs
 public class ApiProcessDocumentCloseTest {

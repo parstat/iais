@@ -7,7 +7,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.statistical.pr
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
 import com.nbs.iais.ms.meta.referential.db.services.StatisticalProgramQueryService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;

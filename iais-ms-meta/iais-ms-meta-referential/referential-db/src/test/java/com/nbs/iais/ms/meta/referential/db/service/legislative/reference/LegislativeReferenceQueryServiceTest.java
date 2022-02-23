@@ -8,7 +8,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.legislative.re
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.LegislativeReferenceEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.LegislativeReferenceRepository;
 import com.nbs.iais.ms.meta.referential.db.services.LegislativeReferenceQueryService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 

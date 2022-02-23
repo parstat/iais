@@ -4,8 +4,8 @@ import com.nbs.iais.ms.common.db.repository.tests.RepositoryTest;
 import com.nbs.iais.ms.common.enums.Language;
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
 
         final BusinessFunctionEntity saved = businessFunctionRepository.save(toSave);
 
-        Assert.assertNotNull(saved);
+        Assertions.assertNotNull(saved);
 
     }
 
@@ -32,7 +32,7 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
         final BusinessFunctionEntity toSave = getBusinessFunctionEntity();
         final BusinessFunctionEntity saved = businessFunctionRepository.save(toSave);
 
-        Assert.assertTrue(businessFunctionRepository.findById(saved.getId()).isPresent());
+        Assertions.assertTrue(businessFunctionRepository.findById(saved.getId()).isPresent());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
         final BusinessFunctionEntity toSave = getBusinessFunctionEntity();
         final BusinessFunctionEntity saved = businessFunctionRepository.save(toSave);
 
-        Assert.assertTrue(businessFunctionRepository.findByLocalIdAndVersion(saved.getLocalId(),saved.getVersion()).isPresent());
+        Assertions.assertTrue(businessFunctionRepository.findByLocalIdAndVersion(saved.getLocalId(),saved.getVersion()).isPresent());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
         final BusinessFunctionEntity saved = businessFunctionRepository.save(toSave);
 
         Iterable<BusinessFunctionEntity> businessFunction = businessFunctionRepository.findAllByLocalIdStartingWith("1");
-        Assert.assertTrue(businessFunction.iterator().hasNext());
+        Assertions.assertTrue(businessFunction.iterator().hasNext());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
         final Iterable<BusinessFunctionEntity> businessFunction = businessFunctionRepository
                 .findAllByNameInLanguageContaining(Language.ENG.getShortName(), "am");
 
-        Assert.assertTrue(businessFunction.iterator().hasNext());
+        Assertions.assertTrue(businessFunction.iterator().hasNext());
     }
     @Test
     public void testDeleteBusinessFunctionByLocalId() {
@@ -68,7 +68,7 @@ public class BusinessFunctionRepositoryTest extends RepositoryTest {
         final BusinessFunctionEntity saved = businessFunctionRepository.save(toSave);
 
         businessFunctionRepository.delete(saved);
-        Assert.assertFalse(businessFunctionRepository.findById(saved.getId()).isPresent());
+        Assertions.assertFalse(businessFunctionRepository.findById(saved.getId()).isPresent());
     }
 
     private BusinessFunctionEntity getBusinessFunctionEntity() {

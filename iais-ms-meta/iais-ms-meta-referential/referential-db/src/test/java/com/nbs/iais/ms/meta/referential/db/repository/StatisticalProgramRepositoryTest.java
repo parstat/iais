@@ -14,14 +14,12 @@ import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentInRoleRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.AgentRepository;
 import com.nbs.iais.ms.meta.referential.db.repositories.StatisticalProgramRepository;
-import org.codehaus.groovy.transform.sc.transformers.StaticCompilationTransformer;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class StatisticalProgramRepositoryTest extends RepositoryTest {
 
@@ -37,7 +35,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity toSave = saveStatisticaProgram();
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
-        Assert.assertNotNull(saved);
+        Assertions.assertNotNull(saved);
     }
 
     @Test
@@ -46,7 +44,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
         Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByLocalId(saved.getLocalId());
-        Assert.assertTrue(statisticalProgram.iterator().hasNext());
+        Assertions.assertTrue(statisticalProgram.iterator().hasNext());
     }
 
     @Test
@@ -54,7 +52,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity toSave = saveStatisticaProgram();
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
-        Assert.assertTrue(statisticalProgramRepository.existsByLocalId(saved.getLocalId()));
+        Assertions.assertTrue(statisticalProgramRepository.existsByLocalId(saved.getLocalId()));
     }
 
     @Test
@@ -62,7 +60,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity toSave = saveStatisticaProgram();
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
-        Assert.assertTrue(statisticalProgramRepository.findByLocalIdAndVersion(saved.getLocalId(),saved.getVersion()).isPresent());
+        Assertions.assertTrue(statisticalProgramRepository.findByLocalIdAndVersion(saved.getLocalId(),saved.getVersion()).isPresent());
     }
 
     @Test
@@ -70,7 +68,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity toSave = saveStatisticaProgram();
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
-        Assert.assertTrue(statisticalProgramRepository.existsByLocalIdAndVersion(saved.getLocalId(), saved.getVersion()));
+        Assertions.assertTrue(statisticalProgramRepository.existsByLocalIdAndVersion(saved.getLocalId(), saved.getVersion()));
     }
 
     @Test
@@ -78,7 +76,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity toSave = saveStatisticaProgram();
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
-        Assert.assertTrue(statisticalProgramRepository.findAllTopByLocalIdOrderByVersionDateDesc(saved.getLocalId()).isPresent());
+        Assertions.assertTrue(statisticalProgramRepository.findAllTopByLocalIdOrderByVersionDateDesc(saved.getLocalId()).isPresent());
     }
 
     @Test
@@ -87,7 +85,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
         Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByNameInLanguageContaining(Language.ENG.getShortName(), "ame");
-        Assert.assertTrue(statisticalProgram.iterator().hasNext());
+        Assertions.assertTrue(statisticalProgram.iterator().hasNext());
     }
 
     @Test
@@ -96,7 +94,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
         Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByAcronymInLanguageContaining(Language.ENG.getShortName(), "ron");
-        Assert.assertTrue(statisticalProgram.iterator().hasNext());
+        Assertions.assertTrue(statisticalProgram.iterator().hasNext());
     }
 
     @Test
@@ -105,7 +103,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
         Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByProgramStatus(saved.getProgramStatus());
-        Assert.assertTrue(statisticalProgram.iterator().hasNext());
+        Assertions.assertTrue(statisticalProgram.iterator().hasNext());
     }
 
     @Test
@@ -114,7 +112,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         final StatisticalProgramEntity saved = statisticalProgramRepository.save(toSave);
 
         Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByCreator(saved.getCreator());
-        Assert.assertTrue(statisticalProgram.iterator().hasNext());
+        Assertions.assertTrue(statisticalProgram.iterator().hasNext());
     }
 
     @Test
@@ -126,7 +124,7 @@ public class StatisticalProgramRepositoryTest extends RepositoryTest {
         saved.getAdministrators().add(agentInRole);
 
         Iterable<StatisticalProgramEntity> statisticalProgram = statisticalProgramRepository.findAllByAgentInRole(parent, RoleType.MAINTAINER);
-        Assert.assertTrue(statisticalProgram.iterator().hasNext());
+        Assertions.assertTrue(statisticalProgram.iterator().hasNext());
 
     }
 

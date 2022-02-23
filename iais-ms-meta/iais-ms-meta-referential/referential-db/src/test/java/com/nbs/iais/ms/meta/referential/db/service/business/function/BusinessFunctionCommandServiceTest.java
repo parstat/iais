@@ -8,8 +8,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.p
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.BusinessFunctionEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.BusinessFunctionRepository;
 import com.nbs.iais.ms.meta.referential.db.services.BusinessFunctionCommandService;
-import com.nbs.iais.ms.meta.referential.db.services.BusinessFunctionQueryService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;

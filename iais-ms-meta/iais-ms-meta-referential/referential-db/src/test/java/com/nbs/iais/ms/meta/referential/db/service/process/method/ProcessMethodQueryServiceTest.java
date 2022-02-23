@@ -7,7 +7,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.queries.process.method
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.ProcessMethodEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.ProcessMethodRepository;
 import com.nbs.iais.ms.meta.referential.db.services.ProcessMethodQueryService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 

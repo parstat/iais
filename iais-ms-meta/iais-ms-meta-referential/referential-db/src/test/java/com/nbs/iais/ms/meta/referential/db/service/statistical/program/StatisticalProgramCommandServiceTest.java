@@ -9,7 +9,7 @@ import com.nbs.iais.ms.meta.referential.common.messageing.commands.statistical.p
 import com.nbs.iais.ms.meta.referential.db.domains.gsim.StatisticalProgramEntity;
 import com.nbs.iais.ms.meta.referential.db.repositories.*;
 import com.nbs.iais.ms.meta.referential.db.services.StatisticalProgramCommandService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.mockito.stubbing.Answer;
 
