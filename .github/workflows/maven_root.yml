@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ spring_boot_2.5 ]
+    branches: [ master ]
   pull_request:
-    branches: [ spring_boot_2.5 ]
+    branches: [ master ]
   repository_dispatch:
 
 jobs:
