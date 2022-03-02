@@ -81,11 +81,6 @@ public class ProcessDocumentationCommandService {
 				.findById(command.getStatisticalProgram())
 				.orElseThrow(() -> new EntityException(ExceptionCodes.STATISTICAL_PROGRAM_NOT_FOUND));
 
-		if (processDocumentationRepository.existsByStatisticalProgramAndBusinessFunction(statisticalProgram,
-				businessFunction)) {
-			throw new EntityException(ExceptionCodes.PROCESS_DOCUMENTATION_EXISTS);
-		}
-
 		final ProcessDocumentationEntity processDocumentationEntity = CommandTranslator.translate(command);
 
 		processDocumentationEntity.setBusinessFunction(businessFunction);
