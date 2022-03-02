@@ -477,6 +477,13 @@ public class ProcessDocumentationCommandService {
 		processDocumentation.setStatisticalProgram(statisticalProgram);
 		processDocumentation.setBusinessFunction(businessFunction);
 
+		if(StringTools.isNotEmpty(command.getNextSubPhase())) {
+			businessFunctionRepository.findByLocalIdAndVersion(command.getNextSubPhase(), "5.1")
+					.ifPresentOrElse(processDocumentation::setNextBusinessFunction, () -> {
+						throw new EntityException(ExceptionCodes.BUSINESS_FUNCTION_NOT_FOUND);
+					});
+		}
+
 		processDocumentationRepository.save(processDocumentation);
 
 		if (command.getMaintainer() != null) {
