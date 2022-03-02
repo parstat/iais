@@ -185,6 +185,7 @@ public class DTOMocks {
         processDocumentationMiniDTO.setDescription("Description");
         processDocumentationMiniDTO.setMaintainers(DTOList.create(maintainer()));
         processDocumentationMiniDTO.setFrequency(Frequency.YEARLY);
+        processDocumentationMiniDTO.setVersion("1.0");
         processDocumentationMiniDTO.setLink("/process/documentations/1");
 
         return processDocumentationMiniDTO;

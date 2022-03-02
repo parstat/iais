@@ -45,6 +45,10 @@ public class ProcessDocumentationMiniDTO extends LinkableEntityDTO {
     @JsonView(Views.Minimal.class)
     private String nextSubPhase;
 
+    @JsonProperty
+    @JsonView(Views.Minimal.class)
+    private String version;
+
     public ProcessDocumentationMiniDTO() {
         super();
     }
@@ -115,5 +119,13 @@ public class ProcessDocumentationMiniDTO extends LinkableEntityDTO {
 
     public void setNextSubPhase(final String nextSubPhase) {
         this.nextSubPhase = nextSubPhase;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(final String version) {
+        this.version = version;
     }
 }

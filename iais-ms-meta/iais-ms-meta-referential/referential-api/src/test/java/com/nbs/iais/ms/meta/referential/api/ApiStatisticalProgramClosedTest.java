@@ -198,7 +198,8 @@ public class ApiStatisticalProgramClosedTest {
                                 fieldWithPath("processDocumentations[].maintainers[].id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
                                 fieldWithPath("processDocumentations[].maintainers[].name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
                                 fieldWithPath("processDocumentations[].maintainers[].type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainers[].link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
+                                fieldWithPath("processDocumentations[].maintainers[].link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].version").description("Version of process").type(JsonFieldType.STRING)
 
 
                         ))).andReturn();
@@ -355,7 +356,8 @@ public class ApiStatisticalProgramClosedTest {
                                 fieldWithPath("processDocumentations[].maintainers[].id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
                                 fieldWithPath("processDocumentations[].maintainers[].name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
                                 fieldWithPath("processDocumentations[].maintainers[].type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainers[].link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
+                                fieldWithPath("processDocumentations[].maintainers[].link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].version").description("Version of process").type(JsonFieldType.STRING)
 
 
 
@@ -499,7 +501,8 @@ public class ApiStatisticalProgramClosedTest {
                                 fieldWithPath("processDocumentations[].maintainers[].id").description("Id of the maintainer agent of the process for statistical program").type(JsonFieldType.NUMBER),
                                 fieldWithPath("processDocumentations[].maintainers[].name").description("Name of the maintainer agent of the process for statistical program").type(JsonFieldType.STRING),
                                 fieldWithPath("processDocumentations[].maintainers[].type").description("Type of maintainer agent of the process for statistical program, usually DIVISION").type(JsonFieldType.STRING),
-                                fieldWithPath("processDocumentations[].maintainers[].link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING)
+                                fieldWithPath("processDocumentations[].maintainers[].link").description("Client link of contact agent of the process for statistical program").type(JsonFieldType.STRING),
+                                fieldWithPath("processDocumentations[].version").description("Version of process").type(JsonFieldType.STRING)
 
 
 

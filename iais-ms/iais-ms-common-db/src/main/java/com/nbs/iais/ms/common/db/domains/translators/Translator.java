@@ -589,6 +589,7 @@ public class Translator {
 		processDocumentationMiniDTO.setName(processDocumentation.getName(language));
 		processDocumentationMiniDTO.setDescription(processDocumentation.getDescription(language));
 		processDocumentationMiniDTO.setFrequency(processDocumentation.getFrequency());
+		processDocumentationMiniDTO.setVersion(processDocumentation.getVersion());
 		processDocumentationMiniDTO.setLink("/metadata/referential/documentation/view/" + processDocumentation.getId());
 		if(processDocumentation.getNextBusinessFunction() != null) {
 			processDocumentationMiniDTO.setNextSubPhase(processDocumentation.getNextBusinessFunction().getLocalId());
