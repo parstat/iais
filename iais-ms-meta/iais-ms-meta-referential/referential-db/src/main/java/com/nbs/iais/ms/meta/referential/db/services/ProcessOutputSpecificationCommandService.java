@@ -74,7 +74,7 @@ public class ProcessOutputSpecificationCommandService {
 			processOutputSpecificationRepository.findById(command.getId()).ifPresentOrElse(OutputSpecification -> {
 				CommandTranslator.translate(command, OutputSpecification);
 
-				Translator.translate(processOutputSpecificationRepository.save(OutputSpecification),
+				Translator.translate(processOutputSpecificationRepository.save(OutputSpecification).getProcessDocumentation(),
 						command.getLanguage()).ifPresent(command.getEvent()::setData);
 			}, () -> {
 				throw new EntityException(ExceptionCodes.PROCESS_OUTPUT_SPECIFICATION_NOT_FOUND);
