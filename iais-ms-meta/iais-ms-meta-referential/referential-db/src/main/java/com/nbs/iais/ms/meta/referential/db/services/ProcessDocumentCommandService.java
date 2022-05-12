@@ -73,7 +73,7 @@ public class ProcessDocumentCommandService {
 			processDocumentRepository.findById(command.getId()).ifPresentOrElse(document -> {
 				CommandTranslator.translate(command, document);
 
-				Translator.translate(processDocumentRepository.save(document), command.getLanguage())
+				Translator.translate(processDocumentRepository.save(document).getProcessDocumentation(), command.getLanguage())
 						.ifPresent(command.getEvent()::setData);
 			}, () -> {
 				throw new EntityException(ExceptionCodes.PROCESS_DOCUMENT_NOT_FOUND);

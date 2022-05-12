@@ -97,7 +97,7 @@ public class ApiProcessDocumentClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PatchMapping("/{id}")
-	public ProcessDocumentDTO updateProcessDocument(@RequestHeader(name = "jwt-auth") final String jwt,
+	public ProcessDocumentationDTO updateProcessDocument(@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id, @RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "type", required = false) final MediaType type,
 			@RequestParam(name = "description", required = false) final String description,
