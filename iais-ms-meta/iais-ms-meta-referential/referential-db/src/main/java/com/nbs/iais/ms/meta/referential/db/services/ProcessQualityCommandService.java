@@ -72,7 +72,7 @@ public class ProcessQualityCommandService {
 			processQualityRepository.findById(command.getId()).ifPresentOrElse(Quality -> {
 				CommandTranslator.translate(command, Quality);
 
-				Translator.translate(processQualityRepository.save(Quality), command.getLanguage())
+				Translator.translate(processQualityRepository.save(Quality).getProcessDocumentation(), command.getLanguage())
 						.ifPresent(command.getEvent()::setData);
 			}, () -> {
 				throw new EntityException(ExceptionCodes.PROCESS_QUALITY_NOT_FOUND);

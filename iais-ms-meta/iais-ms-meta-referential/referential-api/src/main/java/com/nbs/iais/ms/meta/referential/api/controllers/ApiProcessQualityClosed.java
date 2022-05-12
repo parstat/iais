@@ -81,7 +81,7 @@ public class ApiProcessQualityClosed extends AbstractController {
 	 */
 	@JsonView(Views.Extended.class)
 	@PatchMapping("/{id}")
-	public ProcessQualityDTO updateProcessQuality(@RequestHeader(name = "jwt-auth") final String jwt,
+	public ProcessDocumentationDTO updateProcessQuality(@RequestHeader(name = "jwt-auth") final String jwt,
 			@PathVariable(name = "id") final Long id, @RequestParam(name = "name", required = false) final String name,
 			@RequestParam(name = "type", required = false) final QualityType type,
 			@RequestParam(name = "description", required = false) final String description,
